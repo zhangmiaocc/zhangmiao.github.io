@@ -1,0 +1,1513 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Android Tips,Android Studio,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="zm.blog" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="如题，Android Studio 3.6 正式版终于发布了，值得兴奋呀，毕竟 3.5 大版本更新也已经差不多半年了，撒花撒花！这次更新又更新了什么呢？ 包括有设计、开发、构建、测试、优化等多方面，下面我们来看看 Release Notes 写了些什么吧！ Release Notes我们很高兴宣布 Android Studio 3.6 发布稳定版本了，该版本内有一些针对性的新特性，主要解决了在代">
+<meta name="keywords" content="Android Tips,Android Studio">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android Studio 3.6 正式版终于发布了">
+<meta property="og:url" content="https://zhangmiao.cc/posts/aaf10946.html">
+<meta property="og:site_name" content="zm.blog">
+<meta property="og:description" content="如题，Android Studio 3.6 正式版终于发布了，值得兴奋呀，毕竟 3.5 大版本更新也已经差不多半年了，撒花撒花！这次更新又更新了什么呢？ 包括有设计、开发、构建、测试、优化等多方面，下面我们来看看 Release Notes 写了些什么吧！ Release Notes我们很高兴宣布 Android Studio 3.6 发布稳定版本了，该版本内有一些针对性的新特性，主要解决了在代">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20200304110901.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20200304111247.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20200304111308.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20200304111433.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20200304111448.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20200304111510.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20200304111526.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20200304111543.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20200304111557.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20200304111611.png">
+<meta property="og:updated_time" content="2021-12-24T02:05:29.992Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android Studio 3.6 正式版终于发布了">
+<meta name="twitter:description" content="如题，Android Studio 3.6 正式版终于发布了，值得兴奋呀，毕竟 3.5 大版本更新也已经差不多半年了，撒花撒花！这次更新又更新了什么呢？ 包括有设计、开发、构建、测试、优化等多方面，下面我们来看看 Release Notes 写了些什么吧！ Release Notes我们很高兴宣布 Android Studio 3.6 发布稳定版本了，该版本内有一些针对性的新特性，主要解决了在代">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20200304110901.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://zhangmiao.cc/posts/aaf10946.html">
+
+
+
+
+
+  <title>Android Studio 3.6 正式版终于发布了 | zm.blog</title>
+  
+
+
+
+
+
+  <script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?44434226ba535875b1e807122adc3a04";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zm.blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">select * from learn</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhangmiao.cc/posts/aaf10946.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZhangMiao">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zm.blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Android Studio 3.6 正式版终于发布了</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-04T10:54:25+08:00">
+                2020-03-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/Android-Tips/" itemprop="url" rel="index">
+                    <span itemprop="name">Android Tips</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/posts/aaf10946.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="posts/aaf10946.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/posts/aaf10946.html" class="leancloud_visitors" data-flag-title="Android Studio 3.6 正式版终于发布了">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20200304110901.png" alt></p>
+<p>如题，Android Studio 3.6 正式版终于发布了，值得兴奋呀，毕竟 3.5 大版本更新也已经差不多半年了，撒花撒花！这次更新又更新了什么呢？</p>
+<p>包括有设计、开发、构建、测试、优化等多方面，下面我们来看看 Release Notes 写了些什么吧！</p>
+<h2 id="Release-Notes"><a href="#Release-Notes" class="headerlink" title="Release Notes"></a>Release Notes</h2><p>我们很高兴宣布 Android Studio 3.6 发布稳定版本了，该版本内有一些针对性的新特性，主要解决了在代码编辑和调试用例中的质量问题。这是我们在 Project Marble 结束之后的第一个版本，其重点是构建强大的集成开发环境（IDE）的基本功能和流。我们从 Project Marble 中学到了很多，在 Android Studio 3.6 中，我们引入了一小部分功能，完善的现有功能，并花费了很大的精力来解决错误并改善基础性能，以确保我们达到去年设定的高质量标准。</p>
+<p>Android Studio 3.6 的一些亮点包括一种使用 XML 快速设计、开发和预览应用布局的新方法，在设计编辑器中提供了新的拆分视图。此外，您不再需要手动键入 GPS 坐标来测试应用的位置，因为我们现在将 Google 地图直接嵌入到 Android 模拟器扩展控制面板中。最后，通过针对片段和活动的自动内存泄漏检测，我们简化了应用并查找 Bug。我们希望所有这些功能可以帮助您在 Android 上开发时更快乐、更高效。</p>
+<p>感谢在预览版中提供早期反馈的用户。您的反馈帮助我们迭代和改进 Android Studio 3.6 中的功能。如果您已准备好迎接下一个稳定版本，并且想要使用一组新的生产力功能，Android Studio 3.6 已准备好下载，以便您入门。</p>
+<p>以下是 Android Studio 3.6 中由主要开发人员流组织的全部新功能列表。</p>
+<a id="more"></a>
+
+<h3 id="设计"><a href="#设计" class="headerlink" title="设计"></a>设计</h3><h4 id="在设计编辑器中拆分视图"><a href="#在设计编辑器中拆分视图" class="headerlink" title="在设计编辑器中拆分视图"></a>在设计编辑器中拆分视图</h4><p>设计编辑器（如布局编辑器和导航编辑器）现在提供”拆分”视图，使您能够同时查看 UI 的”设计和代码”视图。拆分视图将替换和改进较早的”预览”窗口，并可以逐个文件进行配置，以保留上下文信息（如缩放因子和设计视图选项），因此您可以选择最适合每个用例的视图。要启用拆分视图，请单击编辑器窗口右上角的”拆分”图标。</p>
+<p><img src="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20200304111247.png" alt></p>
+<h4 id="颜色选取器资源选项卡"><a href="#颜色选取器资源选项卡" class="headerlink" title="颜色选取器资源选项卡"></a>颜色选取器资源选项卡</h4><p>在此版本中，我们希望更轻松地应用已定义为颜色资源的颜色。在 Android Studio 3.6 中，颜色选取器将填充应用中的颜色资源，以便快速选择和替换颜色资源值。颜色选取器可在设计工具和 XML 编辑器中访问。</p>
+<p><img src="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20200304111308.png" alt></p>
+<h3 id="开发"><a href="#开发" class="headerlink" title="开发"></a>开发</h3><h4 id="视图绑定"><a href="#视图绑定" class="headerlink" title="视图绑定"></a>视图绑定</h4><p>视图绑定是一项功能，允许您在引用代码中的视图时提供编译时安全性，从而更轻松地编写与视图交互的代码。启用后，视图绑定将为每个模块中存在的 XML 布局文件生成一个绑定类。在大多数情况下，视图绑定将替换 findViewById。您可以引用具有 ID 的所有视图，这些视图没有空指针或类强制转换异常的风险。这些差异意味着布局和代码之间的不兼容将导致生成在编译时失败，而不是在运行时。要在项目中启用视图绑定，请在每个模块的生成中包括以下内容。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">android &#123;</span><br><span class="line">    viewBinding.enabled = <span class="keyword">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Android-NDK-修改"><a href="#Android-NDK-修改" class="headerlink" title="Android NDK 修改"></a>Android NDK 修改</h4><p>Android Studio 中的以下 Android NDK 功能以前在 Java 中支持，现在 Kotlin 也支持：</p>
+<ul>
+<li>从 JNI 声明导航到 C/C++ 中的相应实现函数。通过将鼠标悬停在托管源代码文件中行号附近的 C 或C++项标记上，查看此映射。</li>
+<li>自动为 JNI 声明创建存根实现函数。首先定义 JNI 声明，然后在要激活的 C/C++ 文件中键入”jni”或方法名称。</li>
+</ul>
+<h3 id="IntelliJ-平台更改"><a href="#IntelliJ-平台更改" class="headerlink" title="IntelliJ 平台更改"></a>IntelliJ 平台更改</h3><p>Android Studio 3.6 包括 IntelliJ 2019.2 平台版本。此 IntelliJ 版本包括许多改进，从新的服务工具窗口到大大缩短的启动时间。</p>
+<h3 id="应用更改"><a href="#应用更改" class="headerlink" title="应用更改"></a>应用更改</h3><p>现在，您可以通过单击”应用代码更改”或”应用更改并重新启动活动”来添加类，然后将该代码更改部署到正在运行的应用。</p>
+<h3 id="构建"><a href="#构建" class="headerlink" title="构建"></a>构建</h3><h4 id="Android-Gradle-Plugin-AGP-updates"><a href="#Android-Gradle-Plugin-AGP-updates" class="headerlink" title="Android Gradle Plugin (AGP) updates"></a>Android Gradle Plugin (AGP) updates</h4><p>Android Gradle 插件 3.6 及更高版本包括对 Maven 发布 Gradle 插件的支持，该插件允许您将构建项目发布到 Apache Maven 存储库。Android Gradle 插件为应用或库模块中的每个生成变体项目创建一个组件，您可以使用该组件将出版物自定义到 Maven 存储库。此更改将更轻松地管理各种目标的发布生命周期。</p>
+<p>此外，Android Gradle 插件在大型项目的注释处理/KAPT 方面取得了显著的性能改进。这是由 AGP 现在直接生成 R 类字节码，而不是 .java 文件引起的。</p>
+<h4 id="新的打包工具"><a href="#新的打包工具" class="headerlink" title="新的打包工具"></a>新的打包工具</h4><p>Android 构建团队不断进行更改以提高生成性能，在此版本中，我们将默认打包工具更改为 zipflinger 以进行调试生成。用户应该看到生成速度的提高，但您也可以通过设置 <code>android.useNewApkCreator_false</code> 在您的分级中恢复使用旧的打包工具。</p>
+<p><img src="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20200304111433.png" alt></p>
+<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><h4 id="Android-模拟器-Google-地图"><a href="#Android-模拟器-Google-地图" class="headerlink" title="Android 模拟器 - Google 地图"></a>Android 模拟器 - Google 地图</h4><p>Android 模拟器 29.2.12 为应用开发人员提供了一种与模拟设备位置进行接口的新方式。我们在扩展控件菜单中嵌入了 Google 地图用户界面，以便更轻松地指定位置，并构建来自位置对的路由。可以保存单个点并将其重新发送到设备作为虚拟位置，而路由可以通过键入地址或单击两个点来生成。当路线上的位置发送到来宾 OS 时，可以实时重播这些路由。</p>
+<p><img src="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20200304111448.png" alt></p>
+<h4 id="多屏支持"><a href="#多屏支持" class="headerlink" title="多屏支持"></a>多屏支持</h4><p>模拟器 29.1.10 包括对多个虚拟显示器的初步支持。由于有更多的设备具有多个显示器，因此在各种多显示器配置上测试应用非常重要。用户可以通过设置菜单（扩展控件和设置）配置多个显示器。</p>
+<p><img src="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20200304111510.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20200304111526.png" alt></p>
+<h4 id="SDK-断点续传"><a href="#SDK-断点续传" class="headerlink" title="SDK 断点续传"></a>SDK 断点续传</h4><p>当使用 Android Studio SDK 管理器下载 Android SDK 组件和工具时，Android Studio 现在允许您恢复中断的下载（例如，由于网络问题），而不是从一开始就重新启动下载。当互联网连接不可靠时，此增强功能对于大型下载（如 Android 模拟器或系统映像）特别有用。</p>
+<p><img src="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20200304111543.png" alt></p>
+<h4 id="导入的-APK-可以自动更新"><a href="#导入的-APK-可以自动更新" class="headerlink" title="导入的 APK 可以自动更新"></a>导入的 APK 可以自动更新</h4><p>Android Studio 允许您导入外部构建的 APK 来调试和分析它们。以前，当对这些 APK 进行更改时，您必须再次手动导入它们并重新附加符号和源。Android Studio 3.6 现在会自动检测对导入的 APK 文件所做的更改，并为您提供就地重新导入该文件的选项。</p>
+<h3 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h3><h4 id="内存探查器中的泄漏检测"><a href="#内存探查器中的泄漏检测" class="headerlink" title="内存探查器中的泄漏检测"></a>内存探查器中的泄漏检测</h4><p>根据反馈，我们在内存探查器中添加了检测可能泄漏的活动和片段实例的能力。要开始使用，请在内存探查器中捕获或导入堆转储文件，并选中”活动/碎片泄漏”复选框以生成结果。有关 Android Studio 如何检测泄漏的详细信息，请参阅我们的文档。</p>
+<p><img src="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20200304111557.png" alt></p>
+<h4 id="在-APK-分析器中去解类和方法字节码"><a href="#在-APK-分析器中去解类和方法字节码" class="headerlink" title="在 APK 分析器中去解类和方法字节码"></a>在 APK 分析器中去解类和方法字节码</h4><p>使用 APK 分析器检查 DEX 文件时，现在可以取消分类和方法字节码。在 DEX 文件查看器中，加载要分析的 APK 的 ProGuard 映射文件。加载后，您将能够通过选择”显示字节码”右键单击要检查的类或方法。</p>
+<p><img src="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20200304111611.png" alt></p>
+<h2 id="概括地说，Android-Studio-3-6-包括这些新的增强功能和功能"><a href="#概括地说，Android-Studio-3-6-包括这些新的增强功能和功能" class="headerlink" title="概括地说，Android Studio 3.6 包括这些新的增强功能和功能"></a>概括地说，Android Studio 3.6 包括这些新的增强功能和功能</h2><h3 id="设计-1"><a href="#设计-1" class="headerlink" title="设计"></a>设计</h3><ul>
+<li>设计编辑器中的拆分视图</li>
+<li>颜色选取器资源选项卡已</li>
+</ul>
+<h3 id="开发-1"><a href="#开发-1" class="headerlink" title="开发"></a>开发</h3><ul>
+<li>视图绑定</li>
+<li>NDK 修改</li>
+<li>Intelli J平台更改</li>
+<li>Add classes with Apply Changes</li>
+</ul>
+<h2 id="构建-1"><a href="#构建-1" class="headerlink" title="构建"></a>构建</h2><ul>
+<li>Android Gradle Plugin (AGP) 升级</li>
+<li>新的打包工具</li>
+</ul>
+<h2 id="测试-1"><a href="#测试-1" class="headerlink" title="测试"></a>测试</h2><ul>
+<li>Android模拟器Google Maps UI</li>
+<li>多显示器支持</li>
+<li>可恢复的SDK下载</li>
+<li>导入的APK的就地更新</li>
+</ul>
+<h2 id="优化-1"><a href="#优化-1" class="headerlink" title="优化"></a>优化</h2><p>内存探查器中的泄漏检测<br> 在APK分析器中反混淆类和方法字节码<br> 将Kotlin来源附加到导入的APK</p>
+<h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><p>从下载页面下载 Android Studio 3.6。如果您使用的是早期版本的 Android Studio，则只需将其更新为最新版本的 Android Studio。要使用上述 Android Emulator 功能，请确保您至少运行通过 Android Studio SDK 管理器下载的 Android Emulator v29.2.12。</p>
+<ul>
+<li><a href="https://developer.android.com/studio" target="_blank" rel="noopener">Google 下载地址</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="ZhangMiao 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="ZhangMiao 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    ZhangMiao
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://zhangmiao.cc/posts/aaf10946.html" title="Android Studio 3.6 正式版终于发布了">https://zhangmiao.cc/posts/aaf10946.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android-Tips/" rel="tag"># Android Tips</a>
+          
+            <a href="/tags/Android-Studio/" rel="tag"># Android Studio</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/628bd6da.html" rel="next" title="Flutter不能热加载，热重载按钮为灰色">
+                <i class="fa fa-chevron-left"></i> Flutter不能热加载，热重载按钮为灰色
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/posts/dffd90b2.html" rel="prev" title="Flutter_tabBarView切换页面防止页面重绘">
+                Flutter_tabBarView切换页面防止页面重绘 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4" alt="ZhangMiao">
+            
+              <p class="site-author-name" itemprop="name">ZhangMiao</p>
+              <p class="site-description motion-element" itemprop="description">Android/Flutter Developer</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">367</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">57</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">141</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:zm@zhangmiao.cc" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://wpa.qq.com/msgrd?v=3&uin=153942241&site=qq&menu=yes" target="_blank" title="QQ">
+                      
+                        <i class="fa fa-fw fa-qq"></i>QQ</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/zhangmiaocc" target="_blank" title="Github">
+                      
+                        <i class="fa fa-fw fa-github"></i>Github</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://stackoverflow.com" target="_blank" title="StackOverflow">
+                      
+                        <i class="fa fa-fw fa-stack-overflow"></i>StackOverflow</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://blog.constore.cn/" title="Liujianhui" target="_blank">Liujianhui</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://xuebin.me" title="Leo" target="_blank">Leo</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.csdn.net/lmj623565791" title="Hongyang" target="_blank">Hongyang</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://liuwangshu.cn/" title="Liuwangshu" target="_blank">Liuwangshu</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://jspang.com/" title="Jspang" target="_blank">Jspang</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blankj.com/" title="Blankj" target="_blank">Blankj</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://wuxiaolong.me/" title="WuXiaoLong" target="_blank">WuXiaoLong</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://molunerfinn.com" title="Molunerfinn" target="_blank">Molunerfinn</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.ofind.cn/" title="Ofind" target="_blank">Ofind</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.gcssloop.com/" title="Gcssloop" target="_blank">Gcssloop</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Release-Notes"><span class="nav-number">1.</span> <span class="nav-text">Release Notes</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#设计"><span class="nav-number">1.1.</span> <span class="nav-text">设计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#在设计编辑器中拆分视图"><span class="nav-number">1.1.1.</span> <span class="nav-text">在设计编辑器中拆分视图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#颜色选取器资源选项卡"><span class="nav-number">1.1.2.</span> <span class="nav-text">颜色选取器资源选项卡</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#开发"><span class="nav-number">1.2.</span> <span class="nav-text">开发</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#视图绑定"><span class="nav-number">1.2.1.</span> <span class="nav-text">视图绑定</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Android-NDK-修改"><span class="nav-number">1.2.2.</span> <span class="nav-text">Android NDK 修改</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IntelliJ-平台更改"><span class="nav-number">1.3.</span> <span class="nav-text">IntelliJ 平台更改</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#应用更改"><span class="nav-number">1.4.</span> <span class="nav-text">应用更改</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构建"><span class="nav-number">1.5.</span> <span class="nav-text">构建</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Android-Gradle-Plugin-AGP-updates"><span class="nav-number">1.5.1.</span> <span class="nav-text">Android Gradle Plugin (AGP) updates</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#新的打包工具"><span class="nav-number">1.5.2.</span> <span class="nav-text">新的打包工具</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试"><span class="nav-number">1.6.</span> <span class="nav-text">测试</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Android-模拟器-Google-地图"><span class="nav-number">1.6.1.</span> <span class="nav-text">Android 模拟器 - Google 地图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#多屏支持"><span class="nav-number">1.6.2.</span> <span class="nav-text">多屏支持</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SDK-断点续传"><span class="nav-number">1.6.3.</span> <span class="nav-text">SDK 断点续传</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#导入的-APK-可以自动更新"><span class="nav-number">1.6.4.</span> <span class="nav-text">导入的 APK 可以自动更新</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#优化"><span class="nav-number">1.7.</span> <span class="nav-text">优化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#内存探查器中的泄漏检测"><span class="nav-number">1.7.1.</span> <span class="nav-text">内存探查器中的泄漏检测</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在-APK-分析器中去解类和方法字节码"><span class="nav-number">1.7.2.</span> <span class="nav-text">在 APK 分析器中去解类和方法字节码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#概括地说，Android-Studio-3-6-包括这些新的增强功能和功能"><span class="nav-number">2.</span> <span class="nav-text">概括地说，Android Studio 3.6 包括这些新的增强功能和功能</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#设计-1"><span class="nav-number">2.1.</span> <span class="nav-text">设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#开发-1"><span class="nav-number">2.2.</span> <span class="nav-text">开发</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构建-1"><span class="nav-number">3.</span> <span class="nav-text">构建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试-1"><span class="nav-number">4.</span> <span class="nav-text">测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优化-1"><span class="nav-number">5.</span> <span class="nav-text">优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#下载"><span class="nav-number">6.</span> <span class="nav-text">下载</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZhangMiao</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      本站访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+  <div>
+    <script type="text/javascript">
+      var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");
+      document.write(unescape("%3Cspan id='cnzz_stat_icon_1277928793'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1277928793%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+  </div>
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://zhangmiao.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://zhangmiao.cc/posts/aaf10946.html';
+          this.page.identifier = 'posts/aaf10946.html';
+          this.page.title = 'Android Studio 3.6 正式版终于发布了';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://zhangmiao.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("8iIYW0IGofqyvJiiuU5R9buW-gzGzoHsz", "ssmxRx0kELJir6mA02ziW3Ql");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/lib/zclip/clipboard.min.js"></script>
+<script type="text/javascript" src="/js/src/custom.js"></script>
+
+</body>
+</html>

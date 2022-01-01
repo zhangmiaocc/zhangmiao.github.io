@@ -1,0 +1,1666 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="前端,JavaScript,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="zm.blog" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="JS中的DOM0和DOM2事件JS中的事件基础及核心原理以及项目实战事件的定义 事件：元素天生具备的行为方式（和写不写JS代码没有关系）【onclick不是事件，click才是事件，浏览器会把一些常用事件挂载到元素对象的私有属性上，让我们可以实现DOM0事件绑定】，当我们去操作元素的时候会触发元素的很多事件事件绑定：给当前元素的某个事件绑定方法，目的是让当前元素某个事件被触发时，做出一些反应  事">
+<meta name="keywords" content="前端,JavaScript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JS基础（十）DOM0和DOM2级事件">
+<meta property="og:url" content="https://zhangmiao.cc/posts/64d673ce.html">
+<meta property="og:site_name" content="zm.blog">
+<meta property="og:description" content="JS中的DOM0和DOM2事件JS中的事件基础及核心原理以及项目实战事件的定义 事件：元素天生具备的行为方式（和写不写JS代码没有关系）【onclick不是事件，click才是事件，浏览器会把一些常用事件挂载到元素对象的私有属性上，让我们可以实现DOM0事件绑定】，当我们去操作元素的时候会触发元素的很多事件事件绑定：给当前元素的某个事件绑定方法，目的是让当前元素某个事件被触发时，做出一些反应  事">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2021-12-24T02:05:29.958Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JS基础（十）DOM0和DOM2级事件">
+<meta name="twitter:description" content="JS中的DOM0和DOM2事件JS中的事件基础及核心原理以及项目实战事件的定义 事件：元素天生具备的行为方式（和写不写JS代码没有关系）【onclick不是事件，click才是事件，浏览器会把一些常用事件挂载到元素对象的私有属性上，让我们可以实现DOM0事件绑定】，当我们去操作元素的时候会触发元素的很多事件事件绑定：给当前元素的某个事件绑定方法，目的是让当前元素某个事件被触发时，做出一些反应  事">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://zhangmiao.cc/posts/64d673ce.html">
+
+
+
+
+
+  <title>JS基础（十）DOM0和DOM2级事件 | zm.blog</title>
+  
+
+
+
+
+
+  <script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?44434226ba535875b1e807122adc3a04";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zm.blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">select * from learn</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhangmiao.cc/posts/64d673ce.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZhangMiao">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zm.blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">JS基础（十）DOM0和DOM2级事件</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-22T14:07:07+08:00">
+                2019-03-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/posts/64d673ce.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="posts/64d673ce.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/posts/64d673ce.html" class="leancloud_visitors" data-flag-title="JS基础（十）DOM0和DOM2级事件">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="JS中的DOM0和DOM2事件"><a href="#JS中的DOM0和DOM2事件" class="headerlink" title="JS中的DOM0和DOM2事件"></a>JS中的DOM0和DOM2事件</h2><h3 id="JS中的事件基础及核心原理以及项目实战"><a href="#JS中的事件基础及核心原理以及项目实战" class="headerlink" title="JS中的事件基础及核心原理以及项目实战"></a>JS中的事件基础及核心原理以及项目实战</h3><h4 id="事件的定义"><a href="#事件的定义" class="headerlink" title="事件的定义"></a>事件的定义</h4><blockquote>
+<p><code>事件</code>：元素天生具备的行为方式（和写不写JS代码没有关系）【onclick不是事件，click才是事件，浏览器会把一些常用事件挂载到元素对象的私有属性上，让我们可以实现DOM0事件绑定】，当我们去操作元素的时候会触发元素的很多事件<br><code>事件绑定</code>：给当前元素的某个事件绑定方法，目的是让当前元素某个事件被触发时，做出一些反应</p>
+</blockquote>
+<h4 id="事件绑定的两种方法"><a href="#事件绑定的两种方法" class="headerlink" title="事件绑定的两种方法"></a>事件绑定的两种方法</h4><ul>
+<li>DOM0级事件绑定 <ul>
+<li>curEle.onclick=function(){};</li>
+</ul>
+</li>
+<li>DOM2级事件绑定 <ul>
+<li>标准浏览器：curEle.addEventListener(‘click’,function(){},false)</li>
+<li>IE6-8:curEle.attachEvent(‘onclick’,function(){})</li>
+</ul>
+</li>
+</ul>
+<a id="more"></a>
+
+<h3 id="DOM0事件"><a href="#DOM0事件" class="headerlink" title="DOM0事件"></a>DOM0事件</h3><h4 id="常用事件汇总"><a href="#常用事件汇总" class="headerlink" title="常用事件汇总"></a>常用事件汇总</h4><p><code>[PC端]</code></p>
+<ul>
+<li>表单元素常用的事件</li>
+</ul>
+<blockquote>
+<ul>
+<li>blur:失去焦点</li>
+<li>focus:获取焦点</li>
+<li>change:内容改变</li>
+<li>select:被选中事件</li>
+</ul>
+</blockquote>
+<ul>
+<li>键盘常用事件行为</li>
+</ul>
+<blockquote>
+<ul>
+<li>keydown:键盘按下</li>
+<li>keyup:键盘抬起</li>
+<li>keypress:键盘按下（中文输入法不能触发，英文状态下可以触发，因为文本被输入到文本框中）</li>
+</ul>
+</blockquote>
+<ul>
+<li>鼠标常用事件行为</li>
+</ul>
+<blockquote>
+<ul>
+<li>click:点击（不是单击）</li>
+<li>dblclick:双击（300ms之内连续触发两次点击事件）</li>
+<li>mouseover:鼠标滑过</li>
+<li>mouseout:鼠标滑出</li>
+<li>mouseenter: 鼠标进入</li>
+<li>mouseleave: 鼠标离开</li>
+<li>mousedown:鼠标按下（左键）</li>
+<li>mouseup:鼠标左键抬起</li>
+<li>mousewheel:鼠标滚轮滚动</li>
+</ul>
+</blockquote>
+<ul>
+<li>其他常用事件行为</li>
+</ul>
+<blockquote>
+<ul>
+<li>load:加载成功</li>
+<li>error:加载失败</li>
+<li>scroll:</li>
+<li>resize:大小改变事件:window.onresize:浏览器窗口改变大小触发该事件</li>
+</ul>
+</blockquote>
+<p><code>[移动端</code></p>
+<blockquote>
+<p>移动端键盘一般都是虚拟键盘，虽然存在keydown,keyup,但兼容不好，使用input事件代替<br>移动端没有鼠标，所以鼠标类事件在移动端兼容性非常差，mouse类事件基本无法使用<br>移动端大部分事件是靠手指完成的，所以它独有手指事件<br>-单手指事件：touchstart touchmove touchend touchcancel<br>-多手指事件：gesturestart gestuerchange gestuerend…..<br>移动端还有很多事件是靠硬件完成的：手机传感器，陀螺仪，重力感应器等<br>移动端兼容click事件，它把click当做单击使用（会有300MS的延迟事件）</p>
+</blockquote>
+<h3 id="事件对象"><a href="#事件对象" class="headerlink" title="事件对象"></a>事件对象</h3><blockquote>
+<p>对以下事件绑定的严谨版描述：基于DOM0级事件的绑定方式，给box的click事件绑定了一个方法。当手动触发click事件时，会把绑定的方法执行<br>box.onclick=function(e){<br>arguments[0]===e;//=&gt;e就是事件对象<br>e=e||window.event;(兼容版获取事件对象的写法)<br>};<br>当元素的某个事件行为被触发，不仅会把之前绑定的方法执行，还会给绑定的方法传递一个值（浏览器默认传递的），我们把传递的这个值称为事件对象：（标准浏览器） </p>
+<ul>
+<li>这个值是个对象类型的值，里面存储了很多的属性和方法， </li>
+<li>这些存储的值都是当前本次操作的基本信息，例如：鼠标位置，触发行为类型。。。。【只和本次操作有关,一个页面中只有一个事件对象】</li>
+</ul>
+<p>IE6-8下关于事件对象的机制 </p>
+<ul>
+<li>方法被触发执行时，浏览器并没有把事件对象当做值传递给函数；(e是undefined) </li>
+<li>IE6-8下的事件对象需要我们通过window.event来获取</li>
+</ul>
+</blockquote>
+<h4 id="鼠标事件对象（mouseevent）"><a href="#鼠标事件对象（mouseevent）" class="headerlink" title="鼠标事件对象（mouseevent）"></a>鼠标事件对象（mouseevent）</h4><ul>
+<li><code>clientX/clientY</code>:当前鼠标触发点距离<code>当前窗口左上角</code>的X/Y坐标</li>
+<li><code>pageX/pageY</code>:当前鼠标触发点距离<code>BODY左上角</code>的X/Y坐标(IE6-8中没有这两个属性)<br><strong>兼容处理</strong></li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">box.onckick=<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</span><br><span class="line">      <span class="keyword">if</span>(<span class="keyword">typeof</span> e===<span class="string">'undefined'</span>)&#123;</span><br><span class="line">      e=<span class="built_in">window</span>.event;   <span class="comment">//-&gt;处理e</span></span><br><span class="line">      <span class="comment">//-&gt;pageX/pageY</span></span><br><span class="line">      e.pageX=e.clientX+(<span class="built_in">document</span>.documentElement.scrollLeft||<span class="built_in">document</span>.body.scrollLeft);</span><br><span class="line">      e.pageY=e.clientY+(<span class="built_in">document</span>.documentElement.scrollTop||<span class="built_in">document</span>.body.scrollTop);</span><br><span class="line">      <span class="comment">//-&gt;target</span></span><br><span class="line">      e.target=e.srcElement;</span><br><span class="line">      <span class="comment">//-&gt;preventDafault</span></span><br><span class="line">      e.preventDefault=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">          e.returnValue=<span class="literal">false</span>;</span><br><span class="line">      &#125;;</span><br><span class="line">      <span class="comment">//=&gt;stopPropagation</span></span><br><span class="line">      e.stopPropagation=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">          e.cancelBubble=<span class="literal">true</span></span><br><span class="line">      &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      &#125;<span class="comment">//该兼容比较完整，当处理一个简单兼容时可简单处理</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>type:当前触发事件的类型</li>
+<li>target：事件源（当前鼠标操作的是那个元素）（IE6-8没有该属性，用srcElement这个属性代表事件源）</li>
+<li>preventDefault:作用：阻止事件的默认行为；（IE6-8没有该方法，使用 returnValue=false处理）</li>
+<li>stopPropagation:阻止事件的冒泡传播 [IE6-8不兼容，使用cancelBubble=true来处理]</li>
+</ul>
+<h4 id="键盘事件对象-keyboardEvent"><a href="#键盘事件对象-keyboardEvent" class="headerlink" title="键盘事件对象(keyboardEvent)"></a>键盘事件对象(keyboardEvent)</h4><ul>
+<li>code:当前按得键盘按键是哪一个 【IE6-8没有这个属性】key属性和code一样，储存形式不一样</li>
+<li>keyCode：存储的是当前按键的码值（大部分按键都有自己的码值）</li>
+<li>which:和keyCode一样，也是当前按键的码值（which不兼容IE6-8）</li>
+<li>这几个码值需要记住（删除：8 、 回车：13、 空格：32、 tab ：9、）</li>
+</ul>
+<h4 id="手指事件对象（TouchEvent）"><a href="#手指事件对象（TouchEvent）" class="headerlink" title="手指事件对象（TouchEvent）"></a>手指事件对象（TouchEvent）</h4><p>touches&amp;&amp;changedTouches&amp;&amp;targetTouches:存储的是当前屏幕上每一个手指操作的位置信息 </p>
+<ul>
+<li>touches：只有手指在屏幕上我们才能获取相关信息，手指离开后，这样touchend事件中我们就无法通过touches获取手指信息 </li>
+<li>changedTouches：手指在屏幕上时，和touches一样可以获得相关信息，手指离开后也可以记录手指离开屏幕一瞬间所在的位置信息（最常用的）</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">touchesEvent</span><br><span class="line">    type:<span class="string">'touchStart'</span>,</span><br><span class="line">    target:事件源，</span><br><span class="line">    touches:</span><br><span class="line">    <span class="number">0</span>:&#123;</span><br><span class="line">    clientX:xxx,</span><br><span class="line">    clientY:xxx,</span><br><span class="line">    pageX:xxx,</span><br><span class="line">    pageY:xxx,</span><br><span class="line">    .....</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">    lentth：<span class="number">1</span></span><br><span class="line">    chan</span><br></pre></td></tr></table></figure>
+
+<p>详细处理</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> oBox = <span class="built_in">document</span>.querySelector(<span class="string">'#box'</span>);</span><br><span class="line">oBox.ontouchstart = <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</span><br><span class="line">   <span class="keyword">let</span> point = e.changedTouches[<span class="number">0</span>];</span><br><span class="line">   <span class="comment">//=&gt;记录当前手指的起始坐标位置(记录在当前元素的自定义属性上)</span></span><br><span class="line">  <span class="keyword">this</span>.strX = point.pageX;</span><br><span class="line">    <span class="keyword">this</span>.strY = point.pageY;</span><br><span class="line"> <span class="keyword">this</span>.isMove = <span class="literal">false</span>;</span><br><span class="line">&#125;;</span><br><span class="line">oBox.ontouchmove = <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</span><br><span class="line">   <span class="keyword">let</span> point = e.changedTouches[<span class="number">0</span>];</span><br><span class="line">  <span class="comment">//=&gt;一般我们手指操作，都会或多或少的发生一些偏移（习惯性偏移），此时不应该算作滑动，只有滑动的距离超出一定范围，我们按照滑动处理即可（一般都是把10px作为偏差值）</span></span><br><span class="line">    <span class="keyword">let</span> changeX = point.pageX - <span class="keyword">this</span>.strX,</span><br><span class="line">     changeY = point.pageY - <span class="keyword">this</span>.strY;</span><br><span class="line">    <span class="keyword">this</span>.changeX = changeX;</span><br><span class="line">  <span class="keyword">this</span>.changeY = changeY;</span><br><span class="line">   <span class="keyword">if</span> (<span class="built_in">Math</span>.abs(changeX) &gt; <span class="number">10</span> || <span class="built_in">Math</span>.abs(changeY) &gt; <span class="number">10</span>) &#123;</span><br><span class="line">       <span class="keyword">this</span>.isMove = <span class="literal">true</span>;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;;</span><br><span class="line">oBox.ontouchend = <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> point = e.changedTouches[<span class="number">0</span>];</span><br><span class="line">   <span class="comment">//=&gt;手指离开的时候：验证是否发生滑动</span></span><br><span class="line">  <span class="keyword">if</span> (!<span class="keyword">this</span>.isMove) &#123;</span><br><span class="line">        <span class="comment">//=&gt;点击操作</span></span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'我是点击操作~~'</span>);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">   <span class="comment">//=&gt;滑动操作</span></span><br><span class="line">  <span class="keyword">let</span> dir = <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">Math</span>.abs(<span class="keyword">this</span>.changeX) &gt; <span class="built_in">Math</span>.abs(<span class="keyword">this</span>.changeY)) &#123;</span><br><span class="line">      <span class="comment">//=&gt;左右滑动</span></span><br><span class="line">       dir = <span class="keyword">this</span>.changeX &lt; <span class="number">0</span> ? <span class="string">'LEFT'</span> : <span class="string">'RIGHT'</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">       <span class="comment">//=&gt;上下滑动</span></span><br><span class="line">        dir = <span class="keyword">this</span>.changeY &lt; <span class="number">0</span> ? <span class="string">'UP'</span> : <span class="string">'DOWN'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">   <span class="built_in">console</span>.log(<span class="string">`当前手指滑动的方向为：<span class="subst">$&#123;dir&#125;</span>`</span>);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>手机移动端的点击、长按、滑动等都是基于内置的原生的touchstart/touchmove/touchend事件模拟出来的一些效果，没有现成的事件<br>市场上有许多成熟的类库，我们直接使用即可<br>1、fastclick.js:目的就是解决了移动端click事件300ms的延迟问题<br>2、百度云touch手指事件库<br>3、hammer.js<br>4、zepto.js:提供移动端事件操作的板块，也是目前市场上使用率最高的</p>
+</blockquote>
+<h4 id="阻止事件的默认行为"><a href="#阻止事件的默认行为" class="headerlink" title="阻止事件的默认行为"></a>阻止事件的默认行为</h4><h5 id="A标签的默认行为及阻止"><a href="#A标签的默认行为及阻止" class="headerlink" title="A标签的默认行为及阻止"></a>A标签的默认行为及阻止</h5><blockquote>
+<p>1.超链接：点击A标签可以实现页面的跳转<br>2、锚点定位：通过HASH值定位到当前页面的指定ID盒子位置<br>- 首先URL地址栏末尾追加了一个HASH;<br>- 如果地址栏包含hash值，浏览器在渲染页面后，会默认定位到hash值的位置</p>
+</blockquote>
+<p>真实项目中我们想用A标签做一个普通按钮（优势：它的：hover样式是兼容所有浏览器的）此时，要把之前提到的两个默认行为阻止掉才可以</p>
+<h5 id="阻止A标签的默认行为"><a href="#阻止A标签的默认行为" class="headerlink" title="阻止A标签的默认行为"></a>阻止A标签的默认行为</h5><blockquote>
+<p>在HTML中阻止默认行为（常用） </p>
+<ul>
+<li><a href="javascript:;" target="_blank" rel="noopener">; </a></li>
+</ul>
+<p>在JS中阻止 </p>
+<ul>
+<li>单点击A标签时 首先会触发click事件 </li>
+<li>其次按照href中的地址页面进行跳转<br>link.onclick=function(){ return false;}//阻止页面行为<br>link.onclick=function(e){<br>​       e=e||window.event;<br>​       e.preventDefault?e.preventDefault():e.returnValue=false;<br>​        }</li>
+</ul>
+</blockquote>
+<h3 id="事件的传播机制"><a href="#事件的传播机制" class="headerlink" title="事件的传播机制"></a>事件的传播机制</h3><h4 id="事件传播有三个阶段"><a href="#事件传播有三个阶段" class="headerlink" title="事件传播有三个阶段"></a>事件传播有三个阶段</h4><p>Event.prototype：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- 0  NONE:默认值，不代表任何意思</span><br><span class="line">- 1  `CAPTURING_PHASE  捕获阶段`</span><br><span class="line">- 2 ` AT_TARGET  目标阶段（当前事件源）`</span><br><span class="line">- 3  `BUBBLING _PHASE :冒泡阶段`</span><br></pre></td></tr></table></figure>
+
+<p><strong>当前元素的某个事件行为被触发，它的所有的祖先元素（一直到document）的相关事件行为也会被触发执行（由里向外），我们把这种传播机制叫做冒泡传播</strong></p>
+<h4 id="mouseover和mouseenter事件的区别"><a href="#mouseover和mouseenter事件的区别" class="headerlink" title="mouseover和mouseenter事件的区别"></a>mouseover和mouseenter事件的区别</h4><p>mouseover：鼠标滑到元素上：存在事件的冒泡传播机制 mouseenter：鼠标进入元素里；浏览器阻止了它的冒泡传播机制； 不同点</p>
+<table>
+<thead>
+<tr>
+<th>区别</th>
+<th>mouseover</th>
+<th>mouseenter</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>区别 1</td>
+<td>存在冒泡传播机制</td>
+<td>冒泡传播机制被浏览器阻止</td>
+</tr>
+<tr>
+<td>区别 2</td>
+<td>当鼠标从父元素进入到子元素时，首先会触发父元素的mouseout事件，再触发子元素的mouseover事件，由于冒泡传播机制，导致父元素的mouseover事件也被触发</td>
+<td>当鼠标从父元素进入到子元素时,并不会触发父元素的mouseout事件，但是触发了子元素的mouseenter事件，由于浏览器阻止了它的冒泡传播，所以父元素的该事件不会被触发</td>
+</tr>
+</tbody></table>
+<h4 id="事件委托（very-important）"><a href="#事件委托（very-important）" class="headerlink" title="事件委托（very important）"></a>事件委托（very important）</h4><p><code>原理</code>：利用事件的冒泡传播机制完成（mouseenter不存在冒泡传播）</p>
+<blockquote>
+<p><code>当一个容器内的很多元素都要为同一事件绑定方法，那么我们只需要给外层容器的该事件绑定方法，当里层元素的事件被出发时，会通过冒泡传播机制传到最外层容器那里，触发外层容器绑定的方法执行，在方法执行时，我们只需要根据判断事件源的不同而做不同的事情</code>。（利用事件委托可提高50%左右的性能）</p>
+</blockquote>
+<h4 id="拖拽当中鼠标焦点丢失问题"><a href="#拖拽当中鼠标焦点丢失问题" class="headerlink" title="拖拽当中鼠标焦点丢失问题"></a>拖拽当中鼠标焦点丢失问题</h4><p>在拖拽登陆窗口的案例中（11.25） 当鼠标移动速度过快时，鼠标离开了h3，因为盒子跟不上奔跑的速度，所以导致以下几个问题 - 鼠标在h3之外飞，不会触发H3的mousemove，盒子就不动了； - 鼠标在h3之外抬起，也不会触发h3的mouseup，那么原有绑定的dragmove无法被移除，鼠标重新进入h3,此时不管鼠标是否按下，都会触发H3的dragmove； <code>原因：鼠标飞出h3,再怎么操作就和h3没有关系</code> 解决方案： 1.把mouseup和mousemove事件绑定给document,原因：不管鼠标怎么飞，都飞不出document；（使用箭头函数）只要你鼠标还在文档中，那么mousemove和mouseup永远生效 2.setCapture（不兼容谷歌，支持Ie）</p>
+<h3 id="DOM2事件绑定"><a href="#DOM2事件绑定" class="headerlink" title="DOM2事件绑定"></a>DOM2事件绑定</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">//=&gt;标准浏览器</span></span><br><span class="line"> oBox.addEventLister(<span class="string">'click'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</span><br><span class="line"> <span class="comment">//this:obx</span></span><br><span class="line"> &#125;,<span class="literal">false</span>)</span><br><span class="line"> <span class="comment">//false=&gt;让事件在冒泡传播时执行</span></span><br><span class="line"><span class="comment">//true=&gt;让事件在捕获阶段执行（非常少见）</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//=&gt;IE6-8浏览器</span></span><br><span class="line">        oBox.attachEvent(<span class="string">'onclick'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</span><br><span class="line">        <span class="comment">//e:事件对象，不同于DOM0级事件，浏览器会默认将事件对象传递进来，与window.event的值相同，因此对于：pageX/pageY/target...等依旧存在兼容；</span></span><br><span class="line">        &#125;)</span><br><span class="line">        <span class="comment">//=&gt;绑定的方法都是在冒泡传播阶段执行</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="DOM1"><a href="#DOM1" class="headerlink" title="DOM1?"></a>DOM1?</h4><blockquote>
+<p>在DOM第一代升级迭代的时候，事件绑定依然沿用DOM0绑定的方式..so…</p>
+</blockquote>
+<h4 id="DOM0于DOM2事件绑定的区别"><a href="#DOM0于DOM2事件绑定的区别" class="headerlink" title="DOM0于DOM2事件绑定的区别"></a>DOM0于DOM2事件绑定的区别</h4><h5 id="DOM0事件绑定的原理"><a href="#DOM0事件绑定的原理" class="headerlink" title="DOM0事件绑定的原理"></a><code>DOM0事件绑定的原理</code></h5><ul>
+<li>给当前元素的某一私有属性（onXXX）赋值的过程；（之前属性默认值是null，如果我们赋值了一个函数，就相当于绑定了一个方法）</li>
+<li>当我们赋值成功（赋值一个函数），此时浏览器会把DOM元素和赋值的的函数建立关联，以及建立DOM元素的行为监听，当某一行为被用户触发，浏览器会把赋值的函数执行；</li>
+</ul>
+<h5 id="DOM0事件绑定的特点"><a href="#DOM0事件绑定的特点" class="headerlink" title="DOM0事件绑定的特点"></a><code>DOM0事件绑定的特点</code></h5><ul>
+<li>只有DOM元素天生拥有这个私有属性（onxxx事件私有属性），我们赋值的方法才叫事件绑定，否则属于设置自定义属性</li>
+<li>移除事件绑定的时候，我们只需要赋值为null；</li>
+<li>在DOM0事件绑定中，只能给当前元素的某一个事件行为绑定一个方法，绑定多个方法，最后一次的绑定的会替换前面绑定的</li>
+</ul>
+<h4 id="DOM2事件绑定的原理"><a href="#DOM2事件绑定的原理" class="headerlink" title="DOM2事件绑定的原理"></a>DOM2事件绑定的原理</h4><ul>
+<li>DOM2事件绑定使用的<code>addEventListener/attachEvent方法都是在eventTarget这个内置类的原型上定义的</code>，我们调用的时候，首先要通过原型链找到这个方法，然后执行完成事件绑定的效果</li>
+<li>浏览器会给当前元素的某个事件行为开辟一个事件池（事件队列）【浏览器有一个统一的事件池，每个元素绑定的行为都放在这里，通过相关标志区分】，当我们通过 <code>addEventListener/attachEvent进行事件绑定的时候，会把绑定的方法放在事件池中</code>；</li>
+<li>当元素的某一行为被触发，浏览器回到对应事件池中，把当前放在事件池的所有方法按序依次执行</li>
+</ul>
+<p><code>特点</code></p>
+<ul>
+<li><p>所有DOM0支持的行为，DOM2都可以用，DOM2还支持DOM0没有的事件行为（这样说比较笼统）<br>（核心）<code>【浏览器会把一些常用事件挂载到元素对象的私有属性上，让我们可以实现DOM0事件绑定，DOM2：凡是浏览器给元素天生设置的事件在DOM2中都可以使用】</code><br>例如：<code>onDOMContentLoaded</code>（所有的DOM0和IE6-8的DOM2都不支持）<br>​onDOMContentLoaded//当前浏览器中的DOM结构加载完成，就会触发这个事件</p>
+</li>
+<li><p>DOM2中可以给<code>当前元素的某一事件行为绑定多个不同方法</code>（因为绑定的所有方法都放在事件池中）；</p>
+</li>
+<li><p>事件的移除:<code>事件类型、绑定的方法、传播阶段三个完全一致</code>，才可以完成移除(因此在绑定方法时，尽量不要用匿名函数，否则不好移除)</p>
+</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//=&gt;ON:给当前元素的某个事件绑定某个方法</span></span><br><span class="line">   <span class="keyword">var</span> on = <span class="function"><span class="keyword">function</span> (<span class="params">curEle, type, fn</span>) </span>&#123;</span><br><span class="line">   <span class="keyword">if</span> (<span class="built_in">document</span>.addEventListener) &#123;</span><br><span class="line">       <span class="comment">//=&gt;标准浏览器</span></span><br><span class="line">        curEle.addEventListener(type, fn, <span class="literal">false</span>);</span><br><span class="line">       <span class="keyword">return</span>;</span><br><span class="line">   &#125;</span><br><span class="line">  <span class="comment">//=&gt;IE6~8</span></span><br><span class="line">  curEle.attachEvent(<span class="string">'on'</span> + type, fn);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//=&gt;OFF:移除当前元素某个事件绑定的某个方法</span></span><br><span class="line"><span class="number">13.</span><span class="keyword">var</span> off = <span class="function"><span class="keyword">function</span> (<span class="params">curEle, type, fn</span>) </span>&#123;</span><br><span class="line"><span class="number">14.</span>    <span class="keyword">if</span> (<span class="built_in">document</span>.removeEventListener) &#123;</span><br><span class="line"><span class="number">15.</span>        curEle.removeEventListener(type, fn, <span class="literal">false</span>);</span><br><span class="line"><span class="number">16.</span>        <span class="keyword">return</span>;</span><br><span class="line"><span class="number">17.</span>    &#125;</span><br><span class="line"><span class="number">18.</span>    <span class="comment">//=&gt;IE6~8</span></span><br><span class="line"><span class="number">19.</span>    curEle.detachEvent(<span class="string">'on'</span> + type, fn);</span><br><span class="line"><span class="number">20.</span>&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><code>xxx.removeEventLister(&#39;click&#39;,function(){},false)</code></p>
+<p>==DOM0和DOM2绑定的方法是毫无联系的（因为是两套完全不同的机制），即使绑定的方法相同，也是执行两次，谁先绑定，就先执行谁==</p>
+<h4 id="window-onload-amp-amp-document-ready-的区别"><a href="#window-onload-amp-amp-document-ready-的区别" class="headerlink" title="window.onload&amp;&amp;$(document).ready()的区别"></a>window.onload&amp;&amp;$(document).ready()的区别</h4><p><strong>window.onload</strong>:当浏览器中的所有资源（DOM结构、文本内容、图片）都加载完成，触发load事件； </p>
+<ul>
+<li>它是基于DOM0的事件绑定机制完成的，所以在同一页面中只能为他绑定一个方法，绑定多个，以最后一个为主； </li>
+<li>如果想在一个页面中使用多次，应该是基于DOM2绑定的；</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn1</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">&#125;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">fn1</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">window</span>.addEventListener(<span class="string">'load'</span>,fn1,<span class="literal">false</span>);</span><br><span class="line"><span class="built_in">window</span>.addEventListener(<span class="string">'load'</span>,fn2,<span class="literal">false</span>);</span><br></pre></td></tr></table></figure>
+
+<p><code>$(function(){})或者$(document).ready(function(){});</code><br>当文档中的DOM结构加载完成，就会触发执行，在一个页面中可以使用多次 </p>
+<ul>
+<li>JQ中提供的方法，JQ是基于onDOMContentLoaded这个事件完成操作的 </li>
+<li>JQ中的事件绑定都是基于DOM2事件绑定的 </li>
+<li>onDOMContentLoaded在IE6-8下attachEvent也是不支持的，JQ在IE6-8下使用readystatechange来完成</li>
+</ul>
+<h4 id="DOM2事件的兼容处理"><a href="#DOM2事件的兼容处理" class="headerlink" title="DOM2事件的兼容处理"></a>DOM2事件的兼容处理</h4><ul>
+<li><p>语法上的兼容<br>标准： curEle.addEventListener（’type’,fn,false）;<br>IE6-8: curEle.attachEvent（’on’+type,fn）; </p>
+</li>
+<li><p>顺序问题<br>标准：按照绑定的顺序依次执行<br>IE6-8:当事件行为被触发，IE6-8执行是乱序</p>
+</li>
+<li><p>重复问题<br>标准：可以自动去重，已经存在的方法不允许再次添加<br>IE6-8:在向事件池中增加方法时没有去重机制 </p>
+</li>
+<li><p>this问题<br>标准：当事件行为被触发，方法中的this指向当前元素本身<br>IE6-8:当事件行为被触发，方法中的this指向window</p>
+</li>
+</ul>
+<h4 id="IE6-8事件池机制vs标准浏览器事件池机制（比较规范的回答）"><a href="#IE6-8事件池机制vs标准浏览器事件池机制（比较规范的回答）" class="headerlink" title="IE6-8事件池机制vs标准浏览器事件池机制（比较规范的回答）"></a>IE6-8事件池机制vs标准浏览器事件池机制（比较规范的回答）</h4><blockquote>
+<p>1、向事件池中添加方法时，标准浏览器是使用addEventListener,IE6-8使用的是attachEvent；而且标准浏览器有自动去重的机制，已经添加的方法不允许再次添加。IE6-8没有去重机制；<br>2、浏览器执行事件池中的方法时，不仅把方法执行，还把事件对象当作实参传递给给对应的方法，但是也是有区别的，IE6-8传递的事件对象的值和window.event是相同 的，因此存在兼容问题；<br>3.当事件行为被触发，标准浏览器是依次执行，方法中的this指向当前元素；IE6-8下，是乱序执行，且方法中的this指向window；</p>
+</blockquote>
+<p><code>不兼容的本质</code>：IE6-8低版本浏览器对于他的内置事件池处理机制的不完善导致的。<br><code>DOM2事件绑定兼容处理机制原理</code>：自己创建一个类似于标准浏览器的自定义事件池（针对IE6-8） </p>
+<ul>
+<li>on :手动创建一个自定义事件池，把需要绑定的方法全部存在自定义事件池中</li>
+<li>off: 把不需要绑定的方法从自定义事件池中移除</li>
+<li>run：把run放在内置事件池中，当行为触发，需要浏览器把run执行，在run中把自定义事件池的方法执行。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//向事件池追加方法</span></span><br><span class="line"><span class="keyword">var</span> on = <span class="function"><span class="keyword">function</span> (<span class="params">curEle, type, fn</span>) </span>&#123;</span><br><span class="line">    <span class="comment">//标准浏览器无需处理</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">document</span>.addEventListener) &#123;</span><br><span class="line">        curEle.addEventListener(type, fn, <span class="literal">false</span>);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//创建自定义事件池：创建到当前元素的自定义属性上，不受作用域限制，以后在其他方法中需要使用，可直接获取（不放在全局是防止全局污染）</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 每一个事件都有一个独立的事件池</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> curEle[type + <span class="string">'pond'</span>] === <span class="string">'undefined'</span>) &#123;</span><br><span class="line">        curEle[type + <span class="string">'pond'</span>] = [];</span><br><span class="line">        <span class="comment">//只要执行on,就说明当前方法已被绑定</span></span><br><span class="line">        <span class="comment">//把run放到内置事件池中；</span></span><br><span class="line">        <span class="comment">// curEle.attachEvent('on'+type,run);//需要保证run中的 this是当前元素</span></span><br><span class="line">        curEle.attachEvent(<span class="string">'on'</span> + type, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">            run.call(curEle, e);<span class="comment">//将run放在一个匿名函数中，强制改变this</span></span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> aryPond = curEle[type + <span class="string">'pond'</span>];</span><br><span class="line">    <span class="comment">// 去重操作，当前事件池中是否有当前事件</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; ary.length; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (aryPond[i] === fn) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    aryPond.push(fn);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//移除事件池的某个方法</span></span><br><span class="line"><span class="keyword">var</span> off = <span class="function"><span class="keyword">function</span> (<span class="params">curEle, type, fn</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">document</span>.removeEventListener) &#123;</span><br><span class="line">        curEle.removeEventListener(type, fn, <span class="literal">false</span>);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> aryPond = curEle[type + <span class="string">'pond'</span>];</span><br><span class="line">    <span class="keyword">if</span> (!aryPond) <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; ary.length; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (aryPond[i] === fn) &#123;</span><br><span class="line">            <span class="comment">// aryPond.splice(i,1);此方法会导致原始数组索引改变，此时正在执行的run循环，索引和想要的索引不一致，数组塌陷</span></span><br><span class="line">            <span class="comment">//我们不能让当前数组的索引改变；</span></span><br><span class="line">            aryPond[i] = <span class="literal">null</span>;<span class="comment">//置空，索引没变</span></span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//把自定义事件池中的方法依次执行</span></span><br><span class="line"><span class="keyword">var</span> run = <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// this=&gt;curEle</span></span><br><span class="line">    <span class="comment">//e:window.event，不兼容，需要处理</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> e.target === <span class="string">'undefined'</span>) &#123;</span><br><span class="line">        e.target = e.srcElement;</span><br><span class="line">        e.which = e.keyCode;</span><br><span class="line">        e.pageX = e.clientX + <span class="built_in">document</span>.documentElement.scrollLeft || <span class="built_in">document</span>.body.scrollLeft;</span><br><span class="line">        e.stopPropagation = e.cancelBubble = <span class="literal">true</span>;</span><br><span class="line">        e.preventDefault = e.returnValue = <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> aryPond = curEle[type + <span class="string">'pond'</span>];</span><br><span class="line">    <span class="keyword">if</span> (!aryPond) <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; aryPond.length; i++) &#123;</span><br><span class="line">        <span class="keyword">var</span> itemFn = aryPond[i];</span><br><span class="line">        <span class="comment">// itemFn();=&gt;这样执行itemFn里的this时window，须将他替换成函数里的this</span></span><br><span class="line">        <span class="keyword">if</span> (itemFn === <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="comment">//当前这一项在执行的时候，可以将off中置空的那一项删除</span></span><br><span class="line">            aryPond.slice(i, <span class="number">1</span>);</span><br><span class="line">            i--;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        itemFn.call(<span class="keyword">this</span>, e);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Bind方法的封装"><a href="#Bind方法的封装" class="headerlink" title="Bind方法的封装"></a>Bind方法的封装</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//ES5封装  BIND</span></span><br><span class="line">   <span class="built_in">Function</span>.prototype.myBind = <span class="function"><span class="keyword">function</span> <span class="title">myBind</span>(<span class="params">context</span>) </span>&#123;</span><br><span class="line">        <span class="comment">//this=&gt;当前需要处理的函数</span></span><br><span class="line">        <span class="comment">//context=&gt;我们需要预先改变的this值（如果不传，默认window）；</span></span><br><span class="line">        <span class="comment">//arguments=&gt;存储包含context在内的所有实参；</span></span><br><span class="line">        context = context || <span class="built_in">window</span>;</span><br><span class="line">        <span class="keyword">var</span> outerArg = <span class="built_in">Array</span>.prototype.slice.call(<span class="built_in">arguments</span>, <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">var</span> _this = <span class="keyword">this</span>;</span><br><span class="line">        <span class="keyword">if</span>(<span class="string">'bind'</span> <span class="keyword">in</span> <span class="keyword">this</span>)&#123;<span class="comment">//如果不是IE6-8，直接返回</span></span><br><span class="line">           <span class="keyword">return</span> _this.bind.apply(_this,<span class="built_in">arguments</span>) ;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="keyword">var</span> innerArg = <span class="built_in">Array</span>.prototype.slice.call(<span class="built_in">arguments</span>);</span><br><span class="line">            outerArg = outerArg.contact(innerArg);</span><br><span class="line">            _this.apply(context, outerArg);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//ES6方法</span></span><br><span class="line"> <span class="built_in">Function</span>.prototype.myBind = <span class="function"><span class="keyword">function</span> <span class="title">myBind</span>(<span class="params">context = window, ...outer</span>) </span>&#123; <span class="comment">//使用ES6中的剩余运算符</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="string">'bind'</span> <span class="keyword">in</span> <span class="keyword">this</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>.bind(<span class="built_in">arguments</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">...inner</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.apply(context, outer.concat(inner));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="ZhangMiao 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="ZhangMiao 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    ZhangMiao
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://zhangmiao.cc/posts/64d673ce.html" title="JS基础（十）DOM0和DOM2级事件">https://zhangmiao.cc/posts/64d673ce.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/前端/" rel="tag"># 前端</a>
+          
+            <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/db9fe196.html" rel="next" title="JS基础（九）定时器">
+                <i class="fa fa-chevron-left"></i> JS基础（九）定时器
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/posts/40775045.html" rel="prev" title="vue组件之间8种组件通信方式总结">
+                vue组件之间8种组件通信方式总结 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4" alt="ZhangMiao">
+            
+              <p class="site-author-name" itemprop="name">ZhangMiao</p>
+              <p class="site-description motion-element" itemprop="description">Android/Flutter Developer</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">367</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">57</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">141</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:zm@zhangmiao.cc" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://wpa.qq.com/msgrd?v=3&uin=153942241&site=qq&menu=yes" target="_blank" title="QQ">
+                      
+                        <i class="fa fa-fw fa-qq"></i>QQ</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/zhangmiaocc" target="_blank" title="Github">
+                      
+                        <i class="fa fa-fw fa-github"></i>Github</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://stackoverflow.com" target="_blank" title="StackOverflow">
+                      
+                        <i class="fa fa-fw fa-stack-overflow"></i>StackOverflow</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://blog.constore.cn/" title="Liujianhui" target="_blank">Liujianhui</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://xuebin.me" title="Leo" target="_blank">Leo</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.csdn.net/lmj623565791" title="Hongyang" target="_blank">Hongyang</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://liuwangshu.cn/" title="Liuwangshu" target="_blank">Liuwangshu</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://jspang.com/" title="Jspang" target="_blank">Jspang</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blankj.com/" title="Blankj" target="_blank">Blankj</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://wuxiaolong.me/" title="WuXiaoLong" target="_blank">WuXiaoLong</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://molunerfinn.com" title="Molunerfinn" target="_blank">Molunerfinn</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.ofind.cn/" title="Ofind" target="_blank">Ofind</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.gcssloop.com/" title="Gcssloop" target="_blank">Gcssloop</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#JS中的DOM0和DOM2事件"><span class="nav-number">1.</span> <span class="nav-text">JS中的DOM0和DOM2事件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#JS中的事件基础及核心原理以及项目实战"><span class="nav-number">1.1.</span> <span class="nav-text">JS中的事件基础及核心原理以及项目实战</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#事件的定义"><span class="nav-number">1.1.1.</span> <span class="nav-text">事件的定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#事件绑定的两种方法"><span class="nav-number">1.1.2.</span> <span class="nav-text">事件绑定的两种方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DOM0事件"><span class="nav-number">1.2.</span> <span class="nav-text">DOM0事件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#常用事件汇总"><span class="nav-number">1.2.1.</span> <span class="nav-text">常用事件汇总</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#事件对象"><span class="nav-number">1.3.</span> <span class="nav-text">事件对象</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#鼠标事件对象（mouseevent）"><span class="nav-number">1.3.1.</span> <span class="nav-text">鼠标事件对象（mouseevent）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#键盘事件对象-keyboardEvent"><span class="nav-number">1.3.2.</span> <span class="nav-text">键盘事件对象(keyboardEvent)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#手指事件对象（TouchEvent）"><span class="nav-number">1.3.3.</span> <span class="nav-text">手指事件对象（TouchEvent）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#阻止事件的默认行为"><span class="nav-number">1.3.4.</span> <span class="nav-text">阻止事件的默认行为</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#A标签的默认行为及阻止"><span class="nav-number">1.3.4.1.</span> <span class="nav-text">A标签的默认行为及阻止</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#阻止A标签的默认行为"><span class="nav-number">1.3.4.2.</span> <span class="nav-text">阻止A标签的默认行为</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#事件的传播机制"><span class="nav-number">1.4.</span> <span class="nav-text">事件的传播机制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#事件传播有三个阶段"><span class="nav-number">1.4.1.</span> <span class="nav-text">事件传播有三个阶段</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mouseover和mouseenter事件的区别"><span class="nav-number">1.4.2.</span> <span class="nav-text">mouseover和mouseenter事件的区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#事件委托（very-important）"><span class="nav-number">1.4.3.</span> <span class="nav-text">事件委托（very important）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#拖拽当中鼠标焦点丢失问题"><span class="nav-number">1.4.4.</span> <span class="nav-text">拖拽当中鼠标焦点丢失问题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DOM2事件绑定"><span class="nav-number">1.5.</span> <span class="nav-text">DOM2事件绑定</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#DOM1"><span class="nav-number">1.5.1.</span> <span class="nav-text">DOM1?</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DOM0于DOM2事件绑定的区别"><span class="nav-number">1.5.2.</span> <span class="nav-text">DOM0于DOM2事件绑定的区别</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#DOM0事件绑定的原理"><span class="nav-number">1.5.2.1.</span> <span class="nav-text">DOM0事件绑定的原理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#DOM0事件绑定的特点"><span class="nav-number">1.5.2.2.</span> <span class="nav-text">DOM0事件绑定的特点</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DOM2事件绑定的原理"><span class="nav-number">1.5.3.</span> <span class="nav-text">DOM2事件绑定的原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#window-onload-amp-amp-document-ready-的区别"><span class="nav-number">1.5.4.</span> <span class="nav-text">window.onload&amp;&amp;$(document).ready()的区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DOM2事件的兼容处理"><span class="nav-number">1.5.5.</span> <span class="nav-text">DOM2事件的兼容处理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#IE6-8事件池机制vs标准浏览器事件池机制（比较规范的回答）"><span class="nav-number">1.5.6.</span> <span class="nav-text">IE6-8事件池机制vs标准浏览器事件池机制（比较规范的回答）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Bind方法的封装"><span class="nav-number">1.5.7.</span> <span class="nav-text">Bind方法的封装</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZhangMiao</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      本站访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+  <div>
+    <script type="text/javascript">
+      var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");
+      document.write(unescape("%3Cspan id='cnzz_stat_icon_1277928793'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1277928793%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+  </div>
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://zhangmiao.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://zhangmiao.cc/posts/64d673ce.html';
+          this.page.identifier = 'posts/64d673ce.html';
+          this.page.title = 'JS基础（十）DOM0和DOM2级事件';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://zhangmiao.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("8iIYW0IGofqyvJiiuU5R9buW-gzGzoHsz", "ssmxRx0kELJir6mA02ziW3Ql");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/lib/zclip/clipboard.min.js"></script>
+<script type="text/javascript" src="/js/src/custom.js"></script>
+
+</body>
+</html>

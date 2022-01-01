@@ -1,0 +1,1545 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="前端,JavaScript,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="zm.blog" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="JS中DOM盒子模型深入分析CSS盒子模型传统盒子模型width height:不是盒子的宽高，而是盒子中的内容 盒子的宽度=width+border2+padding2//在一个对称的模型中 CSS3新增加的盒子模型增加该属性，width和height的数值就是盒子的宽高； 1box-sizing:border-box;">
+<meta name="keywords" content="前端,JavaScript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JS基础（八）盒子模型">
+<meta property="og:url" content="https://zhangmiao.cc/posts/ba5b0d45.html">
+<meta property="og:site_name" content="zm.blog">
+<meta property="og:description" content="JS中DOM盒子模型深入分析CSS盒子模型传统盒子模型width height:不是盒子的宽高，而是盒子中的内容 盒子的宽度=width+border2+padding2//在一个对称的模型中 CSS3新增加的盒子模型增加该属性，width和height的数值就是盒子的宽高； 1box-sizing:border-box;">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2021-12-24T02:05:29.957Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JS基础（八）盒子模型">
+<meta name="twitter:description" content="JS中DOM盒子模型深入分析CSS盒子模型传统盒子模型width height:不是盒子的宽高，而是盒子中的内容 盒子的宽度=width+border2+padding2//在一个对称的模型中 CSS3新增加的盒子模型增加该属性，width和height的数值就是盒子的宽高； 1box-sizing:border-box;">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://zhangmiao.cc/posts/ba5b0d45.html">
+
+
+
+
+
+  <title>JS基础（八）盒子模型 | zm.blog</title>
+  
+
+
+
+
+
+  <script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?44434226ba535875b1e807122adc3a04";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zm.blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">select * from learn</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhangmiao.cc/posts/ba5b0d45.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZhangMiao">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zm.blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">JS基础（八）盒子模型</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-20T14:13:47+08:00">
+                2019-03-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/posts/ba5b0d45.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="posts/ba5b0d45.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/posts/ba5b0d45.html" class="leancloud_visitors" data-flag-title="JS基础（八）盒子模型">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="JS中DOM盒子模型深入分析"><a href="#JS中DOM盒子模型深入分析" class="headerlink" title="JS中DOM盒子模型深入分析"></a>JS中DOM盒子模型深入分析</h3><h3 id="CSS盒子模型"><a href="#CSS盒子模型" class="headerlink" title="CSS盒子模型"></a>CSS盒子模型</h3><h4 id="传统盒子模型"><a href="#传统盒子模型" class="headerlink" title="传统盒子模型"></a>传统盒子模型</h4><p>width height:不是盒子的宽高，而是盒子中的内容</p>
+<p>盒子的宽度=width+border<em>2+padding</em>2//在一个对称的模型中</p>
+<h4 id="CSS3新增加的盒子模型"><a href="#CSS3新增加的盒子模型" class="headerlink" title="CSS3新增加的盒子模型"></a>CSS3新增加的盒子模型</h4><p>增加该属性，width和height的数值就是盒子的宽高；</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">box-sizing</span><span class="selector-pseudo">:border-box</span>;</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+<h4 id="JS盒子模型"><a href="#JS盒子模型" class="headerlink" title="JS盒子模型"></a>JS盒子模型</h4><blockquote>
+<p>提供一些属性和方法用来描述盒子的样式的</p>
+</blockquote>
+<h5 id="client"><a href="#client" class="headerlink" title="client"></a>client</h5><p><code>clientWidth / clientHeight</code></p>
+<blockquote>
+<p>当前盒子可视区域的宽度和高度<br>可视区域：内容的宽高+padding*2<br>clientHeight=height+padding(top&amp;&amp;bottom)<br>clientWidth=height+padding(left&amp;&amp;right)<br>和内容是否溢出和我们是否设置了overflow:hidden没有关系</p>
+</blockquote>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">document.documentElement.clientWidth||document.body.clientHight</span><br></pre></td></tr></table></figure>
+
+<p>//获取当前页面一屏幕的宽度</p>
+<blockquote>
+<p>在不知盒子宽高的情况下，让盒子居中</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> winH=<span class="built_in">document</span>.documentElement.clientHeight||<span class="built_in">document</span>.body.clientHeight;</span><br><span class="line"><span class="keyword">var</span> winW=<span class="built_in">document</span>.documentElement.clientWigth||<span class="built_in">document</span>.body.clientWigth;</span><br><span class="line"><span class="keyword">var</span> boxW=box.clientWidth;</span><br><span class="line"><span class="keyword">var</span> boxH=box.clientHeight;</span><br><span class="line">box.style.left=(winW-boxW)/<span class="number">2</span>+<span class="string">'px'</span>;</span><br><span class="line">box.style.top=(winH-boxH)/<span class="number">2</span>+<span class="string">'px'</span>;</span><br></pre></td></tr></table></figure>
+
+<p><code>clientTop 和 clientLeft</code></p>
+<blockquote>
+<p>只有top和left，没有其他的<br>clientTop：盒子上边框的高度<br>clientLeft：盒子左边框的宽度<br><code>通过JS盒子模型获取的结果是不带单位的，而且只能是整数</code>，（他会自动四舍五入）</p>
+</blockquote>
+<h5 id="offset"><a href="#offset" class="headerlink" title="offset"></a>offset</h5><p><code>offsetWidth 和 offsetHeight</code></p>
+<blockquote>
+<p>在clientHeight和clientWidth的基础上加上了边框的长度；<br>offsetWidth=clientWidth+左右边框(border)<br>offsetHight=clienthight+上下边框<br>真实项目中，如果想要得到盒子的宽度和高度一般都用offsetWidth和offsetHeight，这样就包含了盒子的边框</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> winH=<span class="built_in">document</span>.documentElement.offsetHeight||<span class="built_in">document</span>.bodyElement.offsetHeight;</span><br><span class="line"><span class="keyword">var</span> winW=<span class="built_in">document</span>.documentElement.offsetWigth||<span class="built_in">document</span>.bodyElement.offsetclientWigth;</span><br><span class="line"><span class="keyword">var</span> boxW=box.offsetWidth;</span><br><span class="line"><span class="keyword">var</span> boxH=box.offsetHeight;</span><br><span class="line">box.style.left=(winW-boxW)/<span class="number">2</span>+<span class="string">'px'</span>;</span><br><span class="line">box.style.top=(winH-boxH)/<span class="number">2</span>+<span class="string">'px'</span>;</span><br></pre></td></tr></table></figure>
+
+<p><code>offssetParent</code></p>
+<blockquote>
+<p>当前和盒子的父级参照物（得到父级参照物元素）</p>
+</blockquote>
+<p>父级参照物不等价于父级元素，与父级元素没有直接关系<br>父级参照物：同一平面中最外层容器是所有里层盒子的父级参照物<br>一般情况下，一个页面所有元素的父级参照物都是body，body没有父级参照物；</p>
+<blockquote>
+</blockquote>
+<p>当我们给元素设置定位（会让元素脱离文档流）的时候，会改变父级参照物（不在一个平面上）</p>
+<blockquote>
+</blockquote>
+<p>offsetTop&amp;offsetLeft:<br>当前元素外边框距离父级参照物的内边框的偏移量<br>（标准IE8浏览器特殊性： 当前元素最外边框距离父级参照物的外边框的偏移里量 ）<br>window.navigator.userAgent 获取浏览器的版本号</p>
+<p><strong>获取页面中任何一个元素距离body的左偏移和上偏移，不知道该元素的具体位置。</strong><br>思路：</p>
+<blockquote>
+<p>首先获取自己的偏移量及父级参照物<br>如果父级参照物不是body，我们加上父级参照物的边框和偏移量。。。一直加到父级参照物为body的元素为止</p>
+</blockquote>
+<h5 id="scroll"><a href="#scroll" class="headerlink" title="scroll"></a>scroll</h5><p><code>scrollHeight &amp;&amp; scrollWidth</code></p>
+<blockquote>
+<p>没有内容溢出：获取的结果和clientWidth、clientHeight的结果相同；<br>有内容溢出：真实内容的宽度或高度，包含溢出内容的值，再加上padding或左padding的值<br>scrollWidth&amp;&amp;scrollHeight获取的是约等于的值<br>由于内容溢出，每个浏览器对于行高或文字的渲染不一样，回去的结果也不一样<br>是否设置overflow：hidden对最后的结果也有影响</p>
+</blockquote>
+<p>获取当前页面的真实高度（包含溢出）</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">document.documentElement.scrollWidth||document.body.scrollHight</span><br></pre></td></tr></table></figure>
+
+<p><code>scrollLeft &amp;&amp; scrollTop</code></p>
+<p>横向或竖向滚动条卷去的宽度或高度<br>(在拉动滚动条时，上面的内容会被卷去，就是scrollTop)</p>
+<ul>
+<li>最小值：0</li>
+<li>最大值：scrollHight-clientHight:真实页面高度-一屏幕的高度</li>
+<li>前面的JS盒子模型的属性都是<code>只读属性</code>，只能获取，不能修改；而<code>scrollTop&amp;&amp;scrollLeft</code>是<code>可读写属性</code>，既可以获取，也可以修改；</li>
+</ul>
+<h4 id="window-onscroll"><a href="#window-onscroll" class="headerlink" title="window.onscroll"></a>window.onscroll</h4><p>window.onscroll:浏览器滚动条滚动事件（只要滚动就会触发该事件）</p>
+<p>* 1、鼠标滚轮控制 或者 手动拖动滚动条</p>
+<p>* 2、键盘按键控制</p>
+<p>* 3、使用JS代码控制</p>
+<p>* …</p>
+<p>* 不管什么方式,只要滚动条动了就会触发这个事件</p>
+<h3 id="在JS中获取元素的具体的样式值"><a href="#在JS中获取元素的具体的样式值" class="headerlink" title="在JS中获取元素的具体的样式值"></a>在JS中获取元素的具体的样式值</h3><blockquote>
+<p>通过JS盒子模型12个属性（不包含offsetParent）获取的结果都是整数，没有单位，如果有小数，浏览器会自动四舍五入<br>通过JS盒子模型 属性获得的值都是组合值，不能单独获取某一个具体样式值</p>
+</blockquote>
+<h4 id="curEle-style-xxx"><a href="#curEle-style-xxx" class="headerlink" title="curEle.style.xxx;"></a><strong>curEle.style.xxx;</strong></h4><blockquote>
+<p>获取当前元素所有写在<strong>行内样式</strong>上的样式值(如果样式没有设置在行内元素上 得到空字符串)<br>特殊：只有把样式写在行内样式上，才可以通过这种方法获取到=》这种方法在真实项目中比较少见，因为我们很少在行内样式上写样式</p>
+</blockquote>
+<p><code>window.getComputedStyle &amp;&amp; curEle.currentStyle</code></p>
+<blockquote>
+<p>只要当前元素在页面中显示出来，我们就可以获得其样式值（不管是行内还是样式表），也就是获取所有经过浏览器计算过的值，包括你没有写浏览器默认设置的值。<br>window.getComputedStyle:适用于标准浏览器，IE6-8不兼容，在IE6-8的Window全局对象中，没有提供getComputedStyle这个属性和方法，我们使用curEle.currentStyle来获取需要的样式值</p>
+</blockquote>
+<p>//通过getComputedStyle获得的结果是一个对象,包含当前元素所有的样式属性和属性值</p>
+<blockquote>
+<p>语法：window.getComputedStyle([当前需要操作的元素],[当前元素的伪类，一般写null])<br>window.getComputedStyle(box,null).paddingleft;</p>
+</blockquote>
+<p>//通过 curEle.currentStyle来获取样式<br>box.currentStyle.paddingleft;</p>
+<blockquote>
+<p>封装一个公共的方法：getCss</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//getCSS：获取当前元素某一个样式的属性值</span></span><br><span class="line"><span class="comment">//@parameter curEle:当前需要操作的元素</span></span><br><span class="line"><span class="comment">//attr:要获取样式的属性名</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getCss</span>(<span class="params">curEle,attr</span>)</span>&#123;</span><br><span class="line"><span class="keyword">var</span> value=<span class="literal">null</span>;</span><br><span class="line"><span class="keyword">var</span> reg=<span class="literal">null</span>;</span><br><span class="line"><span class="keyword">try</span>&#123;</span><br><span class="line">value=<span class="built_in">window</span>.getComputedStyle(cueEle,<span class="literal">null</span>)[attr];</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">catch</span>(e)&#123;</span><br><span class="line">value=curEle.currentStyle</span><br><span class="line">&#125;</span><br><span class="line">reg=<span class="regexp">/^-?\d+(\.\d+)?(px|pt|em|rem)?$/i</span>;<span class="comment">//去除单位</span></span><br><span class="line">reg.test(value)?value=<span class="built_in">parseFloat</span>(value):<span class="literal">null</span>;</span><br><span class="line"><span class="keyword">return</span> value;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(getCss(box,<span class="string">'display'</span>));</span><br></pre></td></tr></table></figure>
+
+<p>方法二：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getCss</span>(<span class="params">curEle, attr</span>) </span>&#123;</span><br><span class="line"><span class="keyword">var</span> value = <span class="literal">null</span>,</span><br><span class="line">reg = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="string">'getComputedStyle'</span> <span class="keyword">in</span> <span class="built_in">window</span>) &#123;</span><br><span class="line">value = <span class="built_in">window</span>.getComputedStyle(curEle, <span class="literal">null</span>)[attr];</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">value = curEle.currentStyle[attr];</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//=&gt;去除单位</span></span><br><span class="line">reg = <span class="regexp">/^-?\d+(\.\d+)?(px|pt|rem|em)?$/i</span>;</span><br><span class="line">reg.test(value) ? value = <span class="built_in">parseFloat</span>(value) : <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">return</span> value;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(getCss(box, <span class="string">'display'</span>));</span><br></pre></td></tr></table></figure>
+
+<h4 id="设置元素的样式"><a href="#设置元素的样式" class="headerlink" title="设置元素的样式"></a>设置元素的样式</h4><blockquote>
+<p>curEle.style.xx=xxx;设置当前元素的行内样式；（<code>JS设置样式一般都设置在行内样式上，因为行内样式优先级最大</code>）（JS操作属性不支持-，所有-改成下一个单词大写）<br>curEle.className=xxx;设置元素的样式类名；</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">curEle[<span class="string">'style'</span>][attr]=value;</span><br><span class="line"><span class="comment">//传递value值，如果没有单位，需要补单位</span></span><br><span class="line"><span class="comment">//并不是所有的值都需要补单位，</span></span><br><span class="line"><span class="comment">//传递的值带单位，不需要不单位</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">if</span>(attr===<span class="string">'opacity'</span>)&#123;</span><br><span class="line">curEle.style.opacity=value;</span><br><span class="line">curEle.style.filter=<span class="string">'alpha(opacity='</span>+value*<span class="number">100</span>%<span class="string">');</span></span><br><span class="line"><span class="string">&#125; !isNaN(value)&amp;&amp;!/^(zoom|lineHeight|zIndex|fontWeight)$/i.test(value)?value+='</span>px<span class="string">':null;</span></span><br><span class="line"><span class="string">curEle['</span>style<span class="string">'][attr]=value;</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">setCss(box,'</span>padding<span class="string">','</span><span class="number">20</span>px<span class="string">');</span></span><br><span class="line"><span class="string">将3个方法封装在一个里面</span></span><br><span class="line"><span class="string">var css = function () &#123;</span></span><br><span class="line"><span class="string">var len = arguments.length,</span></span><br><span class="line"><span class="string">type = Object.prototype.toString.call(arguments[1]),</span></span><br><span class="line"><span class="string">fn = getCss;</span></span><br><span class="line"><span class="string">len &gt;= 3 ? fn = setCss : (len === 2 &amp;&amp; type === '</span>[object <span class="built_in">Object</span>]<span class="string">' ? fn = setGroupCss : null);</span></span><br><span class="line"><span class="string">return fn.apply(this, arguments);</span></span><br><span class="line"><span class="string">&#125;;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>children</strong></p>
+<p>不管在什么浏览器中，都可以获得当前元素的子节点,（元素节点）<br>但在IE6-8下，也会将注释节点获取到，因此有所差别</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">children</span>(<span class="params">curEle</span>)</span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>编程常用方法：假设法 排除法</strong></p>
+<h4 id="JS中的动画"><a href="#JS中的动画" class="headerlink" title="JS中的动画"></a>JS中的动画</h4><blockquote>
+<p>1、步长偿固定，完成时间不固定<br>2、固定时间动画</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">linear</span>(<span class="params">t, b, c, d</span>) </span>&#123;</span><br><span class="line"><span class="keyword">return</span> t / d * c + b;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> oBox = <span class="built_in">document</span>.getElementById(<span class="string">'box'</span>);</span><br><span class="line"><span class="keyword">var</span> time = <span class="number">0</span>,<span class="comment">//已经运动的时间</span></span><br><span class="line">duration = <span class="number">1000</span>,<span class="comment">//总时间</span></span><br><span class="line">begin = utils.css(oBox, <span class="string">'left'</span>),<span class="comment">//左边距</span></span><br><span class="line">target = utils.winBox(<span class="string">'clientWidth'</span>) - oBox.offsetWidth,<span class="comment">//目的地</span></span><br><span class="line">change = target - begin;<span class="comment">//总共需要走的距离</span></span><br><span class="line"><span class="keyword">var</span> timer = setInterval(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">time += <span class="number">17</span>;</span><br><span class="line"><span class="keyword">if</span> (time &gt;= duration) &#123;</span><br><span class="line">utils.css(oBox, <span class="string">'left'</span>, target);</span><br><span class="line">clearInterval(timer);</span><br><span class="line"><span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> curL = linear(time, begin, change, duration);</span><br><span class="line">utils.css(oBox, <span class="string">'left'</span>, curL);</span><br><span class="line">&#125;, <span class="number">17</span>);</span><br></pre></td></tr></table></figure>
+
+<h4 id="图片懒加载原理："><a href="#图片懒加载原理：" class="headerlink" title="图片懒加载原理："></a>图片懒加载原理：</h4><p>1、IMG标签的SRC不存放图片的地址(如果存放真实的地址,页面一加载图片肯定就加载出来了),我们把真实图片的地址存储在当前IMG标签的自定义属性上(DATA-IMG)<br>2、为了保证当前图片没有真实地址的时候,浏览器中不会出现叉叉或者出现ALT中的内容,我们一般都会把图片先隐藏(display:none opacity:0…)，等到后期把真实图片加载出来，在让当前图片展示<br>3、看不到真实图片了，我们最好给一个占位图片（占位图：要求一定要很小,最好是1KB）：我们在IMG外面包一层DIV盒子,把占位图赋值给当前盒子的背景图片来处理</p>
+<p>=&gt;开始IMG不显示,展示的是默认的背景图,当IMG真实地址加载完成后,我们让IMG显示,此时真实图片会覆盖住背景图</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="ZhangMiao 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="ZhangMiao 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    ZhangMiao
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://zhangmiao.cc/posts/ba5b0d45.html" title="JS基础（八）盒子模型">https://zhangmiao.cc/posts/ba5b0d45.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/前端/" rel="tag"># 前端</a>
+          
+            <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/eda90d92.html" rel="next" title="JS基础知识（七）正则">
+                <i class="fa fa-chevron-left"></i> JS基础知识（七）正则
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/posts/db9fe196.html" rel="prev" title="JS基础（九）定时器">
+                JS基础（九）定时器 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4" alt="ZhangMiao">
+            
+              <p class="site-author-name" itemprop="name">ZhangMiao</p>
+              <p class="site-description motion-element" itemprop="description">Android/Flutter Developer</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">367</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">57</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">141</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:zm@zhangmiao.cc" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://wpa.qq.com/msgrd?v=3&uin=153942241&site=qq&menu=yes" target="_blank" title="QQ">
+                      
+                        <i class="fa fa-fw fa-qq"></i>QQ</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/zhangmiaocc" target="_blank" title="Github">
+                      
+                        <i class="fa fa-fw fa-github"></i>Github</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://stackoverflow.com" target="_blank" title="StackOverflow">
+                      
+                        <i class="fa fa-fw fa-stack-overflow"></i>StackOverflow</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://blog.constore.cn/" title="Liujianhui" target="_blank">Liujianhui</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://xuebin.me" title="Leo" target="_blank">Leo</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.csdn.net/lmj623565791" title="Hongyang" target="_blank">Hongyang</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://liuwangshu.cn/" title="Liuwangshu" target="_blank">Liuwangshu</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://jspang.com/" title="Jspang" target="_blank">Jspang</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blankj.com/" title="Blankj" target="_blank">Blankj</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://wuxiaolong.me/" title="WuXiaoLong" target="_blank">WuXiaoLong</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://molunerfinn.com" title="Molunerfinn" target="_blank">Molunerfinn</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.ofind.cn/" title="Ofind" target="_blank">Ofind</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.gcssloop.com/" title="Gcssloop" target="_blank">Gcssloop</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#JS中DOM盒子模型深入分析"><span class="nav-number">1.</span> <span class="nav-text">JS中DOM盒子模型深入分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CSS盒子模型"><span class="nav-number">2.</span> <span class="nav-text">CSS盒子模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#传统盒子模型"><span class="nav-number">2.1.</span> <span class="nav-text">传统盒子模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CSS3新增加的盒子模型"><span class="nav-number">2.2.</span> <span class="nav-text">CSS3新增加的盒子模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JS盒子模型"><span class="nav-number">2.3.</span> <span class="nav-text">JS盒子模型</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#client"><span class="nav-number">2.3.1.</span> <span class="nav-text">client</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#offset"><span class="nav-number">2.3.2.</span> <span class="nav-text">offset</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#scroll"><span class="nav-number">2.3.3.</span> <span class="nav-text">scroll</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#window-onscroll"><span class="nav-number">2.4.</span> <span class="nav-text">window.onscroll</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在JS中获取元素的具体的样式值"><span class="nav-number">3.</span> <span class="nav-text">在JS中获取元素的具体的样式值</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#curEle-style-xxx"><span class="nav-number">3.1.</span> <span class="nav-text">curEle.style.xxx;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#设置元素的样式"><span class="nav-number">3.2.</span> <span class="nav-text">设置元素的样式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JS中的动画"><span class="nav-number">3.3.</span> <span class="nav-text">JS中的动画</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#图片懒加载原理："><span class="nav-number">3.4.</span> <span class="nav-text">图片懒加载原理：</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZhangMiao</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      本站访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+  <div>
+    <script type="text/javascript">
+      var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");
+      document.write(unescape("%3Cspan id='cnzz_stat_icon_1277928793'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1277928793%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+  </div>
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://zhangmiao.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://zhangmiao.cc/posts/ba5b0d45.html';
+          this.page.identifier = 'posts/ba5b0d45.html';
+          this.page.title = 'JS基础（八）盒子模型';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://zhangmiao.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("8iIYW0IGofqyvJiiuU5R9buW-gzGzoHsz", "ssmxRx0kELJir6mA02ziW3Ql");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/lib/zclip/clipboard.min.js"></script>
+<script type="text/javascript" src="/js/src/custom.js"></script>
+
+</body>
+</html>

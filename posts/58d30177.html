@@ -1,0 +1,1496 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Android,录音,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="zm.blog" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="效果图   首页 录音 播放         实现录音的 Service这个类可以说是这个包的核心了，如果理解了这个 Service，录音这一块基本就没什么问题了。 录音主要是利用 MediaRecoder 这个类，进行声音的记录，接下来我们一起来看看具体的实现。">
+<meta name="keywords" content="Android,录音">
+<meta property="og:type" content="article">
+<meta property="og:title" content="录音SoundRecording">
+<meta property="og:url" content="https://zhangmiao.cc/posts/58d30177.html">
+<meta property="og:site_name" content="zm.blog">
+<meta property="og:description" content="效果图   首页 录音 播放         实现录音的 Service这个类可以说是这个包的核心了，如果理解了这个 Service，录音这一块基本就没什么问题了。 录音主要是利用 MediaRecoder 这个类，进行声音的记录，接下来我们一起来看看具体的实现。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190520162448.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190520162509.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190520162527.png">
+<meta property="og:updated_time" content="2021-12-24T02:05:29.925Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="录音SoundRecording">
+<meta name="twitter:description" content="效果图   首页 录音 播放         实现录音的 Service这个类可以说是这个包的核心了，如果理解了这个 Service，录音这一块基本就没什么问题了。 录音主要是利用 MediaRecoder 这个类，进行声音的记录，接下来我们一起来看看具体的实现。">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190520162448.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://zhangmiao.cc/posts/58d30177.html">
+
+
+
+
+
+  <title>录音SoundRecording | zm.blog</title>
+  
+
+
+
+
+
+  <script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?44434226ba535875b1e807122adc3a04";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zm.blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">select * from learn</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhangmiao.cc/posts/58d30177.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZhangMiao">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zm.blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">录音SoundRecording</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-09T18:11:15+08:00">
+                2018-08-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/代码片段/" itemprop="url" rel="index">
+                    <span itemprop="name">代码片段</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/posts/58d30177.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="posts/58d30177.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/posts/58d30177.html" class="leancloud_visitors" data-flag-title="录音SoundRecording">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="效果图"><a href="#效果图" class="headerlink" title="效果图"></a>效果图</h4><table>
+<thead>
+<tr>
+<th>首页</th>
+<th>录音</th>
+<th>播放</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><img src="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190520162448.png" alt></td>
+<td><img src="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190520162509.png" alt></td>
+<td><img src="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190520162527.png" alt></td>
+</tr>
+</tbody></table>
+<h4 id="实现录音的-Service"><a href="#实现录音的-Service" class="headerlink" title="实现录音的 Service"></a>实现录音的 Service</h4><p>这个类可以说是这个包的核心了，如果理解了这个 <code>Service</code>，录音这一块基本就没什么问题了。</p>
+<p>录音主要是利用 <code>MediaRecoder</code> 这个类，进行声音的记录，接下来我们一起来看看具体的实现。</p>
+<a id="more"></a>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RecordingService</span> <span class="keyword">extends</span> <span class="title">Service</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String LOG_TAG = <span class="string">"RecordingService"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String mFileName = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">private</span> String mFilePath = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> MediaRecorder mRecorder = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">long</span> mStartingTimeMillis = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">long</span> mElapsedMillis = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">private</span> TimerTask mIncrementTimerTask = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> IBinder <span class="title">onBind</span><span class="params">(Intent intent)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">onStartCommand</span><span class="params">(Intent intent, <span class="keyword">int</span> flags, <span class="keyword">int</span> startId)</span> </span>&#123;</span><br><span class="line">        startRecording();</span><br><span class="line">        <span class="keyword">return</span> START_STICKY;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onDestroy</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (mRecorder != <span class="keyword">null</span>) &#123;</span><br><span class="line">            stopRecording();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">super</span>.onDestroy();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">startRecording</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        setFileNameAndPath();</span><br><span class="line"></span><br><span class="line">        mRecorder = <span class="keyword">new</span> MediaRecorder();</span><br><span class="line">        mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);</span><br><span class="line">        mRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);</span><br><span class="line">        mRecorder.setOutputFile(mFilePath);</span><br><span class="line">        mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);</span><br><span class="line">        mRecorder.setAudioChannels(<span class="number">1</span>);</span><br><span class="line">        mRecorder.setAudioSamplingRate(<span class="number">44100</span>);</span><br><span class="line">        mRecorder.setAudioEncodingBitRate(<span class="number">192000</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            mRecorder.prepare();</span><br><span class="line">            mRecorder.start();</span><br><span class="line">            mStartingTimeMillis = System.currentTimeMillis();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            Log.e(LOG_TAG, <span class="string">"prepare() failed"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setFileNameAndPath</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line">        File f;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">do</span> &#123;</span><br><span class="line">            count++;</span><br><span class="line">            mFileName = getString(R.string.default_file_name)</span><br><span class="line">                    + <span class="string">"_"</span> + (System.currentTimeMillis()) + <span class="string">".mp4"</span>;</span><br><span class="line">            mFilePath = Environment.getExternalStorageDirectory().getAbsolutePath();</span><br><span class="line">            mFilePath += <span class="string">"/SoundRecorder/"</span> + mFileName;</span><br><span class="line">            f = <span class="keyword">new</span> File(mFilePath);</span><br><span class="line">        &#125; <span class="keyword">while</span> (f.exists() &amp;&amp; !f.isDirectory());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">stopRecording</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        mRecorder.stop();</span><br><span class="line">        mElapsedMillis = (System.currentTimeMillis() - mStartingTimeMillis);</span><br><span class="line">        mRecorder.release();</span><br><span class="line"></span><br><span class="line">        getSharedPreferences(<span class="string">"sp_name_audio"</span>, MODE_PRIVATE)</span><br><span class="line">                .edit()</span><br><span class="line">                .putString(<span class="string">"audio_path"</span>, mFilePath)</span><br><span class="line">                .putLong(<span class="string">"elpased"</span>, mElapsedMillis)</span><br><span class="line">                .apply();</span><br><span class="line">        <span class="keyword">if</span> (mIncrementTimerTask != <span class="keyword">null</span>) &#123;</span><br><span class="line">            mIncrementTimerTask.cancel();</span><br><span class="line">            mIncrementTimerTask = <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        mRecorder = <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以看到在 <code>onStartCommand()</code> 里面有一个 <code>startRecording()</code> 方法，在外部启动这个 <code>RecordingService</code> 的时候，便会调用这个 <code>startRecording()</code> 方法开始录音。</p>
+<p>在 <code>startRecording()</code> 方法中先调用了 <code>setFileNameAndPath</code> 方法，初始化了录音文件的名字和保存的路径，为了让每个录音文件都有唯一的名字，我调用 <code>System.currentMillis()</code> 拼接到录音文件的名字里面。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setFileNameAndPath</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line">    File f;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">do</span> &#123;</span><br><span class="line">        count++;</span><br><span class="line">        mFileName = getString(R.string.default_file_name)</span><br><span class="line">                + <span class="string">"_"</span> + (System.currentTimeMillis()) + <span class="string">".mp4"</span>;</span><br><span class="line">        mFilePath = Environment.getExternalStorageDirectory().getAbsolutePath();</span><br><span class="line">        mFilePath += <span class="string">"/SoundRecorder/"</span> + mFileName;</span><br><span class="line">        f = <span class="keyword">new</span> File(mFilePath);</span><br><span class="line">    &#125; <span class="keyword">while</span> (f.exists() &amp;&amp; !f.isDirectory());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>设置好了文件的名字和保存路径之后，对 <code>mRecorder</code> 进行一系列参数的设置，这个<code>mRecorder</code> 是 <code>MediaRecorder</code> 的一个实例，专门用于录音的存储。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">startRecording</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    setFileNameAndPath();</span><br><span class="line"></span><br><span class="line">    mRecorder = <span class="keyword">new</span> MediaRecorder();</span><br><span class="line">    mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);</span><br><span class="line">    mRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);</span><br><span class="line">    mRecorder.setOutputFile(mFilePath);</span><br><span class="line">    mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);</span><br><span class="line">    mRecorder.setAudioChannels(<span class="number">1</span>);</span><br><span class="line">    mRecorder.setAudioSamplingRate(<span class="number">44100</span>);</span><br><span class="line">    mRecorder.setAudioEncodingBitRate(<span class="number">192000</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        mRecorder.prepare();</span><br><span class="line">        mRecorder.start();</span><br><span class="line">        mStartingTimeMillis = System.currentTimeMillis();</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">        Log.e(LOG_TAG, <span class="string">"prepare() failed"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>设置好参数之后，启动 <code>mRecorder</code> 开始录音，可以看到启动 <code>mRecorder</code> 开始录音后，我还将当前的时间赋值给 <code>mStartingTimeMills</code>，这里主要是为了记录录音的时长，等到录音结束后再获取一次当前的时间，然后将两个时间进行相减，就能得到录音的具体时长了。</p>
+<p>等到录音结束，停止服务后，便会回调 <code>RecordingService</code> 的 <code>onDestroy()</code> 方法，这时候便会调用 <code>stopRecording()</code> 方法，关闭 <code>mRecorder</code>，并用 <code>SharedPreferences</code> 保存录音文件的信息，最后将 <code>mRecorder</code> 置空，防止内存泄露。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">stopRecording</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    mRecorder.stop();</span><br><span class="line">    mElapsedMillis = (System.currentTimeMillis() - mStartingTimeMillis);</span><br><span class="line">    mRecorder.release();</span><br><span class="line"></span><br><span class="line">    getSharedPreferences(<span class="string">"sp_name_audio"</span>, MODE_PRIVATE)</span><br><span class="line">            .edit()</span><br><span class="line">            .putString(<span class="string">"audio_path"</span>, mFilePath)</span><br><span class="line">            .putLong(<span class="string">"elpased"</span>, mElapsedMillis)</span><br><span class="line">            .apply();</span><br><span class="line">    <span class="keyword">if</span> (mIncrementTimerTask != <span class="keyword">null</span>) &#123;</span><br><span class="line">        mIncrementTimerTask.cancel();</span><br><span class="line">        mIncrementTimerTask = <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    mRecorder = <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="显示录音界面的-RecordAudioDialogFragment"><a href="#显示录音界面的-RecordAudioDialogFragment" class="headerlink" title="显示录音界面的 RecordAudioDialogFragment"></a>显示录音界面的 RecordAudioDialogFragment</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RecordAudioDialogFragment</span> <span class="keyword">extends</span> <span class="title">DialogFragment</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String TAG = <span class="string">"RecordAudioDialogFragme"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> mRecordPromptCount = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> mStartRecording = <span class="keyword">true</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> mPauseRecording = <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">long</span> timeWhenPaused = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> FloatingActionButton mFabRecord;</span><br><span class="line">    <span class="keyword">private</span> Chronometer mChronometerTime;</span><br><span class="line">    <span class="keyword">private</span> ImageView mIvClose;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> OnAudioCancelListener mListener;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> RecordAudioDialogFragment <span class="title">newInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        RecordAudioDialogFragment dialogFragment = <span class="keyword">new</span> RecordAudioDialogFragment();</span><br><span class="line">        Bundle bundle = <span class="keyword">new</span> Bundle();</span><br><span class="line">        dialogFragment.setArguments(bundle);</span><br><span class="line">        <span class="keyword">return</span> dialogFragment;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(@Nullable Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onActivityCreated</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onActivityCreated(savedInstanceState);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@NonNull</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Dialog <span class="title">onCreateDialog</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        Dialog dialog = <span class="keyword">super</span>.onCreateDialog(savedInstanceState);</span><br><span class="line">        <span class="keyword">final</span> AlertDialog.Builder builder = <span class="keyword">new</span> AlertDialog.Builder(getActivity());</span><br><span class="line">        View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_record_audio, <span class="keyword">null</span>);</span><br><span class="line">        initView(view);</span><br><span class="line"></span><br><span class="line">        mFabRecord.setColorNormal(getResources().getColor(R.color.colorAccent));</span><br><span class="line">        mFabRecord.setColorPressed(getResources().getColor(R.color.colorAccent));</span><br><span class="line"></span><br><span class="line">        mFabRecord.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">                <span class="keyword">if</span> (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)</span><br><span class="line">                        != PackageManager.PERMISSION_GRANTED) &#123;</span><br><span class="line">                    ActivityCompat.requestPermissions(getActivity()</span><br><span class="line">                            , <span class="keyword">new</span> String[]&#123;Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO&#125;, <span class="number">1</span>);</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    onRecord(mStartRecording);</span><br><span class="line">                    mStartRecording = !mStartRecording;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        mIvClose.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">                mListener.onCancel();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        builder.setCancelable(<span class="keyword">false</span>);</span><br><span class="line">        builder.setView(view);</span><br><span class="line">        <span class="keyword">return</span> builder.create();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initView</span><span class="params">(View view)</span> </span>&#123;</span><br><span class="line">        mChronometerTime = (Chronometer) view.findViewById(R.id.record_audio_chronometer_time);</span><br><span class="line">        mFabRecord = (FloatingActionButton) view.findViewById(R.id.record_audio_fab_record);</span><br><span class="line">        mIvClose = (ImageView) view.findViewById(R.id.record_audio_iv_close);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Intent intent;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">onRecord</span><span class="params">(<span class="keyword">boolean</span> start)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        intent = <span class="keyword">new</span> Intent(getActivity(), RecordingService.class);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (start) &#123;</span><br><span class="line">            <span class="comment">// start recording</span></span><br><span class="line">            mFabRecord.setImageResource(R.drawable.ic_media_stop);</span><br><span class="line">            <span class="comment">//mPauseButton.setVisibility(View.VISIBLE);</span></span><br><span class="line">            Toast.makeText(getActivity(), <span class="string">"开始录音..."</span>, Toast.LENGTH_SHORT).show();</span><br><span class="line">            File folder = <span class="keyword">new</span> File(Environment.getExternalStorageDirectory() + <span class="string">"/SoundRecorder"</span>);</span><br><span class="line">            <span class="keyword">if</span> (!folder.exists()) &#123;</span><br><span class="line">                <span class="comment">//folder /SoundRecorder doesn't exist, create the folder</span></span><br><span class="line">                folder.mkdir();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">//start Chronometer</span></span><br><span class="line">            mChronometerTime.setBase(SystemClock.elapsedRealtime());</span><br><span class="line">            mChronometerTime.start();</span><br><span class="line"></span><br><span class="line">            <span class="comment">//start RecordingService</span></span><br><span class="line">            getActivity().startService(intent);</span><br><span class="line">            <span class="comment">//keep screen on while recording</span></span><br><span class="line"><span class="comment">//            getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">//stop recording</span></span><br><span class="line">            mFabRecord.setImageResource(R.drawable.ic_mic_white_36dp);</span><br><span class="line">            <span class="comment">//mPauseButton.setVisibility(View.GONE);</span></span><br><span class="line">            mChronometerTime.stop();</span><br><span class="line">            timeWhenPaused = <span class="number">0</span>;</span><br><span class="line">            Toast.makeText(getActivity(), <span class="string">"录音结束..."</span>, Toast.LENGTH_SHORT).show();</span><br><span class="line"></span><br><span class="line">            getActivity().stopService(intent);</span><br><span class="line">            <span class="comment">//allow the screen to turn off again once recording is finished</span></span><br><span class="line">            getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onDestroyView</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!mStartRecording) &#123;</span><br><span class="line">            <span class="comment">//stop recording</span></span><br><span class="line">            mFabRecord.setImageResource(R.drawable.ic_mic_white_36dp);</span><br><span class="line">            <span class="comment">//mPauseButton.setVisibility(View.GONE);</span></span><br><span class="line">            mChronometerTime.stop();</span><br><span class="line">            timeWhenPaused = <span class="number">0</span>;</span><br><span class="line">            Toast.makeText(getActivity(), <span class="string">"录音结束..."</span>, Toast.LENGTH_SHORT).show();</span><br><span class="line"></span><br><span class="line">            getActivity().stopService(intent);</span><br><span class="line">            <span class="comment">//allow the screen to turn off again once recording is finished</span></span><br><span class="line">            getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">super</span>.onDestroyView();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setOnCancelListener</span><span class="params">(OnAudioCancelListener listener)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.mListener = listener;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onRequestPermissionsResult</span><span class="params">(<span class="keyword">int</span> requestCode, @NonNull String[] permissions, @NonNull <span class="keyword">int</span>[] grantResults)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">switch</span> (requestCode) &#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">                <span class="keyword">if</span> (grantResults.length &gt; <span class="number">0</span> &amp;&amp; grantResults[<span class="number">0</span>] == PackageManager.PERMISSION_GRANTED</span><br><span class="line">                        &amp;&amp; grantResults[<span class="number">1</span>] == PackageManager.PERMISSION_GRANTED) &#123;</span><br><span class="line">                    onRecord(mStartRecording);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">OnAudioCancelListener</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">onCancel</span><span class="params">()</span></span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以看到在 <code>RecordAudioDialogFragment</code> 有一个 <code>newInstance(int maxTime)</code> 的静态方法供外部调用，如果想设置录音的最大时长，直接传参数进去就行了。</p>
+<p>这个对话框的重点部分就是在 <code>onCreateDialog()</code>中，我们先加载了我们自定义的对话框的布局，当点击录音的按钮的时候，先进行相关权限的申请，录音权限 <code>android.permission.RECORD_AUDIO</code> </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Dialog <span class="title">onCreateDialog</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">    Dialog dialog = <span class="keyword">super</span>.onCreateDialog(savedInstanceState);</span><br><span class="line">    <span class="keyword">final</span> AlertDialog.Builder builder = <span class="keyword">new</span> AlertDialog.Builder(getActivity());</span><br><span class="line">    View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_record_audio, <span class="keyword">null</span>);</span><br><span class="line">    initView(view);</span><br><span class="line"></span><br><span class="line">    mFabRecord.setColorNormal(getResources().getColor(R.color.colorAccent));</span><br><span class="line">    mFabRecord.setColorPressed(getResources().getColor(R.color.colorAccent));</span><br><span class="line"></span><br><span class="line">    mFabRecord.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)</span><br><span class="line">                    != PackageManager.PERMISSION_GRANTED) &#123;</span><br><span class="line">                ActivityCompat.requestPermissions(getActivity()</span><br><span class="line">                        , <span class="keyword">new</span> String[]&#123;Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO&#125;, <span class="number">1</span>);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                onRecord(mStartRecording);</span><br><span class="line">                mStartRecording = !mStartRecording;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    mIvClose.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">            mListener.onCancel();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    builder.setCancelable(<span class="keyword">false</span>);</span><br><span class="line">    builder.setView(view);</span><br><span class="line">    <span class="keyword">return</span> builder.create();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>申请好权限之后便会调用 <code>onRecord()</code> 这个方法，然后将 <code>boolean mStartRecording</code> 进行反转，这样就不用写难看的 <code>if else</code> 了，直接改变 <code>mStartRecording</code> 的值，然后在 <code>onRecord()</code> 里面进行处理。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">onRecord</span><span class="params">(<span class="keyword">boolean</span> start)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        intent = <span class="keyword">new</span> Intent(getActivity(), RecordingService.class);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (start) &#123;</span><br><span class="line">            <span class="comment">// start recording</span></span><br><span class="line">            mFabRecord.setImageResource(R.drawable.ic_media_stop);</span><br><span class="line">            <span class="comment">//mPauseButton.setVisibility(View.VISIBLE);</span></span><br><span class="line">            Toast.makeText(getActivity(), <span class="string">"开始录音..."</span>, Toast.LENGTH_SHORT).show();</span><br><span class="line">            File folder = <span class="keyword">new</span> File(Environment.getExternalStorageDirectory() + <span class="string">"/SoundRecorder"</span>);</span><br><span class="line">            <span class="keyword">if</span> (!folder.exists()) &#123;</span><br><span class="line">                <span class="comment">//folder /SoundRecorder doesn't exist, create the folder</span></span><br><span class="line">                folder.mkdir();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">//start Chronometer</span></span><br><span class="line">            mChronometerTime.setBase(SystemClock.elapsedRealtime());</span><br><span class="line">            mChronometerTime.start();</span><br><span class="line"></span><br><span class="line">            <span class="comment">//start RecordingService</span></span><br><span class="line">            getActivity().startService(intent);</span><br><span class="line">            <span class="comment">//keep screen on while recording</span></span><br><span class="line"><span class="comment">//            getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">//stop recording</span></span><br><span class="line">            mFabRecord.setImageResource(R.drawable.ic_mic_white_36dp);</span><br><span class="line">            <span class="comment">//mPauseButton.setVisibility(View.GONE);</span></span><br><span class="line">            mChronometerTime.stop();</span><br><span class="line">            timeWhenPaused = <span class="number">0</span>;</span><br><span class="line">            Toast.makeText(getActivity(), <span class="string">"录音结束..."</span>, Toast.LENGTH_SHORT).show();</span><br><span class="line"></span><br><span class="line">            getActivity().stopService(intent);</span><br><span class="line">            <span class="comment">//allow the screen to turn off again once recording is finished</span></span><br><span class="line">            getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>创建了保存录音文件的文件夹，然后根据 <code>mStartRecording</code> 的值进行 <code>RecordingService</code> 的启动和关闭罢了。在启动时还顺便开始了 <code>mChronometer</code> 的计时显示，这是一个 <code>Android</code> 原生的显示计时的一个控件。</p>
+<h4 id="播放录音的-PlaybackDialogFragment"><a href="#播放录音的-PlaybackDialogFragment" class="headerlink" title="播放录音的 PlaybackDialogFragment"></a>播放录音的 PlaybackDialogFragment</h4><p>外部调用这个对话框的时候，只需要传入一个包含录音文件信息的 <code>RecordingItem</code>，因为包含的信息比较多，所以最好将 <code>RecordingItem</code> 进行序列化。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> PlaybackDialogFragment <span class="title">newInstance</span><span class="params">(RecordingItem item)</span> </span>&#123;</span><br><span class="line">    PlaybackDialogFragment f = <span class="keyword">new</span> PlaybackDialogFragment();</span><br><span class="line">    Bundle b = <span class="keyword">new</span> Bundle();</span><br><span class="line">    b.putParcelable(ARG_ITEM, item);</span><br><span class="line">    f.setArguments(b);</span><br><span class="line">    <span class="keyword">return</span> f;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>来看看 <code>onCreateDialog()</code> 方法，在加载了布局之后，给 <code>mSeekBar</code> 设置监听，<code>mSeekBar</code> 是一个显示进度条的控件，当开始播放录音时候，将录音文件的时长，设置进 <code>mSeekBar</code> 里面，播放录音的同时，运行 <code>mSeekBar</code>，通过监听 <code>mSeekBar</code> 的进度，刷新显示的播放进度。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Dialog <span class="title">onCreateDialog</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    Dialog dialog = <span class="keyword">super</span>.onCreateDialog(savedInstanceState);</span><br><span class="line"></span><br><span class="line">    AlertDialog.Builder builder = <span class="keyword">new</span> AlertDialog.Builder(getActivity());</span><br><span class="line">    View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_media_playback, <span class="keyword">null</span>);</span><br><span class="line"></span><br><span class="line">    mFileNameTextView = (TextView) view.findViewById(R.id.file_name_text_view);</span><br><span class="line">    mFileLengthTextView = (TextView) view.findViewById(R.id.file_length_text_view);</span><br><span class="line">    mCurrentProgressTextView = (TextView) view.findViewById(R.id.current_progress_text_view);</span><br><span class="line"></span><br><span class="line">    mSeekBar = (SeekBar) view.findViewById(R.id.seekbar);</span><br><span class="line">    ColorFilter filter = <span class="keyword">new</span> LightingColorFilter</span><br><span class="line">            (getResources().getColor(R.color.green), getResources().getColor(R.color.green));</span><br><span class="line">    mSeekBar.getProgressDrawable().setColorFilter(filter);</span><br><span class="line">    mSeekBar.getThumb().setColorFilter(filter);</span><br><span class="line">    mFileLengthTextView.setText(String.valueOf(mFileLength));</span><br><span class="line">    mSeekBar.setOnSeekBarChangeListener(<span class="keyword">new</span> SeekBar.OnSeekBarChangeListener() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onProgressChanged</span><span class="params">(SeekBar seekBar, <span class="keyword">int</span> progress, <span class="keyword">boolean</span> fromUser)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">if</span>(mMediaPlayer != <span class="keyword">null</span> &amp;&amp; fromUser) &#123;</span><br><span class="line">                mMediaPlayer.seekTo(progress);</span><br><span class="line">                mHandler.removeCallbacks(mRunnable);</span><br><span class="line"></span><br><span class="line">                <span class="keyword">long</span> minutes = TimeUnit.MILLISECONDS.toMinutes(mMediaPlayer.getCurrentPosition());</span><br><span class="line">                <span class="keyword">long</span> seconds = TimeUnit.MILLISECONDS.toSeconds(mMediaPlayer.getCurrentPosition())</span><br><span class="line">                        - TimeUnit.MINUTES.toSeconds(minutes);</span><br><span class="line">                mCurrentProgressTextView.setText(String.format(<span class="string">"%02d:%02d"</span>, minutes,seconds));</span><br><span class="line"></span><br><span class="line">                updateSeekBar();</span><br><span class="line"></span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mMediaPlayer == <span class="keyword">null</span> &amp;&amp; fromUser) &#123;</span><br><span class="line">                prepareMediaPlayerFromPoint(progress);</span><br><span class="line">                updateSeekBar();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onStartTrackingTouch</span><span class="params">(SeekBar seekBar)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">if</span>(mMediaPlayer != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="comment">// remove message Handler from updating progress bar</span></span><br><span class="line">                mHandler.removeCallbacks(mRunnable);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onStopTrackingTouch</span><span class="params">(SeekBar seekBar)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (mMediaPlayer != <span class="keyword">null</span>) &#123;</span><br><span class="line">                mHandler.removeCallbacks(mRunnable);</span><br><span class="line">                mMediaPlayer.seekTo(seekBar.getProgress());</span><br><span class="line"></span><br><span class="line">                <span class="keyword">long</span> minutes = TimeUnit.MILLISECONDS.toMinutes(mMediaPlayer.getCurrentPosition());</span><br><span class="line">                <span class="keyword">long</span> seconds = TimeUnit.MILLISECONDS.toSeconds(mMediaPlayer.getCurrentPosition())</span><br><span class="line">                        - TimeUnit.MINUTES.toSeconds(minutes);</span><br><span class="line">                mCurrentProgressTextView.setText(String.format(<span class="string">"%02d:%02d"</span>, minutes,seconds));</span><br><span class="line">                updateSeekBar();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    mPlayButton = (FloatingActionButton) view.findViewById(R.id.fab_play);</span><br><span class="line">    mPlayButton.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">            onPlay(isPlaying);</span><br><span class="line">            isPlaying = !isPlaying;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    mFileNameTextView.setText(item.getName());</span><br><span class="line">    mFileLengthTextView.setText(String.format(<span class="string">"%02d:%02d"</span>, minutes,seconds));</span><br><span class="line"></span><br><span class="line">    builder.setView(view);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// request a window without the title</span></span><br><span class="line">    dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> builder.create();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当点击播放录音的按钮之后，会调用 <code>onPlay()</code> 方法，然后根据 <code>isPlaying</code>（标识当前是否播放录音）的值，来调用不同的方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">onPlay</span><span class="params">(<span class="keyword">boolean</span> isPlaying)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!isPlaying) &#123;</span><br><span class="line">        <span class="comment">//currently MediaPlayer is not playing audio</span></span><br><span class="line">        <span class="keyword">if</span>(mMediaPlayer == <span class="keyword">null</span>) &#123;</span><br><span class="line">            startPlaying(); <span class="comment">//start from beginning</span></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            resumePlaying(); <span class="comment">//resume the currently paused MediaPlayer</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        pausePlaying();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 我们最关心的，莫过于 <code>startPlaying()</code> 这个方法，这个方法便是来开启播放录音的，我们首先将外部传入的有关的录音信息，设置给 <code>MediaPlayer</code>，然后开始调用 <code>mMediaPlayer.start()</code> 进行录音的播放，然后调用 <code>updateSeekbar()</code> 实时更新进度条的内容。当 <code>MediaPlayer</code> 的内容播放完成后，调用 <code>stopPlaying()</code> 方法，关闭 <code>mMediaPlayer</code>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">startPlaying</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    mPlayButton.setImageResource(R.drawable.ic_media_pause);</span><br><span class="line">    mMediaPlayer = <span class="keyword">new</span> MediaPlayer();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        mMediaPlayer.setDataSource(item.getFilePath());</span><br><span class="line">        mMediaPlayer.prepare();</span><br><span class="line">        mSeekBar.setMax(mMediaPlayer.getDuration());</span><br><span class="line"></span><br><span class="line">        mMediaPlayer.setOnPreparedListener(<span class="keyword">new</span> MediaPlayer.OnPreparedListener() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onPrepared</span><span class="params">(MediaPlayer mp)</span> </span>&#123;</span><br><span class="line">                mMediaPlayer.start();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">        Log.e(LOG_TAG, <span class="string">"prepare() failed"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    mMediaPlayer.setOnCompletionListener(<span class="keyword">new</span> MediaPlayer.OnCompletionListener() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCompletion</span><span class="params">(MediaPlayer mp)</span> </span>&#123;</span><br><span class="line">            stopPlaying();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    updateSeekBar();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//keep screen on while playing audio</span></span><br><span class="line">    getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以上便是本文的全部内容，有关的代码我已经上传到 Github 上了，需要的 <a href="https://github.com/zhangmiaocc/SoundRecording" target="_blank" rel="noopener">点击这里</a>，喜欢的话，欢迎来波 star 和 fork。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="ZhangMiao 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="ZhangMiao 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    ZhangMiao
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://zhangmiao.cc/posts/58d30177.html" title="录音SoundRecording">https://zhangmiao.cc/posts/58d30177.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+            <a href="/tags/录音/" rel="tag"># 录音</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/95cd02d2.html" rel="next" title="婚礼筹备">
+                <i class="fa fa-chevron-left"></i> 婚礼筹备
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/posts/abebff90.html" rel="prev" title="丰宁坝上草原2日游线路行程">
+                丰宁坝上草原2日游线路行程 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4" alt="ZhangMiao">
+            
+              <p class="site-author-name" itemprop="name">ZhangMiao</p>
+              <p class="site-description motion-element" itemprop="description">Android/Flutter Developer</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">367</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">57</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">141</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:zm@zhangmiao.cc" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://wpa.qq.com/msgrd?v=3&uin=153942241&site=qq&menu=yes" target="_blank" title="QQ">
+                      
+                        <i class="fa fa-fw fa-qq"></i>QQ</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/zhangmiaocc" target="_blank" title="Github">
+                      
+                        <i class="fa fa-fw fa-github"></i>Github</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://stackoverflow.com" target="_blank" title="StackOverflow">
+                      
+                        <i class="fa fa-fw fa-stack-overflow"></i>StackOverflow</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://blog.constore.cn/" title="Liujianhui" target="_blank">Liujianhui</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://xuebin.me" title="Leo" target="_blank">Leo</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.csdn.net/lmj623565791" title="Hongyang" target="_blank">Hongyang</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://liuwangshu.cn/" title="Liuwangshu" target="_blank">Liuwangshu</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://jspang.com/" title="Jspang" target="_blank">Jspang</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blankj.com/" title="Blankj" target="_blank">Blankj</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://wuxiaolong.me/" title="WuXiaoLong" target="_blank">WuXiaoLong</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://molunerfinn.com" title="Molunerfinn" target="_blank">Molunerfinn</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.ofind.cn/" title="Ofind" target="_blank">Ofind</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.gcssloop.com/" title="Gcssloop" target="_blank">Gcssloop</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#效果图"><span class="nav-number">1.</span> <span class="nav-text">效果图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实现录音的-Service"><span class="nav-number">2.</span> <span class="nav-text">实现录音的 Service</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#显示录音界面的-RecordAudioDialogFragment"><span class="nav-number">3.</span> <span class="nav-text">显示录音界面的 RecordAudioDialogFragment</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#播放录音的-PlaybackDialogFragment"><span class="nav-number">4.</span> <span class="nav-text">播放录音的 PlaybackDialogFragment</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZhangMiao</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      本站访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+  <div>
+    <script type="text/javascript">
+      var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");
+      document.write(unescape("%3Cspan id='cnzz_stat_icon_1277928793'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1277928793%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+  </div>
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://zhangmiao.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://zhangmiao.cc/posts/58d30177.html';
+          this.page.identifier = 'posts/58d30177.html';
+          this.page.title = '录音SoundRecording';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://zhangmiao.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("8iIYW0IGofqyvJiiuU5R9buW-gzGzoHsz", "ssmxRx0kELJir6mA02ziW3Ql");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/lib/zclip/clipboard.min.js"></script>
+<script type="text/javascript" src="/js/src/custom.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,1769 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Android,Tangram,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="zm.blog" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="Tangram 2.0 库Android Tangram-Android Virtualview-Android  iOS Tangram-iOS Virtualview-iOS  背景技术背景一直以来，无线应用都在不断寻求动态化页面的解决方案，在阿里巴巴集团内，除了风风火火地 Weex 项目外，各个团队都有大大小小的解决方案。我们猫客一直持续基于 Tangram 方案来解决页面动态化的问题，然而">
+<meta name="keywords" content="Android,Tangram">
+<meta property="og:type" content="article">
+<meta property="og:title" content="组件的动态化方案-Tangram2.0">
+<meta property="og:url" content="https://zhangmiao.cc/posts/270f0900.html">
+<meta property="og:site_name" content="zm.blog">
+<meta property="og:description" content="Tangram 2.0 库Android Tangram-Android Virtualview-Android  iOS Tangram-iOS Virtualview-iOS  背景技术背景一直以来，无线应用都在不断寻求动态化页面的解决方案，在阿里巴巴集团内，除了风风火火地 Weex 项目外，各个团队都有大大小小的解决方案。我们猫客一直持续基于 Tangram 方案来解决页面动态化的问题，然而">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://gw.alicdn.com/tfs/TB1Q_M0g8DH8KJjSspnXXbNAVXa-1510-888.png">
+<meta property="og:image" content="https://gw.alicdn.com/tfs/TB1MuJfhfDH8KJjy1XcXXcpdXXa-1542-1390.png">
+<meta property="og:image" content="https://gw.alicdn.com/tfs/TB1jLcDg0zJ8KJjSspkXXbF7VXa-1130-838.png">
+<meta property="og:image" content="https://gw.alicdn.com/tfs/TB1H9.tg8fH8KJjy1XbXXbLdXXa-1270-300.jpg">
+<meta property="og:image" content="https://img.alicdn.com/tfs/TB1RDctg8fH8KJjy1XbXXbLdXXa-734-726.png">
+<meta property="og:image" content="https://gw.alicdn.com/tfs/TB1Onctg8fH8KJjy1XbXXbLdXXa-734-726.png">
+<meta property="og:image" content="https://gw.alicdn.com/tfs/TB1ztszg3vD8KJjSsplXXaIEFXa-734-304.png">
+<meta property="og:updated_time" content="2021-12-24T02:05:29.969Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="组件的动态化方案-Tangram2.0">
+<meta name="twitter:description" content="Tangram 2.0 库Android Tangram-Android Virtualview-Android  iOS Tangram-iOS Virtualview-iOS  背景技术背景一直以来，无线应用都在不断寻求动态化页面的解决方案，在阿里巴巴集团内，除了风风火火地 Weex 项目外，各个团队都有大大小小的解决方案。我们猫客一直持续基于 Tangram 方案来解决页面动态化的问题，然而">
+<meta name="twitter:image" content="https://gw.alicdn.com/tfs/TB1Q_M0g8DH8KJjSspnXXbNAVXa-1510-888.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://zhangmiao.cc/posts/270f0900.html">
+
+
+
+
+
+  <title>组件的动态化方案-Tangram2.0 | zm.blog</title>
+  
+
+
+
+
+
+  <script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?44434226ba535875b1e807122adc3a04";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zm.blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">select * from learn</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhangmiao.cc/posts/270f0900.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZhangMiao">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zm.blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">组件的动态化方案-Tangram2.0</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-08T16:51:32+08:00">
+                2018-11-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/Tangram/" itemprop="url" rel="index">
+                    <span itemprop="name">Tangram</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/posts/270f0900.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="posts/270f0900.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/posts/270f0900.html" class="leancloud_visitors" data-flag-title="组件的动态化方案-Tangram2.0">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Tangram-2-0-库"><a href="#Tangram-2-0-库" class="headerlink" title="Tangram 2.0 库"></a>Tangram 2.0 库</h2><h3 id="Android"><a href="#Android" class="headerlink" title="Android"></a>Android</h3><ul>
+<li><a href="https://github.com/alibaba/Tangram-Android" target="_blank" rel="noopener">Tangram-Android</a></li>
+<li><a href="https://github.com/alibaba/Virtualview-Android" target="_blank" rel="noopener">Virtualview-Android</a></li>
+</ul>
+<h3 id="iOS"><a href="#iOS" class="headerlink" title="iOS"></a>iOS</h3><ul>
+<li><a href="https://github.com/alibaba/Tangram-iOS" target="_blank" rel="noopener">Tangram-iOS</a></li>
+<li><a href="https://github.com/alibaba/VirtualView-iOS" target="_blank" rel="noopener">Virtualview-iOS</a></li>
+</ul>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><h3 id="技术背景"><a href="#技术背景" class="headerlink" title="技术背景"></a>技术背景</h3><p>一直以来，无线应用都在不断寻求动态化页面的解决方案，在阿里巴巴集团内，除了风风火火地 Weex 项目外，各个团队都有大大小小的解决方案。我们猫客一直持续基于 <a href="http://tangram.pingguohe.net/" target="_blank" rel="noopener">Tangram</a> 方案来解决页面动态化的问题，然而在面对持续升级的业务需求时，原有的开发模式也慢慢变得无法胜任，本年度以来，我们 Tangram 体系在各个层面都进行了大跨度的技术升级（可参考文章<a href="http://pingguohe.net/2017/08/02/tac-1.0.html" target="_blank" rel="noopener">天猫APP改版之首页架构&amp;开发模式全面升级</a>），本文再详细介绍一下页面内组件体系升级方案。</p>
+<h3 id="老组件体系的问题"><a href="#老组件体系的问题" class="headerlink" title="老组件体系的问题"></a>老组件体系的问题</h3><p>在原有的 Tangram 体系里，主要解决了页面内布局结构的动态化能力，通过 json 数据描述可以组合出常用的页面结构。然而页面内具体的坑位样式，我们称之为业务组件，是采用常规的 native 代码开发的，除非内置了足够多的逻辑，否则组件的样式调整或者新组件的开发都要发布版本，无法满足业务节奏；当然我们也尝试过使用 Weex 开发业务组件贴到页面上，但是在体验和性能上还是有较大的缺陷。</p>
+<p>所以总结起来，就是两点问题：</p>
+<ol>
+<li>业务组件无法动态更新；</li>
+<li>现有的动态组件方案较重，影响性能和体验；</li>
+</ol>
+<a id="more"></a>
+
+<h2 id="解决之道"><a href="#解决之道" class="headerlink" title="解决之道"></a>解决之道</h2><p>对于上述问题，解决思路其实是比较通用的，要动态更新界面视图，就需要用界面模板描述视图，模板与数据分离。将动态下发的模板和数据在端上绑定渲染。要提升性能，也有三大着力点——减少视图层级与个数，结构尽量扁平化；异步布局渲染流程，解放主线程计算量；回收与复用组件，减少内存开销。</p>
+<p>新的组件体系就是在模板化描述视图，动态更新视图，减少视图层级几个方面做文章，至于组件的回收复用，则是在页面级别统一完成；而异步布局渲染流程，则是后续的优化方向。</p>
+<p>新的组件方案称之为 VirtualView，简称 VV，也称为2.0组件，它的设计遵循以下几个思路：</p>
+<ol>
+<li>以了一种虚拟化开发基础组件的技术，使用方只要按照指定协议实现一个基础组件的尺寸计算、绘制逻辑、布局逻辑，即能实现在宿主容器的 canvas 里实现直接绘制 UI 内容的，让最终渲染出来的视图结构呈现扁平化，提升组件渲染性能。同时为了解决虚拟化 View 带来的原生 View 的能力损失的问题，它支持加载和渲染原生基础组件，两者组合产生合力，既能减少开销，又能满足特殊场景下的业务需求。</li>
+<li>内置实现了一系列基础组件，可以让使用方直接上手尝试；而搭建业务组件的方式采用 XML 模板来编写，配套 XML 模板更新 sdk，这使得业务组件动态更新成为了可能。XML 模板里还支持写数据绑定的表达式，在样式动态化、数据动态化的场景下能非常方便地实现业务需求。</li>
+<li>XML 模板里涉及到的基础节点、属性、字符串资源等都被提前编译成二进制资源，客户端加载通过加载编译后的模板数据来创建视图。</li>
+</ol>
+<h2 id="设计方案"><a href="#设计方案" class="headerlink" title="设计方案"></a>设计方案</h2><h3 id="整体架构"><a href="#整体架构" class="headerlink" title="整体架构"></a>整体架构</h3><p>先从整体上预览一下整个方案的大体结构：</p>
+<p><img src="https://gw.alicdn.com/tfs/TB1Q_M0g8DH8KJjSspnXXbNAVXa-1510-888.png" alt="img"></p>
+<p>自下往上，自左往右的顺序介绍各个模块：</p>
+<ul>
+<li>基础模板加载器负责加载编译后的模板数据，比如从文件加载、从二进制数组加载、从网络加载，将编译后的二进制模板数据加载到内存里，通过组件加载器、字符串资源加载器、表达式资源加载器等提取出其中的资源。</li>
+<li>框架还内置了基础组件，包括原子的基础组件如文本、图片、线条，还包括布局类型的基础组件，比如线性布局、帧布局、网格布局等；每一种类型的基础组件提供了原生 Native 版本的实现和虚拟化的实现，用户也可以自定义自己的基础组件注册到框架内部，组件构造器通过加载好的组件数据，来构造出整个业务组件树，并添加到宿主容器里，对于虚拟组件，会在渲染阶段绘制到宿主容器的 canvas 上，而原生组件会作为子 View 添加到宿主容器里。</li>
+<li>框架内部也提供了基础的表达式能力，主要分两种，一种是简单的数据绑定表达式，一种是简单的逻辑表达式；前者用于在模板里写表达式绑定数据到基础组件的属性上，而后者提供了一种轻量级的逻辑运算能力，可以访问基础组件的属性并更新，实现一些联动效果。</li>
+<li>事件管理，本方案聚焦于界面的动态化创建，但对业务逻辑的处理主要还是靠原生的代码实现，因此处理组件的一些常用交互事件，比如组件的点击、长按、触摸、曝光事件等。事件管理模块负责将外部的各个类型的事件处理模块注册进来，当组件发生特定的事件时，找到对应类型的处理模块来调用处理。</li>
+<li>宿主容器管理负责对虚拟组件的宿主容器进行构建和回收复用的管理。当原有的组件滑出屏幕后，可以回收到统一的池子里，以便后续复用。</li>
+<li>组件管理负责对基础组件进行构建和回收复用管理。当原有的组件滑出屏幕后，除了宿主容器可以回收复用，内部的基础组件对象也可以回收到统一的池子里。如果组件的池子是空的，则在需要的时候构造新的组件。</li>
+<li>扩展模块管理则用于注册外部功能扩展模块，当内置的基础能力无法满足业务场景的时候，通过扩展模块注册特定的功能模块，然后编写自定义基础组件来实现特定功能。</li>
+<li>模板存储、模板校验、模板更新、模板注册则分别负责模板数据的存储、安全性校验、版本校验、与更新检查与新模板下载、注册模板数据到框架，整体协同来完成业务组件的动态更新，它并不与整个渲染组件的核心框架耦合，可以作为独立模块存在。</li>
+<li>配套的工具和服务主要包括模板编写工具、模板编译工具、模板更新服务.模板编写工具用于 XML 的模板的编辑，并调用编译模块编译模板，模板里涉及到的组件资源、字符串资源、表达式资源会分别用对应的模块处理。编译后端模板数据可以上传到模板更新服务里，客户端调用相应的接口检查是否有更新。</li>
+</ul>
+<h3 id="运行流程"><a href="#运行流程" class="headerlink" title="运行流程"></a>运行流程</h3><p>有了上述基础，当我们要开发新的业务组件的时候，除了有新增 Native 逻辑的需求场景（比如新增视频功能），大部分需求都可以告别原生代码的编写，转而编写组件模板。</p>
+<p><img src="https://gw.alicdn.com/tfs/TB1MuJfhfDH8KJjy1XcXXcpdXXa-1542-1390.png" alt="img"></p>
+<ol>
+<li>先编写业务组件的模板。</li>
+<li>通过工具将模板数据编译成二进制数据。</li>
+<li>客户端加载二进制数据可以有两种路径，一是直接打包到客户端里，写代码加载，另一种是发布到模板管理后台，客户端在线更新到模板数据。</li>
+<li>不论哪种方式加载二进制数据，客户端接下来的工作是解析二进制数据里，比如校验版本号，合法性，读取头信息等等。</li>
+<li>等要真正创建组件的时候，根据组件名称找到二进制数据，从中解析并创建出真正的组件模型数据。</li>
+<li>从模板里创建在组件往往不含有业务数据，因为业务数据是动态性的，用户需要获取到业务数据绑定到组件上，组件的属性里可以写表达式来指定使用哪一个数据字段。</li>
+</ol>
+<p>值得注意的是，在上述架构及流程里，描述了一个完整的实践经验，但对于本方案来说，核心点在于提供了对组件从编写到展示流程的实现，其周边的配套设施，并没有内置在框架里，包括客户端上的模板管理、更新、注册模块，以及后端的模板发布服务，因为这些模块往往涉及业务逻辑，且与各个应用的基础设施相关，内置在框架里反而限制了使用方的接入。这里提供一些可供参考的经验：</p>
+<ol>
+<li>模板管理后台要能对模板的进行发布、更新，并且按照客户端版本、平台、组件版本、生效优先级等几个维度来管理模板；</li>
+<li>模板文件可以存放到 CDN 上供客户端下载，管理平台只是对比下发远信息；下载文件要做足够的校验；</li>
+<li>客户端要内置一份打底的模板数据，这样不至于因为模板不存在而出现空窗；</li>
+<li>客户端可提供一个统一的模板管理模块，面向全应用提供服务，在合适的时候请求管理平台检查有没有更新，比如启动、用户刷新、推送指令的到达，并且负责下载、文件校验、通知页面刷新等功能；页面刷新可以做优先级区分，比如高优先级的模板更新主动去刷新下页面，而低优先级的可以等二次进入页面或者刷新页面的时候生效；</li>
+</ol>
+<h2 id="几个核心设计"><a href="#几个核心设计" class="headerlink" title="几个核心设计"></a>几个核心设计</h2><h3 id="组件的基础模型"><a href="#组件的基础模型" class="headerlink" title="组件的基础模型"></a>组件的基础模型</h3><p>对于组件，我们做了如下定义，每一个基础的原子组件或者容器组件都会有以下属性，自定义的基础组件应当继承自基础定义并做扩展。</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>类型</th>
+<th>默认值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id</td>
+<td>int</td>
+<td>0</td>
+<td>组件id</td>
+</tr>
+<tr>
+<td>layoutWidth</td>
+<td>int/float/enum(match_parent/wrap_content)</td>
+<td>0</td>
+<td>组件的布局宽度，与Android里的概念类似，写绝对值的时候表示绝对宽高，match_parent表示尽可能撑满父容器提供的宽高，wrap_content表示根据自身内容的宽高来布局</td>
+</tr>
+<tr>
+<td>layoutHeight</td>
+<td>int/float/enum(match_parent/wrap_content)</td>
+<td>0</td>
+<td>组件的布局宽度，与Android里的概念类似，写绝对值的时候表示绝对宽高，match_parent表示尽可能撑满父容器提供的宽高，wrap_content表示根据自身内容的宽高来布局</td>
+</tr>
+<tr>
+<td>layoutGravity</td>
+<td>enum(left/right/top/bottom/v_center/h_center)</td>
+<td>left|top</td>
+<td>描述组件在容器中的对齐方式，left：靠左，right：靠右，top：靠上，bottom：靠底，v_center：垂直方向居中，h_center：水平方向居中，可用<code>或</code>组合描述</td>
+</tr>
+<tr>
+<td>autoDimX</td>
+<td>int/float</td>
+<td>1</td>
+<td>组件宽高比计算的横向值</td>
+</tr>
+<tr>
+<td>autoDimY</td>
+<td>int/float</td>
+<td>1</td>
+<td>组件宽高比计算的竖向值</td>
+</tr>
+<tr>
+<td>autoDimDirection</td>
+<td>enum(X/Y/NONE)</td>
+<td>NONE</td>
+<td>组件在布局中的基准方向，用于计算组件的宽高比，与autoDimX、autoDimY配合使用，设置了这三个属性时，在计算组件尺寸时具有更高的优先级。当autoDimDirection=X时，组件的宽度由layoutWidth和父容器决策决定，但高度 = width * (autoDimY / autoDimX)，当autoDimDirection=Y时，组件的高度由layoutHeight和父容器决策决定，但宽度 = height * (autoDimX / autoDimY)</td>
+</tr>
+<tr>
+<td>minWidth</td>
+<td>int/float</td>
+<td>0</td>
+<td>最小宽度</td>
+</tr>
+<tr>
+<td>minHeight</td>
+<td>int/float</td>
+<td>0</td>
+<td>最小高度</td>
+</tr>
+<tr>
+<td>paddingLeft</td>
+<td>int/float</td>
+<td>0</td>
+<td>左内边距</td>
+</tr>
+<tr>
+<td>paddingRight</td>
+<td>int/float</td>
+<td>0</td>
+<td>右内边距</td>
+</tr>
+<tr>
+<td>paddingTop</td>
+<td>int/float</td>
+<td>0</td>
+<td>上内边距</td>
+</tr>
+<tr>
+<td>paddingBottom</td>
+<td>int/float</td>
+<td>0</td>
+<td>下内边距</td>
+</tr>
+<tr>
+<td>layoutMarginLeft</td>
+<td>int/float</td>
+<td>0</td>
+<td>左外边距</td>
+</tr>
+<tr>
+<td>layoutMarginRight</td>
+<td>int/float</td>
+<td>0</td>
+<td>右外边距</td>
+</tr>
+<tr>
+<td>layoutMarginTop</td>
+<td>int/float</td>
+<td>0</td>
+<td>上外边距</td>
+</tr>
+<tr>
+<td>layoutMarginBottom</td>
+<td>int/float</td>
+<td>0</td>
+<td>下外边距</td>
+</tr>
+<tr>
+<td>background</td>
+<td>int</td>
+<td>0</td>
+<td>背景色</td>
+</tr>
+<tr>
+<td>backgroundImage</td>
+<td>string</td>
+<td>null</td>
+<td>背景图地址</td>
+</tr>
+<tr>
+<td>borderWidth</td>
+<td>int</td>
+<td>0</td>
+<td>边框宽度</td>
+</tr>
+<tr>
+<td>borderColor</td>
+<td>int</td>
+<td>0</td>
+<td>边框颜色</td>
+</tr>
+<tr>
+<td>visibility</td>
+<td>enum(visible/invisible/gone)</td>
+<td>visible</td>
+<td>可见性，与Android里的概念类似，visible：可见，invisible：不可见，但占位，gone：不可见也不占位</td>
+</tr>
+<tr>
+<td>gravity</td>
+<td>enum(left/right/top/bottom/v_center/h_center)</td>
+<td>left|top</td>
+<td>描述内容的对齐，比如文字在文本组件里的位置、原子组件在容器里的位置，left：靠左，right：靠右，top：靠上，bottom：靠底，v_center：垂直方向居中，h_center：水平方向居中，可用<code>或</code>组合描述</td>
+</tr>
+</tbody></table>
+<p>方案内内置了一系列基础组件，完整的组件列表如下：</p>
+<ul>
+<li>虚拟文本组件</li>
+<li>原生文本组件</li>
+<li>虚拟图片组件</li>
+<li>原生图片组件</li>
+<li>虚拟线条组件</li>
+<li>原生线条组件</li>
+<li>虚拟进度条组件</li>
+<li>虚拟图形组件</li>
+<li>原生翻页布局容器组件</li>
+<li>原生滚动布局容器组件</li>
+<li>虚拟帧布局容器组件</li>
+<li>虚拟比例布局容器组件</li>
+<li>虚拟网格布局容器组件</li>
+<li>原生网格布局容器组件</li>
+<li>虚拟线性布局容器组件</li>
+<li>原生线性布局容器组件</li>
+</ul>
+<h3 id="虚拟组件"><a href="#虚拟组件" class="headerlink" title="虚拟组件"></a>虚拟组件</h3><p>上文提到虚拟化开发的组件的技术，简称虚拟组件。很多做性能优化的方案、建议都会提到采用 Canvas 直接绘制的方式来减少 View 的个数，虚拟将这个开发流程做了抽象与规范，可以让开发人员像定义原生组件一样定义虚拟组件。</p>
+<p>具体来讲，基础组件需要遵循一个接口的规范，这个口定义了渲染过程中需要的三个流程：计算尺寸阶段、布局阶段、绘制阶段；定义这个三个阶段是为了更好的与系统平台特别是 Android 平台对接，因为在 Android 原生平台下也会有这个三个阶段，在 iOS 平台下则也需要按照本方案里要求的规范去处理。计算尺寸阶段定义要触发一次尺寸计算，需要对其包含的子组件进行计算调用；布局阶段定义了要触发一次布局，将子元素按照计算好的位置尺寸排布，也要对包含的子组件进行布局调用；绘制阶段定义要进行视图绘制，当然也要对起包含的子组件进行绘制的调用；对于虚拟组件，就在这些接口里实现相关逻辑，而对于原生组件，在这些接口实现里调用原生组件的对应逻辑。</p>
+<p>不论是虚拟化组件还是原生组件，都采用上述相同的模型来定义，再加上相同的尺寸计算接口、布局接口、绘制接口，这样对于宿主容器来说，包装在内部的组件就不分虚拟化还是原生，一视同仁，暴露给外面的接口也是一样的，只要将宿主容器像普通的 View 一样添加到的视图界面上，就可以在后续的渲染过程中显示出来。如果虚拟组件使用的越多，View 的个数就越少，对于系统来说层级越扁平。以下图示例的组件来说，最终呈现的 View 只有宿主容器和两个图片组件，如果将图片也用虚拟化的方式实现，最终 View 只有一个宿主容器，而界面仍然保持不变。</p>
+<p><img src="https://gw.alicdn.com/tfs/TB1jLcDg0zJ8KJjSspkXXbF7VXa-1130-838.png" alt="img"></p>
+<h3 id="二进制文件的格式"><a href="#二进制文件的格式" class="headerlink" title="二进制文件的格式"></a>二进制文件的格式</h3><p>通过 XML 编写的业务组件，并不直接在客户端里运行使用，而是先进行一次二进制序列化操作，原始的 XML 模板文件保存成文件的时候，就是以纯文本的形式存在，会包含很多冗余信息，比如空格、换行、还有重复出现的字符串等，文件体积比较大，以xml解析器去解析的时候，也会需要大量字符串操作，效率和性能不能达到最优。而将它编译成二进制格式，会避免这些问题，比如文件重复出现的字符串只保留一份，通过字符串索引去引用它，所有的组件类型也都会被转换成一个数字索引，在客户端内通过数字索引反过来找到对应的类实例化。这样文件格式会非常紧凑，体积更小。整个设计也借鉴了 Android 系统编译模板文件的思路。它的具体格式说明如下：</p>
+<p><img src="https://gw.alicdn.com/tfs/TB1H9.tg8fH8KJjy1XbXXbLdXXa-1270-300.jpg" alt="img"></p>
+<p>按照图中从左往右、从上往下的顺序分别说明每个段的作用：</p>
+<ul>
+<li>开始5个字节固定为 ALIVV；相当于我们的文件格式的一个标记。</li>
+<li>版本号分三个，分别为主版本号，次版本号和修订版本号，均为 2 个字节；在无重大重构更新时，前两位一般不变，第三位用于组件的业务级别变更升级；</li>
+<li>组件区的起始位置和长度，均为 4 个字节；表示这份文件里组件区数据从第几个字节开始，它总共有多少个字节，这样解析这份数据的时候能直接将文件指针定位到特定位置来读取数据。</li>
+<li>字符串区的起始位置和长度，均为 4 个字节；表示这份文件里字符串数据从第几个字节开始，它总共有多少个字节。</li>
+<li>表达式区的起始位置和长度，均为 4 个字节；表示这份文件里字符串数据从第几个字节开始，它总共有多少个字节。</li>
+<li>数据区的起始位置和长度，均为 4 个字节；表示这份文件里附加数据从第几个字节开始，它总共有多少个字节。目前这一区块是作为一种保留区，实际还未使用到。</li>
+<li>当前文件所属页编码，2 个字节，唯一标识一个页（保留使用）</li>
+<li>当前文件依赖页的个数为 2 个字节，后面为依赖页的 Id，依赖页个数大于 0 表示该页用到了其他页的资源或者代码，在该页加载之前需要确保依赖页必须已经加载；（保留使用）</li>
+<li>组件区开始，前 4 个字节表示文件里业务组件个数，目前一个 XML 模板编译成一个二进制文件，故其值固定为 1。每个业务组件前 2 个字节表示业务组件名称字符串的长度，后面为指定长度的字符串字节数据；紧接着是 2 个字节的编译后组件二进制流长度，后面为二进制代码；</li>
+<li>字符串区开始，前4个字节表示字符串个数，在我们的框架里，会内置一些系统级别的字符串资源，比如上文5.2开端表格里提到的那些属性名，这些字符串不用序列化到二进制文件里，而模板文件里出现的非系统字符串才会作为资源序列化到二进制文件。每个字符串资源前 4 个字节字符串索引 Id 即它的 hashCode，后面 2 个自己为字符串的长度，再后面为对应的字符串；</li>
+<li>逻辑表达式代码表。前 4 个字节表示逻辑表达式资源个数，每个表达式资源前4个自己表示表达式的索引，它是表达式原始字符串的hashCode，后面两个2 个字节表示表达式的长度，后面为对应的表达式内容，它是表达式按照关键字切割后的字符串结构；</li>
+<li>扩展数据段是保留为第三方扩展使用；</li>
+</ul>
+<h3 id="绑定数据的表达式"><a href="#绑定数据的表达式" class="headerlink" title="绑定数据的表达式"></a>绑定数据的表达式</h3><p>开发业务组件的时候，基础属性或者样式往往不能在模板里直接写死，而是需要从数据里获取，所以引入了用户数据绑定的表达式，语法和实现上目前比较简单，参考了很多同类的设计，尽可能符合开发人员的直觉。</p>
+<ul>
+<li>访问数据属性的表达式</li>
+</ul>
+<p>语法上以 ${ 开头，以 } 结束。对于Map，通过 . 操作符进行访问，对于 Array 或者 List 通过 [] 操作符进行访问。</p>
+<p>比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$&#123;benefitImgUrl&#125;</span><br><span class="line">$&#123;data[0].benefitImgUrl&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>条件表达式</li>
+</ul>
+<p>用来给那些需要根据数据中某个字段来设置值的属性，语法上以 @{ 开头，以 } 结束，中间部分为表达式的具体内容。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">条件表达式 ? 结果表达式[1] : 结果表达式[2]</span><br></pre></td></tr></table></figure>
+
+<p>当条件表达式成立的时候，使用结果表达式[1]，否则使用结果表达式[2]。 其中： 条件表达式支持布尔类型、字符串类型、JSONObject、JSONArray。 以下场景均为 false：</p>
+<ul>
+<li>布尔类型值为 false</li>
+<li>字符串为 null 或者 “” 或者 “null”</li>
+<li>字符串 “false” 或者 “FALSE”</li>
+<li>JSONObject 为空或 JSONObject.NULL</li>
+<li>JSONArray 长度为 0</li>
+<li>字段不存在</li>
+</ul>
+<p>比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@&#123;$&#123;logoUrl&#125; ? visible : invisible &#125;</span><br></pre></td></tr></table></figure>
+
+<p>考虑到篇幅限制，不能将上述架构和流程中的每一细节完全展开，详情可以参考苹果核这里的<a href="http://tangram.pingguohe.net/docs/virtualview/about-virtualview" target="_blank" rel="noopener">文档</a>。</p>
+<h2 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h2><h3 id="与-Tangram-及-TAC-结合"><a href="#与-Tangram-及-TAC-结合" class="headerlink" title="与 Tangram 及 TAC 结合"></a>与 Tangram 及 TAC 结合</h3><p>VirtualView 方案是 Tangram 的极大补充，可以解决80%场景下的动态化需求，而 Tangram 依赖的数据则通过 TAC 提供解决，三者结合可以形成一个闭环，让一个开发从端到端地解决整块业务的开发。</p>
+<h3 id="组件动态下发"><a href="#组件动态下发" class="headerlink" title="组件动态下发"></a>组件动态下发</h3><p>以双十一期间为例，90%的双十一业务组件都是动态下发的，且随时可根据业务节奏调整。</p>
+<p><img src="https://img.alicdn.com/tfs/TB1RDctg8fH8KJjy1XbXXbLdXXa-734-726.png" alt="img"> <img src="https://gw.alicdn.com/tfs/TB1Onctg8fH8KJjy1XbXXbLdXXa-734-726.png" alt="img"> <img src="https://gw.alicdn.com/tfs/TB1ztszg3vD8KJjSsplXXaIEFXa-734-304.png" alt="img"></p>
+<h2 id="展望"><a href="#展望" class="headerlink" title="展望"></a>展望</h2><p>尽管在功能流程上已经逐步稳定，能承载起日常及大促的需求变更，我们的方案还是有很多不足之处的，比如我们期望更高的运行效率、更加扁平化的UI结构、更加方便的开发体验，对此也做了更进一步的规划建设：</p>
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th>计划</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>提供更加完善的文档和教程、Demo，内外版本同步，建立以 github 为中心的迭代开发机制</td>
+<td>17年12月</td>
+</tr>
+<tr>
+<td>组件创建、布局计算、数据绑定机制优化，提升性能</td>
+<td>18年1月</td>
+</tr>
+<tr>
+<td>重构模板编译工具，提升编译开发体验</td>
+<td>18年1月</td>
+</tr>
+<tr>
+<td>提供预览服务，提升开发效率</td>
+<td>18年3月</td>
+</tr>
+<tr>
+<td>提供配套的后端数据服务与基础设施，即 TAC 平台开放</td>
+<td>18年3月</td>
+</tr>
+</tbody></table>
+<h2 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h2><h3 id="Tangram-2-0-主要更新说明"><a href="#Tangram-2-0-主要更新说明" class="headerlink" title="Tangram 2.0 主要更新说明"></a>Tangram 2.0 主要更新说明</h3><ol>
+<li>组件模型的概念升级，从原来的『卡片』+『组件』升级成『布局』+『组件』，即原来的『卡片』认为是一种具有布局能力的组件，具备嵌套另一组件的能力；</li>
+<li>页面结构优化，页面下可以直接挂载组件，不需要嵌套一层布局；</li>
+<li>组件类型的语义化，从原来的 1、2、3、4…等数字枚举类型定义，升级成字符串类型的定义，兼容解析原有的数字枚举定义；</li>
+<li>更好的嵌套布局实现，流式布局在模型描述上支持多层次的嵌套，并优化了 Android 端上的实现方式；</li>
+<li>margin 去重的实现，同一层级的容器组件或原子组件直接，支持外边距 margin 的去重，使得动态数据下控制间距更方便；</li>
+<li>支持 zIndex，无论是容器组件还是原子组件，支持在其样式上配置 zIndex，zIndex 值越大，绘制层次越高；</li>
+<li>升级组件开发方式，引入动态化组件开发技术，提升组件动态性，实现组件样式的高效渲染与动态更新；</li>
+</ol>
+<h3 id="其他相关的-Tangram-库"><a href="#其他相关的-Tangram-库" class="headerlink" title="其他相关的 Tangram 库"></a>其他相关的 Tangram 库</h3><h4 id="Android-1"><a href="#Android-1" class="headerlink" title="Android"></a>Android</h4><ul>
+<li><a href="https://github.com/alibaba/vlayout" target="_blank" rel="noopener">vlayout</a></li>
+<li><a href="https://github.com/alibaba/UltraViewPager" target="_blank" rel="noopener">UltraViewPager</a></li>
+</ul>
+<h4 id="iOS-1"><a href="#iOS-1" class="headerlink" title="iOS"></a>iOS</h4><ul>
+<li><a href="https://github.com/alibaba/lazyscrollview" target="_blank" rel="noopener">LazyScrollView</a></li>
+</ul>
+<h4 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h4><ul>
+<li><a href="https://github.com/alibaba/virtualview_tools" target="_blank" rel="noopener">virtualview_tools</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="ZhangMiao 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="ZhangMiao 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    ZhangMiao
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://zhangmiao.cc/posts/270f0900.html" title="组件的动态化方案-Tangram2.0">https://zhangmiao.cc/posts/270f0900.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+            <a href="/tags/Tangram/" rel="tag"># Tangram</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/1867f4d.html" rel="next" title="Tangram Android设计说明">
+                <i class="fa fa-chevron-left"></i> Tangram Android设计说明
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/posts/1365aa6d.html" rel="prev" title="在 TAC 上使用 Tangram4 TAC SDK">
+                在 TAC 上使用 Tangram4 TAC SDK <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4" alt="ZhangMiao">
+            
+              <p class="site-author-name" itemprop="name">ZhangMiao</p>
+              <p class="site-description motion-element" itemprop="description">Android/Flutter Developer</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">367</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">57</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">141</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:zm@zhangmiao.cc" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://wpa.qq.com/msgrd?v=3&uin=153942241&site=qq&menu=yes" target="_blank" title="QQ">
+                      
+                        <i class="fa fa-fw fa-qq"></i>QQ</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/zhangmiaocc" target="_blank" title="Github">
+                      
+                        <i class="fa fa-fw fa-github"></i>Github</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://stackoverflow.com" target="_blank" title="StackOverflow">
+                      
+                        <i class="fa fa-fw fa-stack-overflow"></i>StackOverflow</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://blog.constore.cn/" title="Liujianhui" target="_blank">Liujianhui</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://xuebin.me" title="Leo" target="_blank">Leo</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.csdn.net/lmj623565791" title="Hongyang" target="_blank">Hongyang</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://liuwangshu.cn/" title="Liuwangshu" target="_blank">Liuwangshu</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://jspang.com/" title="Jspang" target="_blank">Jspang</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blankj.com/" title="Blankj" target="_blank">Blankj</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://wuxiaolong.me/" title="WuXiaoLong" target="_blank">WuXiaoLong</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://molunerfinn.com" title="Molunerfinn" target="_blank">Molunerfinn</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.ofind.cn/" title="Ofind" target="_blank">Ofind</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.gcssloop.com/" title="Gcssloop" target="_blank">Gcssloop</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Tangram-2-0-库"><span class="nav-number">1.</span> <span class="nav-text">Tangram 2.0 库</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Android"><span class="nav-number">1.1.</span> <span class="nav-text">Android</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#iOS"><span class="nav-number">1.2.</span> <span class="nav-text">iOS</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">2.</span> <span class="nav-text">背景</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#技术背景"><span class="nav-number">2.1.</span> <span class="nav-text">技术背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#老组件体系的问题"><span class="nav-number">2.2.</span> <span class="nav-text">老组件体系的问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解决之道"><span class="nav-number">3.</span> <span class="nav-text">解决之道</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设计方案"><span class="nav-number">4.</span> <span class="nav-text">设计方案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#整体架构"><span class="nav-number">4.1.</span> <span class="nav-text">整体架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运行流程"><span class="nav-number">4.2.</span> <span class="nav-text">运行流程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#几个核心设计"><span class="nav-number">5.</span> <span class="nav-text">几个核心设计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#组件的基础模型"><span class="nav-number">5.1.</span> <span class="nav-text">组件的基础模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#虚拟组件"><span class="nav-number">5.2.</span> <span class="nav-text">虚拟组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二进制文件的格式"><span class="nav-number">5.3.</span> <span class="nav-text">二进制文件的格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#绑定数据的表达式"><span class="nav-number">5.4.</span> <span class="nav-text">绑定数据的表达式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#效果"><span class="nav-number">6.</span> <span class="nav-text">效果</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#与-Tangram-及-TAC-结合"><span class="nav-number">6.1.</span> <span class="nav-text">与 Tangram 及 TAC 结合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#组件动态下发"><span class="nav-number">6.2.</span> <span class="nav-text">组件动态下发</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#展望"><span class="nav-number">7.</span> <span class="nav-text">展望</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#附录"><span class="nav-number">8.</span> <span class="nav-text">附录</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Tangram-2-0-主要更新说明"><span class="nav-number">8.1.</span> <span class="nav-text">Tangram 2.0 主要更新说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他相关的-Tangram-库"><span class="nav-number">8.2.</span> <span class="nav-text">其他相关的 Tangram 库</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Android-1"><span class="nav-number">8.2.1.</span> <span class="nav-text">Android</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#iOS-1"><span class="nav-number">8.2.2.</span> <span class="nav-text">iOS</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#工具"><span class="nav-number">8.2.3.</span> <span class="nav-text">工具</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZhangMiao</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      本站访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+  <div>
+    <script type="text/javascript">
+      var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");
+      document.write(unescape("%3Cspan id='cnzz_stat_icon_1277928793'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1277928793%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+  </div>
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://zhangmiao.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://zhangmiao.cc/posts/270f0900.html';
+          this.page.identifier = 'posts/270f0900.html';
+          this.page.title = '组件的动态化方案-Tangram2.0';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://zhangmiao.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("8iIYW0IGofqyvJiiuU5R9buW-gzGzoHsz", "ssmxRx0kELJir6mA02ziW3Ql");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/lib/zclip/clipboard.min.js"></script>
+<script type="text/javascript" src="/js/src/custom.js"></script>
+
+</body>
+</html>

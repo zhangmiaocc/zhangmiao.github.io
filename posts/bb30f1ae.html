@@ -1,0 +1,1876 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Android,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="zm.blog" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="下拉刷新PullLoadMoreRecyclerView 实现RecyclerView下拉刷新和上拉加载更多以及RecyclerView线性、网格、瀑布流效果演示 https://github.com/WuXiaolong/PullLoadMoreRecyclerView   start 1247  android-Ultra-Pull-To-Refresh 这是现在已经停止维护的下拉刷新项目的替">
+<meta name="keywords" content="Android">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android常用库和插件">
+<meta property="og:url" content="https://zhangmiao.cc/posts/bb30f1ae.html">
+<meta property="og:site_name" content="zm.blog">
+<meta property="og:description" content="下拉刷新PullLoadMoreRecyclerView 实现RecyclerView下拉刷新和上拉加载更多以及RecyclerView线性、网格、瀑布流效果演示 https://github.com/WuXiaolong/PullLoadMoreRecyclerView   start 1247  android-Ultra-Pull-To-Refresh 这是现在已经停止维护的下拉刷新项目的替">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2021-12-24T02:05:29.932Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android常用库和插件">
+<meta name="twitter:description" content="下拉刷新PullLoadMoreRecyclerView 实现RecyclerView下拉刷新和上拉加载更多以及RecyclerView线性、网格、瀑布流效果演示 https://github.com/WuXiaolong/PullLoadMoreRecyclerView   start 1247  android-Ultra-Pull-To-Refresh 这是现在已经停止维护的下拉刷新项目的替">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://zhangmiao.cc/posts/bb30f1ae.html">
+
+
+
+
+
+  <title>Android常用库和插件 | zm.blog</title>
+  
+
+
+
+
+
+  <script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?44434226ba535875b1e807122adc3a04";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zm.blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">select * from learn</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhangmiao.cc/posts/bb30f1ae.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZhangMiao">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zm.blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Android常用库和插件</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-28T10:51:21+08:00">
+                2018-09-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/插件库/" itemprop="url" rel="index">
+                    <span itemprop="name">插件库</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/posts/bb30f1ae.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="posts/bb30f1ae.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/posts/bb30f1ae.html" class="leancloud_visitors" data-flag-title="Android常用库和插件">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="下拉刷新"><a href="#下拉刷新" class="headerlink" title="下拉刷新"></a>下拉刷新</h1><h3 id="PullLoadMoreRecyclerView"><a href="#PullLoadMoreRecyclerView" class="headerlink" title="PullLoadMoreRecyclerView"></a>PullLoadMoreRecyclerView</h3><ul>
+<li>实现RecyclerView下拉刷新和上拉加载更多以及RecyclerView线性、网格、瀑布流效果演示</li>
+<li><a href="https://github.com/WuXiaolong/PullLoadMoreRecyclerView" target="_blank" rel="noopener">https://github.com/WuXiaolong/PullLoadMoreRecyclerView</a>  </li>
+<li>start 1247</li>
+</ul>
+<h3 id="android-Ultra-Pull-To-Refresh"><a href="#android-Ultra-Pull-To-Refresh" class="headerlink" title="android-Ultra-Pull-To-Refresh"></a>android-Ultra-Pull-To-Refresh</h3><ul>
+<li>这是现在已经停止维护的下拉刷新项目的替代方案。继承于ViewGroup可以包含任何View。功能比SwipeRefreshLayout强大。使用起来非常简单。良好的设计，如果你想定制自己的UI样式，非常简单，就像给ListView加一个Header View那么简单。</li>
+<li><a href="https://github.com/liaohuqiu/android-Ultra-Pull-To-Refresh" target="_blank" rel="noopener">https://github.com/liaohuqiu/android-Ultra-Pull-To-Refresh</a></li>
+<li>start 9322</li>
+</ul>
+<a id="more"></a>
+
+<h3 id="SmartRefreshLayout"><a href="#SmartRefreshLayout" class="headerlink" title="SmartRefreshLayout"></a>SmartRefreshLayout</h3><ul>
+<li>下拉刷新、上拉加载、二级刷新、淘宝二楼、RefreshLayout、OverScroll，Android智能下拉刷新框架，支持越界回弹、越界拖动，具有极强的扩展性，集成了几十种炫酷的Header和 Footer。</li>
+<li><a href="https://github.com/scwang90/SmartRefreshLayout" target="_blank" rel="noopener">https://github.com/scwang90/SmartRefreshLayout</a>   </li>
+<li>start 14453</li>
+</ul>
+<hr>
+<h1 id="一个实用的多条件筛选菜单"><a href="#一个实用的多条件筛选菜单" class="headerlink" title="一个实用的多条件筛选菜单"></a>一个实用的多条件筛选菜单</h1><h3 id="DropDownMenu"><a href="#DropDownMenu" class="headerlink" title="DropDownMenu"></a>DropDownMenu</h3><ul>
+<li>一个实用的多条件筛选菜单，在很多App上都能看到这个效果，如美团，爱奇艺电影票等</li>
+<li><a href="https://github.com/dongjunkun/DropDownMenu" target="_blank" rel="noopener">https://github.com/dongjunkun/DropDownMenu</a>  </li>
+<li>start 2997</li>
+</ul>
+<hr>
+<h1 id="强大易用的安卓工具类库"><a href="#强大易用的安卓工具类库" class="headerlink" title="强大易用的安卓工具类库"></a>强大易用的安卓工具类库</h1><h3 id="AndroidUtilCode"><a href="#AndroidUtilCode" class="headerlink" title="AndroidUtilCode"></a>AndroidUtilCode</h3><ul>
+<li>是一个强大易用的安卓工具类库，它合理地封装了安卓开发中常用的函数，具有完善的 Demo 和单元测试，利用其封装好的 APIs 可以大大提高开发效率，如今它主要包括两部分模块，其一是主工具类模块：utilcode，其中的工具类是开发中常用到的；其二是子工具类模块：subutil，它包含的工具类并不是很常用，它的出现是为了防止主工具类的臃肿。</li>
+<li><a href="https://github.com/Blankj/AndroidUtilCode" target="_blank" rel="noopener">https://github.com/Blankj/AndroidUtilCode</a>  </li>
+<li>start 20125</li>
+</ul>
+<h3 id="SuperUtils"><a href="#SuperUtils" class="headerlink" title="SuperUtils"></a>SuperUtils</h3><ul>
+<li>囊括了一大部分Android应用开发过程当中常用的工具类。工具类来源整理自网络和自己编写。</li>
+<li><a href="https://github.com/AllenCoder/SuperUtils" target="_blank" rel="noopener">https://github.com/AllenCoder/SuperUtils</a>  </li>
+<li>start 310</li>
+</ul>
+<hr>
+<h1 id="Android第三方相册选择器"><a href="#Android第三方相册选择器" class="headerlink" title="Android第三方相册选择器"></a>Android第三方相册选择器</h1><h3 id="Matisse"><a href="#Matisse" class="headerlink" title="Matisse"></a>Matisse</h3><ul>
+<li>知乎开源相册</li>
+<li><a href="https://github.com/hamuamu0/Matisse" target="_blank" rel="noopener">https://github.com/hamuamu0/Matisse</a>  </li>
+<li>start 7881</li>
+</ul>
+<h3 id="ImagePicker"><a href="#ImagePicker" class="headerlink" title="ImagePicker"></a>ImagePicker</h3><ul>
+<li>完全仿微信的图片选择</li>
+<li><a href="https://github.com/jeasonlzy/ImagePicker" target="_blank" rel="noopener">https://github.com/jeasonlzy/ImagePicker</a> </li>
+<li>start 3262</li>
+</ul>
+<h3 id="PictureSelector"><a href="#PictureSelector" class="headerlink" title="PictureSelector"></a>PictureSelector</h3><ul>
+<li>一款针对android平台下的图片选择器，支持从相册或拍照选择图片或视频、音频，支持动态权限获取、裁剪(单图or多图裁剪)、压缩、主题自定义配置等功能、适配android 6.0+系统的开源图片选择框架。</li>
+<li><a href="https://github.com/LuckSiege/PictureSelector" target="_blank" rel="noopener">https://github.com/LuckSiege/PictureSelector</a>    </li>
+<li>start 4762</li>
+</ul>
+<h3 id="ImagePicker-1"><a href="#ImagePicker-1" class="headerlink" title="ImagePicker"></a>ImagePicker</h3><ul>
+<li>一款功能超强的图片选择器。支持超大图预览(比如10000*5000的图)，支持图片裁剪，可配置头像模式和普通模式，支持动态配置ImageLoader以支持多种图片加载库，以及实现流畅的跳转动画</li>
+<li><a href="https://github.com/martin90s/ImagePicker" target="_blank" rel="noopener">https://github.com/martin90s/ImagePicker</a>    </li>
+<li>start 832</li>
+</ul>
+<h3 id="TakePhoto"><a href="#TakePhoto" class="headerlink" title="TakePhoto"></a>TakePhoto</h3><ul>
+<li>一款用于在Android设备上获取照片（拍照或从相册、文件中选择）、裁剪图片、压缩图片的开源工具库</li>
+<li><a href="https://github.com/crazycodeboy/TakePhoto" target="_blank" rel="noopener">https://github.com/crazycodeboy/TakePhoto</a>    </li>
+<li>start 5553</li>
+</ul>
+<h3 id="Album"><a href="#Album" class="headerlink" title="Album"></a>Album</h3><ul>
+<li><a href="https://github.com/yanzhenjie/Album" target="_blank" rel="noopener">https://github.com/yanzhenjie/Album</a>    </li>
+<li>start 1802</li>
+</ul>
+<hr>
+<h1 id="可用于动态生成验证码，常见于金融类app"><a href="#可用于动态生成验证码，常见于金融类app" class="headerlink" title="可用于动态生成验证码，常见于金融类app"></a>可用于动态生成验证码，常见于金融类app</h1><h3 id="VerificationCodeView"><a href="#VerificationCodeView" class="headerlink" title="VerificationCodeView"></a>VerificationCodeView</h3><ul>
+<li><a href="https://github.com/Freshman111/VerificationCodeView" target="_blank" rel="noopener">https://github.com/Freshman111/VerificationCodeView</a> </li>
+<li>start 354</li>
+</ul>
+<hr>
+<h2 id="类似于微信侧滑返回上一级Activity的工具"><a href="#类似于微信侧滑返回上一级Activity的工具" class="headerlink" title="类似于微信侧滑返回上一级Activity的工具"></a>类似于微信侧滑返回上一级Activity的工具</h2><h3 id="SwipeBackHelper"><a href="#SwipeBackHelper" class="headerlink" title="SwipeBackHelper"></a>SwipeBackHelper</h3><ul>
+<li><a href="https://github.com/Jude95/SwipeBackHelper/blob/master/README_ch.md" target="_blank" rel="noopener">https://github.com/Jude95/SwipeBackHelper/blob/master/README_ch.md</a> </li>
+<li>start 1266</li>
+</ul>
+<h3 id="SwipeBackLayout"><a href="#SwipeBackLayout" class="headerlink" title="SwipeBackLayout"></a>SwipeBackLayout</h3><ul>
+<li><a href="https://github.com/ikew0ng/SwipeBackLayout" target="_blank" rel="noopener">https://github.com/ikew0ng/SwipeBackLayout</a>  </li>
+<li>start 5352</li>
+</ul>
+<hr>
+<h1 id="Banner轮播ViewPager"><a href="#Banner轮播ViewPager" class="headerlink" title="Banner轮播ViewPager"></a>Banner轮播ViewPager</h1><h3 id="android-auto-scroll-view-pager"><a href="#android-auto-scroll-view-pager" class="headerlink" title="android-auto-scroll-view-pager"></a>android-auto-scroll-view-pager</h3><ul>
+<li><a href="https://github.com/Trinea/android-auto-scroll-view-pager" target="_blank" rel="noopener">https://github.com/Trinea/android-auto-scroll-view-pager</a>  </li>
+<li>start 1603</li>
+</ul>
+<h3 id="UltraViewPager"><a href="#UltraViewPager" class="headerlink" title="UltraViewPager"></a>UltraViewPager</h3><ul>
+<li>UltraViewPager是一个封装多种特性的ViewPager，主要是为多页面切换场景提供统一解决方案。支持横划竖划；支持一屏内显示多页；支持循环滚动；支持定时滚动，计时器使用Handler实现</li>
+<li><a href="https://github.com/alibaba/UltraViewPager" target="_blank" rel="noopener">https://github.com/alibaba/UltraViewPager</a>  </li>
+<li>start 3942</li>
+</ul>
+<h3 id="ViewPagerIndicator"><a href="#ViewPagerIndicator" class="headerlink" title="ViewPagerIndicator"></a>ViewPagerIndicator</h3><ul>
+<li>Indicator 取代 tabhost，实现网易顶部tab，新浪微博主页底部tab，引导页，无限轮播banner等效果，高度自定义tab和特效</li>
+<li><a href="https://github.com/LuckyJayce/ViewPagerIndicator" target="_blank" rel="noopener">https://github.com/LuckyJayce/ViewPagerIndicator</a>  </li>
+<li>start 2166</li>
+</ul>
+<h3 id="RecyclerViewPager"><a href="#RecyclerViewPager" class="headerlink" title="RecyclerViewPager"></a>RecyclerViewPager</h3><ul>
+<li>扩形式的recyclerView，配合ViewPager实现各种效果</li>
+<li><a href="https://github.com/lsjwzh/RecyclerViewPager" target="_blank" rel="noopener">https://github.com/lsjwzh/RecyclerViewPager</a>  </li>
+<li>start 3149</li>
+</ul>
+<h3 id="banner"><a href="#banner" class="headerlink" title="banner"></a>banner</h3><ul>
+<li>Android广告图片轮播控件，支持无限循环和多种主题，可以灵活设置轮播样式、动画、轮播和切换时间、位置、图片加载框架等！</li>
+<li><a href="https://github.com/youth5201314/banner" target="_blank" rel="noopener">https://github.com/youth5201314/banner</a>    </li>
+<li>start 6938</li>
+</ul>
+<h3 id="XBanner"><a href="#XBanner" class="headerlink" title="XBanner"></a>XBanner</h3><ul>
+<li>支持图片无限轮播，支持自定义指示点、显示提示文字、切换动画等</li>
+<li><a href="https://github.com/xiaohaibin/XBanner" target="_blank" rel="noopener">https://github.com/xiaohaibin/XBanner</a>        </li>
+<li>start 516</li>
+</ul>
+<h3 id="BGABanner-Android"><a href="#BGABanner-Android" class="headerlink" title="BGABanner-Android"></a>BGABanner-Android</h3><ul>
+<li>引导界面滑动导航 + 大于等于1页时无限轮播 + 各种切换动画轮播效果</li>
+<li><a href="https://github.com/bingoogolapple/BGABanner-Android" target="_blank" rel="noopener">https://github.com/bingoogolapple/BGABanner-Android</a>    </li>
+<li>start 2914</li>
+</ul>
+<hr>
+<h1 id="Android图片压缩工具"><a href="#Android图片压缩工具" class="headerlink" title="Android图片压缩工具"></a>Android图片压缩工具</h1><h3 id="Luban-鲁班"><a href="#Luban-鲁班" class="headerlink" title="Luban(鲁班)"></a>Luban(鲁班)</h3><ul>
+<li>可能是最接近微信朋友圈的图片压缩算法</li>
+<li><a href="https://github.com/Curzibn/Luban" target="_blank" rel="noopener">https://github.com/Curzibn/Luban</a>   </li>
+<li>start 8469</li>
+</ul>
+<hr>
+<h1 id="侧滑菜单"><a href="#侧滑菜单" class="headerlink" title="侧滑菜单"></a>侧滑菜单</h1><h3 id="SlidingRootNav"><a href="#SlidingRootNav" class="headerlink" title="SlidingRootNav"></a>SlidingRootNav</h3><ul>
+<li><a href="https://github.com/yarolegovich/SlidingRootNav" target="_blank" rel="noopener">https://github.com/yarolegovich/SlidingRootNav</a> </li>
+<li>start 2385</li>
+</ul>
+<hr>
+<h1 id="选择器"><a href="#选择器" class="headerlink" title="选择器"></a>选择器</h1><h3 id="Android-PickerView"><a href="#Android-PickerView" class="headerlink" title="Android-PickerView"></a>Android-PickerView</h3><ul>
+<li>一款仿iOS的PickerView控件，有时间选择和选项选择，并支持一二三级联动，支持自定义样式</li>
+<li><a href="https://github.com/Bigkoo/Android-PickerView" target="_blank" rel="noopener">https://github.com/Bigkoo/Android-PickerView</a>  </li>
+<li>start 8346</li>
+</ul>
+<h3 id="android-picker"><a href="#android-picker" class="headerlink" title="android-picker"></a>android-picker</h3><ul>
+<li>安卓选择器类库，包括日期选择器、时间选择器、单项选择器、城市选择器、颜色选择器、文件选择器、目录选择器、数字选择器、星座选择器、生肖选择器等，可自定义顶部及底部界面，可自定义窗口动画。</li>
+<li><a href="https://github.com/sevenli777/android-picker" target="_blank" rel="noopener">https://github.com/sevenli777/android-picker</a>        </li>
+<li>start 36</li>
+</ul>
+<h3 id="MultiType-FilePicker"><a href="#MultiType-FilePicker" class="headerlink" title="MultiType-FilePicker"></a>MultiType-FilePicker</h3><ul>
+<li>第三方选择器，可以选择文件、图片</li>
+<li><a href="https://github.com/fishwjy/MultiType-FilePicker" target="_blank" rel="noopener">https://github.com/fishwjy/MultiType-FilePicker</a></li>
+</ul>
+<hr>
+<h1 id="简洁验证码输入框，能自定义输入框个数和样式"><a href="#简洁验证码输入框，能自定义输入框个数和样式" class="headerlink" title="简洁验证码输入框，能自定义输入框个数和样式"></a>简洁验证码输入框，能自定义输入框个数和样式</h1><h3 id="VerificationCodeInput"><a href="#VerificationCodeInput" class="headerlink" title="VerificationCodeInput"></a>VerificationCodeInput</h3><ul>
+<li><a href="https://github.com/liuguangli/VerificationCodeInput" target="_blank" rel="noopener">https://github.com/liuguangli/VerificationCodeInput</a>      </li>
+<li>start 257</li>
+</ul>
+<hr>
+<h1 id="RecyclerView"><a href="#RecyclerView" class="headerlink" title="RecyclerView"></a>RecyclerView</h1><h3 id="IndexRecyclerView"><a href="#IndexRecyclerView" class="headerlink" title="IndexRecyclerView"></a>IndexRecyclerView</h3><ul>
+<li>一款联系人选择的recyclerView列表，支持顶部悬浮和侧边滑动首字母选择</li>
+<li><a href="https://github.com/jiang111/IndexRecyclerView" target="_blank" rel="noopener">https://github.com/jiang111/IndexRecyclerView</a>  </li>
+<li>start 1114</li>
+</ul>
+<h3 id="ExpandableLayout"><a href="#ExpandableLayout" class="headerlink" title="ExpandableLayout"></a>ExpandableLayout</h3><ul>
+<li>点击可扩大隐藏列表</li>
+<li><a href="https://github.com/traex/ExpandableLayout" target="_blank" rel="noopener">https://github.com/traex/ExpandableLayout</a>    </li>
+<li>start 1499</li>
+</ul>
+<h3 id="SwipeRecyclerView"><a href="#SwipeRecyclerView" class="headerlink" title="SwipeRecyclerView"></a>SwipeRecyclerView</h3><ul>
+<li>侧滑菜单，长按拖拽，滑动删除，自动加载更多，和ViewPager结合使用，和任何下拉刷新框架结合使用。</li>
+<li><a href="https://github.com/yanzhenjie/SwipeRecyclerView" target="_blank" rel="noopener">https://github.com/yanzhenjie/SwipeRecyclerView</a>        </li>
+<li>start 3446</li>
+</ul>
+<h3 id="IndexableRecyclerView"><a href="#IndexableRecyclerView" class="headerlink" title="IndexableRecyclerView"></a>IndexableRecyclerView</h3><ul>
+<li>轻轻松实现：选择城市，选择联系人等需要索引的功能松实现：选择城市，选择联系人等需要索引的功能</li>
+<li><a href="https://github.com/YoKeyword/IndexableRecyclerView" target="_blank" rel="noopener">https://github.com/YoKeyword/IndexableRecyclerView</a>    </li>
+<li>start 982</li>
+</ul>
+<hr>
+<h1 id="Android换肤／夜间模式的Android框架"><a href="#Android换肤／夜间模式的Android框架" class="headerlink" title="Android换肤／夜间模式的Android框架"></a>Android换肤／夜间模式的Android框架</h1><h3 id="MultipleTheme"><a href="#MultipleTheme" class="headerlink" title="MultipleTheme"></a>MultipleTheme</h3><ul>
+<li><a href="https://github.com/dersoncheng/MultipleTheme" target="_blank" rel="noopener">https://github.com/dersoncheng/MultipleTheme</a>  </li>
+<li>start 1521</li>
+</ul>
+<hr>
+<h1 id="强大的RecyclerAdapter框架"><a href="#强大的RecyclerAdapter框架" class="headerlink" title="强大的RecyclerAdapter框架"></a>强大的RecyclerAdapter框架</h1><h3 id="BaseRecyclerViewAdapterHelper"><a href="#BaseRecyclerViewAdapterHelper" class="headerlink" title="BaseRecyclerViewAdapterHelper"></a>BaseRecyclerViewAdapterHelper</h3><ul>
+<li><a href="https://github.com/CymChad/BaseRecyclerViewAdapterHelper" target="_blank" rel="noopener">https://github.com/CymChad/BaseRecyclerViewAdapterHelper</a> </li>
+<li>start 3215</li>
+</ul>
+<h3 id="SuperAdapter"><a href="#SuperAdapter" class="headerlink" title="SuperAdapter"></a>SuperAdapter</h3><ul>
+<li><a href="https://github.com/byteam/SuperAdapter" target="_blank" rel="noopener">https://github.com/byteam/SuperAdapter</a> </li>
+<li>start 629</li>
+</ul>
+<hr>
+<h1 id="更换主题、设置状态栏的工具类"><a href="#更换主题、设置状态栏的工具类" class="headerlink" title="更换主题、设置状态栏的工具类"></a>更换主题、设置状态栏的工具类</h1><h3 id="StatusBarUtil-实现沉浸栏状态栏颜色状态"><a href="#StatusBarUtil-实现沉浸栏状态栏颜色状态" class="headerlink" title="StatusBarUtil (实现沉浸栏状态栏颜色状态)"></a>StatusBarUtil (实现沉浸栏状态栏颜色状态)</h3><ul>
+<li><a href="https://github.com/laobie/StatusBarUtil" target="_blank" rel="noopener">https://github.com/laobie/StatusBarUtil</a>  </li>
+<li>start 6211</li>
+</ul>
+<h3 id="MagicaSakura"><a href="#MagicaSakura" class="headerlink" title="MagicaSakura"></a>MagicaSakura</h3><ul>
+<li>Android 多主题框架</li>
+<li><a href="https://github.com/Bilibili/MagicaSakura" target="_blank" rel="noopener">https://github.com/Bilibili/MagicaSakura</a>        </li>
+<li>start 2915</li>
+</ul>
+<hr>
+<h1 id="Dialog"><a href="#Dialog" class="headerlink" title="Dialog"></a>Dialog</h1><h3 id="BasePopup"><a href="#BasePopup" class="headerlink" title="BasePopup"></a>BasePopup</h3><ul>
+<li>打造通用的popupwindow</li>
+<li><a href="https://github.com/razerdp/BasePopup" target="_blank" rel="noopener">https://github.com/razerdp/BasePopup</a>  </li>
+<li>start 1618</li>
+</ul>
+<h3 id="AndroidBottomSheet"><a href="#AndroidBottomSheet" class="headerlink" title="AndroidBottomSheet"></a>AndroidBottomSheet</h3><ul>
+<li>底部弹出popupwindow</li>
+<li><a href="https://github.com/michael-rapp/AndroidBottomSheet" target="_blank" rel="noopener">https://github.com/michael-rapp/AndroidBottomSheet</a>    </li>
+<li>start 300</li>
+</ul>
+<h3 id="BottomDialog"><a href="#BottomDialog" class="headerlink" title="BottomDialog"></a>BottomDialog</h3><ul>
+<li>自定义的从底部弹出的dialog，仿照微博的分享弹框</li>
+<li><a href="https://github.com/Curzibn/BottomDialog" target="_blank" rel="noopener">https://github.com/Curzibn/BottomDialog</a>     </li>
+<li>start 375</li>
+</ul>
+<h3 id="AndroidSuperDialog"><a href="#AndroidSuperDialog" class="headerlink" title="AndroidSuperDialog"></a>AndroidSuperDialog</h3><ul>
+<li>支持自定义边框圆角、背景透明度、字体大小与色值等</li>
+<li><a href="https://github.com/mylhyl/AndroidSuperDialog" target="_blank" rel="noopener">https://github.com/mylhyl/AndroidSuperDialog</a>    </li>
+<li>start 131</li>
+</ul>
+<h3 id="material-dialogs"><a href="#material-dialogs" class="headerlink" title="material-dialogs"></a>material-dialogs</h3><ul>
+<li>md风格的dialog</li>
+<li><a href="https://github.com/afollestad/material-dialogs" target="_blank" rel="noopener">https://github.com/afollestad/material-dialogs</a>        </li>
+<li>start 14288</li>
+</ul>
+<h3 id="Android-AlertView"><a href="#Android-AlertView" class="headerlink" title="Android-AlertView"></a>Android-AlertView</h3><ul>
+<li>仿iOS的AlertViewController 几乎完美还原iOS 的 AlertViewController ，同时支持Alert和ActionSheet模式，每一个细节都是精雕细琢，并把api封装成懒到极致模式，一行代码就可以进行弹窗.</li>
+<li><a href="https://github.com/Bigkoo/Android-AlertView" target="_blank" rel="noopener">https://github.com/Bigkoo/Android-AlertView</a>    </li>
+<li>start 1212</li>
+</ul>
+<hr>
+<h1 id="加载Loading"><a href="#加载Loading" class="headerlink" title="加载Loading"></a>加载Loading</h1><h3 id="LoadingLayout"><a href="#LoadingLayout" class="headerlink" title="LoadingLayout"></a>LoadingLayout</h3><ul>
+<li>项目里都会遇到几种页面，分别为加载中、无网络、无数据、出错四种情况，经常要使用，所以封成库引用了</li>
+<li><a href="https://github.com/weavey/LoadingLayoutDemo" target="_blank" rel="noopener">https://github.com/weavey/LoadingLayoutDemo</a>     </li>
+<li>start 634</li>
+</ul>
+<h3 id="NumberProgressBar"><a href="#NumberProgressBar" class="headerlink" title="NumberProgressBar"></a>NumberProgressBar</h3><ul>
+<li>带数字的进度条滚动</li>
+<li><a href="https://github.com/daimajia/NumberProgressBar" target="_blank" rel="noopener">https://github.com/daimajia/NumberProgressBar</a>    </li>
+<li>start 5162</li>
+</ul>
+<h3 id="KProgressHUD"><a href="#KProgressHUD" class="headerlink" title="KProgressHUD"></a>KProgressHUD</h3><ul>
+<li>仿iOS加载</li>
+<li><a href="https://github.com/Kaopiz/KProgressHUD" target="_blank" rel="noopener">https://github.com/Kaopiz/KProgressHUD</a>    </li>
+<li>start 1128</li>
+</ul>
+<h3 id="GifLoadingView"><a href="#GifLoadingView" class="headerlink" title="GifLoadingView"></a>GifLoadingView</h3><ul>
+<li><a href="https://github.com/Rogero0o/GifLoadingView" target="_blank" rel="noopener">https://github.com/Rogero0o/GifLoadingView</a>        </li>
+<li>start 1177</li>
+</ul>
+<hr>
+<h1 id="音乐播放"><a href="#音乐播放" class="headerlink" title="音乐播放"></a>音乐播放</h1><h3 id="Timber"><a href="#Timber" class="headerlink" title="Timber"></a>Timber</h3><ul>
+<li>MD风格的音乐播放</li>
+<li><a href="https://github.com/naman14/Timber" target="_blank" rel="noopener">https://github.com/naman14/Timber</a>    </li>
+<li>start 5145</li>
+</ul>
+<h3 id="CustomLrcView-master"><a href="#CustomLrcView-master" class="headerlink" title="CustomLrcView-master"></a>CustomLrcView-master</h3><ul>
+<li>自定义显示歌词的控件，实现了歌词的平滑向上滚动，当高亮歌词宽度超过了view的宽的时候，水平滚动</li>
+<li><a href="https://github.com/android-lili/CustomLrcView-master" target="_blank" rel="noopener">https://github.com/android-lili/CustomLrcView-master</a>    </li>
+<li>start 109</li>
+</ul>
+<h3 id="LyricViewDemo"><a href="#LyricViewDemo" class="headerlink" title="LyricViewDemo"></a>LyricViewDemo</h3><ul>
+<li>歌词显示</li>
+<li><a href="https://github.com/zhengken/LyricViewDemo" target="_blank" rel="noopener">https://github.com/zhengken/LyricViewDemo</a>        </li>
+<li>start 576</li>
+</ul>
+<hr>
+<h1 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h1><h3 id="LitePal"><a href="#LitePal" class="headerlink" title="LitePal"></a>LitePal</h3><ul>
+<li><a href="https://github.com/LitePalFramework/LitePal" target="_blank" rel="noopener">https://github.com/LitePalFramework/LitePal</a>    </li>
+<li>start 5343</li>
+</ul>
+<h3 id="realm-java"><a href="#realm-java" class="headerlink" title="realm-java"></a>realm-java</h3><ul>
+<li><a href="https://github.com/realm/realm-java" target="_blank" rel="noopener">https://github.com/realm/realm-java</a>    </li>
+<li>start 9941</li>
+</ul>
+<h3 id="greenDAO"><a href="#greenDAO" class="headerlink" title="greenDAO"></a>greenDAO</h3><ul>
+<li><a href="https://github.com/greenrobot/greenDAO" target="_blank" rel="noopener">https://github.com/greenrobot/greenDAO</a>    </li>
+<li>start 10559</li>
+</ul>
+<hr>
+<h1 id="动画库"><a href="#动画库" class="headerlink" title="动画库"></a>动画库</h1><h3 id="lottie-android"><a href="#lottie-android" class="headerlink" title="lottie-android"></a>lottie-android</h3><ul>
+<li>支持跨平台动画库，由UI设计指定切json，将json加载出来实现动画</li>
+<li><a href="https://github.com/airbnb/lottie-android" target="_blank" rel="noopener">https://github.com/airbnb/lottie-android</a>     </li>
+<li>start 22620</li>
+</ul>
+<h3 id="TransitionHelper"><a href="#TransitionHelper" class="headerlink" title="TransitionHelper"></a>TransitionHelper</h3><ul>
+<li>一个简单的Activity转场动画 工具类</li>
+<li><a href="https://github.com/ImmortalZ/TransitionHelper" target="_blank" rel="noopener">https://github.com/ImmortalZ/TransitionHelper</a>    </li>
+<li>start 1569</li>
+</ul>
+<h3 id="TranslationCompat"><a href="#TranslationCompat" class="headerlink" title="TranslationCompat"></a>TranslationCompat</h3><ul>
+<li>页面过渡动画兼容库，兼容Android5.0之后转场动画至Android4.0。</li>
+<li><a href="https://github.com/zhangke3016/TranslationCompat" target="_blank" rel="noopener">https://github.com/zhangke3016/TranslationCompat</a>    </li>
+<li>start 259</li>
+</ul>
+<h3 id="android-pathview"><a href="#android-pathview" class="headerlink" title="android-pathview"></a>android-pathview</h3><ul>
+<li>SVG动画库</li>
+<li><a href="https://github.com/geftimov/android-pathview" target="_blank" rel="noopener">https://github.com/geftimov/android-pathview</a>    </li>
+<li>start 2485</li>
+</ul>
+<hr>
+<h1 id="图表类工具"><a href="#图表类工具" class="headerlink" title="图表类工具"></a>图表类工具</h1><h3 id="MPAndroidChart"><a href="#MPAndroidChart" class="headerlink" title="MPAndroidChart"></a>MPAndroidChart</h3><ul>
+<li>股票折线图、饼状图等</li>
+<li><a href="https://github.com/PhilJay/MPAndroidChart" target="_blank" rel="noopener">https://github.com/PhilJay/MPAndroidChart</a>    </li>
+<li>start 24227</li>
+</ul>
+<h3 id="KChartView"><a href="#KChartView" class="headerlink" title="KChartView"></a>KChartView</h3><ul>
+<li>股票k线图</li>
+<li><a href="https://github.com/tifezh/KChartView" target="_blank" rel="noopener">https://github.com/tifezh/KChartView</a>    </li>
+<li>start 356</li>
+</ul>
+<h3 id="hellocharts-android"><a href="#hellocharts-android" class="headerlink" title="hellocharts-android"></a>hellocharts-android</h3><ul>
+<li><a href="https://github.com/lecho/hellocharts-android" target="_blank" rel="noopener">https://github.com/lecho/hellocharts-android</a></li>
+<li>start 6126</li>
+</ul>
+<hr>
+<h1 id="波浪效果"><a href="#波浪效果" class="headerlink" title="波浪效果"></a>波浪效果</h1><h3 id="WaveView"><a href="#WaveView" class="headerlink" title="WaveView"></a>WaveView</h3><ul>
+<li><a href="https://github.com/gelitenight/WaveView" target="_blank" rel="noopener">https://github.com/gelitenight/WaveView</a>    </li>
+<li>start 1328</li>
+</ul>
+<hr>
+<h1 id="Android开源项目及库"><a href="#Android开源项目及库" class="headerlink" title="Android开源项目及库"></a>Android开源项目及库</h1><h3 id="TimLiu-Android"><a href="#TimLiu-Android" class="headerlink" title="TimLiu-Android"></a>TimLiu-Android</h3><ul>
+<li><a href="https://github.com/Tim9Liu9/TimLiu-Android#UI" target="_blank" rel="noopener">https://github.com/Tim9Liu9/TimLiu-Android#UI</a>    </li>
+<li>start 2334</li>
+</ul>
+<hr>
+<h1 id="播放器"><a href="#播放器" class="headerlink" title="播放器"></a>播放器</h1><h3 id="PLDroidPlayer"><a href="#PLDroidPlayer" class="headerlink" title="PLDroidPlayer"></a>PLDroidPlayer</h3><ul>
+<li>七牛推出的一款免费的适用于 Android 平台的播放器 SDK，采用全自研的跨平台播放内核，拥有丰富的功能和优异的性能，可高度定制化和二次开发</li>
+<li><a href="https://github.com/pili-engineering/PLDroidPlayer" target="_blank" rel="noopener">https://github.com/pili-engineering/PLDroidPlayer</a>        </li>
+<li>start 3518</li>
+</ul>
+<hr>
+<h1 id="标题导航栏"><a href="#标题导航栏" class="headerlink" title="标题导航栏"></a>标题导航栏</h1><h3 id="ByeBurger"><a href="#ByeBurger" class="headerlink" title="ByeBurger"></a>ByeBurger</h3><ul>
+<li>这是一个极其简便的快速实现隐藏标题栏和导航栏的库。</li>
+<li><a href="https://github.com/githubwing/ByeBurger" target="_blank" rel="noopener">https://github.com/githubwing/ByeBurger</a>    </li>
+<li>start 1061</li>
+</ul>
+<hr>
+<h1 id="网络加载"><a href="#网络加载" class="headerlink" title="网络加载"></a>网络加载</h1><h3 id="okhttp-OkGo"><a href="#okhttp-OkGo" class="headerlink" title="okhttp-OkGo"></a>okhttp-OkGo</h3><ul>
+<li>全新完美支持RxJava，比Retrofit更简单易用。该库是封装了okhttp的标准RESTful风格的网络框架，支持大文件上传下载，上传进度回调，下载进度回调，表单上传（多文件和多参数一起上传），链式调用，可以自定义返回对象，支持Https和自签名证书，支持超时自动重连，支持cookie的持久化和自动管理，支持五种缓存模式缓存网络数据，支持301和302重定向，扩展了统一的上传管理和下载管理功能</li>
+<li><a href="https://github.com/jeasonlzy/okhttp-OkGo" target="_blank" rel="noopener">https://github.com/jeasonlzy/okhttp-OkGo</a>    </li>
+<li>start 8221</li>
+</ul>
+<h3 id="NoHttp"><a href="#NoHttp" class="headerlink" title="NoHttp"></a>NoHttp</h3><ul>
+<li>Android实现Http标准协议框架，支持多种缓存模式，底层可动态切换OkHttp、URLConnection。</li>
+<li><a href="https://github.com/yanzhenjie/NoHttp" target="_blank" rel="noopener">https://github.com/yanzhenjie/NoHttp</a>         </li>
+<li>start 3525</li>
+</ul>
+<h3 id="OkHttpFinal"><a href="#OkHttpFinal" class="headerlink" title="OkHttpFinal"></a>OkHttpFinal</h3><ul>
+<li>OkHttp封装的一个简单易用HTTP请求</li>
+<li><a href="https://github.com/pengjianbo/OkHttpFinal" target="_blank" rel="noopener">https://github.com/pengjianbo/OkHttpFinal</a>    </li>
+<li>start 770</li>
+</ul>
+<h3 id="okhttputils"><a href="#okhttputils" class="headerlink" title="okhttputils"></a>okhttputils</h3><ul>
+<li>okhttp的辅助类</li>
+<li><a href="https://github.com/hongyangAndroid/okhttputils" target="_blank" rel="noopener">https://github.com/hongyangAndroid/okhttputils</a>    </li>
+<li>start 6402</li>
+</ul>
+<hr>
+<h1 id="二维码"><a href="#二维码" class="headerlink" title="二维码"></a>二维码</h1><h3 id="android-zxingLibrary"><a href="#android-zxingLibrary" class="headerlink" title="android-zxingLibrary"></a>android-zxingLibrary</h3><ul>
+<li>几行代码快速集成二维码扫描功能</li>
+<li><a href="https://github.com/yipianfengye/android-zxingLibrary" target="_blank" rel="noopener">https://github.com/yipianfengye/android-zxingLibrary</a>    </li>
+<li>start 3531</li>
+</ul>
+<h3 id="QRCode-Android"><a href="#QRCode-Android" class="headerlink" title="QRCode-Android"></a>QRCode-Android</h3><ul>
+<li>二维码、条形码通用扫描     </li>
+<li><a href="https://github.com/XuDaojie/QRCode-Android" target="_blank" rel="noopener">https://github.com/XuDaojie/QRCode-Android</a>    </li>
+<li>start 362</li>
+</ul>
+<h3 id="QrCodeScan"><a href="#QrCodeScan" class="headerlink" title="QrCodeScan"></a>QrCodeScan</h3><ul>
+<li>Android手机客户端二维码扫描</li>
+<li><a href="https://github.com/chentao0707/QrCodeScan" target="_blank" rel="noopener">https://github.com/chentao0707/QrCodeScan</a>    </li>
+<li>start 1080</li>
+</ul>
+<hr>
+<h1 id="自定义键盘"><a href="#自定义键盘" class="headerlink" title="自定义键盘"></a>自定义键盘</h1><h3 id="CustomizeKeyboard"><a href="#CustomizeKeyboard" class="headerlink" title="CustomizeKeyboard"></a>CustomizeKeyboard</h3><ul>
+<li>完全自定义的Android安全键盘</li>
+<li><a href="https://github.com/StomHong/CustomizeKeyboard" target="_blank" rel="noopener">https://github.com/StomHong/CustomizeKeyboard</a>    </li>
+<li>start 312</li>
+</ul>
+<hr>
+<h1 id="蓝牙操作库"><a href="#蓝牙操作库" class="headerlink" title="蓝牙操作库"></a>蓝牙操作库</h1><h3 id="BluetoothHelper"><a href="#BluetoothHelper" class="headerlink" title="BluetoothHelper"></a>BluetoothHelper</h3><ul>
+<li><a href="https://github.com/a-voyager/BluetoothHelper" target="_blank" rel="noopener">https://github.com/a-voyager/BluetoothHelper</a>    </li>
+<li>start 1111</li>
+</ul>
+<hr>
+<h1 id="版本更新"><a href="#版本更新" class="headerlink" title="版本更新"></a>版本更新</h1><h3 id="CheckVersionLib-版本检测升级（更新）库。"><a href="#CheckVersionLib-版本检测升级（更新）库。" class="headerlink" title="CheckVersionLib 版本检测升级（更新）库。"></a>CheckVersionLib 版本检测升级（更新）库。</h3><ul>
+<li><a href="https://github.com/AlexLiuSheng/CheckVersionLib" target="_blank" rel="noopener">https://github.com/AlexLiuSheng/CheckVersionLib</a></li>
+<li>start 1432</li>
+</ul>
+<h3 id="UpdateApp"><a href="#UpdateApp" class="headerlink" title="UpdateApp"></a>UpdateApp</h3><ul>
+<li>开箱即用的app更新，主要负责软件下载、软件安装等 Permission和Service默认添加在aar包里面的，如果使用gradle不需要 在意下面的配置了。</li>
+<li><a href="https://github.com/yaming116/UpdateApp" target="_blank" rel="noopener">https://github.com/yaming116/UpdateApp</a>    </li>
+<li>start 327</li>
+</ul>
+<hr>
+<h1 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a>缓存</h1><h3 id="ASimpleCache"><a href="#ASimpleCache" class="headerlink" title="ASimpleCache"></a>ASimpleCache</h3><ul>
+<li>一个为android制定的 轻量级的 开源缓存框架。轻量到只有一个java文件（由十几个类精简而来）</li>
+<li><a href="https://github.com/yangfuhai/ASimpleCache" target="_blank" rel="noopener">https://github.com/yangfuhai/ASimpleCache</a>    </li>
+<li>start 3147</li>
+</ul>
+<hr>
+<h1 id="权限管理"><a href="#权限管理" class="headerlink" title="权限管理"></a>权限管理</h1><h3 id="AndPermission"><a href="#AndPermission" class="headerlink" title="AndPermission"></a>AndPermission</h3><ul>
+<li><a href="https://github.com/yanzhenjie/AndPermission" target="_blank" rel="noopener">https://github.com/yanzhenjie/AndPermission</a> </li>
+<li>start 4525</li>
+</ul>
+<h3 id="FcPermissions"><a href="#FcPermissions" class="headerlink" title="FcPermissions"></a>FcPermissions</h3><ul>
+<li><a href="https://github.com/lypeer/FcPermissions" target="_blank" rel="noopener">https://github.com/lypeer/FcPermissions</a>    </li>
+<li>start 406</li>
+</ul>
+<h3 id="RxPermissions"><a href="#RxPermissions" class="headerlink" title="RxPermissions"></a>RxPermissions</h3><ul>
+<li><a href="https://github.com/tbruyelle/RxPermissions" target="_blank" rel="noopener">https://github.com/tbruyelle/RxPermissions</a>    </li>
+<li>start 7166</li>
+</ul>
+<hr>
+<h1 id="Tag标签"><a href="#Tag标签" class="headerlink" title="Tag标签"></a>Tag标签</h1><h3 id="AndroidTagGroup"><a href="#AndroidTagGroup" class="headerlink" title="AndroidTagGroup"></a>AndroidTagGroup</h3><ul>
+<li><a href="https://github.com/2dxgujun/AndroidTagGroup" target="_blank" rel="noopener">https://github.com/2dxgujun/AndroidTagGroup</a>    </li>
+<li>start 2168</li>
+</ul>
+<hr>
+<h1 id="手势密码解锁"><a href="#手势密码解锁" class="headerlink" title="手势密码解锁"></a>手势密码解锁</h1><h3 id="LockPattern"><a href="#LockPattern" class="headerlink" title="LockPattern"></a>LockPattern</h3><ul>
+<li>仿支付宝手势密码解锁</li>
+<li><a href="https://github.com/sym900728/LockPattern" target="_blank" rel="noopener">https://github.com/sym900728/LockPattern</a>    </li>
+<li>start 184</li>
+</ul>
+<h3 id="PatternLockView"><a href="#PatternLockView" class="headerlink" title="PatternLockView"></a>PatternLockView</h3><ul>
+<li>MD风格的手机密码解锁</li>
+<li><a href="https://github.com/aritraroy/PatternLockView" target="_blank" rel="noopener">https://github.com/aritraroy/PatternLockView</a>     </li>
+<li>start 2219</li>
+</ul>
+<h3 id="BlurLockView"><a href="#BlurLockView" class="headerlink" title="BlurLockView"></a>BlurLockView</h3><ul>
+<li>高斯模糊锁屏界面</li>
+<li><a href="https://github.com/Nightonke/BlurLockView" target="_blank" rel="noopener">https://github.com/Nightonke/BlurLockView</a>        </li>
+<li>start 987</li>
+</ul>
+<h3 id="AppLock"><a href="#AppLock" class="headerlink" title="AppLock"></a>AppLock</h3><ul>
+<li>AppLock应用锁，保护你的隐私。</li>
+<li><a href="https://github.com/lizixian18/AppLock" target="_blank" rel="noopener">https://github.com/lizixian18/AppLock</a>    </li>
+<li>start 463</li>
+</ul>
+<h3 id="LolliPin"><a href="#LolliPin" class="headerlink" title="LolliPin"></a>LolliPin</h3><ul>
+<li>Pin解锁</li>
+<li><a href="https://github.com/omadahealth/LolliPin" target="_blank" rel="noopener">https://github.com/omadahealth/LolliPin</a>    </li>
+<li>start 1480</li>
+</ul>
+<h3 id="PinLockView"><a href="#PinLockView" class="headerlink" title="PinLockView"></a>PinLockView</h3><ul>
+<li>MD风格Pin解锁</li>
+<li><a href="https://www.cnblogs.com/abao0/p/6726763.html" target="_blank" rel="noopener">https://www.cnblogs.com/abao0/p/6726763.html</a>    </li>
+<li>start 1145</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="ZhangMiao 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="ZhangMiao 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    ZhangMiao
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://zhangmiao.cc/posts/bb30f1ae.html" title="Android常用库和插件">https://zhangmiao.cc/posts/bb30f1ae.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/d339abc3.html" rel="next" title="Android Studio自定义注释模板">
+                <i class="fa fa-chevron-left"></i> Android Studio自定义注释模板
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/posts/59072e32.html" rel="prev" title="跨平台Flutterr，RN，Weex和原生Android的比较">
+                跨平台Flutterr，RN，Weex和原生Android的比较 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4" alt="ZhangMiao">
+            
+              <p class="site-author-name" itemprop="name">ZhangMiao</p>
+              <p class="site-description motion-element" itemprop="description">Android/Flutter Developer</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">367</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">57</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">141</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:zm@zhangmiao.cc" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://wpa.qq.com/msgrd?v=3&uin=153942241&site=qq&menu=yes" target="_blank" title="QQ">
+                      
+                        <i class="fa fa-fw fa-qq"></i>QQ</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/zhangmiaocc" target="_blank" title="Github">
+                      
+                        <i class="fa fa-fw fa-github"></i>Github</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://stackoverflow.com" target="_blank" title="StackOverflow">
+                      
+                        <i class="fa fa-fw fa-stack-overflow"></i>StackOverflow</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://blog.constore.cn/" title="Liujianhui" target="_blank">Liujianhui</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://xuebin.me" title="Leo" target="_blank">Leo</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.csdn.net/lmj623565791" title="Hongyang" target="_blank">Hongyang</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://liuwangshu.cn/" title="Liuwangshu" target="_blank">Liuwangshu</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://jspang.com/" title="Jspang" target="_blank">Jspang</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blankj.com/" title="Blankj" target="_blank">Blankj</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://wuxiaolong.me/" title="WuXiaoLong" target="_blank">WuXiaoLong</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://molunerfinn.com" title="Molunerfinn" target="_blank">Molunerfinn</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.ofind.cn/" title="Ofind" target="_blank">Ofind</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.gcssloop.com/" title="Gcssloop" target="_blank">Gcssloop</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#下拉刷新"><span class="nav-number">1.</span> <span class="nav-text">下拉刷新</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#PullLoadMoreRecyclerView"><span class="nav-number">1.0.1.</span> <span class="nav-text">PullLoadMoreRecyclerView</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#android-Ultra-Pull-To-Refresh"><span class="nav-number">1.0.2.</span> <span class="nav-text">android-Ultra-Pull-To-Refresh</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SmartRefreshLayout"><span class="nav-number">1.0.3.</span> <span class="nav-text">SmartRefreshLayout</span></a></li></ol></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#一个实用的多条件筛选菜单"><span class="nav-number">2.</span> <span class="nav-text">一个实用的多条件筛选菜单</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#DropDownMenu"><span class="nav-number">2.0.1.</span> <span class="nav-text">DropDownMenu</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#强大易用的安卓工具类库"><span class="nav-number">3.</span> <span class="nav-text">强大易用的安卓工具类库</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#AndroidUtilCode"><span class="nav-number">3.0.1.</span> <span class="nav-text">AndroidUtilCode</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SuperUtils"><span class="nav-number">3.0.2.</span> <span class="nav-text">SuperUtils</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Android第三方相册选择器"><span class="nav-number">4.</span> <span class="nav-text">Android第三方相册选择器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Matisse"><span class="nav-number">4.0.1.</span> <span class="nav-text">Matisse</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ImagePicker"><span class="nav-number">4.0.2.</span> <span class="nav-text">ImagePicker</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PictureSelector"><span class="nav-number">4.0.3.</span> <span class="nav-text">PictureSelector</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ImagePicker-1"><span class="nav-number">4.0.4.</span> <span class="nav-text">ImagePicker</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TakePhoto"><span class="nav-number">4.0.5.</span> <span class="nav-text">TakePhoto</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Album"><span class="nav-number">4.0.6.</span> <span class="nav-text">Album</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#可用于动态生成验证码，常见于金融类app"><span class="nav-number">5.</span> <span class="nav-text">可用于动态生成验证码，常见于金融类app</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#VerificationCodeView"><span class="nav-number">5.0.1.</span> <span class="nav-text">VerificationCodeView</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#类似于微信侧滑返回上一级Activity的工具"><span class="nav-number">5.1.</span> <span class="nav-text">类似于微信侧滑返回上一级Activity的工具</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SwipeBackHelper"><span class="nav-number">5.1.1.</span> <span class="nav-text">SwipeBackHelper</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SwipeBackLayout"><span class="nav-number">5.1.2.</span> <span class="nav-text">SwipeBackLayout</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Banner轮播ViewPager"><span class="nav-number">6.</span> <span class="nav-text">Banner轮播ViewPager</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#android-auto-scroll-view-pager"><span class="nav-number">6.0.1.</span> <span class="nav-text">android-auto-scroll-view-pager</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UltraViewPager"><span class="nav-number">6.0.2.</span> <span class="nav-text">UltraViewPager</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ViewPagerIndicator"><span class="nav-number">6.0.3.</span> <span class="nav-text">ViewPagerIndicator</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RecyclerViewPager"><span class="nav-number">6.0.4.</span> <span class="nav-text">RecyclerViewPager</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#banner"><span class="nav-number">6.0.5.</span> <span class="nav-text">banner</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#XBanner"><span class="nav-number">6.0.6.</span> <span class="nav-text">XBanner</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BGABanner-Android"><span class="nav-number">6.0.7.</span> <span class="nav-text">BGABanner-Android</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Android图片压缩工具"><span class="nav-number">7.</span> <span class="nav-text">Android图片压缩工具</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Luban-鲁班"><span class="nav-number">7.0.1.</span> <span class="nav-text">Luban(鲁班)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#侧滑菜单"><span class="nav-number">8.</span> <span class="nav-text">侧滑菜单</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SlidingRootNav"><span class="nav-number">8.0.1.</span> <span class="nav-text">SlidingRootNav</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#选择器"><span class="nav-number">9.</span> <span class="nav-text">选择器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Android-PickerView"><span class="nav-number">9.0.1.</span> <span class="nav-text">Android-PickerView</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#android-picker"><span class="nav-number">9.0.2.</span> <span class="nav-text">android-picker</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MultiType-FilePicker"><span class="nav-number">9.0.3.</span> <span class="nav-text">MultiType-FilePicker</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#简洁验证码输入框，能自定义输入框个数和样式"><span class="nav-number">10.</span> <span class="nav-text">简洁验证码输入框，能自定义输入框个数和样式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#VerificationCodeInput"><span class="nav-number">10.0.1.</span> <span class="nav-text">VerificationCodeInput</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#RecyclerView"><span class="nav-number">11.</span> <span class="nav-text">RecyclerView</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#IndexRecyclerView"><span class="nav-number">11.0.1.</span> <span class="nav-text">IndexRecyclerView</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ExpandableLayout"><span class="nav-number">11.0.2.</span> <span class="nav-text">ExpandableLayout</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SwipeRecyclerView"><span class="nav-number">11.0.3.</span> <span class="nav-text">SwipeRecyclerView</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IndexableRecyclerView"><span class="nav-number">11.0.4.</span> <span class="nav-text">IndexableRecyclerView</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Android换肤／夜间模式的Android框架"><span class="nav-number">12.</span> <span class="nav-text">Android换肤／夜间模式的Android框架</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MultipleTheme"><span class="nav-number">12.0.1.</span> <span class="nav-text">MultipleTheme</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#强大的RecyclerAdapter框架"><span class="nav-number">13.</span> <span class="nav-text">强大的RecyclerAdapter框架</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#BaseRecyclerViewAdapterHelper"><span class="nav-number">13.0.1.</span> <span class="nav-text">BaseRecyclerViewAdapterHelper</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SuperAdapter"><span class="nav-number">13.0.2.</span> <span class="nav-text">SuperAdapter</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#更换主题、设置状态栏的工具类"><span class="nav-number">14.</span> <span class="nav-text">更换主题、设置状态栏的工具类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#StatusBarUtil-实现沉浸栏状态栏颜色状态"><span class="nav-number">14.0.1.</span> <span class="nav-text">StatusBarUtil (实现沉浸栏状态栏颜色状态)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MagicaSakura"><span class="nav-number">14.0.2.</span> <span class="nav-text">MagicaSakura</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Dialog"><span class="nav-number">15.</span> <span class="nav-text">Dialog</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#BasePopup"><span class="nav-number">15.0.1.</span> <span class="nav-text">BasePopup</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AndroidBottomSheet"><span class="nav-number">15.0.2.</span> <span class="nav-text">AndroidBottomSheet</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BottomDialog"><span class="nav-number">15.0.3.</span> <span class="nav-text">BottomDialog</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AndroidSuperDialog"><span class="nav-number">15.0.4.</span> <span class="nav-text">AndroidSuperDialog</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#material-dialogs"><span class="nav-number">15.0.5.</span> <span class="nav-text">material-dialogs</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Android-AlertView"><span class="nav-number">15.0.6.</span> <span class="nav-text">Android-AlertView</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#加载Loading"><span class="nav-number">16.</span> <span class="nav-text">加载Loading</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#LoadingLayout"><span class="nav-number">16.0.1.</span> <span class="nav-text">LoadingLayout</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NumberProgressBar"><span class="nav-number">16.0.2.</span> <span class="nav-text">NumberProgressBar</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#KProgressHUD"><span class="nav-number">16.0.3.</span> <span class="nav-text">KProgressHUD</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GifLoadingView"><span class="nav-number">16.0.4.</span> <span class="nav-text">GifLoadingView</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#音乐播放"><span class="nav-number">17.</span> <span class="nav-text">音乐播放</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Timber"><span class="nav-number">17.0.1.</span> <span class="nav-text">Timber</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CustomLrcView-master"><span class="nav-number">17.0.2.</span> <span class="nav-text">CustomLrcView-master</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LyricViewDemo"><span class="nav-number">17.0.3.</span> <span class="nav-text">LyricViewDemo</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数据库"><span class="nav-number">18.</span> <span class="nav-text">数据库</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#LitePal"><span class="nav-number">18.0.1.</span> <span class="nav-text">LitePal</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#realm-java"><span class="nav-number">18.0.2.</span> <span class="nav-text">realm-java</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#greenDAO"><span class="nav-number">18.0.3.</span> <span class="nav-text">greenDAO</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#动画库"><span class="nav-number">19.</span> <span class="nav-text">动画库</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#lottie-android"><span class="nav-number">19.0.1.</span> <span class="nav-text">lottie-android</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TransitionHelper"><span class="nav-number">19.0.2.</span> <span class="nav-text">TransitionHelper</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TranslationCompat"><span class="nav-number">19.0.3.</span> <span class="nav-text">TranslationCompat</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#android-pathview"><span class="nav-number">19.0.4.</span> <span class="nav-text">android-pathview</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#图表类工具"><span class="nav-number">20.</span> <span class="nav-text">图表类工具</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MPAndroidChart"><span class="nav-number">20.0.1.</span> <span class="nav-text">MPAndroidChart</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#KChartView"><span class="nav-number">20.0.2.</span> <span class="nav-text">KChartView</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hellocharts-android"><span class="nav-number">20.0.3.</span> <span class="nav-text">hellocharts-android</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#波浪效果"><span class="nav-number">21.</span> <span class="nav-text">波浪效果</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#WaveView"><span class="nav-number">21.0.1.</span> <span class="nav-text">WaveView</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Android开源项目及库"><span class="nav-number">22.</span> <span class="nav-text">Android开源项目及库</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#TimLiu-Android"><span class="nav-number">22.0.1.</span> <span class="nav-text">TimLiu-Android</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#播放器"><span class="nav-number">23.</span> <span class="nav-text">播放器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#PLDroidPlayer"><span class="nav-number">23.0.1.</span> <span class="nav-text">PLDroidPlayer</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#标题导航栏"><span class="nav-number">24.</span> <span class="nav-text">标题导航栏</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ByeBurger"><span class="nav-number">24.0.1.</span> <span class="nav-text">ByeBurger</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#网络加载"><span class="nav-number">25.</span> <span class="nav-text">网络加载</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#okhttp-OkGo"><span class="nav-number">25.0.1.</span> <span class="nav-text">okhttp-OkGo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NoHttp"><span class="nav-number">25.0.2.</span> <span class="nav-text">NoHttp</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#OkHttpFinal"><span class="nav-number">25.0.3.</span> <span class="nav-text">OkHttpFinal</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#okhttputils"><span class="nav-number">25.0.4.</span> <span class="nav-text">okhttputils</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二维码"><span class="nav-number">26.</span> <span class="nav-text">二维码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#android-zxingLibrary"><span class="nav-number">26.0.1.</span> <span class="nav-text">android-zxingLibrary</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#QRCode-Android"><span class="nav-number">26.0.2.</span> <span class="nav-text">QRCode-Android</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#QrCodeScan"><span class="nav-number">26.0.3.</span> <span class="nav-text">QrCodeScan</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#自定义键盘"><span class="nav-number">27.</span> <span class="nav-text">自定义键盘</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CustomizeKeyboard"><span class="nav-number">27.0.1.</span> <span class="nav-text">CustomizeKeyboard</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#蓝牙操作库"><span class="nav-number">28.</span> <span class="nav-text">蓝牙操作库</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#BluetoothHelper"><span class="nav-number">28.0.1.</span> <span class="nav-text">BluetoothHelper</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#版本更新"><span class="nav-number">29.</span> <span class="nav-text">版本更新</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CheckVersionLib-版本检测升级（更新）库。"><span class="nav-number">29.0.1.</span> <span class="nav-text">CheckVersionLib 版本检测升级（更新）库。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UpdateApp"><span class="nav-number">29.0.2.</span> <span class="nav-text">UpdateApp</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#缓存"><span class="nav-number">30.</span> <span class="nav-text">缓存</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ASimpleCache"><span class="nav-number">30.0.1.</span> <span class="nav-text">ASimpleCache</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#权限管理"><span class="nav-number">31.</span> <span class="nav-text">权限管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#AndPermission"><span class="nav-number">31.0.1.</span> <span class="nav-text">AndPermission</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FcPermissions"><span class="nav-number">31.0.2.</span> <span class="nav-text">FcPermissions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RxPermissions"><span class="nav-number">31.0.3.</span> <span class="nav-text">RxPermissions</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Tag标签"><span class="nav-number">32.</span> <span class="nav-text">Tag标签</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#AndroidTagGroup"><span class="nav-number">32.0.1.</span> <span class="nav-text">AndroidTagGroup</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#手势密码解锁"><span class="nav-number">33.</span> <span class="nav-text">手势密码解锁</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#LockPattern"><span class="nav-number">33.0.1.</span> <span class="nav-text">LockPattern</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PatternLockView"><span class="nav-number">33.0.2.</span> <span class="nav-text">PatternLockView</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BlurLockView"><span class="nav-number">33.0.3.</span> <span class="nav-text">BlurLockView</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AppLock"><span class="nav-number">33.0.4.</span> <span class="nav-text">AppLock</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LolliPin"><span class="nav-number">33.0.5.</span> <span class="nav-text">LolliPin</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PinLockView"><span class="nav-number">33.0.6.</span> <span class="nav-text">PinLockView</span></a></li></ol></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZhangMiao</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      本站访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+  <div>
+    <script type="text/javascript">
+      var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");
+      document.write(unescape("%3Cspan id='cnzz_stat_icon_1277928793'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1277928793%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+  </div>
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://zhangmiao.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://zhangmiao.cc/posts/bb30f1ae.html';
+          this.page.identifier = 'posts/bb30f1ae.html';
+          this.page.title = 'Android常用库和插件';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://zhangmiao.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("8iIYW0IGofqyvJiiuU5R9buW-gzGzoHsz", "ssmxRx0kELJir6mA02ziW3Ql");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/lib/zclip/clipboard.min.js"></script>
+<script type="text/javascript" src="/js/src/custom.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,1489 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Android,Flutter,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="zm.blog" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="前面提到基础部件的时候，忘了提输入内容处理部件，这里补上，然后顺带撸个实际的界面吧 1、TextField123456789101112131415161718192021222324252627282930const TextField(&amp;#123;    Key key,    this.controller, // 定义一个 `TextEditingController` 实例，用来获取输入">
+<meta name="keywords" content="Android,Flutter">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Flutter入门指南(五)输入处理及登录界面实战">
+<meta property="og:url" content="https://zhangmiao.cc/posts/4b62f141.html">
+<meta property="og:site_name" content="zm.blog">
+<meta property="og:description" content="前面提到基础部件的时候，忘了提输入内容处理部件，这里补上，然后顺带撸个实际的界面吧 1、TextField123456789101112131415161718192021222324252627282930const TextField(&amp;#123;    Key key,    this.controller, // 定义一个 `TextEditingController` 实例，用来获取输入">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190425164133.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190425164145.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190425164358.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190425164504.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190425164542.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190425164604.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190425164811.png">
+<meta property="og:updated_time" content="2021-12-24T02:05:29.962Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Flutter入门指南(五)输入处理及登录界面实战">
+<meta name="twitter:description" content="前面提到基础部件的时候，忘了提输入内容处理部件，这里补上，然后顺带撸个实际的界面吧 1、TextField123456789101112131415161718192021222324252627282930const TextField(&amp;#123;    Key key,    this.controller, // 定义一个 `TextEditingController` 实例，用来获取输入">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190425164133.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://zhangmiao.cc/posts/4b62f141.html">
+
+
+
+
+
+  <title>Flutter入门指南(五)输入处理及登录界面实战 | zm.blog</title>
+  
+
+
+
+
+
+  <script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?44434226ba535875b1e807122adc3a04";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zm.blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">select * from learn</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhangmiao.cc/posts/4b62f141.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZhangMiao">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zm.blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Flutter入门指南(五)输入处理及登录界面实战</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-25T16:40:00+08:00">
+                2019-04-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/Flutter/" itemprop="url" rel="index">
+                    <span itemprop="name">Flutter</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/posts/4b62f141.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="posts/4b62f141.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/posts/4b62f141.html" class="leancloud_visitors" data-flag-title="Flutter入门指南(五)输入处理及登录界面实战">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>前面提到基础部件的时候，忘了提输入内容处理部件，这里补上，然后顺带撸个实际的界面吧</p>
+<h3 id="1、TextField"><a href="#1、TextField" class="headerlink" title="1、TextField"></a>1、TextField</h3><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> TextField(&#123;</span><br><span class="line">    Key key,</span><br><span class="line">    <span class="keyword">this</span>.controller, <span class="comment">// 定义一个 `TextEditingController` 实例，用来获取输入框内容等操作</span></span><br><span class="line">    <span class="keyword">this</span>.focusNode, <span class="comment">// 定义一个 `FocusNode` 实例，判断当前输入框是否获取到焦点等操作</span></span><br><span class="line">    <span class="keyword">this</span>.decoration = <span class="keyword">const</span> InputDecoration(), <span class="comment">// 输入框样式，包括提醒字样，hint 等等</span></span><br><span class="line">    TextInputType keyboardType, <span class="comment">// 输入文本类型，例如 数字，email 等等</span></span><br><span class="line">    <span class="keyword">this</span>.textInputAction, <span class="comment">// 键盘确认按钮的事件类型</span></span><br><span class="line">    <span class="keyword">this</span>.textCapitalization = TextCapitalization.none,</span><br><span class="line">    <span class="keyword">this</span>.style, <span class="comment">// 文字样式</span></span><br><span class="line">    <span class="keyword">this</span>.textAlign = TextAlign.start, <span class="comment">// 对齐方式</span></span><br><span class="line">    <span class="keyword">this</span>.textDirection, <span class="comment">// 文字方向</span></span><br><span class="line">    <span class="keyword">this</span>.autofocus = <span class="keyword">false</span>, <span class="comment">// 是否自动获取焦点</span></span><br><span class="line">    <span class="keyword">this</span>.obscureText = <span class="keyword">false</span>, <span class="comment">// 文字是否隐藏，多用于密码</span></span><br><span class="line">    <span class="keyword">this</span>.autocorrect = <span class="keyword">true</span>, </span><br><span class="line">    <span class="keyword">this</span>.maxLines = <span class="number">1</span>, <span class="comment">//</span></span><br><span class="line">    <span class="keyword">this</span>.maxLength, <span class="comment">// 最大长度</span></span><br><span class="line">    <span class="keyword">this</span>.maxLengthEnforced = <span class="keyword">true</span>, <span class="comment">// 设置最大长度后，输入内容超出后是否强制不给输入</span></span><br><span class="line">    <span class="keyword">this</span>.onChanged, <span class="comment">// 输入内容发生变化时候的回调</span></span><br><span class="line">    <span class="keyword">this</span>.onEditingComplete, <span class="comment">// 输入完毕的回调</span></span><br><span class="line">    <span class="keyword">this</span>.onSubmitted, <span class="comment">// 提交内容的回调</span></span><br><span class="line">    <span class="keyword">this</span>.inputFormatters, <span class="comment">// </span></span><br><span class="line">    <span class="keyword">this</span>.enabled, <span class="comment">// 是否可输入，false 不可输入</span></span><br><span class="line">    <span class="keyword">this</span>.cursorWidth = <span class="number">2.0</span>, <span class="comment">// 游标宽度</span></span><br><span class="line">    <span class="keyword">this</span>.cursorRadius, <span class="comment">// 游标半径</span></span><br><span class="line">    <span class="keyword">this</span>.cursorColor, <span class="comment">// 游标颜色</span></span><br><span class="line">    <span class="keyword">this</span>.keyboardAppearance, <span class="comment">// 该属性只在 iOS 设备有效</span></span><br><span class="line">    <span class="keyword">this</span>.scrollPadding = <span class="keyword">const</span> EdgeInsets.all(<span class="number">20.0</span>),</span><br><span class="line">    <span class="keyword">this</span>.enableInteractiveSelection,</span><br><span class="line">    <span class="keyword">this</span>.onTap, <span class="comment">// 点击事件</span></span><br><span class="line">  &#125;)</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+<p>那么，简单的来个输入框示例吧，然后通过 Text 展示结果</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">HomePage</span> <span class="keyword">extends</span> <span class="title">StatefulWidget</span> </span>&#123;</span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  _HomePageState createState() =&gt; _HomePageState();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">_HomePageState</span> <span class="keyword">extends</span> <span class="title">State</span>&lt;<span class="title">HomePage</span>&gt; </span>&#123;</span><br><span class="line">  <span class="comment">// 可以传入初始值</span></span><br><span class="line">  TextEditingController _editController = TextEditingController();</span><br><span class="line">  FocusNode _editNode = FocusNode();</span><br><span class="line">  <span class="comment">// 保存按钮点击后的输入内容值</span></span><br><span class="line">  <span class="built_in">String</span> _content = <span class="string">''</span>;</span><br><span class="line">  <span class="comment">// 监听输入内容变化的内容值</span></span><br><span class="line">  <span class="built_in">String</span> _spyContent = <span class="string">''</span>;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  <span class="keyword">void</span> initState() &#123;</span><br><span class="line">    <span class="keyword">super</span>.initState();</span><br><span class="line">    <span class="comment">// 当输入框获取到焦点或者失去焦点的时候回调用</span></span><br><span class="line">    _editNode.addListener(() &#123;</span><br><span class="line">      <span class="built_in">print</span>(<span class="string">'edit has focus? =&gt; <span class="subst">$&#123;_editNode.hasFocus&#125;</span>'</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  <span class="keyword">void</span> dispose() &#123;</span><br><span class="line">    <span class="comment">// 记得销毁，防止内存溢出</span></span><br><span class="line">    _editController.dispose();</span><br><span class="line">    _editNode.dispose();</span><br><span class="line">    <span class="keyword">super</span>.dispose();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  Widget build(BuildContext context) &#123;</span><br><span class="line">    <span class="keyword">return</span> Scaffold(</span><br><span class="line">      appBar: AppBar(</span><br><span class="line">        title: Text(<span class="string">'Input Content'</span>),</span><br><span class="line">      ),</span><br><span class="line">      body: Container(</span><br><span class="line">          padding: <span class="keyword">const</span> EdgeInsets.symmetric(horizontal: <span class="number">12.0</span>),</span><br><span class="line">          child: Column(</span><br><span class="line">            children: &lt;Widget&gt;[</span><br><span class="line">              TextField(</span><br><span class="line">                controller: _editController,</span><br><span class="line">                focusNode: _editNode,</span><br><span class="line">                decoration: InputDecoration(</span><br><span class="line">                    icon: Icon(Icons.phone_iphone, color: Theme.of(context).primaryColor),</span><br><span class="line">                    labelText: <span class="string">'请输入手机号'</span>,</span><br><span class="line">                    helperText: <span class="string">'手机号'</span>,</span><br><span class="line">                    hintText: <span class="string">'手机号...在这儿输入呢'</span>),</span><br><span class="line">                keyboardType: TextInputType.number,</span><br><span class="line">                <span class="comment">// 输入类型为数字类型</span></span><br><span class="line">                textInputAction: TextInputAction.done,</span><br><span class="line">                style: TextStyle(color: Colors.redAccent, fontSize: <span class="number">18.0</span>),</span><br><span class="line">                textDirection: TextDirection.ltr,</span><br><span class="line">                maxLength: <span class="number">11</span>, <span class="comment">// 最大长度为 11</span></span><br><span class="line">                maxLengthEnforced: <span class="keyword">true</span>, <span class="comment">// 超过长度的不显示</span></span><br><span class="line">                onChanged: (v) &#123; <span class="comment">// 输入的内容发生改变会调用</span></span><br><span class="line">                  setState(() =&gt; _spyContent = v);</span><br><span class="line">                &#125;,</span><br><span class="line">                onSubmitted: (s) &#123; <span class="comment">// 点击确定按钮时候会调用</span></span><br><span class="line">                  setState(() =&gt; _spyContent = _editController.value.text);</span><br><span class="line">                &#125;,</span><br><span class="line">              ),</span><br><span class="line">              Padding(</span><br><span class="line">                  padding: <span class="keyword">const</span> EdgeInsets.symmetric(vertical: <span class="number">8.0</span>),</span><br><span class="line">                  child: RaisedButton(</span><br><span class="line">                      onPressed: () &#123; </span><br><span class="line">                        <span class="comment">// 获取输入的内容</span></span><br><span class="line">                        setState(() =&gt; _content = _editController.value.text);</span><br><span class="line">                        <span class="comment">// 清理输入内容</span></span><br><span class="line">                        _editController.clear();</span><br><span class="line">                        setState(() =&gt; _spyContent = <span class="string">''</span>);</span><br><span class="line">                      &#125;,</span><br><span class="line">                      child: Text(<span class="string">'获取输入内容'</span>))),</span><br><span class="line">              <span class="comment">// 展示输入的内容，点击按钮会显示</span></span><br><span class="line">              Text(_content.isNotEmpty ? <span class="string">'获取到输入内容: $_content'</span> : <span class="string">'还未获取到任何内容...'</span>),</span><br><span class="line">              Padding(</span><br><span class="line">                padding: <span class="keyword">const</span> EdgeInsets.symmetric(vertical: <span class="number">8.0</span>),</span><br><span class="line">                <span class="comment">// 监听输入内容的变化，会跟随输入的内容进行改变</span></span><br><span class="line">                child: Text(<span class="string">'我是文字内容监听：$_spyContent'</span>),</span><br><span class="line">              )</span><br><span class="line">            ],</span><br><span class="line">          )),</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这边需要提下的是 setState 方法，该方法只有 StatefulWidget 才有，当需要修改某个值的内容的时候，通过该方法进行修改，最后的效果图如下，当输入框文字发生变化的时候，监听的 Text 内容会随之改变，获取内容的 Text 当点击按钮了才发生变化</p>
+<p><img src="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190425164133.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190425164145.png" alt></p>
+<p>该部分代码查看 text_field_main.dart 文件</p>
+<p>那么如果有个需求，在点击按钮的时候需要对输入的内容的合理性进行检测，当然可以通过 TextEditingController 的结果进行检测，但是还有个更加方便的方法，可以直接使用部件 TextFormField 来实现，不过需要我们在外层加一个 Form 部件，接下来，就要准备通过 TextFormField 来撸一个登录界面，但是这之前，前面有个坑需要先解决下</p>
+<h3 id="2、导入自定义的图标"><a href="#2、导入自定义的图标" class="headerlink" title="2、导入自定义的图标"></a>2、导入自定义的图标</h3><p>在这之前，涉及到 Icon 部件，都是使用的系统自带的图标，那么如何导入第三方自定义图标呢，马上为你揭晓答案，首先我们需要打开「阿里妈妈」也就是 iconfont，不知道的小伙伴通过链接打开，然后需要注册个账户，也可以直接通过 Github 等三方登录，然后就可以搜索我们需要的图标了，接下来需要撸一个登录，那我们就找一个 用户  和 密码 的图标吧，选择喜欢的图标，然后鼠标放到图标会出现三个按钮，直接点击 购物车 那个按钮，然后就可以通过顶部的 购物车 按钮查看添加的图标，点击下载代码，把资源文件下载到本地。</p>
+<p><img src="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190425164358.png" alt></p>
+<p>解压后，需要用到的文件有两个，别的可以忽略</p>
+<ol>
+<li>demo_index.html 这边用来查看图标的 unicode</li>
+<li>iconfont.ttf 这边就是图标资源文件了</li>
+</ol>
+<p>回到项目，创建一个文件夹 fonts ，和 images 同级，将 iconfont.ttf 文件放到该文件夹下，然后打开 pubspec.ymal 文件，注册下导入的资源，可以自己命名 iconfont.ttf 文件名，便于自己发现就行，例如我命名为 third_part_icon.ttf，在注册图片下面继续添加</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">fonts:</span><br><span class="line">  - family: ThirdPartIcons</span><br><span class="line">    fonts:</span><br><span class="line">    - asset: fonts/third_part_icon.ttf</span><br></pre></td></tr></table></figure>
+
+<p>注册完了记得点击 Package get，否则会找不到资源。接着新建个 third_icons.dart文件</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ThirdIcons</span> </span>&#123;</span><br><span class="line">  <span class="comment">// codePoint 值通过打开 `demo_index.html` 获取</span></span><br><span class="line">  <span class="comment">// 会在相应 icon 下带有相应的 code，把 `&amp;#` 替换成 `0`，然后去掉最后的 `;` 即可</span></span><br><span class="line">  <span class="comment">// 例如 &amp;#xe672; 对应我们需要的图标就是 0xe672</span></span><br><span class="line">  <span class="keyword">static</span> <span class="keyword">const</span> IconData username = ThirdIconData(<span class="number">0xe672</span>);</span><br><span class="line">  <span class="keyword">static</span> <span class="keyword">const</span> IconData password = ThirdIconData(<span class="number">0xe62f</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ThirdIconData</span> <span class="keyword">extends</span> <span class="title">IconData</span> </span>&#123;</span><br><span class="line">  <span class="comment">// fontFamily 就是我们在 `pubspec.yaml` 中注册的 family 值</span></span><br><span class="line">  <span class="keyword">const</span> ThirdIconData(<span class="built_in">int</span> codePoint) : <span class="keyword">super</span>(codePoint, fontFamily: <span class="string">'ThirdPartIcons'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接下来就可以通过该类导入需要的第三方图标了。</p>
+<h3 id="3、导入第三方插件"><a href="#3、导入第三方插件" class="headerlink" title="3、导入第三方插件"></a>3、导入第三方插件</h3><p>其实 Flutter 中缺少很多功能，需要通过导入第三方插件来实现功能，插件就是 Flutter 和原生交互的桥梁，也就是说，要写 Flutter 的插件，需要写 Android 和 iOS 两端代码才可，否则只有在其中一个端能够实现功能。好在有很多现成的插件已经开源，可以通过 FlutterPackage 搜索到，例如等会我们会需要用到 FlutterToast 这个插件，用来做提醒用，在 FlutterPackage 中搜索到插件后，打开项目中的 pubspec.ymal 文件，在 dependencies 类目下将 fluttertoast 插件引入，如图：</p>
+<p><img src="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190425164504.png" alt></p>
+<p>然后点击 Package get 让其导入即可，别的插件也是这样导入。做好准备工作，我们就可以撸一个登录界面了~</p>
+<h3 id="4、撸一个登录界面"><a href="#4、撸一个登录界面" class="headerlink" title="4、撸一个登录界面"></a>4、撸一个登录界面</h3><p>在开撸之前，我们先看下最终的效果图吧，虽然是比较常用的界面</p>
+<p><img src="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190425164542.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190425164604.png" alt></p>
+<p>因为两个界面比较相似，所以这边只贴外层的代码和登录的代码，具体的代码，可以查看源码，已经推到 Github</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> main() &#123;</span><br><span class="line">  runApp(LoginApp());</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (Platform.isAndroid) &#123;</span><br><span class="line">    <span class="keyword">var</span> style = SystemUiOverlayStyle(statusBarColor: Colors.transparent);</span><br><span class="line">    SystemChrome.setSystemUIOverlayStyle(style);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/// 外层界面，包裹登录界面和注册界面，使用的都是前面讲过的，忘记可以查看之前的章节</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LoginApp</span> <span class="keyword">extends</span> <span class="title">StatelessWidget</span> </span>&#123;</span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  Widget build(BuildContext context) &#123;</span><br><span class="line">    <span class="keyword">return</span> MaterialApp(</span><br><span class="line">      title: <span class="string">'Login Demo'</span>,</span><br><span class="line">      debugShowCheckedModeBanner: <span class="keyword">false</span>,</span><br><span class="line">      theme: ThemeData(primarySwatch: Colors.lightBlue),</span><br><span class="line">      home: LoginHomePage(),</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LoginHomePage</span> <span class="keyword">extends</span> <span class="title">StatefulWidget</span> </span>&#123;</span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  _LoginHomePageState createState() =&gt; _LoginHomePageState();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">_LoginHomePageState</span> <span class="keyword">extends</span> <span class="title">State</span>&lt;<span class="title">LoginHomePage</span>&gt; <span class="title">with</span> <span class="title">SingleTickerProviderStateMixin</span> </span>&#123;</span><br><span class="line">  TabController _tabController;</span><br><span class="line">  <span class="built_in">List</span>&lt;<span class="built_in">String</span>&gt; _pageIndicators = [<span class="string">'登录'</span>, <span class="string">'注册'</span>];</span><br><span class="line">  <span class="built_in">List</span>&lt;Widget&gt; _pages = [];</span><br><span class="line">  <span class="built_in">int</span> _position = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  <span class="keyword">void</span> initState() &#123;</span><br><span class="line">    <span class="keyword">super</span>.initState();</span><br><span class="line">    _tabController = TabController(length: _pageIndicators.length, vsync: <span class="keyword">this</span>);</span><br><span class="line">    <span class="comment">// 将登录界面和注册界面添加到列表，用于放到 IndexStack 的 children 属性</span></span><br><span class="line">    _pages..add(LoginPage())..add(RegisterPage());</span><br><span class="line"></span><br><span class="line">    _tabController.addListener(() &#123;</span><br><span class="line">      <span class="comment">// 当 tab 切换的时候，联动 IndexStack 的 child 页面也进行修改，通过 setState 来修改值</span></span><br><span class="line">      <span class="keyword">if</span> (_tabController.indexIsChanging) setState(() =&gt; _position = _tabController.index);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  <span class="keyword">void</span> dispose() &#123;</span><br><span class="line">    <span class="keyword">super</span>.dispose();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  Widget build(BuildContext context) &#123;</span><br><span class="line">    <span class="comment">// 先忽略...</span></span><br><span class="line">    <span class="keyword">return</span> Theme(</span><br><span class="line">        data: ThemeData(primarySwatch: Colors.pink, iconTheme: IconThemeData(color: Colors.pink)),</span><br><span class="line">        child: Scaffold(</span><br><span class="line">          body: Container(</span><br><span class="line">            padding: <span class="keyword">const</span> EdgeInsets.all(<span class="number">20.0</span>),</span><br><span class="line">            alignment: Alignment.center,</span><br><span class="line">            decoration:</span><br><span class="line">                BoxDecoration(image: DecorationImage(image: AssetImage(<span class="string">'images/login_bg.png'</span>), fit: BoxFit.cover)),</span><br><span class="line">            </span><br><span class="line">            <span class="comment">// 先忽略...下面会讲，主要是解决软键盘弹出的时候，界面内容会溢出的问题</span></span><br><span class="line">            child: SingleChildScrollView(</span><br><span class="line">              child: SafeArea(</span><br><span class="line">                  child: Column(mainAxisAlignment: MainAxisAlignment.center, children: &lt;Widget&gt;[</span><br><span class="line">                <span class="comment">// 顶部页面切换指示器，代码可以参考 `app_bar_main.dart` 文件</span></span><br><span class="line">                TabBar(</span><br><span class="line">                    indicatorSize: TabBarIndicatorSize.label,</span><br><span class="line">                    controller: _tabController,</span><br><span class="line">                    indicatorWeight: <span class="number">4.0</span>,</span><br><span class="line">                    indicatorColor: Colors.white,</span><br><span class="line">                    <span class="comment">// 返回 tab 列表</span></span><br><span class="line">                    tabs: _pageIndicators</span><br><span class="line">                        .map((v) =&gt; Text(v, style: TextStyle(color: Colors.white, fontSize: <span class="number">24.0</span>)))</span><br><span class="line">                        .toList()),</span><br><span class="line">                Padding(</span><br><span class="line">                    padding: <span class="keyword">const</span> EdgeInsets.only(top: <span class="number">30.0</span>),</span><br><span class="line">                    child: SizedBox(</span><br><span class="line">                        <span class="comment">// 切换界面列表</span></span><br><span class="line">                        child: IndexedStack(children: _pages, index: _position),</span><br><span class="line">                        <span class="comment">// 指定高度</span></span><br><span class="line">                        height: MediaQuery.of(context).size.height / <span class="number">2</span>))</span><br><span class="line">              ])),</span><br><span class="line">            ),</span><br><span class="line">          ),</span><br><span class="line">        ));</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/// 登录界面</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LoginPage</span> <span class="keyword">extends</span> <span class="title">StatefulWidget</span> </span>&#123;</span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  _LoginPageState createState() =&gt; _LoginPageState();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">_LoginPageState</span> <span class="keyword">extends</span> <span class="title">State</span>&lt;<span class="title">LoginPage</span>&gt; </span>&#123;</span><br><span class="line">  <span class="comment">// 用于后面判断表单内容是否有效</span></span><br><span class="line">  GlobalKey&lt;FormState&gt; _formKey = GlobalKey();</span><br><span class="line">  <span class="comment">// 用于获取输入框的内容</span></span><br><span class="line">  TextEditingController _usernameController = TextEditingController();</span><br><span class="line">  TextEditingController _passwordController = TextEditingController();</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  <span class="keyword">void</span> initState() &#123;</span><br><span class="line">    <span class="keyword">super</span>.initState();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  <span class="keyword">void</span> dispose() &#123;</span><br><span class="line">    <span class="comment">// 防止内存溢出，记得销毁..销毁..销毁</span></span><br><span class="line">    _usernameController.dispose();</span><br><span class="line">    _passwordController.dispose();</span><br><span class="line">    <span class="keyword">super</span>.dispose();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  _login() &#123;</span><br><span class="line">    <span class="comment">// 取消焦点</span></span><br><span class="line">    FocusScope.of(context).requestFocus(FocusNode());</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 判断表单是否有效</span></span><br><span class="line">    <span class="keyword">if</span> (_formKey.currentState.validate()) &#123;</span><br><span class="line">      <span class="comment">// 获取输入框内容</span></span><br><span class="line">      <span class="keyword">var</span> username = _usernameController.value.text;</span><br><span class="line">      <span class="keyword">var</span> password = _passwordController.value.text;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// 判断登录条件</span></span><br><span class="line">      <span class="keyword">if</span> (username == <span class="string">'kuky'</span> &amp;&amp; password == <span class="string">'123456'</span>)</span><br><span class="line">        <span class="comment">// 引入的三方插件方法，`Flutter` 没有自带的 `Taost`</span></span><br><span class="line">        Fluttertoast.showToast(msg: <span class="string">'登录成功'</span>);</span><br><span class="line">      <span class="keyword">else</span></span><br><span class="line">        Fluttertoast.showToast(msg: <span class="string">'登录失败'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  Widget build(BuildContext context) &#123;</span><br><span class="line">    <span class="keyword">return</span> Form(</span><br><span class="line">        <span class="comment">// 将 key 设置给表单，用于判断表单是否有效</span></span><br><span class="line">        key: _formKey,</span><br><span class="line">        child: Column(</span><br><span class="line">          children: &lt;Widget&gt;[</span><br><span class="line">            Padding(</span><br><span class="line">              padding: <span class="keyword">const</span> EdgeInsets.symmetric(vertical: <span class="number">4.0</span>),</span><br><span class="line">              <span class="comment">// 表单输入框，参数同 TextField 基本类似</span></span><br><span class="line">              child: TextFormField(</span><br><span class="line">                controller: _usernameController,</span><br><span class="line">                style: TextStyle(color: Colors.white, fontSize: <span class="number">16.0</span>),</span><br><span class="line">                decoration: InputDecoration(</span><br><span class="line">                    icon: Icon(ThirdIcons.username, size: <span class="number">24.0</span>, color: Colors.white),</span><br><span class="line">                    labelText: <span class="string">'请输入用户名'</span>,</span><br><span class="line">                    labelStyle: TextStyle(color: Colors.white),</span><br><span class="line">                    helperStyle: TextStyle(color: Colors.white)),</span><br><span class="line">                <span class="comment">// 有效条件(为空不通过，返回提示语，通过返回 null)</span></span><br><span class="line">                validator: (value) =&gt; value.trim().isEmpty ? <span class="string">'用户名不能为空'</span> : <span class="keyword">null</span>,</span><br><span class="line">              ),</span><br><span class="line">            ),</span><br><span class="line">            Padding(</span><br><span class="line">              padding: <span class="keyword">const</span> EdgeInsets.symmetric(vertical: <span class="number">4.0</span>),</span><br><span class="line">              child: TextFormField(</span><br><span class="line">                obscureText: <span class="keyword">true</span>,</span><br><span class="line">                controller: _passwordController,</span><br><span class="line">                style: TextStyle(color: Colors.white, fontSize: <span class="number">16.0</span>),</span><br><span class="line">                decoration: InputDecoration(</span><br><span class="line">                    icon: Icon(ThirdIcons.password, size: <span class="number">24.0</span>, color: Colors.white),</span><br><span class="line">                    labelText: <span class="string">'请输入密码'</span>,</span><br><span class="line">                    labelStyle: TextStyle(color: Colors.white),</span><br><span class="line">                    helperStyle: TextStyle(color: Colors.white)),</span><br><span class="line">                validator: (value) =&gt; value.trim().length &lt; <span class="number">6</span> ? <span class="string">'密码长度不能小于6位'</span> : <span class="keyword">null</span>,</span><br><span class="line">              ),</span><br><span class="line">            ),</span><br><span class="line">            Padding(</span><br><span class="line">              padding: <span class="keyword">const</span> EdgeInsets.only(top: <span class="number">20.0</span>),</span><br><span class="line">              child: SizedBox(</span><br><span class="line">                <span class="comment">// 主要用于使 RaisedButton 和上层容器同宽</span></span><br><span class="line">                width: MediaQuery.of(context).size.width,</span><br><span class="line">                child: RaisedButton(</span><br><span class="line">                    color: Colors.pink,</span><br><span class="line">                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(<span class="number">4.0</span>))),</span><br><span class="line">                    onPressed: _login,</span><br><span class="line">                    child: Text(</span><br><span class="line">                      <span class="string">'登录'</span>,</span><br><span class="line">                      style: TextStyle(color: Colors.white, fontSize: <span class="number">20.0</span>),</span><br><span class="line">                    )),</span><br><span class="line">              ),</span><br><span class="line">            )</span><br><span class="line">          ],</span><br><span class="line">        ));</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>撸完界面后，可以试下登录效果，如果输入框的内容，和 TextFormField 的 validator的条件不符合，则会显示错误文字的提示</p>
+<p><img src="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190425164811.png" alt></p>
+<p>如果按照条件用户名为 kuky 密码为 123456 (条件可以根据自己进行修改)则会显示登录成功的逻辑</p>
+<p>以上代码查看 login_home_page.dart 文件</p>
+<p>注册界面的逻辑和登录界面的逻辑几乎一样，算是第一次实战了，望小伙伴能够好好的写一遍</p>
+<p>代码地址:</p>
+<p><a href="https://github.com/kukyxs/flutter_arts_demos_app" target="_blank" rel="noopener">https://github.com/kukyxs/flutter_arts_demos_app</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="ZhangMiao 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="ZhangMiao 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    ZhangMiao
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://zhangmiao.cc/posts/4b62f141.html" title="Flutter入门指南(五)输入处理及登录界面实战">https://zhangmiao.cc/posts/4b62f141.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+            <a href="/tags/Flutter/" rel="tag"># Flutter</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/14587b6a.html" rel="next" title="Flutter入门指南(四)常用布局">
+                <i class="fa fa-chevron-left"></i> Flutter入门指南(四)常用布局
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/posts/b89d6378.html" rel="prev" title="Flutter入门指南(六)路由">
+                Flutter入门指南(六)路由 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4" alt="ZhangMiao">
+            
+              <p class="site-author-name" itemprop="name">ZhangMiao</p>
+              <p class="site-description motion-element" itemprop="description">Android/Flutter Developer</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">367</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">57</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">141</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:zm@zhangmiao.cc" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://wpa.qq.com/msgrd?v=3&uin=153942241&site=qq&menu=yes" target="_blank" title="QQ">
+                      
+                        <i class="fa fa-fw fa-qq"></i>QQ</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/zhangmiaocc" target="_blank" title="Github">
+                      
+                        <i class="fa fa-fw fa-github"></i>Github</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://stackoverflow.com" target="_blank" title="StackOverflow">
+                      
+                        <i class="fa fa-fw fa-stack-overflow"></i>StackOverflow</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://blog.constore.cn/" title="Liujianhui" target="_blank">Liujianhui</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://xuebin.me" title="Leo" target="_blank">Leo</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.csdn.net/lmj623565791" title="Hongyang" target="_blank">Hongyang</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://liuwangshu.cn/" title="Liuwangshu" target="_blank">Liuwangshu</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://jspang.com/" title="Jspang" target="_blank">Jspang</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blankj.com/" title="Blankj" target="_blank">Blankj</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://wuxiaolong.me/" title="WuXiaoLong" target="_blank">WuXiaoLong</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://molunerfinn.com" title="Molunerfinn" target="_blank">Molunerfinn</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.ofind.cn/" title="Ofind" target="_blank">Ofind</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.gcssloop.com/" title="Gcssloop" target="_blank">Gcssloop</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、TextField"><span class="nav-number">1.</span> <span class="nav-text">1、TextField</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、导入自定义的图标"><span class="nav-number">2.</span> <span class="nav-text">2、导入自定义的图标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、导入第三方插件"><span class="nav-number">3.</span> <span class="nav-text">3、导入第三方插件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、撸一个登录界面"><span class="nav-number">4.</span> <span class="nav-text">4、撸一个登录界面</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZhangMiao</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      本站访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+  <div>
+    <script type="text/javascript">
+      var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");
+      document.write(unescape("%3Cspan id='cnzz_stat_icon_1277928793'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1277928793%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+  </div>
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://zhangmiao.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://zhangmiao.cc/posts/4b62f141.html';
+          this.page.identifier = 'posts/4b62f141.html';
+          this.page.title = 'Flutter入门指南(五)输入处理及登录界面实战';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://zhangmiao.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("8iIYW0IGofqyvJiiuU5R9buW-gzGzoHsz", "ssmxRx0kELJir6mA02ziW3Ql");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/lib/zclip/clipboard.min.js"></script>
+<script type="text/javascript" src="/js/src/custom.js"></script>
+
+</body>
+</html>

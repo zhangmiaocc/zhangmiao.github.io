@@ -1,0 +1,1560 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="前端,JavaScript,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="zm.blog" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="关于面向对象的理解(构造函数、原型链)OOP(面向对象编程思想) 它是一种编程思想，让我们基于类和实例的概念来编程开发和学习。  单例模式单例设计模式是一种把对象数据类型实现把描述同一件事物的属性或者特征归纳汇总在一起，以此避免全局变量冲突问题的方式和思想。把描述同一件事务的属性或者方法存放在某一个命名空间下，多个命名空间中的属性和方法是互不干扰的。">
+<meta name="keywords" content="前端,JavaScript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JS基础（六）关于面向对象的理解">
+<meta property="og:url" content="https://zhangmiao.cc/posts/2801c46e.html">
+<meta property="og:site_name" content="zm.blog">
+<meta property="og:description" content="关于面向对象的理解(构造函数、原型链)OOP(面向对象编程思想) 它是一种编程思想，让我们基于类和实例的概念来编程开发和学习。  单例模式单例设计模式是一种把对象数据类型实现把描述同一件事物的属性或者特征归纳汇总在一起，以此避免全局变量冲突问题的方式和思想。把描述同一件事务的属性或者方法存放在某一个命名空间下，多个命名空间中的属性和方法是互不干扰的。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2021-12-24T02:05:29.957Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JS基础（六）关于面向对象的理解">
+<meta name="twitter:description" content="关于面向对象的理解(构造函数、原型链)OOP(面向对象编程思想) 它是一种编程思想，让我们基于类和实例的概念来编程开发和学习。  单例模式单例设计模式是一种把对象数据类型实现把描述同一件事物的属性或者特征归纳汇总在一起，以此避免全局变量冲突问题的方式和思想。把描述同一件事务的属性或者方法存放在某一个命名空间下，多个命名空间中的属性和方法是互不干扰的。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://zhangmiao.cc/posts/2801c46e.html">
+
+
+
+
+
+  <title>JS基础（六）关于面向对象的理解 | zm.blog</title>
+  
+
+
+
+
+
+  <script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?44434226ba535875b1e807122adc3a04";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zm.blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">select * from learn</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhangmiao.cc/posts/2801c46e.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZhangMiao">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zm.blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">JS基础（六）关于面向对象的理解</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-19T14:49:28+08:00">
+                2019-03-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/posts/2801c46e.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="posts/2801c46e.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/posts/2801c46e.html" class="leancloud_visitors" data-flag-title="JS基础（六）关于面向对象的理解">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="关于面向对象的理解-构造函数、原型链"><a href="#关于面向对象的理解-构造函数、原型链" class="headerlink" title="关于面向对象的理解(构造函数、原型链)"></a>关于面向对象的理解(构造函数、原型链)</h2><h3 id="OOP-面向对象编程思想"><a href="#OOP-面向对象编程思想" class="headerlink" title="OOP(面向对象编程思想)"></a>OOP(面向对象编程思想)</h3><blockquote>
+<p>它是一种编程思想，让我们基于类和实例的概念来编程开发和学习。</p>
+</blockquote>
+<h4 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h4><p><code>单例设计模式</code>是一种把对象数据类型实现把描述同一件事物的属性或者特征归纳汇总在一起，以此避免全局变量冲突问题的方式和思想。<br>把描述同一件事务的属性或者方法存放在某一个命名空间下，多个命名空间中的属性和方法是互不干扰的。</p>
+<a id="more"></a>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//=&gt;单例模式</span></span><br><span class="line"><span class="comment">//1、singleton不仅仅是对象名了，在单例模式中，singleton称之为 “命名空间(nameSpace)”</span></span><br><span class="line"><span class="keyword">var</span> singleton=&#123;</span><br><span class="line">    xxx:xxx,</span><br><span class="line">    ...</span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">var</span> singleton=&#123;</span><br><span class="line">    nameSpace1:&#123;</span><br><span class="line">        xxx:xxx,</span><br><span class="line">        ...</span><br><span class="line">    &#125;,</span><br><span class="line">    nameSpace2:&#123;</span><br><span class="line">        xxx:xxx,</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;;</span><br><span class="line">使用单例模式实现模块化开发</span><br><span class="line">模块化开发：把一个复杂页面按照具体功能划分成几大块，然后由不同的人分别去开发，这种模块划分的思想就是模块化开发功能。</span><br><span class="line"><span class="comment">//=&gt;项目主管（开发人员）：公共模块</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">var</span> utils=&#123;</span><br><span class="line">    trim:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line"><span class="comment">//=&gt;李雷：搜索模块</span></span><br><span class="line"><span class="keyword">var</span> searchModel=&#123;</span><br><span class="line">    submit:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        utils.trim();</span><br><span class="line">    &#125;,</span><br><span class="line">    ...</span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line"><span class="comment">//=&gt;韩梅梅：天气模块</span></span><br><span class="line"><span class="keyword">var</span> weatherModel=&#123;</span><br><span class="line">    setWeather:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;,</span><br><span class="line">    ...</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//=&gt;小红：频道模块</span></span><br><span class="line"><span class="keyword">var</span> channelModel=&#123;</span><br><span class="line">    show:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">       <span class="comment">//=&gt;在当前的命名空间下调取其它命名空间的方法：指定好对应的命名空间名字即可，使用 [NameSpace].[property] 就可以操作了</span></span><br><span class="line">        searchModel.submit();</span><br><span class="line">        <span class="comment">//=&gt;调取本模块中的一些方法，可以直接使用THIS处理即可：此方法中的THIS一般都是当前模块的命名空间</span></span><br><span class="line">        <span class="keyword">this</span>.setChannel();</span><br><span class="line">    &#125;,</span><br><span class="line">    setChannel:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;,</span><br><span class="line">    ...</span><br><span class="line"> &#125;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="高级单例模式"><a href="#高级单例模式" class="headerlink" title="高级单例模式"></a>高级单例模式</h4><p>基于JS高阶编程技巧惰性思想，来实现的单例模式，并且可以把一些常用的设计模式（如：命令模式、发布订阅模式、promise设计模式等）融合进来，最后清晰的规划我们的业务逻辑代码，方便后期二次开发和维护，这种设计思想综合体就是高级单例模式，也是最常用的。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> serchModel=(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; </span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">submit</span>(<span class="params"></span>)</span>&#123; </span><br><span class="line">&#125; </span><br><span class="line"><span class="keyword">return</span> &#123; </span><br><span class="line">init:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; </span><br><span class="line"><span class="keyword">this</span>.submit(); </span><br><span class="line">&#125; </span><br><span class="line">&#125; </span><br><span class="line">&#125;)(); </span><br><span class="line">searchModel.init();</span><br></pre></td></tr></table></figure>
+
+<h3 id="对象、类、实例"><a href="#对象、类、实例" class="headerlink" title="对象、类、实例"></a>对象、类、实例</h3><p>对象：万物皆对象<br>类：对象的具体细分（按照属性或特性细分的一些类别）<br>实例：某一个类中的具体事物</p>
+<blockquote>
+<p>JS常用的内置类<br>数据类型的类<br>Number：每个数字或者NaN是它的一个实例<br>String：字符串类<br>Boolean：布尔类<br>Null<br>Undefined：浏览器屏蔽了我们操作null和udnefined这个类<br>Object：对象类，每个对象数据类型都是它的实例<br>• Array：数组类<br>• RegExp：正则类<br>• Date：日期类<br>Function：函数类，每个函数都是它的一个实例<br>元素对象或者元素集合的类<br>HTMLCollection：元素集合类<br>• getElementsByTagName()<br>• getElementsByClassName()<br>• querySelectorAll<br>NodeList：节点集合类<br>• childNodes<br>• getElementsByName()<br>HTMLDivElement<br>HTMLElement<br>Element(标签类)<br>Node(节点类，Element只是其中的一个元素节点)</p>
+</blockquote>
+<p>为什么getElementById的上下文只能是document？(即getElementById为什么只能通过document来调用)？<br>因为只有在Document这个类上才有getElementById这个方法，其他类上(如：HTMLDivElement类)没有getElementById这个方法，而document是HTMLDocument这个类的一个实例,能通过document.proto.proto找到Document这个类的原型上公有的getElementById方法。</p>
+<h4 id="基于面向对象创建数据"><a href="#基于面向对象创建数据" class="headerlink" title="基于面向对象创建数据"></a>基于面向对象创建数据</h4><p>创建方式：两种<br>1.字面量创建方式<br>• var obj={}；<br>2.实例创建方式（构造函数方式）<br>• var obj=new Array();如果传递的参数只是一个数值</p>
+<blockquote>
+<p>1、对于引用数据类型来说，两种创建方式是大致相同的，只不过，两种方法创建的语法不同。<br>两种创建方式在核心意义上没有差别，都是创建Array这个类的一个实例，但是在语法上是有区别的</p>
+</blockquote>
+<p>2、构造函数创建方式<br>new Array(10)：创建一个长度为10的数组,数组中的每一项都是空<br>new Array(‘10’)：如果只传递一个实参，并且实参不是数字，相当于把当前值作为数组的第一项存储进来<br>new Array(10,20,30)：如果传递多个实参，不是设置长度，而是把传递的内容当做数组中的每一项存储起来</p>
+<blockquote>
+</blockquote>
+<p>2、对于基本数据类型来说，字面量方式创建出来的结果和实例方式创建出来的结果是有一定区别的，从严格意义上来讲，只有实例创建出来的结果才是标准的对象，数据类型值也是标准的对象数据类型，也是标准的内置类的实例；对于字面量方式创建出来的结果是基本数据类型的值，不是严格的实例，但是由于JS的松散特点，导致了可以使用 内置类.prototype上提供的方法；</p>
+<h5 id="构造函数设计模式"><a href="#构造函数设计模式" class="headerlink" title="构造函数设计模式"></a>构造函数设计模式</h5><p><code>使用构造函数方式，主要是为了创建类和实例的，也就是基于面向对象思想来实现一些需求</code><br>在JS中，当我们使用new xxx()执行函数的时候，此时的函数就不是普通的函数了，而是变为一个类，返回的结果叫做当前类的实例，我们这种new xxx执行的方式称之为构造函数设计模式</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>)</span>&#123; &#125;</span><br><span class="line"><span class="keyword">new</span> fn();<span class="comment">//new fn()是fn的一个实例</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="构造函数执行时new都干了些什么？"><a href="#构造函数执行时new都干了些什么？" class="headerlink" title="构造函数执行时new都干了些什么？"></a>构造函数执行时new都干了些什么？</h4><p>在new Fn()，执行的时候，是先把函数执行了，后面的Fn()先执行，形成一个私有作用域，形参赋值变量提升，在变量提升完了之后，new操作符才起了作用，此时，浏览器开始创建一个新的对象，让Fn中的this指向这个新创建的对象（实例），然后让这个对象的<strong>proto</strong>指向Fn.prototype，然后JS代码才开始继续往下执行，开始往类中添加每个实例私有的属性和方法。JS代码执行完成后，会默认返回当前创建的这个对象。</p>
+<h4 id="普通函数执行与构造函数执行的区别"><a href="#普通函数执行与构造函数执行的区别" class="headerlink" title="普通函数执行与构造函数执行的区别"></a>普通函数执行与构造函数执行的区别</h4><ul>
+<li>在代码从上而下执行之前，构造函数有特殊的操作：浏览器会在当前的作用域中默认创建一个对象数据类型的值，并且会让当前函数中的this指向创建的这个对象。然后JS代码再执行，</li>
+<li>代码执行完成后，即使函数中没有写return，在构造函数模式中：浏览器会默认的把创建的对象返回到函数外面 </li>
+<li>总结： 构造函数执行期间，既具备函数执行的一面，也同时具备自己独有的操作：在构造函数执行期间，浏览器会默认创建一个对象，这个对象就是当前这个构造函数(类)实例，函数执行完成后，浏览器会默认的把这个实例返回。所以new Fn()执行，Fn是一个类，返回的结果就是Fn这个类的一个实例</li>
+</ul>
+<p>构造函数执行后面的‘()’问题<br>构造函数执行如果不需要传递参数，函数后面的()可省略，如new Fn()可写为new Fn；<br>注意：<br>• 如果要在new Fn之后直接调用实例的方法，则必须要加小括号，即必须写成new Fn().方法名</p>
+<h4 id="构造函数模式的返回值问题"><a href="#构造函数模式的返回值问题" class="headerlink" title="构造函数模式的返回值问题"></a>构造函数模式的返回值问题</h4><p>构造函数模式中默认返回值是当前的实例，如果有return,返回分2种情况：<br>1、return 后面是一个基本数据类型的值，当前实例是不变的，例如return 100；我们的返回值还是当前类的实例；<br>2、return 后面是一个引用数据类型的值(window除外)，当前实例会被返回的值给替换掉例如return {name:”李雷”}我们的返回值就不再是当前类的实例了，而是对象 {name:”李雷”}；</p>
+<p>A instanceof B</p>
+<blockquote>
+<p>检测某一个实例是否属于这个类, 判断A实例是否属于B类</p>
+</blockquote>
+<p>hasOwnProperty VS in<br>in：用来检测当前这个属性是否隶属于对象（不管是对象私有的还是公有的属性，只要有返回的就是true）</p>
+<blockquote>
+</blockquote>
+<p>hasOwnProperty：用来检测当前这个属性是否是对象的私有属性（不仅要是对象的属性，而且需要是私有的才可以）</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">attr <span class="keyword">in</span> object</span><br><span class="line"><span class="comment">//检测attr是否是object的属性，不管是私有属性还是公有属性只要存在，用in来检测都是true</span></span><br><span class="line">a.hasOwnProperty(attr)</span><br><span class="line"><span class="comment">//attr是否是A实例的私有属性</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="原型链模式"><a href="#原型链模式" class="headerlink" title="原型链模式"></a>原型链模式</h4><p>基于构造函数模式的原型链模式解决了方法或者属性公有的问题，把实例之间公有的属性和方法写在当前类的prototype属性上； </p>
+<ul>
+<li>每一个函数数据类型都有一个天生自带的属性：prototype（原型），并且这个属性的属性值是一个对象数据类型的值，浏览器默认为其开辟一个堆内存； </li>
+<li>在浏览器给prototype开辟的这个堆内存上浏览器天生给它加了一个constructor属性（构造函数），属性值是当前函数（类）本身； </li>
+<li>每一个对象数据类型(普通对象、数组、正则、实例、protoype..)也天生自带一个属性:<strong>proto</strong>，属性值指向当前实例所属类的原型(prototype);<br>(IE中屏蔽了对象的proto属性，但是确实有，只是不让我们使用而已) </li>
+<li>Object是JS中所有对象数据类型的基类（最顶层的类）；</li>
+</ul>
+<h4 id="原型链模式中的this分两种情况"><a href="#原型链模式中的this分两种情况" class="headerlink" title="原型链模式中的this分两种情况"></a>原型链模式中的this分两种情况</h4><p>原型模式中的this分两种情况： </p>
+<ul>
+<li>在类中this.xxx=xxx;this-&gt;当前类的实例 </li>
+<li>原型链中提供的私有(公有)方法中的this问题： </li>
+</ul>
+<p>总结：看执行的时候”.”前面是谁this就是谁。具体操作步骤如下 </p>
+<ul>
+<li>需要先确定this的指向（this） </li>
+<li>把this替换成对应的的代码 </li>
+<li>按照原型链查找的机制，一步步的查找结果</li>
+</ul>
+<h4 id="重构原型"><a href="#重构原型" class="headerlink" title="重构原型"></a>重构原型</h4><p>让某个构造函数的原型指向自己开辟的堆内存，但是自己开辟的堆内存当中是没有constructor属性的，所以要往自己开辟的堆内存中添加constructor属性，属性值为当前构造函数本身； contrcutor:fn<br>缺点：重构原型后，会导致之前添加的属性和方法都没有了，只能使用重构之后添加的属性和方法；<br>注意：<br>• 不要忘了重构之后要添加constructor属性指向当前构造函数；<br>• 内置类的原型不能重构，浏览器不允许我们这么做；</p>
+<h3 id="类的继承、封装和多态"><a href="#类的继承、封装和多态" class="headerlink" title="类的继承、封装和多态"></a>类的继承、封装和多态</h3><blockquote>
+<p>它是一种编程思想（Object Oriented Programming）,我们的编程和学习其实是按照<code>类和实例</code>来完成的</p>
+</blockquote>
+<p>我们要学习类的<code>继承、封装、多态</code></p>
+<h4 id="封装"><a href="#封装" class="headerlink" title="封装"></a><code>封装</code></h4><blockquote>
+<p>把实现一个功能的代码封装在一个函数中，以后再要实现这个功能，只要执行函数方法即可，不需要重新编写代码<br>低耦合高内聚<br>减少页面代码冗余，提高代码利用率</p>
+</blockquote>
+<h4 id="多态"><a href="#多态" class="headerlink" title="多态"></a><code>多态</code></h4><p>一个类（函数）的多种形态：重载、重写 </p>
+<p>重载</p>
+<blockquote>
+<p>后台JAVA等编程语言中，对于重载的概念：方法名相同，参数名不同，叫做方法的重载<br>JS中没有类似于后台严格意义的重载，JS中，如果方法名相同了，最后只能保留一个（和实参没有关系）<br>JS中的重载：同一个方法，通过传递实参的不同，（arguments）我们完成不同的功能，我们把这个也可以理解为重载</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">function <span class="title">sum</span><span class="params">(num1,num2)</span></span>&#123;</span><br><span class="line"><span class="keyword">return</span> num1+num2;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function">function <span class="title">sum</span><span class="params">()</span></span>&#123;</span><br><span class="line">var ary=[].slice.call(arguments);</span><br><span class="line"><span class="keyword">return</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//只会执行后面那个sum</span></span><br></pre></td></tr></table></figure>
+
+<p>重写</p>
+<blockquote>
+<p>不管是后台语言还是JS，都有重写，子类重写父类的方法；</p>
+</blockquote>
+<h4 id="继承"><a href="#继承" class="headerlink" title="继承"></a><code>继承</code></h4><blockquote>
+<p><code>原理</code>：子类继承父类的中的一些属性和方法</p>
+</blockquote>
+<h4 id="原型继承"><a href="#原型继承" class="headerlink" title="原型继承"></a><code>原型继承</code></h4><blockquote>
+<p>让子类的原型指向父类的实例；<br>child.prototype=new parent();</p>
+<ul>
+<li>我们首先让子类的原型指向父类的实例，然后在向子类原型上扩展方法，防止提前增加方法，等原型重新指向后，之前在子类原型上扩展的方法都没用了（子类原型已经指向新的空间地址了）；</li>
+<li>让子类原型重新指向父类实例，子类原型上的原有constructor就没了，为了保证构造函数的完整性，我们需要重新手动设置constructor: child.protype.constructor.call(child)</li>
+</ul>
+</blockquote>
+<p>*<em>原理 *</em><br>原型继承并不是把父类的属性和方法copy一份给子类，而是给子类和父类之间搭建一个连接的桥梁，以后子类或者子类的实例，可以通过原型链的查找机制，找到父类原型的方法，从而调取这些方法。</p>
+<p><strong>特征</strong></p>
+<blockquote>
+<p>子类不仅可以继承父类原型上的公有属性方法，也可以继承父类提供给实例的私有属性和方法，并把其放在子类的公有属性和方法上。</p>
+</blockquote>
+<h4 id="call继承（继承私有的）"><a href="#call继承（继承私有的）" class="headerlink" title="call继承（继承私有的）"></a><code>call继承</code>（继承私有的）</h4><blockquote>
+<p>原理在子类的构造体中，把父类做普通方法执行，让父类方法中的this指向子类实例<br>特点：把父类 构造体中的私有属性和方法，原封不动复制了一份给子类实例（继承完成后，子类和父类是没有关系的）<br>注意我们一般把call放在第一行，就是创建子类实例的时候，首先继承，然后在给实例赋值自己私有的（好处：自己可以把继承的结果替换掉）</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">A</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.x=<span class="number">100</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">B</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line"><span class="comment">//一般都把call继承放在子类函数体中的第一行,这样做的好处就是子类私有的可以替换掉继承过来的结果；</span></span><br><span class="line">    A.call(<span class="keyword">this</span>);</span><br><span class="line">    <span class="keyword">this</span>.y=<span class="number">200</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>寄生组合式继承</strong></p>
+<blockquote>
+<p><code>Object.create（[obj]）:创建一个空对象，把obj作为新对象的原型（继承公有）</code><br>Object.create不兼容</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj=&#123;<span class="attr">name</span>:<span class="string">'李雷'</span>&#125;;</span><br><span class="line"><span class="keyword">var</span> newObj=<span class="built_in">Object</span>.create(obj);</span><br><span class="line">newObj.__proto__===obj;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>child.protype= Object.create(parent.protorype);</p>
+<ul>
+<li>利用Object.create创建一个的空对象；</li>
+<li>该空对象指向parent.protorype；</li>
+<li>将该对象的地址赋值给child.protype，从而导致child和child的实例都可以通过原型链找到parent的原型；</li>
+<li>该方法只能继承parent的公有方法和属性</li>
+</ul>
+</blockquote>
+<p>自己实现类似于Object.create的方法</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Object</span>.myCreate=<span class="function"><span class="keyword">function</span> <span class="title">myCreate</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line"><span class="keyword">var</span> Fn = <span class="keyword">new</span> <span class="built_in">Function</span>();</span><br><span class="line">Fn.prototype = obj;</span><br><span class="line"> <span class="keyword">return</span> <span class="keyword">new</span> Fn()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="ES6中的类及继承"><a href="#ES6中的类及继承" class="headerlink" title="ES6中的类及继承"></a>ES6中的类及继承</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Fn</span> </span>&#123;</span><br><span class="line"><span class="comment">//constructor就是当前函数本身=Fn</span></span><br><span class="line"><span class="keyword">constructor</span>()&#123;   </span><br><span class="line">    <span class="keyword">this</span>.x=<span class="string">'xxx'</span>;<span class="comment">//给当前实例增加私有属性</span></span><br><span class="line">    .........</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//增加公有属性，相当于在原型上添加</span></span><br><span class="line">xxX()&#123;</span><br><span class="line"> .........</span><br><span class="line"> &#125;</span><br><span class="line"><span class="comment">//这些属性方法都是将Fn当做普通对象设置的私有属性和方法，和实例没有任何关系 </span></span><br><span class="line"><span class="keyword">static</span> xxx()&#123;</span><br><span class="line">.............</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">   <span class="class"><span class="keyword">class</span> <span class="title">A</span> </span>&#123;</span><br><span class="line">   <span class="keyword">constructor</span>() &#123;</span><br><span class="line">   <span class="keyword">this</span>.x = <span class="number">100</span>;</span><br><span class="line"> &#125;</span><br><span class="line"> </span><br><span class="line">   getX() &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.x);</span><br><span class="line">&#125;</span><br><span class="line">   &#125;</span><br><span class="line"> </span><br><span class="line">  <span class="class"><span class="keyword">class</span> <span class="title">B</span> <span class="keyword">extends</span> <span class="title">A</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>() &#123;</span><br><span class="line">    <span class="keyword">super</span>();<span class="comment">//=&gt;CALL继承</span></span><br><span class="line">    <span class="keyword">this</span>.y = <span class="number">200</span>;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">getY() &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.y);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> b = <span class="keyword">new</span> B();</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="ZhangMiao 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="ZhangMiao 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    ZhangMiao
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://zhangmiao.cc/posts/2801c46e.html" title="JS基础（六）关于面向对象的理解">https://zhangmiao.cc/posts/2801c46e.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/前端/" rel="tag"># 前端</a>
+          
+            <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/4834a967.html" rel="next" title="JS基础（五）数组汇总">
+                <i class="fa fa-chevron-left"></i> JS基础（五）数组汇总
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/posts/eda90d92.html" rel="prev" title="JS基础知识（七）正则">
+                JS基础知识（七）正则 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4" alt="ZhangMiao">
+            
+              <p class="site-author-name" itemprop="name">ZhangMiao</p>
+              <p class="site-description motion-element" itemprop="description">Android/Flutter Developer</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">367</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">57</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">141</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:zm@zhangmiao.cc" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://wpa.qq.com/msgrd?v=3&uin=153942241&site=qq&menu=yes" target="_blank" title="QQ">
+                      
+                        <i class="fa fa-fw fa-qq"></i>QQ</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/zhangmiaocc" target="_blank" title="Github">
+                      
+                        <i class="fa fa-fw fa-github"></i>Github</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://stackoverflow.com" target="_blank" title="StackOverflow">
+                      
+                        <i class="fa fa-fw fa-stack-overflow"></i>StackOverflow</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://blog.constore.cn/" title="Liujianhui" target="_blank">Liujianhui</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://xuebin.me" title="Leo" target="_blank">Leo</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.csdn.net/lmj623565791" title="Hongyang" target="_blank">Hongyang</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://liuwangshu.cn/" title="Liuwangshu" target="_blank">Liuwangshu</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://jspang.com/" title="Jspang" target="_blank">Jspang</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blankj.com/" title="Blankj" target="_blank">Blankj</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://wuxiaolong.me/" title="WuXiaoLong" target="_blank">WuXiaoLong</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://molunerfinn.com" title="Molunerfinn" target="_blank">Molunerfinn</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.ofind.cn/" title="Ofind" target="_blank">Ofind</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.gcssloop.com/" title="Gcssloop" target="_blank">Gcssloop</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#关于面向对象的理解-构造函数、原型链"><span class="nav-number">1.</span> <span class="nav-text">关于面向对象的理解(构造函数、原型链)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#OOP-面向对象编程思想"><span class="nav-number">1.1.</span> <span class="nav-text">OOP(面向对象编程思想)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#单例模式"><span class="nav-number">1.1.1.</span> <span class="nav-text">单例模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#高级单例模式"><span class="nav-number">1.1.2.</span> <span class="nav-text">高级单例模式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对象、类、实例"><span class="nav-number">1.2.</span> <span class="nav-text">对象、类、实例</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#基于面向对象创建数据"><span class="nav-number">1.2.1.</span> <span class="nav-text">基于面向对象创建数据</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#构造函数设计模式"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">构造函数设计模式</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#构造函数执行时new都干了些什么？"><span class="nav-number">1.2.2.</span> <span class="nav-text">构造函数执行时new都干了些什么？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#普通函数执行与构造函数执行的区别"><span class="nav-number">1.2.3.</span> <span class="nav-text">普通函数执行与构造函数执行的区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#构造函数模式的返回值问题"><span class="nav-number">1.2.4.</span> <span class="nav-text">构造函数模式的返回值问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#原型链模式"><span class="nav-number">1.2.5.</span> <span class="nav-text">原型链模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#原型链模式中的this分两种情况"><span class="nav-number">1.2.6.</span> <span class="nav-text">原型链模式中的this分两种情况</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#重构原型"><span class="nav-number">1.2.7.</span> <span class="nav-text">重构原型</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类的继承、封装和多态"><span class="nav-number">1.3.</span> <span class="nav-text">类的继承、封装和多态</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#封装"><span class="nav-number">1.3.1.</span> <span class="nav-text">封装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#多态"><span class="nav-number">1.3.2.</span> <span class="nav-text">多态</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#继承"><span class="nav-number">1.3.3.</span> <span class="nav-text">继承</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#原型继承"><span class="nav-number">1.3.4.</span> <span class="nav-text">原型继承</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#call继承（继承私有的）"><span class="nav-number">1.3.5.</span> <span class="nav-text">call继承（继承私有的）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ES6中的类及继承"><span class="nav-number">1.3.6.</span> <span class="nav-text">ES6中的类及继承</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZhangMiao</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      本站访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+  <div>
+    <script type="text/javascript">
+      var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");
+      document.write(unescape("%3Cspan id='cnzz_stat_icon_1277928793'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1277928793%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+  </div>
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://zhangmiao.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://zhangmiao.cc/posts/2801c46e.html';
+          this.page.identifier = 'posts/2801c46e.html';
+          this.page.title = 'JS基础（六）关于面向对象的理解';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://zhangmiao.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("8iIYW0IGofqyvJiiuU5R9buW-gzGzoHsz", "ssmxRx0kELJir6mA02ziW3Ql");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/lib/zclip/clipboard.min.js"></script>
+<script type="text/javascript" src="/js/src/custom.js"></script>
+
+</body>
+</html>

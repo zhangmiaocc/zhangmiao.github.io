@@ -1,0 +1,1520 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Android,Java,设计模式,原型模式,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="zm.blog" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="通过理论,代码示例,Android源码来学习原型模式  介绍原型模式是一个创建型的模式。原型二字表明了该模式应该有一个模板实例，用户从这个模板对象中复制出一个内部属性一致并且内存地址不同的对象，这个过程也就是我们俗称的 “克隆” 。被复制的实例就是我们所称的 “原型” ，这个原型是可定制的。原型模式多用于创建复杂的或者构造耗时的实例，因为这种情况下，复制一个已经存在的实例可使程序运行更高效。 定">
+<meta name="keywords" content="Android,Java,设计模式,原型模式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="设计模式三之原型模式">
+<meta property="og:url" content="https://zhangmiao.cc/posts/7a86e223.html">
+<meta property="og:site_name" content="zm.blog">
+<meta property="og:description" content="通过理论,代码示例,Android源码来学习原型模式  介绍原型模式是一个创建型的模式。原型二字表明了该模式应该有一个模板实例，用户从这个模板对象中复制出一个内部属性一致并且内存地址不同的对象，这个过程也就是我们俗称的 “克隆” 。被复制的实例就是我们所称的 “原型” ，这个原型是可定制的。原型模式多用于创建复杂的或者构造耗时的实例，因为这种情况下，复制一个已经存在的实例可使程序运行更高效。 定">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190912161545.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190912161811.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190912161940.png">
+<meta property="og:updated_time" content="2021-12-24T02:05:29.983Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="设计模式三之原型模式">
+<meta name="twitter:description" content="通过理论,代码示例,Android源码来学习原型模式  介绍原型模式是一个创建型的模式。原型二字表明了该模式应该有一个模板实例，用户从这个模板对象中复制出一个内部属性一致并且内存地址不同的对象，这个过程也就是我们俗称的 “克隆” 。被复制的实例就是我们所称的 “原型” ，这个原型是可定制的。原型模式多用于创建复杂的或者构造耗时的实例，因为这种情况下，复制一个已经存在的实例可使程序运行更高效。 定">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190912161545.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://zhangmiao.cc/posts/7a86e223.html">
+
+
+
+
+
+  <title>设计模式三之原型模式 | zm.blog</title>
+  
+
+
+
+
+
+  <script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?44434226ba535875b1e807122adc3a04";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zm.blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">select * from learn</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhangmiao.cc/posts/7a86e223.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZhangMiao">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zm.blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">设计模式三之原型模式</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-12T16:13:39+08:00">
+                2019-09-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/设计模式/" itemprop="url" rel="index">
+                    <span itemprop="name">设计模式</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/posts/7a86e223.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="posts/7a86e223.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/posts/7a86e223.html" class="leancloud_visitors" data-flag-title="设计模式三之原型模式">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>通过理论,代码示例,Android源码来学习原型模式</p>
+</blockquote>
+<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>原型模式是一个创建型的模式。原型二字表明了该模式应该有一个模板实例，用户从这个模板对象中复制出一个内部属性一致并且内存地址不同的对象，这个过程也就是我们俗称的 “克隆” 。被复制的实例就是我们所称的 “原型” ，这个原型是可定制的。原型模式多用于创建复杂的或者构造耗时的实例，因为这种情况下，复制一个已经存在的实例可使程序运行更高效。</p>
+<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>用原型实例指定创建对象的种类，并通过复制这些原型创建新的对象。</p>
+<h2 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h2><ol>
+<li>类初始化需要消耗非常多的资源，这个资源包括数据、硬件资源等，通过原型复制避免这些消耗。</li>
+<li>通过 new 产生一个对象需要非常繁琐的数据准备和访问权限，这时可以使用原型模式。</li>
+<li>一个对象需要提供给其它对象访问，而且各个调用者可能都需要修改其值时，可以考虑使用原型模式复制多个对象供调用者使用，既保护性拷贝。</li>
+</ol>
+<h2 id="UML-类图"><a href="#UML-类图" class="headerlink" title="UML 类图"></a>UML 类图</h2><p><img src="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190912161545.png" alt></p>
+<ul>
+<li>Client: 客户端用户。</li>
+<li>Prototype: 抽象类或者接口，声明具备 clone 能力。</li>
+<li>ConcreatePrototype: 具体的原型类</li>
+</ul>
+<a id="more"></a>
+
+<h2 id="原型模式的简单实现"><a href="#原型模式的简单实现" class="headerlink" title="原型模式的简单实现"></a>原型模式的简单实现</h2><p>下面以简单的文档 copy 为例来演示一下原型模式。</p>
+<p>需求：有一个文档，文档中包含了文字和图片，用户经过了长时间的内容编辑后，打算对该文档做进一步的编辑，但是，这个编辑后的文档是否会被采用还不确定，因此，为了安全起见，用户需要将当前文档 copy 一份，然后再在文档副本上进行修改。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/***这里代表是具体原型类*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WordDocument</span> <span class="keyword">implements</span> <span class="title">Cloneable</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 文本</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> String mTxt;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 图片名列表</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> List&lt;String&gt; mImagePath = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getmTxt</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> mTxt;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setmTxt</span><span class="params">(String mTxt)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.mTxt = mTxt;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">getImagePath</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> mImagePath;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addImagepath</span><span class="params">(String imagepath)</span> </span>&#123;</span><br><span class="line">        mImagePath.add(imagepath);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 打印文档内容</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">println</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">"----------------  start  ----------------"</span>);</span><br><span class="line">        </span><br><span class="line">        System.out.println(<span class="string">"txt: "</span> + mTxt);</span><br><span class="line">        System.out.println(<span class="string">"mImagePath: "</span>);</span><br><span class="line">        <span class="keyword">for</span> (String path : mImagePath) &#123;</span><br><span class="line">            System.out.println(<span class="string">"path: "</span> + path);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">"-----------------  end   ----------------"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 声明具备 clone 能力</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> clone 的对象</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> WordDocument <span class="title">clone</span><span class="params">()</span>  </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            WordDocument document = (WordDocument)<span class="keyword">super</span>.clone();</span><br><span class="line">            document.mTxt = <span class="keyword">this</span>.mTxt;</span><br><span class="line">            document.mImagePath = <span class="keyword">this</span>.mImagePath;</span><br><span class="line">            <span class="keyword">return</span> document;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (CloneNotSupportedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Test:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span>  <span class="keyword">void</span> <span class="title">test4</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//1. 构建文档对象</span></span><br><span class="line">    WordDocument wordDocument = <span class="keyword">new</span> WordDocument();</span><br><span class="line">    <span class="comment">//2. 编辑文档</span></span><br><span class="line">    wordDocument.setmTxt(<span class="string">"今天是一个好天气"</span>);</span><br><span class="line">    wordDocument.addImagepath(<span class="string">"/sdcard/image.png"</span>);</span><br><span class="line">    wordDocument.addImagepath(<span class="string">"/sdcard/image2.png"</span>);</span><br><span class="line">    wordDocument.addImagepath(<span class="string">"/sdcard/image3.png"</span>);</span><br><span class="line">    <span class="comment">//打印文档内容</span></span><br><span class="line">    wordDocument.println();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    System.out.println(<span class="string">"--------------------开始clone-----\n\n"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//以原始文档为准，copy 副本</span></span><br><span class="line">    WordDocument cloneDoc = wordDocument.clone();</span><br><span class="line"></span><br><span class="line">    System.out.println(<span class="string">" 打印副本，看看数据  \n\n"</span>);</span><br><span class="line">    <span class="comment">//打印副本，看看数据</span></span><br><span class="line">    cloneDoc.println();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//在副本文档上修改</span></span><br><span class="line">    cloneDoc.setmTxt(<span class="string">"副奔上修改文档：老龙王哭了"</span>);</span><br><span class="line">    System.out.println(<span class="string">"  打印修改后的副本  \n\n"</span>);</span><br><span class="line">    <span class="comment">//打印修改后的副本</span></span><br><span class="line">    cloneDoc.println();</span><br><span class="line">    System.out.println(<span class="string">"----看会不会影响原始文档-----\n\n"</span>);</span><br><span class="line">    <span class="comment">//看会不会影响原始文档？？？？？？？</span></span><br><span class="line">    wordDocument.println();</span><br><span class="line">  System.out.println(<span class="string">"内存地址：\nwordDocument: "</span>+wordDocument.toString() +<span class="string">"\n"</span> + <span class="string">"cloneDoc: "</span>+cloneDoc.toString());</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Output:</p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">----------------  start  ----------------</span><br><span class="line"></span><br><span class="line">txt: 今天是一个好天气</span><br><span class="line">mImagePath: </span><br><span class="line">path: /sdcard/image<span class="variable">.png</span></span><br><span class="line">path: /sdcard/image2<span class="variable">.png</span></span><br><span class="line">path: /sdcard/image3<span class="variable">.png</span></span><br><span class="line">-----------------  <span class="keyword">end</span>   ----------------</span><br><span class="line"></span><br><span class="line">--------------------开始clone-----</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> 打印副本，看看数据  </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">----------------  start  ----------------</span><br><span class="line"></span><br><span class="line">txt: 今天是一个好天气</span><br><span class="line">mImagePath: </span><br><span class="line">path: /sdcard/image<span class="variable">.png</span></span><br><span class="line">path: /sdcard/image2<span class="variable">.png</span></span><br><span class="line">path: /sdcard/image3<span class="variable">.png</span></span><br><span class="line">-----------------  <span class="keyword">end</span>   ----------------</span><br><span class="line"></span><br><span class="line">  打印修改后的副本  </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">----------------  start  ----------------</span><br><span class="line"></span><br><span class="line">txt: 副奔上修改文档：老龙王哭了</span><br><span class="line">mImagePath: </span><br><span class="line">path: /sdcard/image<span class="variable">.png</span></span><br><span class="line">path: /sdcard/image2<span class="variable">.png</span></span><br><span class="line">path: /sdcard/image3<span class="variable">.png</span></span><br><span class="line">-----------------  <span class="keyword">end</span>   ----------------</span><br><span class="line"></span><br><span class="line">----看会不会影响原始文档-----</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">----------------  start  ----------------</span><br><span class="line"></span><br><span class="line">txt: 今天是一个好天气</span><br><span class="line">mImagePath: </span><br><span class="line">path: /sdcard/image<span class="variable">.png</span></span><br><span class="line">path: /sdcard/image2<span class="variable">.png</span></span><br><span class="line">path: /sdcard/image3<span class="variable">.png</span></span><br><span class="line">-----------------  <span class="keyword">end</span>   ----------------</span><br><span class="line">  </span><br><span class="line">内存地址：</span><br><span class="line">wordDocument: com<span class="variable">.devyk</span><span class="variable">.android_dp_code</span><span class="variable">.prototype</span><span class="variable">.WordDocument</span>@<span class="number">48533</span>e64</span><br><span class="line">cloneDoc: com<span class="variable">.devyk</span><span class="variable">.android_dp_code</span><span class="variable">.prototype</span><span class="variable">.WordDocument</span>@<span class="number">64</span>a294a6</span><br></pre></td></tr></table></figure>
+
+<p>从上面代码跟打印可以看出 cloneDoc 是通过 wordDocument.clone() 创建的并且 cloneDoc 第一次输出和 wordDocument 原始文档数据一样，既 cloneDoc 是 wordDocument 的一份副本文件。难道这样就完了吗？不知道大家有没有注意这里的  mImagePath 字段，原始对象的 clone 方法这里相当把引用地址复制给了 clone 出来的对象，如果这 2 个对象中的任意一个对其修改，那么就会对原始数据造成破坏，失去了对数据的保护。那么怎么解决这个问题，请继续往下浏览（注意：通过 clone 的对象并不会执行 构造函数！）</p>
+<h2 id="浅拷贝和深拷贝"><a href="#浅拷贝和深拷贝" class="headerlink" title="浅拷贝和深拷贝"></a>浅拷贝和深拷贝</h2><p>上述原型模式的实现实际上只是一个浅拷贝，也称为影子拷贝。这份拷贝实际上并不是将原始文档的所有字段都重新构造了一份，而是副本文档的字段引用原始文档的字段。</p>
+<p><img src="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190912161811.png" alt></p>
+<p>我们知道 A 引用 B 那么我们可以认为 A,B 都指向同一个地址，当修改 A 时 B 也会随之改变， B 修改时 A 也会随之改变。我们直接看下面代码示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test4</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">//1. 构建文档对象</span></span><br><span class="line">    WordDocument wordDocument = <span class="keyword">new</span> WordDocument();</span><br><span class="line">    <span class="comment">//2. 编辑文档</span></span><br><span class="line">    wordDocument.setmTxt(<span class="string">"今天是一个好天气"</span>);</span><br><span class="line">    wordDocument.addImagepath(<span class="string">"/sdcard/image.png"</span>);</span><br><span class="line">    wordDocument.addImagepath(<span class="string">"/sdcard/image2.png"</span>);</span><br><span class="line">    wordDocument.addImagepath(<span class="string">"/sdcard/image3.png"</span>);</span><br><span class="line">    <span class="comment">//打印文档内容</span></span><br><span class="line">    wordDocument.println();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    System.out.println(<span class="string">"--------------------开始clone-----\n\n"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//以原始文档为准，copy 副本</span></span><br><span class="line">    WordDocument cloneDoc = wordDocument.clone();</span><br><span class="line"></span><br><span class="line">    System.out.println(<span class="string">" 打印副本，看看数据  \n\n"</span>);</span><br><span class="line">    <span class="comment">//打印副本，看看数据</span></span><br><span class="line">    cloneDoc.println();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//在副本文档上修改</span></span><br><span class="line">    cloneDoc.setmTxt(<span class="string">"副奔上修改文档：老龙王哭了"</span>);</span><br><span class="line">    cloneDoc.addImagepath(<span class="string">"/sdcard/副本发生改变"</span>);</span><br><span class="line">    System.out.println(<span class="string">"  打印修改后的副本  \n\n"</span>);</span><br><span class="line">    <span class="comment">//打印修改后的副本</span></span><br><span class="line">    cloneDoc.println();</span><br><span class="line">    System.out.println(<span class="string">"----看会不会影响原始文档-----\n\n"</span>);</span><br><span class="line">    <span class="comment">//看会不会影响原始文档？？？？？？？</span></span><br><span class="line">    wordDocument.println();</span><br><span class="line"></span><br><span class="line">    System.out.println(<span class="string">"内存地址：\nwordDocument: "</span> + wordDocument.toString() + <span class="string">"\n"</span> + <span class="string">"cloneDoc: "</span> + cloneDoc.toString());</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意看副本文档，我手动调用 addImagepath 添加了一个新的图片地址。那么大家猜原始文档会发生改变吗？请看下面的输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">----------------  start  ----------------</span><br><span class="line"></span><br><span class="line">txt: 今天是一个好天气</span><br><span class="line">mImagePath: </span><br><span class="line">path: /sdcard/image.png</span><br><span class="line">path: /sdcard/image2.png</span><br><span class="line">path: /sdcard/image3.png</span><br><span class="line">-----------------  end   ----------------</span><br><span class="line"></span><br><span class="line">--------------------开始clone-----</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> 打印副本，看看数据  </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">----------------  start  ----------------</span><br><span class="line"></span><br><span class="line">txt: 今天是一个好天气</span><br><span class="line">mImagePath: </span><br><span class="line">path: /sdcard/image.png</span><br><span class="line">path: /sdcard/image2.png</span><br><span class="line">path: /sdcard/image3.png</span><br><span class="line">-----------------  end   ----------------</span><br><span class="line"></span><br><span class="line">  打印修改后的副本  </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">----------------  start  ----------------</span><br><span class="line"></span><br><span class="line">txt: 副奔上修改文档：老龙王哭了</span><br><span class="line">mImagePath: </span><br><span class="line">path: /sdcard/image.png</span><br><span class="line">path: /sdcard/image2.png</span><br><span class="line">path: /sdcard/image3.png</span><br><span class="line">path: /sdcard/副本发生改变</span><br><span class="line">-----------------  end   ----------------</span><br><span class="line"></span><br><span class="line">----看会不会影响原始文档-----</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">----------------  start  ----------------</span><br><span class="line"></span><br><span class="line">txt: 今天是一个好天气</span><br><span class="line">mImagePath: </span><br><span class="line">path: /sdcard/image.png</span><br><span class="line">path: /sdcard/image2.png</span><br><span class="line">path: /sdcard/image3.png</span><br><span class="line">path: /sdcard/副本发生改变</span><br><span class="line">-----------------  end   ----------------</span><br><span class="line"></span><br><span class="line">内存地址：</span><br><span class="line">wordDocument: com.devyk.android_dp_code.prototype.WordDocument@48533e64</span><br><span class="line">cloneDoc: com.devyk.android_dp_code.prototype.WordDocument@64a294a6</span><br></pre></td></tr></table></figure>
+
+<p>注意看我们副本添加的图片地址是不是影响了原始文档的图片地址数据，那么这是怎么回事勒？对 C++ 了解的同学应该深有体会，这是因为上文中 cloneDoc 只是进行了浅拷贝，图片列表 mImagePath 只是单纯的指向了 this.mImagePath , 并没有重新构造一个 mImagePath 对象，就像开始介绍浅/深拷贝一样， A，B 对象其实指向的是同一个地址，所以不管 A，B 中任意一个对象改了指向地址的数据那么都会随之发生改变，那如何解决这个问题？答案就是采取深拷贝，即在拷贝对象时，对于引用型的字段也要采用拷贝的形式，而不是单纯引用形式，下面我们修改 clone 代码，如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 声明具备 clone 能力</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> clone 的对象</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> WordDocument <span class="title">clone</span><span class="params">()</span>  </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        WordDocument document = (WordDocument)<span class="keyword">super</span>.clone();</span><br><span class="line">        document.mTxt = <span class="keyword">this</span>.mTxt;</span><br><span class="line">        <span class="comment">//进行深拷贝</span></span><br><span class="line">        document.mImagePath = (ArrayList&lt;String&gt;) <span class="keyword">this</span>.mImagePath.clone();</span><br><span class="line">        <span class="keyword">return</span> document;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (CloneNotSupportedException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>再来测试一下，看输出类容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">----------------  start  ----------------</span><br><span class="line"></span><br><span class="line">txt: 今天是一个好天气</span><br><span class="line">mImagePath: </span><br><span class="line">path: /sdcard/image.png</span><br><span class="line">path: /sdcard/image2.png</span><br><span class="line">path: /sdcard/image3.png</span><br><span class="line">-----------------  end   ----------------</span><br><span class="line"></span><br><span class="line">--------------------开始clone-----</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> 打印副本，看看数据  </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">----------------  start  ----------------</span><br><span class="line"></span><br><span class="line">txt: 今天是一个好天气</span><br><span class="line">mImagePath: </span><br><span class="line">path: /sdcard/image.png</span><br><span class="line">path: /sdcard/image2.png</span><br><span class="line">path: /sdcard/image3.png</span><br><span class="line">-----------------  end   ----------------</span><br><span class="line"></span><br><span class="line">  打印修改后的副本  </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">----------------  start  ----------------</span><br><span class="line"></span><br><span class="line">txt: 副奔上修改文档：老龙王哭了</span><br><span class="line">mImagePath: </span><br><span class="line">path: /sdcard/image.png</span><br><span class="line">path: /sdcard/image2.png</span><br><span class="line">path: /sdcard/image3.png</span><br><span class="line">path: /sdcard/副本发生改变</span><br><span class="line">-----------------  end   ----------------</span><br><span class="line"></span><br><span class="line">----看会不会影响原始文档-----</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">----------------  start  ----------------</span><br><span class="line"></span><br><span class="line">txt: 今天是一个好天气</span><br><span class="line">mImagePath: </span><br><span class="line">path: /sdcard/image.png</span><br><span class="line">path: /sdcard/image2.png</span><br><span class="line">path: /sdcard/image3.png</span><br><span class="line">-----------------  end   ----------------</span><br><span class="line"></span><br><span class="line">内存地址：</span><br><span class="line">wordDocument: com.devyk.android_dp_code.prototype.WordDocument@48533e64</span><br><span class="line">cloneDoc: com.devyk.android_dp_code.prototype.WordDocument@64a294a6</span><br></pre></td></tr></table></figure>
+
+<p>通过输出内容，深拷贝解决了上述问题。</p>
+<p>原型模式是一个非常简单的一个模式，它的核心问题就是对原始对象进行拷贝，在这个模式的使用过程中需要注意一点就是 深/浅拷贝的问题。在实际开发中，为了减少不必要的麻烦，建议大家都使用深拷贝。</p>
+<p><a href="https://juejin.im/post/5d6aa4f96fb9a06b112ad5b1" target="_blank" rel="noopener">这里如果对深浅拷贝感兴趣的话可以看掘金上这篇文章，不过是 JS 代码(了解原理就可以了)，很火的一篇文章值得学习一下</a></p>
+<h2 id="源码中的原型模式"><a href="#源码中的原型模式" class="headerlink" title="源码中的原型模式"></a>源码中的原型模式</h2><ul>
+<li><p>ArrayList</p>
+<p>刚刚我们 clone 文档可知，进行的 ArrayList clone ，那么 ArrayList clone 具体是怎么实现的？我们一起来看下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">clone</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      <span class="comment">//1. </span></span><br><span class="line">        ArrayList&lt;?&gt; v = (ArrayList&lt;?&gt;) <span class="keyword">super</span>.clone();</span><br><span class="line">      <span class="comment">//2. </span></span><br><span class="line">        v.elementData = Arrays.copyOf(elementData, size);</span><br><span class="line">        v.modCount = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">return</span> v;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (CloneNotSupportedException e) &#123;</span><br><span class="line">        <span class="comment">// this shouldn't happen, since we are Cloneable</span></span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> InternalError(e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>代码中第一步首先进行自身的 clone ,然后在对自身的数据进行 copy .</p>
+</li>
+<li><p>Intent</p>
+<p>下面以 Intent 来分析源码中的原型模式，首先看如下代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Intent <span class="title">toSMS</span><span class="params">()</span></span>&#123;</span><br><span class="line">    Uri uri = Uri.parse(<span class="string">"smsto:11202"</span>);</span><br><span class="line">  </span><br><span class="line">    Intent preIntent = <span class="keyword">new</span> Intent(Intent.ACTION_SENDTO,uri);</span><br><span class="line">    preIntent.putExtra(<span class="string">"sms_body"</span>,<span class="string">"test"</span>);</span><br><span class="line">  </span><br><span class="line">    <span class="comment">//clone</span></span><br><span class="line">    <span class="keyword">return</span> (Intent) preIntent.clone();</span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190912161940.png" alt></p>
+</li>
+</ul>
+<p>  从代码中可以看到 preIntent.clone(); 方法拷贝了一个对象 Intent ,然后执行跳转 Activity,跳转的内容与原型数据一致。</p>
+<p>  我们继续看 Intent clone 具体实现：</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/***进行 clone **/</span>  </span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">clone</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Intent(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">   * Copy constructor.</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">Intent</span><span class="params">(Intent o)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">this</span>.mAction = o.mAction;</span><br><span class="line">      <span class="keyword">this</span>.mData = o.mData;</span><br><span class="line">      <span class="keyword">this</span>.mType = o.mType;</span><br><span class="line">      <span class="keyword">this</span>.mPackage = o.mPackage;</span><br><span class="line">      <span class="keyword">this</span>.mComponent = o.mComponent;</span><br><span class="line">      <span class="keyword">this</span>.mFlags = o.mFlags;</span><br><span class="line">      <span class="keyword">this</span>.mContentUserHint = o.mContentUserHint;</span><br><span class="line">      <span class="keyword">this</span>.mLaunchToken = o.mLaunchToken;</span><br><span class="line">      <span class="keyword">if</span> (o.mCategories != <span class="keyword">null</span>) &#123;</span><br><span class="line">          <span class="keyword">this</span>.mCategories = <span class="keyword">new</span> ArraySet&lt;String&gt;(o.mCategories);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (o.mExtras != <span class="keyword">null</span>) &#123;</span><br><span class="line">          <span class="keyword">this</span>.mExtras = <span class="keyword">new</span> Bundle(o.mExtras);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (o.mSourceBounds != <span class="keyword">null</span>) &#123;</span><br><span class="line">          <span class="keyword">this</span>.mSourceBounds = <span class="keyword">new</span> Rect(o.mSourceBounds);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (o.mSelector != <span class="keyword">null</span>) &#123;</span><br><span class="line">          <span class="keyword">this</span>.mSelector = <span class="keyword">new</span> Intent(o.mSelector);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (o.mClipData != <span class="keyword">null</span>) &#123;</span><br><span class="line">          <span class="keyword">this</span>.mClipData = <span class="keyword">new</span> ClipData(o.mClipData);</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>  可以看到 clone 方法实际上在内部并没有调用 super.clone() 来实现拷贝对象，而是通过 new Intent(this)。 在开始我们提到过，使用 clone 和 new 需要根据构造对象的成本来决定，如果对象的构造成本比较高或者构造麻烦，那么使用 clone 函数效率较高，反之可以使用 new 关键字的形式。这就是和 C++ 中的 copy 构造函数完全一致，将原始对象作为构造函数的参数，然后在构造函数内将原始对象数据挨个 copy , 到此，整个 clone 过程就完成了。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>原型模式本质就是对象 copy ,与 C++ 中的拷贝构造函数相似，他们之前容易出现的问题也都是深拷贝、浅拷贝。使用原型模式可以解决构建复杂对象的资源消耗问题，能够在某些场景下提升创建爱你对象的效率。还有一个重要的用途，就是保护性拷贝，也就是某个对象对外可能只是只读模式。</p>
+<p>优点：</p>
+<p>原型模式是在内存中二进制流的 copy, 要比 new 一个对象性能好很多，特别是要在一个循环体内产生大量的对象时，原型模式可以更好地体现其优点。</p>
+<p>缺点：</p>
+<p>这既是它的有点也是缺点，直接在内存中拷贝，构造函数时不会执行的，在实际开发中应该注意这个潜在的问题。</p>
+<h1 id="特别感谢"><a href="#特别感谢" class="headerlink" title="特别感谢"></a>特别感谢</h1><p><a href="https://item.jd.com/12113187.html" target="_blank" rel="noopener">《 Android 源码设计模式解析与实战 》</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="ZhangMiao 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="ZhangMiao 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    ZhangMiao
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://zhangmiao.cc/posts/7a86e223.html" title="设计模式三之原型模式">https://zhangmiao.cc/posts/7a86e223.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+            <a href="/tags/Java/" rel="tag"># Java</a>
+          
+            <a href="/tags/设计模式/" rel="tag"># 设计模式</a>
+          
+            <a href="/tags/原型模式/" rel="tag"># 原型模式</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/8bd761ec.html" rel="next" title="设计模式二之建造者模式">
+                <i class="fa fa-chevron-left"></i> 设计模式二之建造者模式
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/posts/3319c3e.html" rel="prev" title="设计模式四之工厂方法模式">
+                设计模式四之工厂方法模式 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4" alt="ZhangMiao">
+            
+              <p class="site-author-name" itemprop="name">ZhangMiao</p>
+              <p class="site-description motion-element" itemprop="description">Android/Flutter Developer</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">367</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">57</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">141</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:zm@zhangmiao.cc" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://wpa.qq.com/msgrd?v=3&uin=153942241&site=qq&menu=yes" target="_blank" title="QQ">
+                      
+                        <i class="fa fa-fw fa-qq"></i>QQ</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/zhangmiaocc" target="_blank" title="Github">
+                      
+                        <i class="fa fa-fw fa-github"></i>Github</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://stackoverflow.com" target="_blank" title="StackOverflow">
+                      
+                        <i class="fa fa-fw fa-stack-overflow"></i>StackOverflow</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://blog.constore.cn/" title="Liujianhui" target="_blank">Liujianhui</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://xuebin.me" title="Leo" target="_blank">Leo</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.csdn.net/lmj623565791" title="Hongyang" target="_blank">Hongyang</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://liuwangshu.cn/" title="Liuwangshu" target="_blank">Liuwangshu</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://jspang.com/" title="Jspang" target="_blank">Jspang</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blankj.com/" title="Blankj" target="_blank">Blankj</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://wuxiaolong.me/" title="WuXiaoLong" target="_blank">WuXiaoLong</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://molunerfinn.com" title="Molunerfinn" target="_blank">Molunerfinn</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.ofind.cn/" title="Ofind" target="_blank">Ofind</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.gcssloop.com/" title="Gcssloop" target="_blank">Gcssloop</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#介绍"><span class="nav-number">1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#定义"><span class="nav-number">2.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用场景"><span class="nav-number">3.</span> <span class="nav-text">使用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UML-类图"><span class="nav-number">4.</span> <span class="nav-text">UML 类图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#原型模式的简单实现"><span class="nav-number">5.</span> <span class="nav-text">原型模式的简单实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#浅拷贝和深拷贝"><span class="nav-number">6.</span> <span class="nav-text">浅拷贝和深拷贝</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#源码中的原型模式"><span class="nav-number">7.</span> <span class="nav-text">源码中的原型模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">8.</span> <span class="nav-text">总结</span></a></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#特别感谢"><span class="nav-number"></span> <span class="nav-text">特别感谢</span></a></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZhangMiao</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      本站访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+  <div>
+    <script type="text/javascript">
+      var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");
+      document.write(unescape("%3Cspan id='cnzz_stat_icon_1277928793'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1277928793%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+  </div>
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://zhangmiao.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://zhangmiao.cc/posts/7a86e223.html';
+          this.page.identifier = 'posts/7a86e223.html';
+          this.page.title = '设计模式三之原型模式';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://zhangmiao.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("8iIYW0IGofqyvJiiuU5R9buW-gzGzoHsz", "ssmxRx0kELJir6mA02ziW3Ql");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/lib/zclip/clipboard.min.js"></script>
+<script type="text/javascript" src="/js/src/custom.js"></script>
+
+</body>
+</html>

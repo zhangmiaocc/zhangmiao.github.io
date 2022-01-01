@@ -1,0 +1,1556 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Android,View,Banner,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="zm.blog" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="keywords" content="Android,View,Banner">
+<meta property="og:type" content="article">
+<meta property="og:title" content="开箱即用的自定义Banner">
+<meta property="og:url" content="https://zhangmiao.cc/posts/108df6b8.html">
+<meta property="og:site_name" content="zm.blog">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/640112319204sda.gif">
+<meta property="og:updated_time" content="2021-12-24T02:05:29.978Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="开箱即用的自定义Banner">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/640112319204sda.gif">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://zhangmiao.cc/posts/108df6b8.html">
+
+
+
+
+
+  <title>开箱即用的自定义Banner | zm.blog</title>
+  
+
+
+
+
+
+  <script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?44434226ba535875b1e807122adc3a04";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zm.blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">select * from learn</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhangmiao.cc/posts/108df6b8.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZhangMiao">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zm.blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">开箱即用的自定义Banner</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-19T17:59:59+08:00">
+                2019-08-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/View/" itemprop="url" rel="index">
+                    <span itemprop="name">View</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/posts/108df6b8.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="posts/108df6b8.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/posts/108df6b8.html" class="leancloud_visitors" data-flag-title="开箱即用的自定义Banner">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/640112319204sda.gif" alt></p>
+<a id="more"></a>
+
+<h2 id="自定义Banner用法明细"><a href="#自定义Banner用法明细" class="headerlink" title="自定义Banner用法明细"></a>自定义Banner用法明细</h2><p>支持XML自定义属性：</p>
+<ul>
+<li><p>bv_viewHeight：Banner视图区域的高度，小于等于0时为该布局的高度</p>
+</li>
+<li><p>bv_viewCornerRadius：视图区域圆角的半径</p>
+</li>
+<li><p>bv_itemViewWidthRatio：根据该布局宽度的百分比设置ItemView的宽度</p>
+</li>
+<li><p>bv_itemViewMargin：设置ItemView之间的间距</p>
+</li>
+<li><p>bv_intervalInMillis：Banner轮换时间（在SMOOTH模式下为Banner从右匀速到左的时间）</p>
+</li>
+<li><p>bv_pageHoldInMillis：手指滑动后，页面停留的时长（只在SMOOTH模式下生效）</p>
+</li>
+<li><p>bv_scrollMode：设置Banner滚动模式</p>
+</li>
+<li><ul>
+<li>INTERVAL：间隔切换模式</li>
+<li>SMOOTH：匀速滚动模式</li>
+</ul>
+</li>
+<li><p>bv_itemViewAlign：ItemView与父WrapperView的对齐方式（决定了itemViewMargin的留白位置）</p>
+</li>
+<li><ul>
+<li>CENTER_HORIZONTAL：水平居中</li>
+<li>ALIGN_PARENT_LEFT：居左对齐</li>
+<li>ALIGN_PARENT_RIGHT：居右对齐</li>
+</ul>
+</li>
+</ul>
+<p>暴露的API有：</p>
+<ul>
+<li>setBannerViewImpl(impl: IBannerView)：设置Banner必须的实现类</li>
+<li>startAutoScroll()：开始自动滚动（页面数量小于1时不会滚动）</li>
+<li>stopAutoScroll()：停止自动滚动</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 定义页面切换回调</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">OnPageChangeListener</span> </span>&#123;</span><br><span class="line">    <span class="function">fun <span class="title">onPageSelected</span><span class="params">(position: Int)</span></span></span><br><span class="line"><span class="function">&#125;</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">interface IBannerViewBase </span>&#123;</span><br><span class="line">    <span class="function">fun <span class="title">getCount</span><span class="params">()</span>: Int</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">    fun <span class="title">getItemView</span><span class="params">(context: Context)</span>: View</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">    fun <span class="title">onBindView</span><span class="params">(itemView: View, position: Int)</span></span></span><br><span class="line"><span class="function">&#125;</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="comment">/**</span></span></span><br><span class="line"><span class="function"><span class="comment"> * BannerView依赖的外部实现</span></span></span><br><span class="line"><span class="function"><span class="comment"> */</span></span></span><br><span class="line"><span class="function">interface IBannerView : OnPageChangeListener, IBannerViewBase </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 当count为0时的默认view</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function">fun <span class="title">getDefaultView</span><span class="params">(context: Context)</span>: View? </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 默认关闭自动滚动</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function">fun <span class="title">isDefaultAutoScroll</span><span class="params">()</span>: Boolean </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function">override fun <span class="title">onPageSelected</span><span class="params">(position: Int)</span> </span>&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>源码地址：</p>
+<blockquote>
+<p><a href="https://github.com/drawf/SourceSet/tree/master/app/src/main/java/me/erwa/sourceset/view/banner" target="_blank" rel="noopener">https://github.com/drawf/SourceSet/tree/master/app/src/main/java/me/erwa/sourceset/view/banner</a></p>
+</blockquote>
+<h2 id="思考分析"><a href="#思考分析" class="headerlink" title="思考分析"></a>思考分析</h2><p><strong>NOTE：</strong>这篇文章我们专注于BannerView的封装与实现，关于更底层的PagerSnapHelper的原理部分不在范围内，但在文末我<strong>拜读的文章</strong>中贴出了一份链接，大家可自行食用。</p>
+<p>前路漫漫，我们先梳理下需求：</p>
+<ol>
+<li>要支持两种滚动模式，间隔切换、平滑滚动</li>
+<li>要支持设置视图区域圆角</li>
+<li>要支持设置条目视图圆角（ItemView）（该需求本次未做实现，下文会自动忽略该需求）</li>
+<li>要支持无限循环滚动</li>
+<li>要支持根据BannerView的宽的比值设置ItemView的宽</li>
+<li>要支持设置ItemView之间的间距</li>
+<li>要支持设置滚动间隔，匀速模式要支持设置滚动一页的时间</li>
+<li>要支持设置匀速模式下，手指滑动后，页面停留的时长</li>
+<li>要支持设置ItemView与父WrapperView的对齐方式（决定了itemViewMargin的留白位置）</li>
+<li>要支持设置默认是否开启滚动</li>
+<li>要支持设置数据源为空时的默认View</li>
+<li>要支持数据源只有1张banner时，禁止滚动</li>
+<li>要暴露API控制Banner的自动滚动与暂停</li>
+<li>要支持设置指示器（Indicator），且能灵活控制指示器位置，且与BannerView解耦</li>
+</ol>
+<p>🤩这么多需求，不要怕，我们根据需求来理一遍核心技术点：</p>
+<ol>
+<li><code>平滑滚动模式</code>可以使用RecyclerView+PagerSnapHelper实现，<code>间隔滚动模式</code>可以继续使用ViewPager实现，也可以使用前者方式实现。（本文统一使用RecyclerView+PagerSnapHelper方式，不过代码中也留出了接口，可用ViewPager做实现）</li>
+<li>设置圆角还是采用<code>Xfermode</code>做裁剪合成即可。（该方式在之前的文章<strong>ShadowLayout</strong>中使用过，故本文不再赘述）</li>
+<li>需求[4]将adpter中getItemCount()返回Int.MAX_VALUE，再在绑定View时候，用当前的position与真实count求余数，作为真实的position去绑定数据，即可实现。</li>
+<li>需求[4]到[13]，都没有技术复杂度，但有业务复杂度，做常规实现即可。</li>
+<li>需求[14]可定义Indicator涉及的接口做代码解耦，并将BannerView继承RelativeLayout，这样Indicator作为子View在xml中可灵活控制位置。</li>
+</ol>
+<p>这样一来，实现我们想要的BannerView只是耐心+时间的问题了。以下，我会挑本次实现中重要的几点来做说明，如下：</p>
+<ol>
+<li>RecyclerView+PagerSnapHelper实现的<strong>PagerRecyclerView</strong></li>
+<li>生成PagerView实例的工厂<strong>PagerViewFactory</strong></li>
+<li>Indicator的解耦实现</li>
+</ol>
+<h2 id="PagerRecyclerView"><a href="#PagerRecyclerView" class="headerlink" title="PagerRecyclerView"></a>PagerRecyclerView</h2><p>看名字便知这是一个用RecyclerView实现ViewPager功能的类，所以继承自RecyclerView。</p>
+<p>它作为BannerView的核心功能实现类，为了与上层解耦（也就是方便切换为其它实现，比如用ViewPager做实现）所以定义接口<code>IPagerViewInstance</code>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * PagerView功能实例需实现的接口</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">IPagerViewInstance</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 设置自动滚动</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> intervalInMillis: Int 在INTERVAL模式下为页面切换间隔 在SMOOTH模式下为滚动一页所需时间</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function">fun <span class="title">startAutoScroll</span><span class="params">(intervalInMillis: Int)</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">    <span class="comment">/**</span></span></span><br><span class="line"><span class="function"><span class="comment">     * 停止自动滚动</span></span></span><br><span class="line"><span class="function"><span class="comment">     */</span></span></span><br><span class="line"><span class="function">    fun <span class="title">stopAutoScroll</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">    <span class="comment">/**</span></span></span><br><span class="line"><span class="function"><span class="comment">     * 获取当前Item的位置（List的索引）</span></span></span><br><span class="line"><span class="function"><span class="comment">     */</span></span></span><br><span class="line"><span class="function">    fun <span class="title">getCurrentPosition</span><span class="params">()</span>: Int</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">    <span class="comment">/**</span></span></span><br><span class="line"><span class="function"><span class="comment">     * 获取当前真实的Item的位置（List的索引）</span></span></span><br><span class="line"><span class="function"><span class="comment">     */</span></span></span><br><span class="line"><span class="function">    fun <span class="title">getRealCurrentPosition</span><span class="params">(realCount: Int)</span>: Int</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">    <span class="comment">/**</span></span></span><br><span class="line"><span class="function"><span class="comment">     * 设置平滑模式是否开启，否则为间隔切换模式</span></span></span><br><span class="line"><span class="function"><span class="comment">     */</span></span></span><br><span class="line"><span class="function">    fun <span class="title">setSmoothMode</span><span class="params">(enabled: Boolean)</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">    <span class="comment">/**</span></span></span><br><span class="line"><span class="function"><span class="comment">     * 设置页面停留时长</span></span></span><br><span class="line"><span class="function"><span class="comment">     */</span></span></span><br><span class="line"><span class="function">    fun <span class="title">setPageHoldInMillis</span><span class="params">(pageHoldInMillis: Int)</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">    <span class="comment">/**</span></span></span><br><span class="line"><span class="function"><span class="comment">     * 设置页面切换回调</span></span></span><br><span class="line"><span class="function"><span class="comment">     */</span></span></span><br><span class="line"><span class="function">    fun <span class="title">setOnPageChangeListener</span><span class="params">(listener: OnPageChangeListener)</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">    <span class="comment">/**</span></span></span><br><span class="line"><span class="function"><span class="comment">     * 通知数据刷新</span></span></span><br><span class="line"><span class="function"><span class="comment">     */</span></span></span><br><span class="line"><span class="function">    fun <span class="title">notifyDataSetChanged</span><span class="params">()</span></span></span><br><span class="line"><span class="function">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>关于<code>PagerSnapHelper</code>的使用极其简单，只需创建出实例，attachToRecyclerView一下，即可让RecyclerView摇身一变成为ViewPager一样。（这里实在让人惊叹！！我们都应该追求这种API的极致设计）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 滑动到具体位置帮助器</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> var mSnapHelper: PagerSnapHelper = PagerSnapHelper()</span><br><span class="line">... 省略代码</span><br><span class="line">init &#123;</span><br><span class="line">    mSnapHelper.attachToRecyclerView(<span class="keyword">this</span>)</span><br><span class="line">    ... 省略代码</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>关于<code>间隔切换模式 匀速滚动模式</code>的实现主要是在<code>startTimer()</code>方法中，两者的区别在于Timer的间隔时间不同、回调中执行的方法不同。其中匀速模式的Timer间隔时间需要使用<code>外部设置的滚动一屏的时间、一屏的宽度、每次scrollBy的距离</code>计算而来。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 开始定时器</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> fun <span class="title">startTimer</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    mTimer?.cancel()</span><br><span class="line">    <span class="keyword">if</span> (mWidth &gt; <span class="number">0</span> &amp;&amp; mFlagStartTimer &amp;&amp; context != <span class="keyword">null</span> &amp;&amp; context is Activity) &#123;</span><br><span class="line">        mTimer = timer(initialDelay = mDelayedTime, period = mPeriodTime) &#123;</span><br><span class="line">            <span class="keyword">if</span> (mScrollState == SCROLL_STATE_IDLE) &#123;</span><br><span class="line">                (context as Activity).runOnUiThread &#123;</span><br><span class="line">                    <span class="keyword">if</span> (mSmoothMode) &#123;</span><br><span class="line">                        scrollBy(DEFAULT_PERIOD_SCROLL_PIXEL, <span class="number">0</span>)</span><br><span class="line">                        triggerOnPageSelected()</span><br><span class="line">                    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                        smoothScrollToPosition(++mOldPosition)</span><br><span class="line">                        mPageChangeListener?.onPageSelected(mOldPosition)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">override fun <span class="title">onSizeChanged</span><span class="params">(w: Int, h: Int, oldw: Int, oldh: Int)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>.onSizeChanged(w, h, oldw, oldh)</span><br><span class="line">    mWidth = (w - paddingLeft - paddingRight).toFloat()</span><br><span class="line">    mHeight = (h - paddingTop - paddingBottom).toFloat()</span><br><span class="line"></span><br><span class="line">    <span class="comment">//计算匀速滚动的时间间隔</span></span><br><span class="line">    <span class="keyword">if</span> (mSmoothMode) &#123;</span><br><span class="line">        mPeriodTime = (mSmoothSpeed / (mWidth / DEFAULT_PERIOD_SCROLL_PIXEL)).toLong()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (mTimer == <span class="keyword">null</span>) &#123;</span><br><span class="line">        startTimer()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>页面选中</strong>是根据PagerSnapHelper中提供的findSnapView方法，先找到Snap（就是当前的目标View），再找它的位置，当然还需用一个变量记录一下，防止多次触发回调。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 触发OnPageSelected回调</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> fun <span class="title">triggerOnPageSelected</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    val layoutManager = getLinearLayoutManager()</span><br><span class="line">    val view = mSnapHelper.findSnapView(layoutManager)</span><br><span class="line">    <span class="keyword">if</span> (view != <span class="keyword">null</span>) &#123;</span><br><span class="line">        val position = layoutManager.getPosition(view)</span><br><span class="line">        <span class="comment">//防止同一位置多次触发</span></span><br><span class="line">        <span class="keyword">if</span> (position != mOldPosition) &#123;</span><br><span class="line">            mOldPosition = position</span><br><span class="line">            mPageChangeListener?.onPageSelected(position)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>还有一个值得说道的点是初始化时需要矫正<strong>Snap</strong>的位置，因为<strong>PagerSnapHelper</strong>手指滑动的时候才工作让RecyclerView滑动出ViewPager的感觉，所以初始化时不矫正会发现选中的页面不居中显示，还是一个RecyclerView的样子。那如何矫正呢？这里去看了<strong>PagerSnapHelper</strong>实现，搬过来，稍加修改即可。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 矫正首次初始化时SnapView的位置</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> fun <span class="title">correctSnapViewPosition</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    val layoutManager = getLinearLayoutManager()</span><br><span class="line">    val snapView = mSnapHelper.findSnapView(layoutManager)</span><br><span class="line">    <span class="keyword">if</span> (snapView != <span class="keyword">null</span>) &#123;</span><br><span class="line">        val snapDistance = mSnapHelper.calculateDistanceToFinalSnap(layoutManager, snapView)</span><br><span class="line">        <span class="keyword">if</span> (snapDistance != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (snapDistance[<span class="number">0</span>] != <span class="number">0</span> || snapDistance[<span class="number">1</span>] != <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="comment">//我们把源码的smoothScrollBy改为scrollBy，这样视觉上觉察不出矫正过程</span></span><br><span class="line">                scrollBy(snapDistance[<span class="number">0</span>], snapDistance[<span class="number">1</span>])</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//首次触发回调</span></span><br><span class="line">            triggerOnPageSelected()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 这是源码</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">snapToTargetExistingView</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.mRecyclerView != <span class="keyword">null</span>) &#123;</span><br><span class="line">        LayoutManager layoutManager = <span class="keyword">this</span>.mRecyclerView.getLayoutManager();</span><br><span class="line">        <span class="keyword">if</span> (layoutManager != <span class="keyword">null</span>) &#123;</span><br><span class="line">            View snapView = <span class="keyword">this</span>.findSnapView(layoutManager);</span><br><span class="line">            <span class="keyword">if</span> (snapView != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">int</span>[] snapDistance = <span class="keyword">this</span>.calculateDistanceToFinalSnap(layoutManager, snapView);</span><br><span class="line">                <span class="keyword">if</span> (snapDistance[<span class="number">0</span>] != <span class="number">0</span> || snapDistance[<span class="number">1</span>] != <span class="number">0</span>) &#123;</span><br><span class="line">                    <span class="keyword">this</span>.mRecyclerView.smoothScrollBy(snapDistance[<span class="number">0</span>], snapDistance[<span class="number">1</span>]);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以上是我认为PagerRecyclerView较为关键的点，其它部分均为业务逻辑的处理与实现，大家可打开源码自行食用。</p>
+<h2 id="PagerViewFactory"><a href="#PagerViewFactory" class="headerlink" title="PagerViewFactory"></a>PagerViewFactory</h2><p>这里采用了<strong>工厂方法模式</strong>来创建Banner底层的核心实现。</p>
+<p>首先定义了BannerView实例接口，它将作为工厂实例的构造方法参数，用于区分创建底层实现。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">IBannerViewBase</span> </span>&#123;</span><br><span class="line">    <span class="function">fun <span class="title">getCount</span><span class="params">()</span>: Int</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">    fun <span class="title">getItemView</span><span class="params">(context: Context)</span>: View</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">    fun <span class="title">onBindView</span><span class="params">(itemView: View, position: Int)</span></span></span><br><span class="line"><span class="function">&#125;</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="comment">/**</span></span></span><br><span class="line"><span class="function"><span class="comment"> * 定义BannerView实例接口</span></span></span><br><span class="line"><span class="function"><span class="comment"> */</span></span></span><br><span class="line"><span class="function">interface IBannerViewInstance : IBannerViewBase </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function">fun <span class="title">getContext</span><span class="params">()</span>: Context</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">    fun <span class="title">isSmoothMode</span><span class="params">()</span>: Boolean</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">    fun <span class="title">getItemViewWidth</span><span class="params">()</span>: Int</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">    fun <span class="title">getItemViewMargin</span><span class="params">()</span>: Int</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">    fun <span class="title">getItemViewAlign</span><span class="params">()</span>: Int</span></span><br><span class="line"><span class="function">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>工厂有个getPagerView()的方法，来创建Banner核心实现</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 工厂根据参数创建对应PagerView实例</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function">override fun <span class="title">getPagerView</span><span class="params">()</span>: IPagerViewInstance </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">if</span> (bannerView.isSmoothMode()) &#123;</span><br><span class="line">        casePagerRecycler(<span class="keyword">true</span>)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (intervalUseViewPager) &#123;</span><br><span class="line">            <span class="comment">//这里可以根据需要用ViewPager做底层实现</span></span><br><span class="line">            <span class="keyword">throw</span> IllegalStateException(<span class="string">"这里未使用ViewPager做底层实现"</span>)</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            casePagerRecycler(<span class="keyword">false</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里就是创建了之前写好的PagerRecyclerView，其实就是创建配置使用一个RecyclerView的过程。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 处理PagerRecyclerView</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> fun <span class="title">casePagerRecycler</span><span class="params">(isSmoothMode: Boolean)</span>: IPagerViewInstance </span>&#123;</span><br><span class="line">    val recyclerView = PagerRecyclerView(bannerView.getContext())</span><br><span class="line">    recyclerView.layoutManager = LinearLayoutManager(bannerView.getContext(), LinearLayoutManager.HORIZONTAL, <span class="keyword">false</span>)</span><br><span class="line">    recyclerView.adapter = object : RecyclerView.Adapter&lt;RecyclerView.ViewHolder&gt;() &#123;</span><br><span class="line">        <span class="function">override fun <span class="title">getItemCount</span><span class="params">()</span>: Int </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> Int.MAX_VALUE</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function">override fun <span class="title">onBindViewHolder</span><span class="params">(holder: RecyclerView.ViewHolder, position: Int)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (!isActivityDestroyed(holder.itemView.context)) &#123;</span><br><span class="line">                val realPos = position % bannerView.getCount()</span><br><span class="line">                bannerView.onBindView(holder.itemView.findViewById(R.id.id_real_item_view), realPos)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function">override fun <span class="title">onCreateViewHolder</span><span class="params">(parent: ViewGroup, viewType: Int)</span>: RecyclerView.ViewHolder </span>&#123;</span><br><span class="line">            val itemWrapper = LayoutInflater.from(parent.context).inflate(</span><br><span class="line">                R.layout.layout_banner_item_wrapper,</span><br><span class="line">                parent,</span><br><span class="line">                <span class="keyword">false</span></span><br><span class="line">            ) as RelativeLayout</span><br><span class="line"></span><br><span class="line">            <span class="comment">//处理ItemViewWrapper的宽</span></span><br><span class="line">            itemWrapper.layoutParams.width = bannerView.getItemViewWidth() + bannerView.getItemViewMargin()</span><br><span class="line"></span><br><span class="line">            <span class="comment">//外部实际的ItemView</span></span><br><span class="line">            val itemView = bannerView.getItemView(parent.context)</span><br><span class="line">            itemView.id = R.id.id_real_item_view</span><br><span class="line">            val ivParams = RelativeLayout.LayoutParams(</span><br><span class="line">                bannerView.getItemViewWidth(),</span><br><span class="line">                ViewGroup.LayoutParams.MATCH_PARENT</span><br><span class="line">            )</span><br><span class="line">            ivParams.addRule(bannerView.getItemViewAlign())</span><br><span class="line"></span><br><span class="line">            <span class="comment">//添加ItemView到Wrapper</span></span><br><span class="line">            itemWrapper.addView(itemView, ivParams)</span><br><span class="line">            <span class="keyword">return</span> object : RecyclerView.ViewHolder(itemWrapper) &#123;&#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//初始化位置</span></span><br><span class="line">    recyclerView.scrollToPosition(bannerView.getCount() * <span class="number">100</span>)</span><br><span class="line">    recyclerView.setSmoothMode(isSmoothMode)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> recyclerView</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Indicator的解耦实现"><a href="#Indicator的解耦实现" class="headerlink" title="Indicator的解耦实现"></a>Indicator的解耦实现</h2><p>解耦的惯用套路就是抽象方法定义接口。所以我们定义了两个接口，一个是<strong>指示器实例需实现的接口</strong>，一个是<strong>指示器依赖的外部实现</strong>。所以使用这两个接口，可以自定义实现想要的样式。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 指示器实例需实现的接口</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">IIndicatorInstance</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 设置外部实现</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function">fun <span class="title">setIndicator</span><span class="params">(impl: IIndicator)</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">    <span class="comment">/**</span></span></span><br><span class="line"><span class="function"><span class="comment">     * 重新布局</span></span></span><br><span class="line"><span class="function"><span class="comment">     */</span></span></span><br><span class="line"><span class="function">    fun <span class="title">doRequestLayout</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">    <span class="comment">/**</span></span></span><br><span class="line"><span class="function"><span class="comment">     * 重新绘制</span></span></span><br><span class="line"><span class="function"><span class="comment">     */</span></span></span><br><span class="line"><span class="function">    fun <span class="title">doInvalidate</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">&#125;</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="comment">/**</span></span></span><br><span class="line"><span class="function"><span class="comment"> * 指示器依赖的外部实现</span></span></span><br><span class="line"><span class="function"><span class="comment"> */</span></span></span><br><span class="line"><span class="function">interface IIndicator </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取adapter总数目</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function">fun <span class="title">getCount</span><span class="params">()</span>: Int</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">    <span class="comment">/**</span></span></span><br><span class="line"><span class="function"><span class="comment">     * 获取当前选中页面的索引</span></span></span><br><span class="line"><span class="function"><span class="comment">     */</span></span></span><br><span class="line"><span class="function">    fun <span class="title">getCurrentIndex</span><span class="params">()</span>: Int</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>对于我们这次实现的CrossBarIndicator，它就是一个常规的自定义View，这里已没有什么好说的啦。重点要说的是需求中有<strong>一条且能灵活控制指示器位置</strong>，如何实现呢？需求分析时说了，我们的BannerView是一个RelativeLayout，Indicator作为其子View可以很方便的控制其位置。</p>
+<p>然后，看下BannerView中的关键代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">override fun <span class="title">onFinishInflate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>.onFinishInflate()</span><br><span class="line">    findIndicator()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 在子View中找到指示器</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> fun <span class="title">findIndicator</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (i in <span class="number">0</span> until childCount) &#123;</span><br><span class="line">        val child = getChildAt(i)</span><br><span class="line">        <span class="keyword">if</span> (child is IIndicatorInstance) &#123;</span><br><span class="line">            <span class="comment">//布局填充完毕时，找到子View中的Indicator，并保存下来</span></span><br><span class="line">            mIndicator = child</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 初始化view</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> fun <span class="title">initView</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (mBannerViewImpl != <span class="keyword">null</span> &amp;&amp; mWidth &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        val bvImpl = mBannerViewImpl!!</span><br><span class="line">        removeAllViews()</span><br><span class="line"></span><br><span class="line">        ... 省略代码</span><br><span class="line"></span><br><span class="line">        <span class="comment">//初始化指示器</span></span><br><span class="line">        <span class="keyword">if</span> (mIndicator != <span class="keyword">null</span>) &#123;</span><br><span class="line">            mIndicator?.setIndicator(object : IIndicator &#123;</span><br><span class="line"></span><br><span class="line">                <span class="function">override fun <span class="title">getCount</span><span class="params">()</span>: Int </span>&#123;</span><br><span class="line">                    <span class="keyword">return</span> bvImpl.getCount()</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="function">override fun <span class="title">getCurrentIndex</span><span class="params">()</span>: Int </span>&#123;</span><br><span class="line">                    <span class="keyword">return</span> mPagerViewInstance.getRealCurrentPosition(bvImpl.getCount())</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">            &#125;)</span><br><span class="line">            <span class="comment">//把指示器再添加回去</span></span><br><span class="line">            addView(mIndicator as View)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="文末"><a href="#文末" class="headerlink" title="文末"></a>文末</h2><p>到这里整体要说的就完结了，整个BannerView的实现细节、逻辑还是很多的，不过复杂度倒没那么高，建议食用源码~ O(∩_∩)O哈哈~</p>
+<p><strong>个人能力有限，如有不正之处欢迎大家批评指出，我会虚心接受并第一时间修改，以不误导大家。</strong></p>
+<h2 id="拜读的文章"><a href="#拜读的文章" class="headerlink" title="拜读的文章"></a><strong>拜读的文章</strong></h2><p>SnapHelper硬核讲解：</p>
+<blockquote>
+<p><a href="https://juejin.im/post/5cbe78ae5188250a6b183872" target="_blank" rel="noopener">https://juejin.im/post/5cbe78ae5188250a6b183872</a></p>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="ZhangMiao 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="ZhangMiao 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    ZhangMiao
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://zhangmiao.cc/posts/108df6b8.html" title="开箱即用的自定义Banner">https://zhangmiao.cc/posts/108df6b8.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+            <a href="/tags/View/" rel="tag"># View</a>
+          
+            <a href="/tags/Banner/" rel="tag"># Banner</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/b902250c.html" rel="next" title="Android Context细节解析">
+                <i class="fa fa-chevron-left"></i> Android Context细节解析
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/posts/eea8a783.html" rel="prev" title="Android适配-6.0的动态权限管理">
+                Android适配-6.0的动态权限管理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4" alt="ZhangMiao">
+            
+              <p class="site-author-name" itemprop="name">ZhangMiao</p>
+              <p class="site-description motion-element" itemprop="description">Android/Flutter Developer</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">367</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">57</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">141</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:zm@zhangmiao.cc" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://wpa.qq.com/msgrd?v=3&uin=153942241&site=qq&menu=yes" target="_blank" title="QQ">
+                      
+                        <i class="fa fa-fw fa-qq"></i>QQ</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/zhangmiaocc" target="_blank" title="Github">
+                      
+                        <i class="fa fa-fw fa-github"></i>Github</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://stackoverflow.com" target="_blank" title="StackOverflow">
+                      
+                        <i class="fa fa-fw fa-stack-overflow"></i>StackOverflow</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://blog.constore.cn/" title="Liujianhui" target="_blank">Liujianhui</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://xuebin.me" title="Leo" target="_blank">Leo</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.csdn.net/lmj623565791" title="Hongyang" target="_blank">Hongyang</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://liuwangshu.cn/" title="Liuwangshu" target="_blank">Liuwangshu</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://jspang.com/" title="Jspang" target="_blank">Jspang</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blankj.com/" title="Blankj" target="_blank">Blankj</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://wuxiaolong.me/" title="WuXiaoLong" target="_blank">WuXiaoLong</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://molunerfinn.com" title="Molunerfinn" target="_blank">Molunerfinn</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.ofind.cn/" title="Ofind" target="_blank">Ofind</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.gcssloop.com/" title="Gcssloop" target="_blank">Gcssloop</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#自定义Banner用法明细"><span class="nav-number">1.</span> <span class="nav-text">自定义Banner用法明细</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#思考分析"><span class="nav-number">2.</span> <span class="nav-text">思考分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PagerRecyclerView"><span class="nav-number">3.</span> <span class="nav-text">PagerRecyclerView</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PagerViewFactory"><span class="nav-number">4.</span> <span class="nav-text">PagerViewFactory</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Indicator的解耦实现"><span class="nav-number">5.</span> <span class="nav-text">Indicator的解耦实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文末"><span class="nav-number">6.</span> <span class="nav-text">文末</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#拜读的文章"><span class="nav-number">7.</span> <span class="nav-text">拜读的文章</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZhangMiao</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      本站访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+  <div>
+    <script type="text/javascript">
+      var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");
+      document.write(unescape("%3Cspan id='cnzz_stat_icon_1277928793'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1277928793%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+  </div>
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://zhangmiao.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://zhangmiao.cc/posts/108df6b8.html';
+          this.page.identifier = 'posts/108df6b8.html';
+          this.page.title = '开箱即用的自定义Banner';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://zhangmiao.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("8iIYW0IGofqyvJiiuU5R9buW-gzGzoHsz", "ssmxRx0kELJir6mA02ziW3Ql");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/lib/zclip/clipboard.min.js"></script>
+<script type="text/javascript" src="/js/src/custom.js"></script>
+
+</body>
+</html>

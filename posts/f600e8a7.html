@@ -1,0 +1,1523 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Android,Flutter,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="zm.blog" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="上节最后留了个坑到这节来解决，因为涉及部件比较多，所以留到这边来继续讲，不然写太多了怕小伙伴看不下去 在上节最后，给小伙伴们展示了 SliveGrid 和 SliverFixedExtentList 的用法，基本上和 GridView 和 ListView 的用法差不多，所以这边就不多讲这两个部件了。 SliverAppBar相信很多 Android 开发的小伙伴会用到 MaterialDesig">
+<meta name="keywords" content="Android,Flutter">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Flutter入门指南(八)之Sliver组件及NestedScrollView">
+<meta property="og:url" content="https://zhangmiao.cc/posts/f600e8a7.html">
+<meta property="og:site_name" content="zm.blog">
+<meta property="og:description" content="上节最后留了个坑到这节来解决，因为涉及部件比较多，所以留到这边来继续讲，不然写太多了怕小伙伴看不下去 在上节最后，给小伙伴们展示了 SliveGrid 和 SliverFixedExtentList 的用法，基本上和 GridView 和 ListView 的用法差不多，所以这边就不多讲这两个部件了。 SliverAppBar相信很多 Android 开发的小伙伴会用到 MaterialDesig">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/a2.gif">
+<meta property="og:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190522111020.gif">
+<meta property="og:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190522111101.gif">
+<meta property="og:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/201905221400.gif">
+<meta property="og:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190522111721.gif">
+<meta property="og:updated_time" content="2021-12-24T02:05:29.963Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Flutter入门指南(八)之Sliver组件及NestedScrollView">
+<meta name="twitter:description" content="上节最后留了个坑到这节来解决，因为涉及部件比较多，所以留到这边来继续讲，不然写太多了怕小伙伴看不下去 在上节最后，给小伙伴们展示了 SliveGrid 和 SliverFixedExtentList 的用法，基本上和 GridView 和 ListView 的用法差不多，所以这边就不多讲这两个部件了。 SliverAppBar相信很多 Android 开发的小伙伴会用到 MaterialDesig">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/a2.gif">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://zhangmiao.cc/posts/f600e8a7.html">
+
+
+
+
+
+  <title>Flutter入门指南(八)之Sliver组件及NestedScrollView | zm.blog</title>
+  
+
+
+
+
+
+  <script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?44434226ba535875b1e807122adc3a04";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zm.blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">select * from learn</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhangmiao.cc/posts/f600e8a7.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZhangMiao">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zm.blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Flutter入门指南(八)之Sliver组件及NestedScrollView</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-26T10:57:48+08:00">
+                2019-04-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/Flutter/" itemprop="url" rel="index">
+                    <span itemprop="name">Flutter</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/posts/f600e8a7.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="posts/f600e8a7.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/posts/f600e8a7.html" class="leancloud_visitors" data-flag-title="Flutter入门指南(八)之Sliver组件及NestedScrollView">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>上节最后留了个坑到这节来解决，因为涉及部件比较多，所以留到这边来继续讲，不然写太多了怕小伙伴看不下去</p>
+<p>在上节最后，给小伙伴们展示了 SliveGrid 和 SliverFixedExtentList 的用法，基本上和 GridView 和 ListView 的用法差不多，所以这边就不多讲这两个部件了。</p>
+<h3 id="SliverAppBar"><a href="#SliverAppBar" class="headerlink" title="SliverAppBar"></a>SliverAppBar</h3><p>相信很多 Android 开发的小伙伴会用到 MaterialDesign 的 CollapsingToolbarLayout 来实现折叠头部，既然 Android 有的，那么 Flutter 也不会少，毕竟 Flutter 主打的也是 MaterialDesign 啊。首先看下 SliverAppBar 的源码吧，其实和 AppBar 的参数差不多，只是多了一些比较特殊的属性</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> SliverAppBar(&#123;</span><br><span class="line">Key key,</span><br><span class="line"><span class="keyword">this</span>.leading,</span><br><span class="line"><span class="keyword">this</span>.automaticallyImplyLeading = <span class="keyword">true</span>,</span><br><span class="line"><span class="keyword">this</span>.title,</span><br><span class="line"><span class="keyword">this</span>.actions,</span><br><span class="line"><span class="keyword">this</span>.flexibleSpace, <span class="comment">// 通过这个来设置背景</span></span><br><span class="line"><span class="keyword">this</span>.bottom,</span><br><span class="line"><span class="keyword">this</span>.elevation,</span><br><span class="line"><span class="keyword">this</span>.forceElevated = <span class="keyword">false</span>, <span class="comment">// 是否显示层次感</span></span><br><span class="line"><span class="keyword">this</span>.backgroundColor,</span><br><span class="line"><span class="keyword">this</span>.brightness,</span><br><span class="line"><span class="keyword">this</span>.iconTheme,</span><br><span class="line"><span class="keyword">this</span>.textTheme,</span><br><span class="line"><span class="keyword">this</span>.primary = <span class="keyword">true</span>,</span><br><span class="line"><span class="keyword">this</span>.centerTitle,</span><br><span class="line"><span class="keyword">this</span>.titleSpacing = NavigationToolbar.kMiddleSpacing,</span><br><span class="line"><span class="keyword">this</span>.expandedHeight, <span class="comment">// 展开的高度</span></span><br><span class="line"><span class="comment">// 以下三个等例子再讲</span></span><br><span class="line"><span class="keyword">this</span>.floating = <span class="keyword">false</span>,</span><br><span class="line"><span class="keyword">this</span>.pinned = <span class="keyword">false</span>,</span><br><span class="line"><span class="keyword">this</span>.snap = <span class="keyword">false</span>,</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>别的参数应该不陌生吧，都是 AppBar 的，那么直接来看个例子吧，还是通过上节说的 CustomScrollView 来包裹 Sliver 部件</p>
+<a id="more"></a>
+
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SliverDemoPage</span> <span class="keyword">extends</span> <span class="title">StatelessWidget</span> </span>&#123;</span><br><span class="line"><span class="meta">@override</span></span><br><span class="line">Widget build(BuildContext context) &#123;</span><br><span class="line"><span class="keyword">return</span> Scaffold(</span><br><span class="line">body: CustomScrollView(slivers: &lt;Widget&gt;[</span><br><span class="line">SliverAppBar(</span><br><span class="line">title: Text(<span class="string">'Sliver Demo'</span>),</span><br><span class="line">centerTitle: <span class="keyword">true</span>,</span><br><span class="line"><span class="comment">// 展开的高度</span></span><br><span class="line">expandedHeight: <span class="number">300.0</span>,</span><br><span class="line"><span class="comment">// 强制显示阴影</span></span><br><span class="line">forceElevated: <span class="keyword">true</span>,</span><br><span class="line"><span class="comment">// 设置该属性，当有下滑手势的时候，就会显示 AppBar</span></span><br><span class="line"><span class="comment">// floating: true,</span></span><br><span class="line"><span class="comment">// 该属性只有在 floating 为 true 的情况下使用，不然会报错</span></span><br><span class="line"><span class="comment">// 当上滑到一定的比例，会自动把 AppBar 收缩（不知道是不是 bug，当 AppBar 下面的部件没有被 AppBar 覆盖的时候，不会自动收缩）</span></span><br><span class="line"><span class="comment">// 当下滑到一定比例，会自动把 AppBar 展开</span></span><br><span class="line"><span class="comment">// snap: true,</span></span><br><span class="line"><span class="comment">// 设置该属性使 Appbar 折叠后不消失</span></span><br><span class="line"><span class="comment">// pinned: true,</span></span><br><span class="line"><span class="comment">// 通过这个属性设置 AppBar 的背景</span></span><br><span class="line">flexibleSpace: FlexibleSpaceBar(</span><br><span class="line"><span class="comment">// title: Text('Expanded Title'),</span></span><br><span class="line"><span class="comment">// 背景折叠动画</span></span><br><span class="line">collapseMode: CollapseMode.parallax,</span><br><span class="line">background: Image.asset(<span class="string">'images/timg.jpg'</span>, fit: BoxFit.cover),</span><br><span class="line">),</span><br><span class="line">),</span><br><span class="line"></span><br><span class="line"><span class="comment">// 这个部件一般用于最后填充用的，会占有一个屏幕的高度，</span></span><br><span class="line"><span class="comment">// 可以在 child 属性加入需要展示的部件</span></span><br><span class="line">SliverFillRemaining(</span><br><span class="line">child: Center(child: Text(<span class="string">'FillRemaining'</span>, style: TextStyle(fontSize: <span class="number">30.0</span>))),</span><br><span class="line">),</span><br><span class="line">]));</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里分别给出不同的动图来查看三个属性的影响</p>
+<p>如果设置了 floating 属性，当有下拉动作时，会显示 AppBar</p>
+<p><img src="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/a2.gif" alt></p>
+<p>如果设置了 snap 属性，滑动距离达到一定值后，会根据滑动方向收缩或者展开</p>
+<p><img src="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190522111020.gif" alt></p>
+<p>如果设置了 pinned 属性，那么 AppBar 就会在界面上不会消失</p>
+<p><img src="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190522111101.gif" alt></p>
+<p>以上的效果图把 SliverFillRemaining 换成列表 SliverFixedExtentList 效果可能会更加明显，这边给小伙伴自己替换测试吧。</p>
+<h3 id="SliverFillViewport"><a href="#SliverFillViewport" class="headerlink" title="SliverFillViewport"></a>SliverFillViewport</h3><p>这边提到了 SliverFillRemaining 用来填充视图，那么顺带提下 SliverFillViewport 这个部件</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> SliverFillViewport(&#123;</span><br><span class="line">Key key,</span><br><span class="line"><span class="meta">@required</span> SliverChildDelegate delegate, <span class="comment">// 这个 delegate 同 SliverGrid</span></span><br><span class="line"><span class="keyword">this</span>.viewportFraction = <span class="number">1.0</span>, <span class="comment">// 同屏幕的比例值，1.0 为一个屏幕大小</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>如果一个滑动列表，每个 item 需要占满一个屏幕或者更大，可以使用该部件生成列表，但是如果 item 的高度小于一个屏幕高度，那就不太推荐了，在首尾会用空白 item 来把未填满的补上，就是首尾都会留空白。我们使用 SliverFillViewport 对 SliverFillRemaning 进行替换</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SliverFillViewport(</span><br><span class="line">viewportFraction: <span class="number">1.0</span>,</span><br><span class="line">delegate: SliverChildBuilderDelegate(</span><br><span class="line">(_, index) =&gt; Container(child: Text(<span class="string">'Item $index'</span>), alignment: Alignment.center, color: colors[index % <span class="number">4</span>]),</span><br><span class="line">childCount: <span class="number">10</span>))</span><br></pre></td></tr></table></figure>
+
+<p>效果就不展示了，可自行运行查看。</p>
+<h3 id="SliverToBoxAdapter"><a href="#SliverToBoxAdapter" class="headerlink" title="SliverToBoxAdapter"></a>SliverToBoxAdapter</h3><p>还记得上节最后的代码中，有使用 SliverToBoxAdapter 这个部件吗，这个部件只需要传入一个 child 属性。因为在 CustomScrollView 中只允许传入 Sliver 部件，那么类似 Container 等普通部件就不可以使用了，那么这样就需要更多的 Sliver 组件才能完成视图，所以为了方便，直接通过 SliverToBoxAdapter 对普通部件进行包裹，这样就成为一个 Sliver 部件了。总结下 SliverToBoxAdapter 的功能就是 把一个普通部件包裹成为 Sliver 部件，例子就不举了，上节已经有了。</p>
+<h3 id="SliverPadding"><a href="#SliverPadding" class="headerlink" title="SliverPadding"></a>SliverPadding</h3><p>那么在 CustomScrollView 中部件之间如何设置间距呢，可能你会想到用 SliverToBoxAdapter 包裹一个 Padding 来处理，当然没问题。不过 Flutter 也提供了专门的部件 SliverPadding 使用方式同 Padding，但是需要传入一个 sliver 作为子类。</p>
+<h3 id="SliverPersistentHeader"><a href="#SliverPersistentHeader" class="headerlink" title="SliverPersistentHeader"></a>SliverPersistentHeader</h3><p>Flutter 中，为我们提供了这么一个作为头部的部件 SliverPersistentHeader，这个部件可以根据滚动的距离缩小高度，有点类似 SliverAppBar 的背景效果。</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> SliverPersistentHeader(&#123;</span><br><span class="line">Key key,</span><br><span class="line"><span class="meta">@required</span> <span class="keyword">this</span>.delegate, <span class="comment">// SliverPersistentHeaderDelegate，用来创建展示内容</span></span><br><span class="line"><span class="keyword">this</span>.pinned = <span class="keyword">false</span>, <span class="comment">// 同 SliverAppBar 属性</span></span><br><span class="line"><span class="keyword">this</span>.floating = <span class="keyword">false</span>,</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="SliverPersistentHeaderDelegate"><a href="#SliverPersistentHeaderDelegate" class="headerlink" title="SliverPersistentHeaderDelegate"></a>SliverPersistentHeaderDelegate</h3><p>这个代理比较特殊，是个抽象类，也就是需要我们自己进行继承后再实现方法。SliverPersistentHeaderDelegate 需要提供一个最大值，最小值，展示内容，以及更新部件条件</p>
+<p>比如我们需要展示一个最大高度 300，最小高度 100，居中的文字，那么我们可以这么写这个代理类</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DemoHeader</span> <span class="keyword">extends</span> <span class="title">SliverPersistentHeaderDelegate</span> </span>&#123;</span><br><span class="line"><span class="meta">@override</span></span><br><span class="line">Widget build(BuildContext context, <span class="built_in">double</span> shrinkOffset, <span class="built_in">bool</span> overlapsContent) &#123;</span><br><span class="line"><span class="keyword">return</span> Container(</span><br><span class="line">color: Colors.pink,</span><br><span class="line">alignment: Alignment.center,</span><br><span class="line">child: Text(<span class="string">'我是一个头部部件'</span>, style: TextStyle(color: Colors.white, fontSize: <span class="number">30.0</span>)));</span><br><span class="line">&#125; <span class="comment">// 头部展示内容</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@override</span></span><br><span class="line"><span class="built_in">double</span> <span class="keyword">get</span> maxExtent =&gt; <span class="number">300.0</span>; <span class="comment">// 最大高度</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@override</span></span><br><span class="line"><span class="built_in">double</span> <span class="keyword">get</span> minExtent =&gt; <span class="number">100.0</span>; <span class="comment">// 最小高度</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@override</span></span><br><span class="line"><span class="built_in">bool</span> shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) =&gt; <span class="keyword">false</span>; <span class="comment">// 因为所有的内容都是固定的，所以不需要更新</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用 SliverPersistentHeader 代替 SliverAppBar，看下效果</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SliverDemoPage</span> <span class="keyword">extends</span> <span class="title">StatelessWidget</span> </span>&#123;</span><br><span class="line"><span class="keyword">final</span> <span class="built_in">List</span>&lt;Color&gt; colors = [Colors.red, Colors.green, Colors.blue, Colors.pink];</span><br><span class="line"></span><br><span class="line"><span class="meta">@override</span></span><br><span class="line">Widget build(BuildContext context) &#123;</span><br><span class="line"><span class="keyword">return</span> Scaffold(</span><br><span class="line">body: CustomScrollView(slivers: &lt;Widget&gt;[</span><br><span class="line">SliverPersistentHeader(delegate: DemoHeader(), pinned: <span class="keyword">true</span>),</span><br><span class="line"></span><br><span class="line"><span class="comment">// 这个部件一般用于最后填充用的，会占有一个屏幕的高度，</span></span><br><span class="line"><span class="comment">// 可以在 child 属性加入需要展示的部件</span></span><br><span class="line">SliverFillRemaining(</span><br><span class="line">child: Center(child: Text(<span class="string">'FillRemaining'</span>, style: TextStyle(fontSize: <span class="number">30.0</span>))),</span><br><span class="line">),</span><br><span class="line">]));</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最后的效果图</p>
+<p><img src="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/201905221400.gif" alt></p>
+<p>当然，为了方便扩展，需要重新封装下 Delegate ，通过外部传入范围和展示内容</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 自定义 SliverPersistentHeaderDelegate</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CustomSliverPersistentHeaderDelegate</span> <span class="keyword">extends</span> <span class="title">SliverPersistentHeaderDelegate</span> </span>&#123;</span><br><span class="line"><span class="keyword">final</span> <span class="built_in">double</span> max; <span class="comment">// 最大高度</span></span><br><span class="line"><span class="keyword">final</span> <span class="built_in">double</span> min; <span class="comment">// 最小高度</span></span><br><span class="line"><span class="keyword">final</span> Widget child; <span class="comment">// 需要展示的内容</span></span><br><span class="line"></span><br><span class="line">CustomSliverPersistentHeaderDelegate(&#123;<span class="meta">@required</span> <span class="keyword">this</span>.max, <span class="meta">@required</span> <span class="keyword">this</span>.min, <span class="meta">@required</span> <span class="keyword">this</span>.child&#125;)</span><br><span class="line"><span class="comment">// 如果 assert 内部条件不成立，会报错</span></span><br><span class="line">: <span class="keyword">assert</span>(max != <span class="keyword">null</span>),</span><br><span class="line"><span class="keyword">assert</span>(min != <span class="keyword">null</span>),</span><br><span class="line"><span class="keyword">assert</span>(child != <span class="keyword">null</span>),</span><br><span class="line"><span class="keyword">assert</span>(min &lt;= max),</span><br><span class="line"><span class="keyword">super</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 返回展示的内容，如果内容固定可以直接在这定义，如果需要可扩展，这边通过传入值来定义</span></span><br><span class="line"><span class="meta">@override</span></span><br><span class="line">Widget build(BuildContext context, <span class="built_in">double</span> shrinkOffset, <span class="built_in">bool</span> overlapsContent) =&gt; child;</span><br><span class="line"></span><br><span class="line"><span class="meta">@override</span></span><br><span class="line"><span class="built_in">double</span> <span class="keyword">get</span> maxExtent =&gt; max; <span class="comment">// 返回最大高度</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@override</span></span><br><span class="line"><span class="built_in">double</span> <span class="keyword">get</span> minExtent =&gt; min; <span class="comment">// 返回最小高度</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@override</span></span><br><span class="line"><span class="built_in">bool</span> shouldRebuild(CustomSliverPersistentHeaderDelegate oldDelegate) &#123;</span><br><span class="line"><span class="comment">// 是否需要更新，这里我们定义当高度范围和展示内容被替换的时候进行刷新界面</span></span><br><span class="line"><span class="keyword">return</span> max != oldDelegate.max || min != oldDelegate.min || child != oldDelegate.child;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后我们就可以愉快的使用了，不需要每个 Delegate 都重新写一遍，例如替换下刚才写死的 DemoHeader</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">SliverPersistentHeader(</span><br><span class="line"><span class="comment">// 属性同 SliverAppBar</span></span><br><span class="line">pinned: <span class="keyword">true</span>,</span><br><span class="line">floating: <span class="keyword">true</span>,</span><br><span class="line"><span class="comment">// 因为 SliverPersistentHeaderDelegate 是一个抽象类，所以需要自定义</span></span><br><span class="line">delegate: CustomSliverPersistentHeaderDelegate(</span><br><span class="line">max: <span class="number">300.0</span>, min: <span class="number">100.0</span>, child: Text(<span class="string">'我是一个头部部件'</span>, style: TextStyle(color: Colors.white, fontSize: <span class="number">30.0</span>))),</span><br><span class="line">),</span><br></pre></td></tr></table></figure>
+
+<p>例如需要替换成一张图片，直接将 Text 修改成 Image 即可。</p>
+<p>以上部分代码查看 sliver_main.dart 文件</p>
+<h3 id="NestedScrollView"><a href="#NestedScrollView" class="headerlink" title="NestedScrollView"></a>NestedScrollView</h3><p>讲到这了，不得不提下 Scrollable 中比较重要的一员 NestedScrollView，先看下官方的解释</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// A scrolling view inside of which can be nested other scrolling views, with</span></span><br><span class="line"><span class="comment">/// their scroll positions being intrinsically linked.</span></span><br></pre></td></tr></table></figure>
+
+<p>糟透了的翻译 X 1：一个内部能够嵌套其他滚动部件，并使其滚动位置联结到一起的滚动部件</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// The most common use case for this widget is a scrollable view with a</span></span><br><span class="line"><span class="comment">/// flexible [SliverAppBar] containing a [TabBar] in the header (build by</span></span><br><span class="line"><span class="comment">/// [headerSliverBuilder], and with a [TabBarView] in the [body], such that the</span></span><br><span class="line"><span class="comment">/// scrollable view's contents vary based on which tab is visible.</span></span><br></pre></td></tr></table></figure>
+
+<p>糟透了的翻译 X 2：最常用的情况，就是在其 headerSliverBuilder 中使用携带 TabBar 的 SliverAppBar（就是使用 SliverAppBar 的 bottom 属性添加 tab 切换也），其 body 属性使用 TabBarView 来展示 Tab 页的内容，这样通过切换 Tab 页就能展示该页下的展示内容。</p>
+<p>看下 headerSliverBuilder 的定义</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// Signature used by [NestedScrollView] for building its header.</span></span><br><span class="line"><span class="comment">///</span></span><br><span class="line"><span class="comment">/// The `innerBoxIsScrolled` argument is typically used to control the</span></span><br><span class="line"><span class="comment">/// [SliverAppBar.forceElevated] property to ensure that the app bar shows a</span></span><br><span class="line"><span class="comment">/// shadow, since it would otherwise not necessarily be aware that it had</span></span><br><span class="line"><span class="comment">/// content ostensibly below it.</span></span><br><span class="line"><span class="keyword">typedef</span> NestedScrollViewHeaderSliversBuilder = <span class="built_in">List</span>&lt;Widget&gt; <span class="built_in">Function</span>(BuildContext context, <span class="built_in">bool</span> innerBoxIsScrolled);</span><br></pre></td></tr></table></figure>
+
+<p>糟透了的翻译 X 3：用于构建 NestScrollView 的头部部件，innerBoxIsScrolled 主要用来控制 SliverAppBar 的 forceElevated 属性，当内部内容滚动时，显示 SliverAppbar 的阴影，主要用来提醒内部的内容低于 SliverAppBar （相当于给人一种物理层次感，否则很容易被认为，头部和内容是连接在一起的）</p>
+<p>接下来看下 NestedScrollView 内部个人觉得有点重要的一个方法 sliverOverlapAbsorberHandleFor</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// Returns the [SliverOverlapAbsorberHandle] of the nearest ancestor</span></span><br><span class="line"><span class="comment">/// [NestedScrollView].</span></span><br><span class="line"><span class="comment">///</span></span><br><span class="line"><span class="comment">/// This is necessary to configure the [SliverOverlapAbsorber] and</span></span><br><span class="line"><span class="comment">/// [SliverOverlapInjector] widgets.</span></span><br><span class="line"><span class="comment">///</span></span><br><span class="line"><span class="comment">/// For sample code showing how to use this method, see the [NestedScrollView]</span></span><br><span class="line"><span class="comment">/// documentation.</span></span><br><span class="line"><span class="keyword">static</span> SliverOverlapAbsorberHandle sliverOverlapAbsorberHandleFor(BuildContext context) &#123;</span><br><span class="line">  <span class="keyword">final</span> _InheritedNestedScrollView target = context.inheritFromWidgetOfExactType(_InheritedNestedScrollView);</span><br><span class="line">  <span class="keyword">assert</span>(target != <span class="keyword">null</span>, <span class="string">'NestedScrollView.sliverOverlapAbsorberHandleFor must be called with a context that contains a NestedScrollView.'</span>);</span><br><span class="line">  <span class="keyword">return</span> target.state._absorberHandle;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>请注意到中间的注释</p>
+<p>糟透了的翻译 X 4：这个方法返回的值对于 SliverOverlapAbsorber 和 SliverOverlapInjector 部件是非常重要的参数</p>
+<p>接着请注意代码中的那段 assert 中的文字</p>
+<p>糟透了的翻译 X 5：sliverOverlapAbsorberHandleFor 传入的参数 context 中必须包含 NestedScrollView</p>
+<h3 id="SliverOverlapAbsorber"><a href="#SliverOverlapAbsorber" class="headerlink" title="SliverOverlapAbsorber"></a>SliverOverlapAbsorber</h3><p>这边又引入了两个部件 SliverOverlapAbsorber + SliverOverlapInjector 还是看源码的解释吧</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// Creates a sliver that absorbs overlap and reports it to a</span></span><br><span class="line"><span class="comment">/// [SliverOverlapAbsorberHandle].</span></span><br><span class="line"><span class="comment">///</span></span><br><span class="line"><span class="comment">/// The [handle] must not be null.</span></span><br><span class="line"><span class="comment">///</span></span><br><span class="line"><span class="comment">/// The [child] must be a sliver.</span></span><br><span class="line"><span class="keyword">const</span> SliverOverlapAbsorber(&#123;</span><br><span class="line">  Key key,</span><br><span class="line">  <span class="meta">@required</span> <span class="keyword">this</span>.handle,</span><br><span class="line">  Widget child,</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>糟透了的翻译 X 6：一个 sliver 部件，用于把部件重叠的高度反馈给 SliverOverlapAbsorberHandle，而且指明了 handle 不能空，可以通过 NestedScrollView 的 sliverOverlapAbsorberHandleFor 方法来赋值，并且 child 必须是个 sliver 部件，也就是说我们的 SliverAppBar 需要放到 SliverOverlapAbsorber 里面。</p>
+<h3 id="SingleChildScrollView"><a href="#SingleChildScrollView" class="headerlink" title="SingleChildScrollView"></a>SingleChildScrollView</h3><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// Creates a sliver that is as tall as the value of the given [handle]'s</span></span><br><span class="line"><span class="comment">/// layout extent.</span></span><br><span class="line"><span class="comment">///</span></span><br><span class="line"><span class="comment">/// The [handle] must not be null.</span></span><br><span class="line"><span class="keyword">const</span> SliverOverlapInjector(&#123;</span><br><span class="line">  Key key,</span><br><span class="line">  <span class="meta">@required</span> <span class="keyword">this</span>.handle,</span><br><span class="line">  Widget child,</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>糟透了的翻译 X 7：创建一个和指定的 handle 一样高度的 sliver 部件，这个 handle 同 SliverOverlapAbsorber 的 handle 保持一致即可。</p>
+<p>分析完源码后，例子的目标很明确，使用 SliverAppBar + TabBar + TabBarView，先看下最后的效果图吧</p>
+<p><img src="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190522111721.gif" alt></p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NestedScrollDemoPage</span> <span class="keyword">extends</span> <span class="title">StatelessWidget</span> </span>&#123;</span><br><span class="line"><span class="keyword">final</span> _tabs = &lt;<span class="built_in">String</span>&gt;[<span class="string">'TabA'</span>, <span class="string">'TabB'</span>];</span><br><span class="line"><span class="keyword">final</span> colors = &lt;Color&gt;[Colors.red, Colors.green, Colors.blue, Colors.pink, Colors.yellow, Colors.deepPurple];</span><br><span class="line"></span><br><span class="line"><span class="meta">@override</span></span><br><span class="line">Widget build(BuildContext context) &#123;</span><br><span class="line"><span class="keyword">return</span> Scaffold(</span><br><span class="line">body: DefaultTabController(</span><br><span class="line">length: _tabs.length,</span><br><span class="line">child: NestedScrollView(</span><br><span class="line">headerSliverBuilder: (context, innerScrolled) =&gt; &lt;Widget&gt;[</span><br><span class="line">SliverOverlapAbsorber(</span><br><span class="line"><span class="comment">// 传入 handle 值，直接通过 `sliverOverlapAbsorberHandleFor` 获取即可</span></span><br><span class="line">handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),</span><br><span class="line">child: SliverAppBar(</span><br><span class="line">pinned: <span class="keyword">true</span>,</span><br><span class="line">title: Text(<span class="string">'NestedScroll Demo'</span>),</span><br><span class="line">expandedHeight: <span class="number">200.0</span>,</span><br><span class="line">flexibleSpace: FlexibleSpaceBar(background: Image.asset(<span class="string">'images/timg.jpg'</span>, fit: BoxFit.cover)),</span><br><span class="line">bottom: TabBar(tabs: _tabs.map((tab) =&gt; Text(tab, style: TextStyle(fontSize: <span class="number">18.0</span>))).toList()),</span><br><span class="line">forceElevated: innerScrolled,</span><br><span class="line">),</span><br><span class="line">)</span><br><span class="line">],</span><br><span class="line">body: TabBarView(</span><br><span class="line">children: _tabs</span><br><span class="line"><span class="comment">// 这边需要通过 Builder 来创建 TabBarView 的内容，否则会报错</span></span><br><span class="line"><span class="comment">// NestedScrollView.sliverOverlapAbsorberHandleFor must be called with a context that contains a NestedScrollView.</span></span><br><span class="line">.map((tab) =&gt; Builder(</span><br><span class="line">builder: (context) =&gt; CustomScrollView(</span><br><span class="line"><span class="comment">// key 保证唯一性</span></span><br><span class="line">key: PageStorageKey&lt;<span class="built_in">String</span>&gt;(tab),</span><br><span class="line">slivers: &lt;Widget&gt;[</span><br><span class="line"><span class="comment">// 将子部件同 `SliverAppBar` 重叠部分顶出来，否则会被遮挡</span></span><br><span class="line">SliverOverlapInjector(</span><br><span class="line">handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context)),</span><br><span class="line">SliverGrid(</span><br><span class="line">delegate: SliverChildBuilderDelegate(</span><br><span class="line">(_, index) =&gt; Image.asset(<span class="string">'images/ali.jpg'</span>),</span><br><span class="line">childCount: <span class="number">8</span>),</span><br><span class="line">gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(</span><br><span class="line">crossAxisCount: <span class="number">4</span>, mainAxisSpacing: <span class="number">10.0</span>, crossAxisSpacing: <span class="number">10.0</span>)),</span><br><span class="line">SliverFixedExtentList(</span><br><span class="line">delegate: SliverChildBuilderDelegate(</span><br><span class="line">(_, index) =&gt; Container(</span><br><span class="line">child: Text(<span class="string">'$tab - item<span class="subst">$&#123;index + <span class="number">1</span>&#125;</span>'</span>,</span><br><span class="line">style: TextStyle(fontSize: <span class="number">20.0</span>, color: colors[index % <span class="number">6</span>])),</span><br><span class="line">alignment: Alignment.center),</span><br><span class="line">childCount: <span class="number">15</span>),</span><br><span class="line">itemExtent: <span class="number">50.0</span>)</span><br><span class="line">],</span><br><span class="line">),</span><br><span class="line">))</span><br><span class="line">.toList()))),</span><br><span class="line">);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用的部件和之前讲的没啥大区别，就是多了 SliverOverlapAbsorber 和 SliverOverlapInjector 没啥难度</p>
+<p>以上部分代码查看 nested_scroll_main.dart 文件</p>
+<p>sliver 部件常用的也就那么多了，望小伙伴好好吸收，跟着例子撸撸代码，撸顺下思路</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="ZhangMiao 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="ZhangMiao 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    ZhangMiao
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://zhangmiao.cc/posts/f600e8a7.html" title="Flutter入门指南(八)之Sliver组件及NestedScrollView">https://zhangmiao.cc/posts/f600e8a7.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+            <a href="/tags/Flutter/" rel="tag"># Flutter</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/8d9ab46a.html" rel="next" title="Flutter入门指南(七)之滑动部件">
+                <i class="fa fa-chevron-left"></i> Flutter入门指南(七)之滑动部件
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/posts/5da6faeb.html" rel="prev" title="Flutter入门指南(九)之弹窗和提示(SnackBar、BottomSheet、Dialog)">
+                Flutter入门指南(九)之弹窗和提示(SnackBar、BottomSheet、Dialog) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4" alt="ZhangMiao">
+            
+              <p class="site-author-name" itemprop="name">ZhangMiao</p>
+              <p class="site-description motion-element" itemprop="description">Android/Flutter Developer</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">367</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">57</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">141</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:zm@zhangmiao.cc" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://wpa.qq.com/msgrd?v=3&uin=153942241&site=qq&menu=yes" target="_blank" title="QQ">
+                      
+                        <i class="fa fa-fw fa-qq"></i>QQ</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/zhangmiaocc" target="_blank" title="Github">
+                      
+                        <i class="fa fa-fw fa-github"></i>Github</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://stackoverflow.com" target="_blank" title="StackOverflow">
+                      
+                        <i class="fa fa-fw fa-stack-overflow"></i>StackOverflow</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://blog.constore.cn/" title="Liujianhui" target="_blank">Liujianhui</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://xuebin.me" title="Leo" target="_blank">Leo</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.csdn.net/lmj623565791" title="Hongyang" target="_blank">Hongyang</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://liuwangshu.cn/" title="Liuwangshu" target="_blank">Liuwangshu</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://jspang.com/" title="Jspang" target="_blank">Jspang</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blankj.com/" title="Blankj" target="_blank">Blankj</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://wuxiaolong.me/" title="WuXiaoLong" target="_blank">WuXiaoLong</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://molunerfinn.com" title="Molunerfinn" target="_blank">Molunerfinn</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.ofind.cn/" title="Ofind" target="_blank">Ofind</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.gcssloop.com/" title="Gcssloop" target="_blank">Gcssloop</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#SliverAppBar"><span class="nav-number">1.</span> <span class="nav-text">SliverAppBar</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SliverFillViewport"><span class="nav-number">2.</span> <span class="nav-text">SliverFillViewport</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SliverToBoxAdapter"><span class="nav-number">3.</span> <span class="nav-text">SliverToBoxAdapter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SliverPadding"><span class="nav-number">4.</span> <span class="nav-text">SliverPadding</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SliverPersistentHeader"><span class="nav-number">5.</span> <span class="nav-text">SliverPersistentHeader</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SliverPersistentHeaderDelegate"><span class="nav-number">6.</span> <span class="nav-text">SliverPersistentHeaderDelegate</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NestedScrollView"><span class="nav-number">7.</span> <span class="nav-text">NestedScrollView</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SliverOverlapAbsorber"><span class="nav-number">8.</span> <span class="nav-text">SliverOverlapAbsorber</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SingleChildScrollView"><span class="nav-number">9.</span> <span class="nav-text">SingleChildScrollView</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZhangMiao</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      本站访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+  <div>
+    <script type="text/javascript">
+      var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");
+      document.write(unescape("%3Cspan id='cnzz_stat_icon_1277928793'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1277928793%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+  </div>
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://zhangmiao.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://zhangmiao.cc/posts/f600e8a7.html';
+          this.page.identifier = 'posts/f600e8a7.html';
+          this.page.title = 'Flutter入门指南(八)之Sliver组件及NestedScrollView';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://zhangmiao.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("8iIYW0IGofqyvJiiuU5R9buW-gzGzoHsz", "ssmxRx0kELJir6mA02ziW3Ql");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/lib/zclip/clipboard.min.js"></script>
+<script type="text/javascript" src="/js/src/custom.js"></script>
+
+</body>
+</html>
