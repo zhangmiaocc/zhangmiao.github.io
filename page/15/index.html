@@ -307,6 +307,190 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhangmiao.cc/posts/d121323a.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZhangMiao">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zm.blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/posts/d121323a.html" itemprop="url">Flutter入门指南(十一)之状态管理，BLoC</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-27T15:07:53+08:00">
+                2019-04-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/Flutter/" itemprop="url" rel="index">
+                    <span itemprop="name">Flutter</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/posts/d121323a.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="posts/d121323a.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/posts/d121323a.html" class="leancloud_visitors" data-flag-title="Flutter入门指南(十一)之状态管理，BLoC">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h4 id="Stream"><a href="#Stream" class="headerlink" title="Stream"></a>Stream</h4><p>在 <code>dart</code> 部分记得分享过 <code>Stream</code> 的文章链接，但是我知道你们肯定没几个愿意看的，所以这里再提下。还是得从源码开始…因为源码的注释比较长，就不贴注释了，可以自己看，我这边就提取一些关键信息。</p>
+<p><code>Stream</code> 是 <code>Dart</code> 提供的一种数据流订阅管理的”工具”，感觉有点像 <code>Android</code> 中的 <code>EventBus</code> 或者 <code>RxBus</code>，<code>Stream</code> 可以接收任何对象，包括是另外一个 <code>Stream</code>，接收的对象通过 <code>StreamController</code> 的 <code>sink</code> 进行添加，然后通过 <code>StreamController</code> 发送给 <code>Stream</code>，通过 <code>listen</code> 进行监听，<code>listen</code> 会返回一个 <code>StreamSubscription</code> 对象，<code>StreamSubscription</code> 可以操作对数据流的监听，例如 <code>pause</code>，<code>resume</code>，<code>cancel</code> 等。</p>
+<p><code>Stream</code> 分两种类型：</p>
+<ol>
+<li><code>Single-subscription Stream</code>：单订阅 stream，整个生命周期只允许有一个监听，如果该监听 cancel 了，也不能再添加另一个监听，而且只有当有监听了，才会发送数据，主要用于文件 <code>IO</code> 流的读取等。</li>
+<li><code>Broadcast Stream</code>：广播订阅 stream，允许有多个监听，当添加了监听后，如果流中有数据存在就可以监听到数据，这种类型，不管是否有监听，只要有数据就会发送，用于需要多个监听的情况。</li>
+</ol>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/posts/d121323a.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://zhangmiao.cc/posts/d4756fd3.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1920,185 +2104,6 @@ var _hmt = _hmt || [];
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.cc/posts/6114f592.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="ZhangMiao">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="zm.blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/posts/6114f592.html" itemprop="url">Flutter入门指南(一)Dart</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-24T16:22:52+08:00">
-                2019-04-24
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android/" itemprop="url" rel="index">
-                    <span itemprop="name">Android</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android/Flutter/" itemprop="url" rel="index">
-                    <span itemprop="name">Flutter</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/posts/6114f592.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="posts/6114f592.html" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/posts/6114f592.html" class="leancloud_visitors" data-flag-title="Flutter入门指南(一)Dart">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>最近 Flutter 真心火爆到不要不要的，随大流，学一波，在这之前，对于语言的语法还是需要有些必要的了解的，<strong>Dart</strong> 这门语言，说实话对于会 Java 这类面向对象的语言的小伙伴们来说，真的灰常灰常简单，这边我总结了一些 Dart 和 Java 的一些语法差异，当然，只是部分，但是，按照我目前的学习进度来说，了解了这些对于写 Flutter 项目绝对够了。小伙伴也可以自己查看，我这边提供一个自己学习的网址 <strong>Dart</strong> 快速入门：<a href="https://www.dartcn.com/" target="_blank" rel="noopener">https://www.dartcn.com/</a></p>
-<p>温馨提示：本篇文章没有图，没有图，没有图，可能会造成部分不适，请注意，请注意，请注意，系好安全带，我们要「开车了」……</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/posts/6114f592.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2151,7 +2156,7 @@ var _hmt = _hmt || [];
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">369</span>
+                  <span class="site-state-item-count">370</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
