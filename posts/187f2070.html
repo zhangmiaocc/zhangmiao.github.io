@@ -89,14 +89,14 @@
 <meta property="og:site_name" content="zm.blog">
 <meta property="og:description" content="背景 Flutter的四种工程类型 Flutter工程Pub依赖管理 FlutterModule集成到Native Flutter与Native通信 Flutter组件化工程 后序  一、背景Flutter 在目前跨平台方案中有更好的平台一致性以及更优的体验。但对于本身已有成熟的业务代码的项目来说，更多的是采用混合栈的方式，在不变更原有 App 业务的基础上，将 Flutter 能力扩展为子模块">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://note.youdao.com/yws/public/resource/bf9d78b8f6b366d44124235ca90b5760/xmlnote/E52800DF057E4DB28103554365DAB41D/12338">
-<meta property="og:image" content="https://note.youdao.com/yws/public/resource/bf9d78b8f6b366d44124235ca90b5760/xmlnote/84C8898206E1471FB07B68C9B09D45AB/12377">
-<meta property="og:image" content="https://note.youdao.com/yws/public/resource/bf9d78b8f6b366d44124235ca90b5760/xmlnote/A04F0EB8E6C64C098EA1A44E1001C5E8/12411">
-<meta property="og:updated_time" content="2022-01-24T07:44:56.567Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20220124155717.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20220124155756.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20220124155848.png">
+<meta property="og:updated_time" content="2022-01-24T07:59:43.204Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Flutter混合开发组件化架构">
 <meta name="twitter:description" content="背景 Flutter的四种工程类型 Flutter工程Pub依赖管理 FlutterModule集成到Native Flutter与Native通信 Flutter组件化工程 后序  一、背景Flutter 在目前跨平台方案中有更好的平台一致性以及更优的体验。但对于本身已有成熟的业务代码的项目来说，更多的是采用混合栈的方式，在不变更原有 App 业务的基础上，将 Flutter 能力扩展为子模块">
-<meta name="twitter:image" content="https://note.youdao.com/yws/public/resource/bf9d78b8f6b366d44124235ca90b5760/xmlnote/E52800DF057E4DB28103554365DAB41D/12338">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20220124155717.png">
 
 
 
@@ -454,33 +454,38 @@ var _hmt = _hmt || [];
 <h2 id="四、Flutter-module-集成到-Native"><a href="#四、Flutter-module-集成到-Native" class="headerlink" title="四、Flutter module 集成到 Native"></a>四、Flutter module 集成到 Native</h2><p>上述说的如果我们要利用Flutter来开发我们现有Native工程中的一个模块或功能，肯定得不能改变Native的工程结构以及不影响现有的开发流程，那么，以何种方式进行混合开发呢？</p>
 <h3 id="4-1-Flutter混合开发模式"><a href="#4-1-Flutter混合开发模式" class="headerlink" title="4.1 Flutter混合开发模式"></a>4.1 Flutter混合开发模式</h3><p>Flutter混合开发模式一般有两种方式：</p>
 <ul>
-<li><ul>
 <li>Flutter App 我们可以直接忽略，因为这是一个开发全新的Flutter App工程。</li>
 <li>对于Flutter Module，官方提供的本地依赖便是使用Flutter Module依赖到Native App的，而对于Flutter工程来说，构建Flutter工程必须得有个main.dart主入口，恰好Flutter Module中也有主入口。</li>
 </ul>
-</li>
-</ul>
 <h3 id="4-2-Flutter-Module的创建方式"><a href="#4-2-Flutter-Module的创建方式" class="headerlink" title="4.2 Flutter Module的创建方式"></a>4.2 Flutter Module的创建方式</h3><p>Flutter module创建方式一般有两种：</p>
 <p><strong>a、通过命令来创建</strong></p>
-<p><strong>flutter create -t module –org com.vhall.module vhall_flutter_module</strong></p>
-<p>​                Creating project vhall_flutter_module…  vhall_flutter_module/test/widget_test.dart (created)  vhall_flutter_module/vhall_flutter_module.iml (created)  vhall_flutter_module/.gitignore (created)  vhall_flutter_module/.metadata (created)  vhall_flutter_module/pubspec.yaml (created)  vhall_flutter_module/README.md (created)  vhall_flutter_module/lib/main.dart (created)  vhall_flutter_module/vhall_flutter_module_android.iml (created)  vhall_flutter_module/analysis_options.yaml (created)  vhall_flutter_module/.idea/libraries/Dart_SDK.xml (created)  vhall_flutter_module/.idea/modules.xml (created)  vhall_flutter_module/.idea/workspace.xml (created) Running “flutter pub get” in vhall_flutter_module…             1,226ms Wrote 12 files. All done! Your module code is in vhall_flutter_module/lib/main.dart.              </p>
+<blockquote>
+<p>flutter create -t module –org com.vhall.module vhall_flutter_module</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">Creating project vhall_flutter_module...</span><br><span class="line">  vhall_flutter_module/test/widget_test.dart (created)</span><br><span class="line">  vhall_flutter_module/vhall_flutter_module.iml (created)</span><br><span class="line">  vhall_flutter_module/.gitignore (created)</span><br><span class="line">  vhall_flutter_module/.metadata (created)</span><br><span class="line">  vhall_flutter_module/pubspec.yaml (created)</span><br><span class="line">  vhall_flutter_module/README.md (created)</span><br><span class="line">  vhall_flutter_module/lib/main.dart (created)</span><br><span class="line">  vhall_flutter_module/vhall_flutter_module_android.iml (created)</span><br><span class="line">  vhall_flutter_module/analysis_options.yaml (created)</span><br><span class="line">  vhall_flutter_module/.idea/libraries/Dart_SDK.xml (created)</span><br><span class="line">  vhall_flutter_module/.idea/modules.xml (created)</span><br><span class="line">  vhall_flutter_module/.idea/workspace.xml (created)</span><br><span class="line">Running &quot;flutter pub get&quot; in vhall_flutter_module...             1,226ms</span><br><span class="line">Wrote 12 files.</span><br><span class="line"></span><br><span class="line">All done!</span><br><span class="line">Your module code is in vhall_flutter_module/lib/main.dart.</span><br></pre></td></tr></table></figure>
+
 <p><strong>b、使用 As 创建 Flutter Module</strong></p>
 <p>在 As 中选择 File-&gt;New-&gt;New Flutter Project，选择 Flutter Module 创建 Flutter Module 子项目</p>
 <h3 id="4-3-添加Flutter的两种依赖方式"><a href="#4-3-添加Flutter的两种依赖方式" class="headerlink" title="4.3 添加Flutter的两种依赖方式"></a>4.3 添加Flutter的两种依赖方式</h3><h4 id="4-3-1-将Flutter添加到原生工程中，-有两种方式："><a href="#4-3-1-将Flutter添加到原生工程中，-有两种方式：" class="headerlink" title="4.3.1 将Flutter添加到原生工程中， 有两种方式：**"></a>4.3.1 将Flutter添加到原生工程中， 有两种方式：**</h4><p><strong>a、以aar的方式集成到现有Android项目中</strong></p>
 <p>创建好 Flutter Module 之后需要将其编译成 aar 的形式，可以通过如下命令进行 aar 的编译：</p>
-<p>​                cd vhall_flutter_module flutter build aar              </p>
+<blockquote>
+<p>cd vhall_flutter_module flutter build aar              </p>
+</blockquote>
 <p>在 Android 中也可以通过 As 工具来编译 aar，选择 Build-&gt;Flutter-&gt;Build AAR 来进行 aar 的编译。</p>
 <p>然后根据提示在主项目工程的 build.grade 文件中进行相关配置，参考如下：</p>
-<p>​                 💪 Building with sound null safety 💪 Running Gradle task ‘assembleAarDebug’…                          22.2s ✓ Built build/host/outputs/repo. Running Gradle task ‘assembleAarProfile’…                        46.1s ✓ Built build/host/outputs/repo. Running Gradle task ‘assembleAarRelease’…                        37.2s ✓ Built build/host/outputs/repo. Consuming the Module  1. Open <host>/app/build.gradle  2. Ensure you have the repositories configured, otherwise add them:       String storageUrl = System.env.FLUTTER_STORAGE_BASE_URL ?: “<a href="https://storage.googleapis.com&quot;" target="_blank" rel="noopener">https://storage.googleapis.com&quot;</a>      repositories {        maven {            url ‘/Users/zhangmiao/Documents/project/hybrid/vhall_flutter_module/build/host/outputs/repo’        }        maven {            url “$storageUrl/download.flutter.io”        }      }   3. Make the host app depend on the Flutter module:     dependencies {      debugImplementation ‘com.vhall.module.vhall_flutter_module:flutter_debug:1.0’      profileImplementation ‘com.vhall.module.vhall_flutter_module:flutter_profile:1.0’      releaseImplementation ‘com.vhall.module.vhall_flutter_module:flutter_release:1.0’    }   4. Add the <code>profile</code> build type:     android {      buildTypes {        profile {          initWith debug        }      }    } To learn more, visit <a href="https://flutter.dev/go/build-aar" target="_blank" rel="noopener">https://flutter.dev/go/build-aar</a>              </host></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">💪 Building with sound null safety 💪</span><br><span class="line"></span><br><span class="line">Running Gradle task &apos;assembleAarDebug&apos;...                          22.2s</span><br><span class="line">✓ Built build/host/outputs/repo.</span><br><span class="line">Running Gradle task &apos;assembleAarProfile&apos;...                        46.1s</span><br><span class="line">✓ Built build/host/outputs/repo.</span><br><span class="line">Running Gradle task &apos;assembleAarRelease&apos;...                        37.2s</span><br><span class="line">✓ Built build/host/outputs/repo.</span><br><span class="line"></span><br><span class="line">Consuming the Module</span><br><span class="line">  1. Open &lt;host&gt;/app/build.gradle</span><br><span class="line">  2. Ensure you have the repositories configured, otherwise add them:</span><br><span class="line"></span><br><span class="line">      String storageUrl = System.env.FLUTTER_STORAGE_BASE_URL ?: &quot;https://storage.googleapis.com&quot;</span><br><span class="line">      repositories &#123;</span><br><span class="line">        maven &#123;</span><br><span class="line">            url &apos;/Users/zhangmiao/Documents/project/hybrid/vhall_flutter_module/build/host/outputs/repo&apos;</span><br><span class="line">        &#125;</span><br><span class="line">        maven &#123;</span><br><span class="line">            url &quot;$storageUrl/download.flutter.io&quot;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">  3. Make the host app depend on the Flutter module:</span><br><span class="line"></span><br><span class="line">    dependencies &#123;</span><br><span class="line">      debugImplementation &apos;com.vhall.module.vhall_flutter_module:flutter_debug:1.0&apos;</span><br><span class="line">      profileImplementation &apos;com.vhall.module.vhall_flutter_module:flutter_profile:1.0&apos;</span><br><span class="line">      releaseImplementation &apos;com.vhall.module.vhall_flutter_module:flutter_release:1.0&apos;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  4. Add the `profile` build type:</span><br><span class="line"></span><br><span class="line">    android &#123;</span><br><span class="line">      buildTypes &#123;</span><br><span class="line">        profile &#123;</span><br><span class="line">          initWith debug</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">To learn more, visit https://flutter.dev/go/build-aar</span><br></pre></td></tr></table></figure>
+
 <p>优点：</p>
 <ul>
 <li>依赖一个包含 Flutter 产物的 aar 包，这个的好处就是其他不开发 flutter 的同学可以不用配置 flutter 环境，它和其他模块包无异</li>
 </ul>
 <p><strong>b、以 Flutet module 的方式集成到现有 Android 项目中</strong></p>
 <p>在 setting.gradle 文件中配置 flutter module 如下：</p>
-<p>​                setBinding(new Binding([gradle: this])) evaluate(new File(  settingsDir,  ‘../vhall_flutter_module/.android/include_flutter.groovy’ ))              </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">setBinding(new Binding([gradle: this]))</span><br><span class="line">evaluate(new File(</span><br><span class="line">  settingsDir,</span><br><span class="line">  &apos;../vhall_flutter_module/.android/include_flutter.groovy&apos;</span><br><span class="line">))</span><br></pre></td></tr></table></figure>
+
 <p>在 app 项目的 build.gradle 依赖 flutter module 模块</p>
-<p>​                dependencies {  implementation project(‘:flutter’) }              </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dependencies &#123;</span><br><span class="line">  implementation project(&apos;:flutter&apos;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>缺点：</p>
 <ul>
 <li>需要 flutter 环境，并且各个开发人员环境不一致，导致集成因为版本不一致报各种错误</li>
@@ -488,82 +493,68 @@ var _hmt = _hmt || [];
 <h3 id="4-3-2本地依赖的原理"><a href="#4-3-2本地依赖的原理" class="headerlink" title="4.3.2本地依赖的原理"></a>4.3.2本地依赖的原理</h3><p><strong>Android</strong></p>
 <p>在Android中本地依赖方式为：</p>
 <ul>
-<li><ul>
 <li>在<strong>settings.gradle</strong>中注入<strong>include_flutter.groovy</strong>脚本</li>
 <li>在需要依赖的app中<strong>build.gradle</strong>添加<strong>project(‘:flutter’)</strong>依赖</li>
 </ul>
-</li>
-</ul>
 <p>对于Android的本地依赖，主要是由<strong>include_flutter.groovy</strong>和<strong>flutter.gradle</strong>这两个脚本负责Flutter的本地依赖和产物构建。</p>
-<p><strong>a**</strong>、include_flutter.groovy**</p>
+<p><strong>a</strong>、<strong>include_flutter.groovy</strong></p>
 <p>在<strong>settings.gradle</strong>中注入时，分别绑定了当前执行Gradle的上下文环境与执行<strong>include_flutter.groovy</strong>脚本，该脚本只做了下面三件事：</p>
 <ul>
-<li><ul>
 <li>include FlutterModule中的<strong>.android/Flutter</strong>工程</li>
 <li>include FlutterModule中的<strong>.flutter-plugins</strong>文件中包含的Flutter工程路径下的android module</li>
 <li>配置所有工程的<strong>build.gradle</strong>配置执行阶段都依赖于<strong>:flutter</strong>工程，也即它最先执行配置阶段</li>
 </ul>
-</li>
-</ul>
 <p>其中<strong>.flutter-plugins</strong>文件，是根据当前依赖自动生成的，里面包含了当前Flutter工程所依赖（直接依赖和传递依赖）的Flutter子工程与绝对路径的K-V关系，子工程可能是一个Flutter Plugin或者是一个Flutter Package。</p>
-<p> <strong>b、**</strong>flutter.gradle**</p>
+<p> <strong>b</strong>、<strong>flutter.gradle</strong></p>
 <p>该脚本位于Flutter SDK中，内容看起来很长，其实主要做了下面三件事：</p>
 <ul>
-<li><ul>
 <li>选择符合对应架构的Flutter引擎（flutter.so）</li>
 <li>解析上述<strong>.flutter-plugins</strong>文件，把对应的android module添加到Native工程的依赖中（上述的include其实为这步做准备）</li>
 <li>Hook mergeAssets/processResources Task，预先执行FlutterTask，调用<strong>flutter</strong>命令编译Dart层代码构建出<strong>flutter_assets</strong>产物，并拷贝到<strong>assets</strong>目录下</li>
-</ul>
-</li>
 </ul>
 <p>有了上述三步，则直接在Native工程中运行构建即可自动构建Flutter工程中的代码并自动拷贝产物到Native中</p>
 <p><strong>IOS</strong></p>
 <p>在IOS中本地依赖方式为：</p>
 <ul>
-<li><ul>
 <li>在Podfile中通过<strong>eval binding</strong>特性注入<strong>podhelper.rb</strong>脚本，在pod install/update时会执行它</li>
 <li>在IOS构建阶段<strong>Build Phases</strong>中注入构建时需要执行的<strong>xcode_backend.sh</strong>脚本</li>
 </ul>
-</li>
-</ul>
 <p>对于IOS的本地依赖，主要是由<strong>podhelper.rb</strong>和<strong>xcode_backend.sh</strong>这两个脚本负责Flutter的Pod本地依赖和产物构建</p>
-<p><strong>a、podhelper.rb</strong></p>
+<p><strong>a</strong>、<strong>podhelper.rb</strong></p>
 <p>因Podfile是通过ruby语言写的，所以该脚本也是ruby脚本，该脚本在pod install/update时主要做了三件事：</p>
 <ul>
-<li><ul>
 <li>Pod本地依赖Flutter引擎（Flutter.framework）与Flutter插件注册表（FlutterPluginRegistrant）</li>
 <li>Pod本地源码依赖<strong>.flutter-plugins</strong>文件中包含的Flutter工程路径下的ios工程</li>
 <li>在pod install执行完后<strong>post_install</strong>中，获取当前target工程对象，导入<strong>Generated.xcconfig</strong>配置，这些配置都为环境变量配置，主要为构建阶段<strong>xcode_backend.sh</strong>脚本执行做准备</li>
-</ul>
-</li>
 </ul>
 <p>上述事情即可保证Flutter工程以及传递依赖的都通过pod本地依赖进Native工程了，接下来就是构建了</p>
 <p><strong>b、xcode_backend.sh</strong></p>
 <p>该Shell脚本位于Flutter SDK中，该脚本主要就做了两件事：</p>
 <ul>
-<li><ul>
 <li>调用flutter命令编译构建出产物（App.framework、flutter_assets）</li>
 <li>把产物（<em>.framework、flutter_assets）拷贝到对应XCode构建产物中，对应产物目录为：*</em>$HOME/Library/Developer/Xcode/DerivedData/${AppName}**</li>
-</ul>
-</li>
 </ul>
 <p>上述两个静态库<strong>*.framework</strong>是拷贝到<strong>${BUILT_PRODUCTS_DIR}”/“${PRODUCT_NAME}”.app/Frameworks”</strong>目录下</p>
 <p>flutter_assets拷贝到<strong>${BUILT_PRODUCTS_DIR}”/“${PRODUCT_NAME}”.app”</strong>目录下</p>
 <p>在XCode工程中，对应的是在<strong>${AppName}/Products/${AppName}.app</strong></p>
 <h3 id="4-4-原生接入-flutter-页面"><a href="#4-4-原生接入-flutter-页面" class="headerlink" title="4.4 原生接入 flutter 页面"></a>4.4 原生接入 flutter 页面</h3><p>flutter 依赖提供了 FlutterActivity 来直接加载 flutter 页面，我们只需要在清单文件中配置该 Activity ：</p>
 <p>（通常我们会创建一个 Activity 继承 FlutterActivity）</p>
-<p>​                <activity android:name="io.flutter.embedding.android.FlutterActivity" android:theme="@style/Theme.Vhall_app" android:configchanges="orientation|keyboardHidden|keyboard|screenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode" android:hardwareaccelerated="true" android:windowsoftinputmode="adjustResize">              </activity></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;activity</span><br><span class="line">    android:name=&quot;io.flutter.embedding.android.FlutterActivity&quot;</span><br><span class="line">    android:theme=&quot;@style/Theme.Vhall_app&quot;</span><br><span class="line">    android:configChanges=&quot;orientation|keyboardHidden|keyboard|screenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode&quot;</span><br><span class="line">    android:hardwareAccelerated=&quot;true&quot;</span><br><span class="line">    android:windowSoftInputMode=&quot;adjustResize&quot;/&gt;</span><br></pre></td></tr></table></figure>
+
 <p>三种打开flutter页面的方式：</p>
 <p>1）普通跳转：</p>
-<p>​                myButton.setOnClickListener(new View.OnClickListener() {  @Override  public void onClick(View v) {    startActivity(      FlutterActivity.createDefaultIntent(currentActivity)    );  } });              </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">myButton.setOnClickListener(new View.OnClickListener() &#123;</span><br><span class="line">  @Override</span><br><span class="line">  public void onClick(View v) &#123;</span><br><span class="line">    startActivity(</span><br><span class="line">      FlutterActivity.createDefaultIntent(currentActivity)</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
 <p>2）设置路由的方式跳转：</p>
-<p>​                myButton.setOnClickListener(new View.OnClickListener() {  @Override  public void onClick(View v) {    startActivity(      FlutterActivity        .withNewEngine()        .initialRoute(“/my_route”)        .build(currentActivity)      );  } });              </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">myButton.setOnClickListener(new View.OnClickListener() &#123;</span><br><span class="line">  @Override</span><br><span class="line">  public void onClick(View v) &#123;</span><br><span class="line">    startActivity(</span><br><span class="line">      FlutterActivity</span><br><span class="line">        .withNewEngine()</span><br><span class="line">        .initialRoute(&quot;/my_route&quot;)</span><br><span class="line">        .build(currentActivity)</span><br><span class="line">      );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
 <p>上述代码会在内部创建自己的 FlutterEngine 实例，每个 FlutterActivity 都创建自己的 FlutterEngine，这意味着启动一个标准的 FlutterActivity 会在界面可见时出现一短暂的延迟，可以选择使用预缓存的 FlutterEngine 来减小其延迟，实际上在内部会先检查是否存在预缓存的 FlutterEngine，如果存在则使用该 FlutterEngine，否则继续使用非预缓存的 FlutterEngine。</p>
 <p>3）缓存 Flutter 引擎方式跳转：</p>
-<p>​                public class MyApplication extends Application {    public FlutterEngine flutterEngine;     @Override  public void onCreate() {        super.onCreate();        // Instantiate a FlutterEngine.       flutterEngine = new FlutterEngine(this);        // Start executing Dart code to pre-warm the FlutterEngine.      flutterEngine.getDartExecutor().executeDartEntrypoint(DartExecutor.DartEntrypoint.createDefault());        // Cache the FlutterEngine to be used by FlutterActivity.      FlutterEngineCache.getInstance().put(“my_engine_id”, flutterEngine);    } } myButton.setOnClickListener(new View.OnClickListener() {    @Override    public void onClick(View view) {        startActivity(            LoginFlutterActivity                 .withCachedEngine(“my_engine_id”)                  .build(MainActivity.this)        );   } });              </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">public class MyApplication extends Application &#123;</span><br><span class="line">    public FlutterEngine flutterEngine;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">  public void onCreate() &#123;</span><br><span class="line">        super.onCreate();</span><br><span class="line">        // Instantiate a FlutterEngine.</span><br><span class="line">        flutterEngine = new FlutterEngine(this);</span><br><span class="line"></span><br><span class="line">       // Start executing Dart code to pre-warm the FlutterEngine.</span><br><span class="line">       flutterEngine.getDartExecutor().executeDartEntrypoint(DartExecutor.DartEntrypoint.createDefault());</span><br><span class="line"></span><br><span class="line">       // Cache the FlutterEngine to be used by FlutterActivity.</span><br><span class="line">       FlutterEngineCache.getInstance().put(&quot;my_engine_id&quot;, flutterEngine);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">myButton.setOnClickListener(new View.OnClickListener() &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void onClick(View view) &#123;</span><br><span class="line">        startActivity(</span><br><span class="line">            LoginFlutterActivity</span><br><span class="line">                  .withCachedEngine(&quot;my_engine_id&quot;)</span><br><span class="line">                  .build(MainActivity.this)</span><br><span class="line">        );</span><br><span class="line">   &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
 <h2 id="五、Flutter与Native通信"><a href="#五、Flutter与Native通信" class="headerlink" title="五、Flutter与Native通信"></a>五、Flutter与Native通信</h2><h3 id="5-1Platform-Channel"><a href="#5-1Platform-Channel" class="headerlink" title="5.1Platform Channel"></a>5.1Platform Channel</h3><p><strong>Platform Channel</strong>为Dart和平台之间提供了相互通信的机制，将<strong>Flutter</strong>、<strong>Android</strong>、<strong>iOS</strong>连接起来。</p>
 <p>在移动H5开发中，<strong>webview</strong>自身提供的功能往往不够用，为了解决这个问题，引入了<strong>jsbridge</strong>，即<strong>web</strong>与<strong>native</strong>之间进行数据交互的一种方法,可以方便的将native的功能扩展给<strong>webview</strong>使用，从而可以快速开发。在<strong>Flutter</strong>中，也存在和<strong>jsbridge</strong>一样的用法，那就是<strong>Platform Channel</strong>，我们可以通过<strong>Platform Channel</strong>，将<strong>Flutter</strong>和<strong>Native</strong>方便的连接在一起，架构图如下:</p>
-<p>​    <img src="https://note.youdao.com/yws/public/resource/bf9d78b8f6b366d44124235ca90b5760/xmlnote/E52800DF057E4DB28103554365DAB41D/12338" alt="0"></p>
+<p><img src="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20220124155717.png" alt></p>
 <p>在Channel中</p>
 <ol>
 <li>client发送信息</li>
@@ -573,43 +564,30 @@ var _hmt = _hmt || [];
 </ol>
 <h3 id="5-2-三种不同类型的Platform-Channel"><a href="#5-2-三种不同类型的Platform-Channel" class="headerlink" title="5.2 三种不同类型的Platform Channel"></a>5.2 三种不同类型的Platform Channel</h3><p>Flutter定义了三种不同类型的Platform Channel用于Flutter与Host App平台进行通信，它们分别</p>
 <ul>
-<li><ul>
 <li><strong>BasicMessageChannel</strong>：用于数据传递，可以双向的请求数据。</li>
 <li><strong>MethodChannel</strong>：用于传递方法调用，即Flutter端可以调用Platform端的方法并通过Result接口回调结果数据。</li>
 <li><strong>EventChannel</strong>: 用于传递事件，即Flutter端监听Platform端的实时消息，一旦Platform端产生了数据，立即回调到Flutter端。</li>
 </ul>
-</li>
-</ul>
 <p>其构造方法都需指定一个通道标识、解编码器以及 BinaryMessenger，BinaryMessenger 是一个 Flutter 与平台的通信工具，用来传递二进制数据、设置对应的消息处理器等。</p>
 <p>解编码器有两种分别是 MethodCodec 和 MessageCodec，前者对应方法后者对应消息，BasicMessageChannel 使用的是 MessageCodec，MethodChannel 和 EventChannel 使用的是 MethodCodec。</p>
-<h3 id="5-3-平台数据类型对照"><a href="#5-3-平台数据类型对照" class="headerlink" title="5.3 平台数据类型对照"></a>5.3 平台数据类型对照</h3><p>Platform Channel 提供不同的消息解码机制，如 StandardMessageCodec 提供基本数据类型的解编码、JSONMessageCodec 支持 Json 的解编码等，在平台之间通信时都会自动转换，各平台数据类型对照如下：</p>
-<p>​    <img src="https://note.youdao.com/yws/public/resource/bf9d78b8f6b366d44124235ca90b5760/xmlnote/84C8898206E1471FB07B68C9B09D45AB/12377" alt="0"></p>
+<h3 id="5-3-平台数据类型对照"><a href="#5-3-平台数据类型对照" class="headerlink" title="5.3 平台数据类型对照"></a>5.3 平台数据类型对照</h3><p>Platform Channel 提供不同的消息解码机制，如 StandardMessageCodec 提供基本数据类型的解编码、JSONMessageCodec 支持 Json 的解编码等，在平台之间通信时都会自动转换，各平台数据类型对照如下：<br><img src="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20220124155756.png" alt></p>
 <h2 id="六、Flutter组件化工程"><a href="#六、Flutter组件化工程" class="headerlink" title="六、Flutter组件化工程"></a>六、Flutter组件化工程</h2><h3 id="6-1-背景"><a href="#6-1-背景" class="headerlink" title="6.1 背景"></a>6.1 背景</h3><p>前面讲了Flutter和Native的混合开发模式，Flutter作为Native工程的一个Module存在，这样可以有效的将Flutter和Native进行物理隔离，但随着Flutter承载的业务越来越多，与Native交互的接口变的越来越多，带来了很多管理问题，因此我们迫切需要采用新的开发模式，即Flutter的组件化开发方案。</p>
 <h3 id="6-2-组件化的优势"><a href="#6-2-组件化的优势" class="headerlink" title="6.2 组件化的优势"></a>6.2 组件化的优势</h3><p>采用组件化开发Flutter，将会有如下的优势：</p>
 <ul>
-<li><ul>
 <li>将功能模块化，相互独立，方便管理</li>
 <li>模块之间互不影响，耦合低，一些与业务无关的模块可以开源出来，供其他APP使用，提供代码的复用。</li>
 <li>采用组件化开发，开发时互不影响，可以提高开发效率。</li>
 <li>方便单元测试</li>
 </ul>
-</li>
-</ul>
 <h3 id="6-3-组件化架构"><a href="#6-3-组件化架构" class="headerlink" title="6.3 组件化架构"></a>6.3 组件化架构</h3><p>组件划分，通过Flutter Module作为所有通过Flutter实现的模块或功能的聚合入口，通过它进行Flutter层到Native层的双向关联。而Flutter开发代码写在哪里呢？当然可以直接写在Flutter Module中，这没问题，而如果后续开发了多个模块、组件，我们的Dart代码总不可能全部写在Flutter Module中lib/吧，如果在lib/目录下再建立子目录进行模块区分，这不失为一种最简单的方式，不过这会带来一些问题，所有模块共用一个远程Git地址，首先在组件开发隔离上完全耦合了，其次各个模块组件没有单独的版本号或Tag，且后续模块组件的增多，带来更多的测试回归成本。</p>
 <p>正确的组件化方式为一个组件有一个独立的远程Git地址管理，这样各个组件在发正式版时都有一个版本号和Tag，且在各个组件开发上完全隔离，后续组件的增多不影响其它组件，某个组件新增需求而不需回归其它组件，带来更低的测试成本。</p>
 <p>前面提到Flutter Plugin可以有对应Dart层代码与平台层的实现，所以可以这样设计，一个组件对应一个Flutter Plugin，一个Flutter Plugin为一个完整的Flutter工程，有独立的Git地址，而这些组件之间不能互相依赖，保持零耦合，所以这些组件都在业务层，可以叫做业务组件，这些业务组件之间的通信和公共服务可以再划分一层基础层，可以叫做基础组件，所有业务组件依赖基础层，而Flutter Module作为聚合层依赖于所有Flutter组件，这些Flutter工程之间的依赖正是通过Pub依赖进行管理的。</p>
-<p>所以，综合上述，整体的组件化架构可以设计为：</p>
-<p>​    <img src="https://note.youdao.com/yws/public/resource/bf9d78b8f6b366d44124235ca90b5760/xmlnote/A04F0EB8E6C64C098EA1A44E1001C5E8/12411" alt="0"></p>
+<p>所以，综合上述，整体的组件化架构可以设计为：<br><img src="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20220124155848.png" alt></p>
 <h3 id="6-4业务组件与基础组件的定位"><a href="#6-4业务组件与基础组件的定位" class="headerlink" title="6.4业务组件与基础组件的定位"></a>6.4业务组件与基础组件的定位</h3><p>对于上面的基础组件比如还可以进行更细粒度的划分，不过不建议划分太多，对于与Native平台层的通信，每个业务组件对应一个Channel，当然内部还可以进行更细粒度的Channel进行划分，这个Channel主要是负责Native层服务的提供，让Flutter层消费。而对于Native层调用Flutter层的Api，应该尽可能少，需要调也只有出现一些值回调时。</p>
 <p>因为Flutter的出现最本质的就是一次开发两端运行，而如果有太多这种依赖于平台层的实现，反而出现违背了，最后只是UI写了一份而已。对于平台层的实现也要尽量保持一个原则，即：</p>
 <p>尽量让Native平台层成为服务层，让Flutter层成为消费层调用Native层的服务，即Dart调用Native的Api，这样当两端开发人员编写好一致基础的服务接口后，Flutter的开发人员即可平滑使用和开发。</p>
 <h2 id="七、后序"><a href="#七、后序" class="headerlink" title="七、后序"></a>七、后序</h2><p>对于现有工程使用Flutter进行混合开发，坑点还是有的，比如性能、页面栈管理等方面，加上目前Flutter上一些基础库不成熟，对于项目内的重要页面以及动态化强度比较高的页面，目前还是不建议使用Flutter进行开发，如果要使用也须做好降级方案，相反可以使用稍微轻量级点的页面，且在设计时对于Flutter与Native层的通信，应该让Flutter作为消费层消费Native层提供的服务，Native端应做尽量少的改动等等。与纯原生开发或纯 Flutter 开发相比，混合开发由于需要打通原生和 Flutter 的数据和服务，需要有大量桥接实现，各个模块互相协作也需要考虑各种异常或降级的情况。</p>
-<p>参考：</p>
-<p>将 Flutter module 集成到 Android 项目 <a href="https://flutter.cn/docs/development/add-to-app/android/project-setup" target="_blank" rel="noopener">https://flutter.cn/docs/development/add-to-app/android/project-setup</a></p>
-<p>将 Flutter module 集成到 iOS 项目 <a href="https://flutter.cn/docs/development/add-to-app/ios/project-setup" target="_blank" rel="noopener">https://flutter.cn/docs/development/add-to-app/ios/project-setup</a></p>
-<p>在 Android 应用中添加 Flutter 页面<a href="https://flutter.cn/docs/development/add-to-app/android/add-flutter-screen" target="_blank" rel="noopener">https://flutter.cn/docs/development/add-to-app/android/add-flutter-screen</a></p>
-<p>在 iOS 应用中添加 Flutter 页面 <a href="https://flutter.cn/docs/development/add-to-app/ios/add-flutter-screen" target="_blank" rel="noopener">https://flutter.cn/docs/development/add-to-app/ios/add-flutter-screen</a></p>
-<p>Add-to-App Samples <a href="https://github.com/flutter/samples/blob/beface247a/add_to_app/README.md" target="_blank" rel="noopener">https://github.com/flutter/samples/blob/beface247a/add_to_app/README.md</a></p>
+<p>参考：<br>将 Flutter module 集成到 Android 项目 <a href="https://flutter.cn/docs/development/add-to-app/android/project-setup" target="_blank" rel="noopener">https://flutter.cn/docs/development/add-to-app/android/project-setup</a><br>将 Flutter module 集成到 iOS 项目 <a href="https://flutter.cn/docs/development/add-to-app/ios/project-setup" target="_blank" rel="noopener">https://flutter.cn/docs/development/add-to-app/ios/project-setup</a><br>在 Android 应用中添加 Flutter 页面<a href="https://flutter.cn/docs/development/add-to-app/android/add-flutter-screen" target="_blank" rel="noopener">https://flutter.cn/docs/development/add-to-app/android/add-flutter-screen</a><br>在 iOS 应用中添加 Flutter 页面 <a href="https://flutter.cn/docs/development/add-to-app/ios/add-flutter-screen" target="_blank" rel="noopener">https://flutter.cn/docs/development/add-to-app/ios/add-flutter-screen</a><br>Add-to-App Samples <a href="https://github.com/flutter/samples/blob/beface247a/add_to_app/README.md" target="_blank" rel="noopener">https://github.com/flutter/samples/blob/beface247a/add_to_app/README.md</a></p>
 
       
     </div>
