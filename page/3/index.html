@@ -307,6 +307,201 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhangmiao.cc/posts/24470fc.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZhangMiao">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zm.blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/posts/24470fc.html" itemprop="url">代码实例展示Java和Kotlin有哪些区别</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-05-17T18:06:47+08:00">
+                2021-05-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/Kotlin/" itemprop="url" rel="index">
+                    <span itemprop="name">Kotlin</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/posts/24470fc.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="posts/24470fc.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/posts/24470fc.html" class="leancloud_visitors" data-flag-title="代码实例展示Java和Kotlin有哪些区别">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>自从谷歌 I/O 2017宣布将支持 Kotlin 作为 Android 开发的 First-Class 语言，相信各位程序员的朋友圈都被Kotlin的消息轰炸了吧，支持Java的“守旧派”认为Java将稳坐霸主地位不动摇，支持Kotlin的“维新派”认为Kotlin很可能会把Java拉下马。其实，笔者认为新语言的出现对于程序员来说并不是一件新鲜事儿，程序员始终践行着“活到老，学到老”，真正能够对程序员产生影响的新语言的使用和性能。</p>
+<h2 id="易用性。"><a href="#易用性。" class="headerlink" title="易用性。"></a>易用性。</h2><ol>
+<li>在语法糖的加持下，kotlin能够用更短的代码实现更多的功能。这是java 无法比拟的。所谓代码量越少，出bug的可能性就越低。</li>
+<li>kotlin特有的扩展属性，不再需要java工具类，对开发更加友好。<br> 比如我们想实现字符串判空操作，在java中需要写一个StringUtil类，这样其他开发同学想实现该功能的时候，可能并不知道已经有人实现了该功能，存在重复造轮子的可能。通过扩展属性，我们可以很方便的看出String类都存在哪些方法。</li>
+<li>java中的bean类总是需要使用插件生成setter getter方法。kotlin中的data关键字可以解决这类问题，data类在编译期自动生成getter setter方法。</li>
+</ol>
+<h2 id="规范性。"><a href="#规范性。" class="headerlink" title="规范性。"></a>规范性。</h2><p>工程项目都是需要指定开发规范的。比如变量命名等。在java中，方法重载的时候会生成@Override注解，但是这并不是强制约束的。kotlin的方法采用override关键字进行了强制约束。<br> 再比如TODO。java中的TODO是以注释的形式存在，即使没有实现TODO处的代码，也没什么运行时问题。kotlin的TODO形式如下：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">(args: <span class="type">Array</span>&lt;<span class="type">String</span>&gt;)</span></span> &#123;</span><br><span class="line">    TODO()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>kotlin TODO的实现</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@kotlin</span>.<span class="keyword">internal</span>.InlineOnly</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">inline</span> <span class="function"><span class="keyword">fun</span> <span class="title">TODO</span><span class="params">()</span></span>: <span class="built_in">Nothing</span> = <span class="keyword">throw</span> NotImplementedError()</span><br></pre></td></tr></table></figure>
+
+<p>可以看到运行时会抛出异常。<br> 思考：这里为什么不在编译期抛出异常呢？</p>
+<h2 id="安全性。"><a href="#安全性。" class="headerlink" title="安全性。"></a>安全性。</h2><p>java中虽然有@Nullable @NotNull等注解。但是不会在编译期起作用，而是在运行期抛出异常。kotlin在声明变量的时候，可以指定变量是否为空，调用可为空对象时，需要进行空判断。</p>
+<h2 id="跨平台。"><a href="#跨平台。" class="headerlink" title="跨平台。"></a>跨平台。</h2><p>java在jvm的协助下虽然也是跨平台语言，但是不能像kotlin一样可以既可以编译成class字节码，又可以编译成js。</p>
+<h2 id="编译速度。"><a href="#编译速度。" class="headerlink" title="编译速度。"></a>编译速度。</h2><p>只有全量编译下，kotlin比java慢。增量编译下，两者几乎没有差距。</p>
+<h2 id="其他kotlin特性。"><a href="#其他kotlin特性。" class="headerlink" title="其他kotlin特性。"></a>其他kotlin特性。</h2><p>懒加载、高阶函数、协程、inline操作符、运算符重载、默认参数等。</p>
+<p>GitHub 用户amitshekhariitbhu在GitHub上贴图<a href="https://github.com/MindorksOpenSource/from-java-to-kotlin/blob/master/README.md" target="_blank" rel="noopener">分享了</a>Java和Kotlin的语法区别，下面我们就一起来看一下吧!</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/posts/24470fc.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://zhangmiao.cc/posts/4f2dc96b.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1987,209 +2182,6 @@ var _hmt = _hmt || [];
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.cc/posts/2fd9bfca.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="ZhangMiao">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="zm.blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/posts/2fd9bfca.html" itemprop="url">Kotlin数据类与密封类</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-09-19T10:16:45+08:00">
-                2020-09-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android/" itemprop="url" rel="index">
-                    <span itemprop="name">Android</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android/Kotlin/" itemprop="url" rel="index">
-                    <span itemprop="name">Kotlin</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/posts/2fd9bfca.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="posts/2fd9bfca.html" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/posts/2fd9bfca.html" class="leancloud_visitors" data-flag-title="Kotlin数据类与密封类">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="数据类"><a href="#数据类" class="headerlink" title="数据类"></a>数据类</h2><p>Kotlin 可以创建一个只包含数据的类，关键字为 <strong>data</strong>：</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">data</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span></span>(<span class="keyword">val</span> name: String, <span class="keyword">val</span> age: <span class="built_in">Int</span>)</span><br></pre></td></tr></table></figure>
-
-<p>编译器会自动的从主构造函数中根据所有声明的属性提取以下函数：</p>
-<ul>
-<li><code>equals()</code> / <code>hashCode()</code></li>
-<li><code>toString()</code> 格式如 <code>&quot;User(name=John, age=42)&quot;</code></li>
-<li><code>componentN() functions</code> 对应于属性，按声明顺序排列</li>
-<li><code>copy()</code> 函数</li>
-</ul>
-<p>如果这些函数在类中已经被明确定义了，或者从超类中继承而来，就不再会生成。</p>
-<p>为了保证生成代码的一致性以及有意义，数据类需要满足以下条件：</p>
-<ul>
-<li>主构造函数至少包含一个参数。</li>
-<li>所有的主构造函数的参数必须标识为<code>val</code> 或者 <code>var</code> ;</li>
-<li>数据类不可以声明为 <code>abstract</code>, <code>open</code>, <code>sealed</code> 或者 <code>inner</code>;</li>
-<li>数据类不能继承其他类 (但是可以实现接口)。</li>
-</ul>
-<h3 id="复制"><a href="#复制" class="headerlink" title="复制"></a>复制</h3><p>复制使用 copy() 函数，我们可以使用该函数复制对象并修改部分属性, 对于上文的 User 类，其实现会类似下面这样：</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">copy</span><span class="params">(name: <span class="type">String</span> = this.name, age: <span class="type">Int</span> = this.age)</span></span> = User(name, age)</span><br></pre></td></tr></table></figure>
-
-<h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3><p>使用 copy 类复制 User 数据类，并修改 age 属性:</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">data</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span></span>(<span class="keyword">val</span> name: String, <span class="keyword">val</span> age: <span class="built_in">Int</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">(args: <span class="type">Array</span>&lt;<span class="type">String</span>&gt;)</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> jack = User(name = <span class="string">"Jack"</span>, age = <span class="number">1</span>)</span><br><span class="line">    <span class="keyword">val</span> olderJack = jack.copy(age = <span class="number">2</span>)</span><br><span class="line">    println(jack)</span><br><span class="line">    println(olderJack)</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>输出结果为：</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">User(name=Jack, age=<span class="number">1</span>)</span><br><span class="line">User(name=Jack, age=<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/posts/2fd9bfca.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2242,7 +2234,7 @@ var _hmt = _hmt || [];
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">371</span>
+                  <span class="site-state-item-count">372</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
