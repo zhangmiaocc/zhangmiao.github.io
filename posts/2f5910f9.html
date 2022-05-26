@@ -1,0 +1,1561 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Android,Gradle,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="zm.blog" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="Gradle是一款优秀的构建系统工具，它的DSL(领域特定语言)基于Groovy实现，可以方便地通过代码控制这些DSL来达到构建的目的。  注：执行gradle命令时，默认加载当前目录下的build.gradle文件，亦可以通过-b 指定要加载的执行文件，如： gradlew -b ./app/build.gradle assemble Gradle常用基础1、记得使用帮助（1）查看所有可执行的">
+<meta name="keywords" content="Android,Gradle">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Gradle使用总结（一）">
+<meta property="og:url" content="https://zhangmiao.cc/posts/2f5910f9.html">
+<meta property="og:site_name" content="zm.blog">
+<meta property="og:description" content="Gradle是一款优秀的构建系统工具，它的DSL(领域特定语言)基于Groovy实现，可以方便地通过代码控制这些DSL来达到构建的目的。  注：执行gradle命令时，默认加载当前目录下的build.gradle文件，亦可以通过-b 指定要加载的执行文件，如： gradlew -b ./app/build.gradle assemble Gradle常用基础1、记得使用帮助（1）查看所有可执行的">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2021-12-24T02:05:29.970Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Gradle使用总结（一）">
+<meta name="twitter:description" content="Gradle是一款优秀的构建系统工具，它的DSL(领域特定语言)基于Groovy实现，可以方便地通过代码控制这些DSL来达到构建的目的。  注：执行gradle命令时，默认加载当前目录下的build.gradle文件，亦可以通过-b 指定要加载的执行文件，如： gradlew -b ./app/build.gradle assemble Gradle常用基础1、记得使用帮助（1）查看所有可执行的">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://zhangmiao.cc/posts/2f5910f9.html">
+
+
+
+
+
+  <title>Gradle使用总结（一） | zm.blog</title>
+  
+
+
+
+
+
+  <script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?44434226ba535875b1e807122adc3a04";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zm.blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">select * from learn</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhangmiao.cc/posts/2f5910f9.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZhangMiao">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zm.blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Gradle使用总结（一）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-02T10:19:54+08:00">
+                2018-10-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/Gradle/" itemprop="url" rel="index">
+                    <span itemprop="name">Gradle</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/posts/2f5910f9.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="posts/2f5910f9.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/posts/2f5910f9.html" class="leancloud_visitors" data-flag-title="Gradle使用总结（一）">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>Gradle是一款优秀的构建系统工具，它的DSL(领域特定语言)基于Groovy实现，可以方便地通过代码控制这些DSL来达到构建的目的。</p>
+</blockquote>
+<p><strong>注</strong>：执行gradle命令时，默认加载当前目录下的build.gradle文件，亦可以通过-b 指定要加载的执行文件，如： <code>gradlew -b ./app/build.gradle assemble</code></p>
+<h2 id="Gradle常用基础"><a href="#Gradle常用基础" class="headerlink" title="Gradle常用基础"></a>Gradle常用基础</h2><h3 id="1、记得使用帮助"><a href="#1、记得使用帮助" class="headerlink" title="1、记得使用帮助"></a>1、记得使用帮助</h3><h4 id="（1）查看所有可执行的任务（Tasks）"><a href="#（1）查看所有可执行的任务（Tasks）" class="headerlink" title="（1）查看所有可执行的任务（Tasks）"></a>（1）查看所有可执行的任务（Tasks）</h4><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gradlew tasks</span><br></pre></td></tr></table></figure>
+
+<p>Gradle会以分组的方式列出task列表，比如构建类的 assemable，帮助类的 help等</p>
+<a id="more"></a>
+
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line">------------------------------------------------------------</span><br><span class="line">All tasks runnable from root project</span><br><span class="line">------------------------------------------------------------</span><br><span class="line"></span><br><span class="line">Android tasks</span><br><span class="line">-------------</span><br><span class="line">androidDependencies - Displays the Android dependencies of the project.</span><br><span class="line">signingReport - Displays the signing info <span class="keyword">for</span> each variant.</span><br><span class="line">sourceSets - Prints out all the source sets defined <span class="keyword">in</span> <span class="keyword">this</span> project.</span><br><span class="line"></span><br><span class="line">Build tasks</span><br><span class="line">-----------</span><br><span class="line">assemble - Assembles all variants of all applications and secondary packages.</span><br><span class="line">assembleAndroidTest - Assembles all the Test applications.</span><br><span class="line">assembleDebug - Assembles all Debug builds.</span><br><span class="line">assembleRelease - Assembles all Release builds.</span><br><span class="line">build - Assembles and tests <span class="keyword">this</span> project.</span><br><span class="line">buildDependents - Assembles and tests <span class="keyword">this</span> project and all projects that depend on it.</span><br><span class="line">buildNeeded - Assembles and tests <span class="keyword">this</span> project and all projects it depends on.</span><br><span class="line">bundleDebug - Creates all Debug bundles.</span><br><span class="line">bundleRelease - Creates all Release bundles.</span><br><span class="line">clean - Deletes the build directory.</span><br><span class="line">cleanBuildCache - Deletes the build cache directory.</span><br><span class="line">compileDebugAndroidTestSources</span><br><span class="line">compileDebugSources</span><br><span class="line">compileDebugUnitTestSources</span><br><span class="line">compileReleaseSources</span><br><span class="line">compileReleaseUnitTestSources</span><br><span class="line"></span><br><span class="line">Build Setup tasks</span><br><span class="line">-----------------</span><br><span class="line">init - Initializes a <span class="keyword">new</span> Gradle build.</span><br><span class="line">wrapper - Generates Gradle wrapper files.</span><br><span class="line"></span><br><span class="line">Cleanup tasks</span><br><span class="line">-------------</span><br><span class="line">lintFix - Runs lint on all variants and applies any safe suggestions to the source code.</span><br><span class="line"></span><br><span class="line">Help tasks</span><br><span class="line">----------</span><br><span class="line">buildEnvironment - Displays all buildscript dependencies declared <span class="keyword">in</span> root project <span class="string">'tapeView'</span>.</span><br><span class="line">components - Displays the components produced by root project <span class="string">'tapeView'</span>. [incubating]</span><br><span class="line">dependencies - Displays all dependencies declared <span class="keyword">in</span> root project <span class="string">'tapeView'</span>.</span><br><span class="line">dependencyInsight - Displays the insight into a specific dependency <span class="keyword">in</span> root project <span class="string">'tapeView'</span>.</span><br><span class="line">dependentComponents - Displays the dependent components of components <span class="keyword">in</span> root project <span class="string">'tapeView'</span>. [incubating]</span><br><span class="line">help - Displays a help message.</span><br><span class="line">model - Displays the configuration model of root project <span class="string">'tapeView'</span>. [incubating]</span><br><span class="line">projects - Displays the sub-projects of root project <span class="string">'tapeView'</span>.</span><br><span class="line">properties - Displays the properties of root project <span class="string">'tapeView'</span>.</span><br><span class="line">tasks - Displays the tasks runnable from root project <span class="string">'tapeView'</span> (some of the displayed tasks may belong to subprojects).</span><br><span class="line"></span><br><span class="line">Install tasks</span><br><span class="line">-------------</span><br><span class="line">installDebug - Installs the Debug build.</span><br><span class="line">installDebugAndroidTest - Installs the android (on device) tests <span class="keyword">for</span> the Debug build.</span><br><span class="line">installRelease - Installs the Release build.</span><br><span class="line">uninstallAll - Uninstall all applications.</span><br><span class="line">uninstallDebug - Uninstalls the Debug build.</span><br><span class="line">uninstallDebugAndroidTest - Uninstalls the android (on device) tests <span class="keyword">for</span> the Debug build.</span><br><span class="line">uninstallRelease - Uninstalls the Release build.</span><br><span class="line"></span><br><span class="line">Verification tasks</span><br><span class="line">------------------</span><br><span class="line">check - Runs all checks.</span><br><span class="line">connectedAndroidTest - Installs and runs instrumentation tests <span class="keyword">for</span> all flavors on connected devices.</span><br><span class="line">connectedCheck - Runs all device checks on currently connected devices.</span><br><span class="line">connectedDebugAndroidTest - Installs and runs the tests <span class="keyword">for</span> debug on connected devices.</span><br><span class="line">deviceAndroidTest - Installs and runs instrumentation tests using all Device Providers.</span><br><span class="line">deviceCheck - Runs all device checks using Device Providers and Test Servers.</span><br><span class="line">lint - Runs lint on all variants.</span><br><span class="line">lintDebug - Runs lint on the Debug build.</span><br><span class="line">lintRelease - Runs lint on the Release build.</span><br><span class="line">lintVitalRelease - Runs lint on just the fatal issues <span class="keyword">in</span> the release build.</span><br><span class="line">test - Run unit tests <span class="keyword">for</span> all variants.</span><br><span class="line">testDebugUnitTest - Run unit tests <span class="keyword">for</span> the debug build.</span><br><span class="line">testReleaseUnitTest - Run unit tests <span class="keyword">for</span> the release build.</span><br><span class="line"></span><br><span class="line">To see all tasks and more detail, run gradle tasks --all</span><br><span class="line"></span><br><span class="line">To see more detail about a task, run gradle help --task &lt;task&gt;</span><br><span class="line"></span><br><span class="line">BUILD SUCCESSFUL <span class="keyword">in</span> <span class="number">18</span>s</span><br><span class="line"><span class="number">1</span> actionable <span class="string">task:</span> <span class="number">1</span> executed</span><br></pre></td></tr></table></figure>
+
+<h4 id="（2）Gradle-Help任务"><a href="#（2）Gradle-Help任务" class="headerlink" title="（2）Gradle Help任务"></a>（2）Gradle Help任务</h4><p>gradle内置的help任务，可以了解每一个Task的使用帮助，用法是<code>gradlew help --task &lt;taskName&gt;</code> 如：<code>gradlew help --task assemable</code></p>
+<h3 id="2、强制刷新依赖"><a href="#2、强制刷新依赖" class="headerlink" title="2、强制刷新依赖"></a>2、强制刷新依赖</h3><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gradlew --refresh-dependencies assemable</span><br></pre></td></tr></table></figure>
+
+<h3 id="3、多任务执行"><a href="#3、多任务执行" class="headerlink" title="3、多任务执行"></a>3、多任务执行</h3><p>只需按顺序以空格分开即可，如<code>gradlew clean jar</code>，先执行clean再执行生成jar</p>
+<h3 id="4、自定义属性"><a href="#4、自定义属性" class="headerlink" title="4、自定义属性"></a>4、自定义属性</h3><p>自定义属性具有更广泛的作用域，可以跨Project，跨Task访问。<strong>只要能访问这些属性所属的对象</strong>，那么这些属性就可以被访问到。</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">apply <span class="string">plugin:</span> <span class="string">"java"</span></span><br><span class="line"></span><br><span class="line">ext.age = <span class="number">18</span> <span class="comment">//自定义一个属性</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//自定义多个属性</span></span><br><span class="line">ext&#123;</span><br><span class="line">	phone = <span class="string">'020'</span></span><br><span class="line">	address = <span class="string">''</span></span><br><span class="line"></span><br><span class="line">	dep = [<span class="string">android :</span> <span class="string">"androidan"</span>] <span class="comment">//map</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">sourceSets.all&#123;</span><br><span class="line">	ext.resourcesDir = <span class="literal">null</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">sourceSets &#123;</span><br><span class="line">	main&#123;</span><br><span class="line">		resourcesDir=<span class="string">"main/res"</span></span><br><span class="line">	&#125;</span><br><span class="line">	test&#123;</span><br><span class="line">		resourcesDir=<span class="string">"test/res"</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">task customProperty&#123;</span><br><span class="line">	doLast&#123;</span><br><span class="line">		println <span class="string">"age: $&#123;age&#125;"</span></span><br><span class="line">		println <span class="string">"phone: $phone"</span></span><br><span class="line">		println <span class="string">"address: $address"</span></span><br><span class="line">		println <span class="string">"android: $&#123;dep.android&#125;"</span></span><br><span class="line"></span><br><span class="line">		sourceSets.each&#123;</span><br><span class="line">			println<span class="string">"$&#123;it.name&#125;'s resourcesDir is: $&#123;it.resourcesDir&#125;"</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="5、任务的禁用和开启"><a href="#5、任务的禁用和开启" class="headerlink" title="5、任务的禁用和开启"></a>5、任务的禁用和开启</h3><p>任务禁用时，当执行到该任务，会skip掉</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">task task1&#123;</span><br><span class="line">    doLast&#123;</span><br><span class="line">        println <span class="string">'xxx'</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">task1.enabled = <span class="literal">false</span>; <span class="comment">//false:禁用，true:开启</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="6、任务的onlyif-断言"><a href="#6、任务的onlyif-断言" class="headerlink" title="6、任务的onlyif 断言"></a>6、任务的onlyif 断言</h3><p>任务有一个onlyIf方法，接收一个闭包作为参数，如果该闭包返回true，则该任务执行，否则跳过</p>
+<blockquote>
+<p>以键值对的形式添加属性：-PK=V，中间不能有空格 ，如：<code>gradle -Pbuild_apps=shoufa build</code></p>
+</blockquote>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> String BUILD_APPS_ALL=<span class="string">"all"</span>;</span><br><span class="line"><span class="keyword">final</span> String BUILD_APPS_SHOUFA=<span class="string">"shoufa"</span>;</span><br><span class="line"><span class="keyword">final</span> String BUILD_APPS_EXCLUDE_SHOUFA=<span class="string">"exclude_shoufa"</span>;</span><br><span class="line"></span><br><span class="line">task QQRelease&#123;</span><br><span class="line">	doLast&#123;</span><br><span class="line">		println <span class="string">"QQRelease"</span></span><br><span class="line">	&#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line">task BaiduRelease&#123;</span><br><span class="line">	doLast&#123;</span><br><span class="line">		println <span class="string">"BaiduRelease"</span></span><br><span class="line">	&#125;</span><br><span class="line">   </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">task build&#123;</span><br><span class="line">	group BasePlugin.BUILD_GROUP</span><br><span class="line">	description <span class="string">'打渠道包'</span></span><br><span class="line">	dependsOn QQRelease,BaiduRelease</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">QQRelease.onlyIf&#123;</span><br><span class="line">	<span class="keyword">if</span> (project.hasProperty(<span class="string">'build_apps'</span>)) &#123;</span><br><span class="line">		Object buildApps = project.property(<span class="string">"build_apps"</span>)</span><br><span class="line">		<span class="keyword">if</span> (BUILD_APPS_SHOUFA.equals(buildApps)) &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//gradle -Pbuild_apps=shoufa build; //以键值对的形式添加属性：-PK=V，中间不能有空格</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="7、脚本即代码，代码也是脚本"><a href="#7、脚本即代码，代码也是脚本" class="headerlink" title="7、脚本即代码，代码也是脚本"></a>7、脚本即代码，代码也是脚本</h3><p>虽然Gradle是个脚本文件，但写的依旧是代码，Groovy是兼容Java的，能灵活实现很多功能。如，给生成的apk以当前时间命名：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> buildTime()&#123;</span><br><span class="line">    <span class="keyword">def</span> date = <span class="keyword">new</span> Date()</span><br><span class="line">    <span class="keyword">def</span> formattedDate = data.format(<span class="string">'yyyyMMdd'</span>)</span><br><span class="line">    <span class="keyword">return</span> formattedDate</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Groovy基础"><a href="#Groovy基础" class="headerlink" title="Groovy基础"></a>Groovy基础</h2><h3 id="1、字符串"><a href="#1、字符串" class="headerlink" title="1、字符串"></a>1、字符串</h3><p>单引号和双引号都能定义字符串。区别在于，单引号表示纯粹的字符串常量，而双引号具有运算能力。 如:</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> name = <span class="string">"John"</span></span><br><span class="line">println <span class="string">'单引号$&#123;name&#125;'</span> <span class="comment">//输出: 单引号$&#123;name&#125;</span></span><br><span class="line">println <span class="string">"双引号$&#123;name&#125;"</span>  <span class="comment">//输出: 双引号John</span></span><br><span class="line">println <span class="string">"双引号$name"</span>   <span class="comment">//输出: 双引号John</span></span><br></pre></td></tr></table></figure>
+
+<p>一个美元符号紧接着一对花括号，花括号里放表达式，如<code>${name}</code>，当只有一个变量时，可以省略花括号，如<code>$name</code>;</p>
+<h3 id="2、集合"><a href="#2、集合" class="headerlink" title="2、集合"></a>2、集合</h3><h4 id="（1）List"><a href="#（1）List" class="headerlink" title="（1）List"></a>（1）List</h4><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> nums = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>] <span class="comment">//定义arrayList</span></span><br><span class="line">println nums[<span class="number">1</span>]  <span class="comment">//下标索引访问</span></span><br><span class="line">nums.each&#123;</span><br><span class="line">    println it <span class="comment">//forEach,其中it变量为正在迭代的元素</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="（2）Map"><a href="#（2）Map" class="headerlink" title="（2）Map"></a>（2）Map</h4><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> map = [<span class="string">'width'</span>:<span class="number">1024</span>,<span class="string">'height'</span>:<span class="number">768</span>] <span class="comment">//定义map</span></span><br><span class="line">println map[<span class="string">'width'</span>] <span class="comment">//访问</span></span><br><span class="line">println map.height <span class="comment">//访问</span></span><br><span class="line">map.each&#123;</span><br><span class="line">    println <span class="string">"Key:$&#123;it.key&#125;,Value:$it.value"</span> <span class="comment">//forEach,被变量的是Map.Entry</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="（3）方法"><a href="#（3）方法" class="headerlink" title="（3）方法"></a>（3）方法</h4><ul>
+<li>括号是可以忽略的</li>
+</ul>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">method1(<span class="number">2</span>,<span class="number">3</span>) <span class="comment">//</span></span><br><span class="line">method1 <span class="number">2</span>,<span class="number">3</span> <span class="comment">//可忽略括号，</span></span><br><span class="line"><span class="keyword">def</span> method1(<span class="keyword">int</span> a,<span class="keyword">int</span> b)&#123;</span><br><span class="line">    println a+b</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>return 是可以不写的，最后一句代码作为其返回值</li>
+</ul>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> method2(<span class="keyword">int</span> a,<span class="keyword">int</span> b)&#123;</span><br><span class="line">    <span class="keyword">if</span>(a&gt;b)&#123;</span><br><span class="line">        a <span class="comment">//即return a;</span></span><br><span class="line">    &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">        b <span class="comment">//即return b;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>代码块/方法是可以作为参数传递的</li>
+</ul>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//呆板写法</span></span><br><span class="line">nums.each(&#123;println it&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//格式化一些</span></span><br><span class="line">nums.each(&#123;</span><br><span class="line">    println it</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//Groovy中，如果方法的最后一个参数是 闭包，则可以放到方法外面</span></span><br><span class="line">nums.each()&#123;</span><br><span class="line">    println it</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//然后省略括号，则变成常见的样式</span></span><br><span class="line">nums.each&#123;</span><br><span class="line">    println it</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//多参数调用</span></span><br><span class="line">eachMap&#123;k,v-&gt;</span><br><span class="line">    println <span class="string">"$k is $v"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>JavaBean,可以很容易地访问和修改属性值，而不用通过getter/setter，因Groovy内部已帮我们搞定好。</li>
+</ul>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> Person p = <span class="keyword">new</span> Person()</span><br><span class="line">println <span class="string">"name is $p.name"</span> <span class="comment">//输出null</span></span><br><span class="line">p.name = <span class="string">"John"</span> </span><br><span class="line">println <span class="string">"name is $p.name"</span> <span class="comment">//输出John</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> &#123;</span></span><br><span class="line">    <span class="keyword">private</span> String name</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>闭包委托</strong> Groovy的闭包有thisObject、owner和delegate三个属性，一般是thisObject&gt;owner&gt;delegate，但可以修改delegate。一般指定delegate为当前it，这样就可以在闭包内对该it进行配置，或调用其方法。</li>
+</ul>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">task delegate&#123;</span><br><span class="line">	doLast&#123;</span><br><span class="line">		person&#123;</span><br><span class="line">			name = <span class="string">"cap"</span> <span class="comment">//在闭包内对该it进行配置</span></span><br><span class="line">			age = <span class="number">20</span>    <span class="comment">//在闭包内对该it进行配置</span></span><br><span class="line">			dumpPersion()  <span class="comment">//在闭包内对该it调用其方法</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">def</span> dumpPersion()&#123;</span><br><span class="line">	println <span class="string">"project delegate"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span>&#123;</span></span><br><span class="line">	<span class="keyword">private</span> String name</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> age </span><br><span class="line"></span><br><span class="line">	<span class="keyword">def</span> dumpPersion()&#123;</span><br><span class="line">		println <span class="string">"name:$&#123;name&#125;;age:$&#123;age&#125;"</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> person(Closure&lt;Person&gt; closure)&#123;</span><br><span class="line">	Person p = <span class="keyword">new</span> Person()</span><br><span class="line">	closure.delegate = p <span class="comment">//设置委托</span></span><br><span class="line">	closure.setResolveStrategy(Closure.DELEGATE_FIRST)<span class="comment">//设置委托优先</span></span><br><span class="line">	closure(p)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Gradle-插件"><a href="#Gradle-插件" class="headerlink" title="Gradle 插件"></a>Gradle 插件</h2><h3 id="1、Java-Gradle-的sourceSets常用属性"><a href="#1、Java-Gradle-的sourceSets常用属性" class="headerlink" title="1、Java Gradle 的sourceSets常用属性"></a>1、Java Gradle 的sourceSets常用属性</h3><p>sourceSet，即源代码集合（Android的<strong>buildTypes</strong>和这个类似），用来描述和管理源代码和资源存放等功能。提供有sourceSets{}闭包放配置和生成sourceSet，如：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">sourceSets&#123;</span><br><span class="line">    main&#123;</span><br><span class="line">        <span class="comment">//在这里可以对main sourceSet进行配置</span></span><br><span class="line">        </span><br><span class="line">        java&#123;</span><br><span class="line">            srcDir <span class="string">'src/java'</span> <span class="comment">//更改了java源代码存放目录，默认是 src/main/java</span></span><br><span class="line">        &#125;</span><br><span class="line">        resources&#123;</span><br><span class="line">            srcDir <span class="string">'src/resources'</span> <span class="comment">//更改了资源文件存放目录，默认是 src/main/resources</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    vip&#123;</span><br><span class="line">        <span class="comment">//生成了新的 vip sourceSet</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>SourceSet常用属性</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>属性名</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>name</td>
+<td>String</td>
+<td>只读，如，main</td>
+</tr>
+<tr>
+<td>java</td>
+<td>SourceDirectorySet</td>
+<td>该源集的java源文件</td>
+</tr>
+<tr>
+<td>java.srcDirs</td>
+<td>Set</td>
+<td>该源集的java源文件所在目录</td>
+</tr>
+<tr>
+<td>resources</td>
+<td>SourceDirectorySet</td>
+<td>该源集的资源文件</td>
+</tr>
+<tr>
+<td>resources.srcDirs</td>
+<td>Set</td>
+<td>该源集的资源文件的所在目录</td>
+</tr>
+<tr>
+<td>output.classesDir</td>
+<td>File</td>
+<td>该源集编译后的class文件目录</td>
+</tr>
+<tr>
+<td>output.resourcesDir</td>
+<td>File</td>
+<td>编译后生成的资源目录</td>
+</tr>
+<tr>
+<td>compileClassPath</td>
+<td>FileCollection</td>
+<td>编译该源集时所需的classPath</td>
+</tr>
+</tbody></table>
+<h3 id="2、Android-Gradle插件分类和三个sourceSet"><a href="#2、Android-Gradle插件分类和三个sourceSet" class="headerlink" title="2、Android Gradle插件分类和三个sourceSet"></a>2、Android Gradle插件分类和三个sourceSet</h3><p>Android Gradle插件的分类是根据Anroid工程的属性分类的，在Android中，有3类：</p>
+<ol>
+<li>App应用工程插件id: com.android.application</li>
+<li>Library库工程插件id: com.android.library</li>
+<li>Test测试工程插件id: com.android.test</li>
+</ol>
+<p><strong>注</strong>：src目录下的androidTest，main，test分别是3个sourceSet，分别对应，Android单元测试代码，Android app主代码和资源，普通单元测试代码。   在main中，特有AndroidManifest.xml和res这两个Android特有的，用于描述Android App 配置和资源文件。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="ZhangMiao 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="ZhangMiao 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    ZhangMiao
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://zhangmiao.cc/posts/2f5910f9.html" title="Gradle使用总结（一）">https://zhangmiao.cc/posts/2f5910f9.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+            <a href="/tags/Gradle/" rel="tag"># Gradle</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/59072e32.html" rel="next" title="跨平台Flutterr，RN，Weex和原生Android的比较">
+                <i class="fa fa-chevron-left"></i> 跨平台Flutterr，RN，Weex和原生Android的比较
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/posts/1f4ffc21.html" rel="prev" title="Gradle使用总结（二）">
+                Gradle使用总结（二） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4" alt="ZhangMiao">
+            
+              <p class="site-author-name" itemprop="name">ZhangMiao</p>
+              <p class="site-description motion-element" itemprop="description">Android/Flutter Developer</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">373</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">58</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">143</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:zm@zhangmiao.cc" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://wpa.qq.com/msgrd?v=3&uin=153942241&site=qq&menu=yes" target="_blank" title="QQ">
+                      
+                        <i class="fa fa-fw fa-qq"></i>QQ</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/zhangmiaocc" target="_blank" title="Github">
+                      
+                        <i class="fa fa-fw fa-github"></i>Github</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://stackoverflow.com" target="_blank" title="StackOverflow">
+                      
+                        <i class="fa fa-fw fa-stack-overflow"></i>StackOverflow</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://blog.constore.cn/" title="Liujianhui" target="_blank">Liujianhui</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://xuebin.me" title="Leo" target="_blank">Leo</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.csdn.net/lmj623565791" title="Hongyang" target="_blank">Hongyang</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://liuwangshu.cn/" title="Liuwangshu" target="_blank">Liuwangshu</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://jspang.com/" title="Jspang" target="_blank">Jspang</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blankj.com/" title="Blankj" target="_blank">Blankj</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://wuxiaolong.me/" title="WuXiaoLong" target="_blank">WuXiaoLong</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://molunerfinn.com" title="Molunerfinn" target="_blank">Molunerfinn</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.ofind.cn/" title="Ofind" target="_blank">Ofind</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.gcssloop.com/" title="Gcssloop" target="_blank">Gcssloop</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Gradle常用基础"><span class="nav-number">1.</span> <span class="nav-text">Gradle常用基础</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、记得使用帮助"><span class="nav-number">1.1.</span> <span class="nav-text">1、记得使用帮助</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#（1）查看所有可执行的任务（Tasks）"><span class="nav-number">1.1.1.</span> <span class="nav-text">（1）查看所有可执行的任务（Tasks）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#（2）Gradle-Help任务"><span class="nav-number">1.1.2.</span> <span class="nav-text">（2）Gradle Help任务</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、强制刷新依赖"><span class="nav-number">1.2.</span> <span class="nav-text">2、强制刷新依赖</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、多任务执行"><span class="nav-number">1.3.</span> <span class="nav-text">3、多任务执行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、自定义属性"><span class="nav-number">1.4.</span> <span class="nav-text">4、自定义属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5、任务的禁用和开启"><span class="nav-number">1.5.</span> <span class="nav-text">5、任务的禁用和开启</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6、任务的onlyif-断言"><span class="nav-number">1.6.</span> <span class="nav-text">6、任务的onlyif 断言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7、脚本即代码，代码也是脚本"><span class="nav-number">1.7.</span> <span class="nav-text">7、脚本即代码，代码也是脚本</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Groovy基础"><span class="nav-number">2.</span> <span class="nav-text">Groovy基础</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、字符串"><span class="nav-number">2.1.</span> <span class="nav-text">1、字符串</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、集合"><span class="nav-number">2.2.</span> <span class="nav-text">2、集合</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#（1）List"><span class="nav-number">2.2.1.</span> <span class="nav-text">（1）List</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#（2）Map"><span class="nav-number">2.2.2.</span> <span class="nav-text">（2）Map</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#（3）方法"><span class="nav-number">2.2.3.</span> <span class="nav-text">（3）方法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Gradle-插件"><span class="nav-number">3.</span> <span class="nav-text">Gradle 插件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、Java-Gradle-的sourceSets常用属性"><span class="nav-number">3.1.</span> <span class="nav-text">1、Java Gradle 的sourceSets常用属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、Android-Gradle插件分类和三个sourceSet"><span class="nav-number">3.2.</span> <span class="nav-text">2、Android Gradle插件分类和三个sourceSet</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZhangMiao</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      本站访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+  <div>
+    <script type="text/javascript">
+      var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");
+      document.write(unescape("%3Cspan id='cnzz_stat_icon_1277928793'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1277928793%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+  </div>
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://zhangmiao.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://zhangmiao.cc/posts/2f5910f9.html';
+          this.page.identifier = 'posts/2f5910f9.html';
+          this.page.title = 'Gradle使用总结（一）';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://zhangmiao.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("8iIYW0IGofqyvJiiuU5R9buW-gzGzoHsz", "ssmxRx0kELJir6mA02ziW3Ql");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/lib/zclip/clipboard.min.js"></script>
+<script type="text/javascript" src="/js/src/custom.js"></script>
+
+</body>
+</html>

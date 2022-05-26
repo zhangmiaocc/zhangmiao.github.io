@@ -1,0 +1,1506 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Android,Java,设计模式,建造者模式,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="zm.blog" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="通过理论,代码示例,Android源码来学习建造者模式  介绍Builder 模式是一步一步创建一个复杂对象的创建型模式，它允许用户在不知道内部构建细节的情况下，可以更精细的控制对象的构造流程，该模式是为了将构建复杂对象的过程和它的部件解耦，使得构建过程和创建过程隔离开来。 定义将一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示。 使用场景 相同的方法，不同的执行顺序，产生">
+<meta name="keywords" content="Android,Java,设计模式,建造者模式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="设计模式二之建造者模式">
+<meta property="og:url" content="https://zhangmiao.cc/posts/8bd761ec.html">
+<meta property="og:site_name" content="zm.blog">
+<meta property="og:description" content="通过理论,代码示例,Android源码来学习建造者模式  介绍Builder 模式是一步一步创建一个复杂对象的创建型模式，它允许用户在不知道内部构建细节的情况下，可以更精细的控制对象的构造流程，该模式是为了将构建复杂对象的过程和它的部件解耦，使得构建过程和创建过程隔离开来。 定义将一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示。 使用场景 相同的方法，不同的执行顺序，产生">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2021-12-24T02:05:29.984Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="设计模式二之建造者模式">
+<meta name="twitter:description" content="通过理论,代码示例,Android源码来学习建造者模式  介绍Builder 模式是一步一步创建一个复杂对象的创建型模式，它允许用户在不知道内部构建细节的情况下，可以更精细的控制对象的构造流程，该模式是为了将构建复杂对象的过程和它的部件解耦，使得构建过程和创建过程隔离开来。 定义将一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示。 使用场景 相同的方法，不同的执行顺序，产生">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://zhangmiao.cc/posts/8bd761ec.html">
+
+
+
+
+
+  <title>设计模式二之建造者模式 | zm.blog</title>
+  
+
+
+
+
+
+  <script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?44434226ba535875b1e807122adc3a04";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zm.blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">select * from learn</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhangmiao.cc/posts/8bd761ec.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZhangMiao">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zm.blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">设计模式二之建造者模式</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-12T16:08:56+08:00">
+                2019-09-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/设计模式/" itemprop="url" rel="index">
+                    <span itemprop="name">设计模式</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/posts/8bd761ec.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="posts/8bd761ec.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/posts/8bd761ec.html" class="leancloud_visitors" data-flag-title="设计模式二之建造者模式">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>通过理论,代码示例,Android源码来学习建造者模式</p>
+</blockquote>
+<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>Builder 模式是一步一步创建一个复杂对象的创建型模式，它允许用户在不知道内部构建细节的情况下，可以更精细的控制对象的构造流程，该模式是为了将构建复杂对象的过程和它的部件解耦，使得构建过程和创建过程隔离开来。</p>
+<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>将一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示。</p>
+<h2 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h2><ol>
+<li>相同的方法，不同的执行顺序，产生不同的事件结果时。</li>
+<li>当初始化一个对象特别复杂，如参数多，且很多参数都具有默认值时。</li>
+</ol>
+<h2 id="简单代码示例"><a href="#简单代码示例" class="headerlink" title="简单代码示例"></a>简单代码示例</h2><p>这里比如我们第一次初始化应用的时候，需要初始化一些事物，比如默认记住密码，自动登录，开机登录，崩溃重启等等。</p>
+<a id="more"></a>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.devyk.android_dp_code.builder;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * &lt;pre&gt;</span></span><br><span class="line"><span class="comment"> *     author  : devyk on 2019-09-01 16:48</span></span><br><span class="line"><span class="comment"> *     blog    : https://juejin.im/user/578259398ac2470061f3a3fb/posts</span></span><br><span class="line"><span class="comment"> *     github  : https://github.com/yangkun19921001</span></span><br><span class="line"><span class="comment"> *     mailbox : yang1001yk@gmail.com</span></span><br><span class="line"><span class="comment"> *     desc    : This is LoginManager</span></span><br><span class="line"><span class="comment"> * &lt;/pre&gt;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LoginManager</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 记住密码</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">boolean</span> isSavePwd;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 自动登录</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">boolean</span> isAutoLogin;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 开机自启动</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">boolean</span> isBootLauncher;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 崩溃重启</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">boolean</span> isCrashOnRestart;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">LoginManager</span><span class="params">(Builder builder)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.isAutoLogin = builder.isAutoLogin;</span><br><span class="line">        <span class="keyword">this</span>.isBootLauncher = builder.isBootLauncher;</span><br><span class="line">        <span class="keyword">this</span>.isCrashOnRestart = builder.isCrashOnRestart;</span><br><span class="line">        <span class="keyword">this</span>.isSavePwd = builder.isSavePwd;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Builder</span></span>&#123;</span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 记住密码</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">         <span class="keyword">boolean</span> isSavePwd;</span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 自动登录</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">         <span class="keyword">boolean</span> isAutoLogin;</span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 开机自启动</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">         <span class="keyword">boolean</span> isBootLauncher;</span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 崩溃重启</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">         <span class="keyword">boolean</span> isCrashOnRestart;</span><br><span class="line"></span><br><span class="line">      <span class="comment">//默认属性</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">Builder</span><span class="params">()</span></span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.isSavePwd = <span class="keyword">false</span>;</span><br><span class="line">            <span class="keyword">this</span>.isAutoLogin = <span class="keyword">false</span>;</span><br><span class="line">            <span class="keyword">this</span>.isBootLauncher = <span class="keyword">false</span>;</span><br><span class="line">            <span class="keyword">this</span>.isCrashOnRestart = <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> Builder <span class="title">isSavePwd</span><span class="params">(<span class="keyword">boolean</span> savePwd)</span></span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.isSavePwd = savePwd;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> Builder <span class="title">isAutoLogin</span><span class="params">(<span class="keyword">boolean</span> autoLogin)</span></span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.isAutoLogin = autoLogin;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> Builder <span class="title">isBootLauncher</span><span class="params">(<span class="keyword">boolean</span> bootLauncher)</span></span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.isBootLauncher = bootLauncher;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> Builder <span class="title">isCrashOnRestart</span><span class="params">(<span class="keyword">boolean</span> onReStartApp)</span></span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.isCrashOnRestart = onReStartApp;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 最后构建出来</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> LoginManager <span class="title">build</span><span class="params">()</span></span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> LoginManager(<span class="keyword">this</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//直接链式调用</span></span><br><span class="line">        LoginManager loginManager = <span class="keyword">new</span> LoginManager.Builder()</span><br><span class="line">                .isAutoLogin(<span class="keyword">true</span>)</span><br><span class="line">                .isBootLauncher(<span class="keyword">true</span>)</span><br><span class="line">                .isCrashOnRestart(<span class="keyword">true</span>)</span><br><span class="line">                .build();</span><br><span class="line"></span><br><span class="line">        System.out.printf(<span class="string">"loginManager:"</span>+loginManager.toString());</span><br></pre></td></tr></table></figure>
+
+<p>Output:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">loginManager:LoginManager&#123;isSavePwd=<span class="keyword">false</span>, isAutoLogin=<span class="keyword">true</span>, isBootLauncher=<span class="keyword">true</span>, isCrashOnRestart=<span class="keyword">true</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上述代码中，通过具体的 Builder 类来具体构建 LoginManager 需要的属性，最后通过链式调用，结构变得更加清晰，更加容易控制。</p>
+<h2 id="Android-源码中-AlertDialog-的-Builder-模式全面解析"><a href="#Android-源码中-AlertDialog-的-Builder-模式全面解析" class="headerlink" title="Android 源码中 AlertDialog 的 Builder 模式全面解析"></a>Android 源码中 AlertDialog 的 Builder 模式全面解析</h2><p>在 Android 源码中，最常用之一的 Builder 模式 AlertDialog.Builder, 通过 Builder 来构建复杂的 AlertDialog 对象。请先看它的使用方式:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">showAlertDialog</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">new</span> AlertDialog.Builder(context)<span class="comment">// 以下通过 Builder 链式调用构造数据</span></span><br><span class="line">            .setIcon(R.drawable.ic_launcher_background)</span><br><span class="line">            .setMessage(<span class="string">"测试数据"</span>)</span><br><span class="line">            .setTitle(<span class="string">"提示"</span>)</span><br><span class="line">            .setPositiveButton(<span class="string">"取消"</span>, <span class="keyword">new</span> DialogInterface.OnClickListener() &#123;</span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(DialogInterface dialog, <span class="keyword">int</span> which)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;).setNegativeButton(<span class="string">"确认"</span>, <span class="keyword">new</span> DialogInterface.OnClickListener() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(DialogInterface dialog, <span class="keyword">int</span> which)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;).create()<span class="comment">//最后一步就是在 Builder 中构建出 AlerDialog 对象，并初始化数据</span></span><br><span class="line">            .show(); <span class="comment">// 显示</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>从 AlertDialog.Builder(context) 可以看出 AlertDialog 是一个 Builder 建造者模式，通过 Builder 对象，组装 Dialog 的各个部分，将 Dialog 的构造和表示进行分离。下面请看 AlertDialog Builder 的相关源码；</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.android.internal.R;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AlertDialog</span> <span class="keyword">extends</span> <span class="title">Dialog</span> <span class="keyword">implements</span> <span class="title">DialogInterface</span> </span>&#123;</span><br><span class="line">    <span class="comment">//接收Builder成员变量 P 中的各个参数</span></span><br><span class="line">    <span class="keyword">private</span> AlertController mAlert;</span><br><span class="line"></span><br><span class="line"> 	....代码省略</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="title">AlertDialog</span><span class="params">(Context context, <span class="keyword">boolean</span> cancelable, OnCancelListener cancelListener)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>(context, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">        setCancelable(cancelable);</span><br><span class="line">        setOnCancelListener(cancelListener);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">//构造函数</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="title">AlertDialog</span><span class="params">(Context context, @StyleRes <span class="keyword">int</span> themeResId)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>(context, themeResId, <span class="keyword">true</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 构造 AlertDialog</span></span><br><span class="line">    AlertDialog(Context context, <span class="meta">@StyleRes</span> <span class="keyword">int</span> themeResId, <span class="keyword">boolean</span> createContextThemeWrapper) &#123;</span><br><span class="line">        <span class="keyword">super</span>(context, createContextThemeWrapper ? resolveDialogTheme(context, themeResId) : <span class="number">0</span>,</span><br><span class="line">                createContextThemeWrapper);</span><br><span class="line"></span><br><span class="line">        mWindow.alwaysReadCloseOnTouchAttr();</span><br><span class="line">        mAlert = AlertController.create(getContext(), <span class="keyword">this</span>, getWindow());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="meta">@StyleRes</span> <span class="function"><span class="keyword">int</span> <span class="title">resolveDialogTheme</span><span class="params">(Context context, @StyleRes <span class="keyword">int</span> themeResId)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (themeResId == THEME_TRADITIONAL) &#123;</span><br><span class="line">            <span class="keyword">return</span> R.style.Theme_Dialog_Alert;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (themeResId == THEME_HOLO_DARK) &#123;</span><br><span class="line">            <span class="keyword">return</span> R.style.Theme_Holo_Dialog_Alert;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (themeResId == THEME_HOLO_LIGHT) &#123;</span><br><span class="line">            <span class="keyword">return</span> R.style.Theme_Holo_Light_Dialog_Alert;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (themeResId == THEME_DEVICE_DEFAULT_DARK) &#123;</span><br><span class="line">            <span class="keyword">return</span> R.style.Theme_DeviceDefault_Dialog_Alert;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (themeResId == THEME_DEVICE_DEFAULT_LIGHT) &#123;</span><br><span class="line">            <span class="keyword">return</span> R.style.Theme_DeviceDefault_Light_Dialog_Alert;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (ResourceId.isValid(themeResId)) &#123;</span><br><span class="line">            <span class="comment">// start of real resource IDs.</span></span><br><span class="line">            <span class="keyword">return</span> themeResId;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">final</span> TypedValue outValue = <span class="keyword">new</span> TypedValue();</span><br><span class="line">            context.getTheme().resolveAttribute(R.attr.alertDialogTheme, outValue, <span class="keyword">true</span>);</span><br><span class="line">            <span class="keyword">return</span> outValue.resourceId;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">//实际上调用的是 mAlert 的 setTitle 方法</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setTitle</span><span class="params">(CharSequence title)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.setTitle(title);</span><br><span class="line">        mAlert.setTitle(title);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@see</span> Builder#setCustomTitle(View)</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     *   //实际上调用的是 mAlert 的 setCustomTitle 方法</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setCustomTitle</span><span class="params">(View customTitleView)</span> </span>&#123;</span><br><span class="line">        mAlert.setCustomTitle(customTitleView);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 实际上调用的 mAlert 的 setMessage 方法</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> message</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setMessage</span><span class="params">(CharSequence message)</span> </span>&#123;</span><br><span class="line">        mAlert.setMessage(message);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//    ################################ BUilder 为 AlertDialog 构建的内部类 ##############################################</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Builder</span> </span>&#123;</span><br><span class="line">        <span class="comment">//存储 AlertDialog 的各个参数，如果 title,message,icon</span></span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">final</span> AlertController.AlertParams P;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">Builder</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">this</span>(context, resolveDialogTheme(context, ResourceId.ID_NULL));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">Builder</span><span class="params">(Context context, <span class="keyword">int</span> themeResId)</span> </span>&#123;</span><br><span class="line">            P = <span class="keyword">new</span> AlertController.AlertParams(<span class="keyword">new</span> ContextThemeWrapper(</span><br><span class="line">                    context, resolveDialogTheme(context, themeResId)));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         *  设置标签头部提示</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> Builder <span class="title">setTitle</span><span class="params">(@StringRes <span class="keyword">int</span> titleId)</span> </span>&#123;</span><br><span class="line">            P.mTitle = P.mContext.getText(titleId);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">	</span><br><span class="line">      ..... 其它属性先省略 代码都大同小异 看懂一个就基本懂了</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * Creates an &#123;<span class="doctag">@link</span> AlertDialog&#125; with the arguments supplied to this</span></span><br><span class="line"><span class="comment">         * builder.</span></span><br><span class="line"><span class="comment">         * </span></span><br><span class="line"><span class="comment">         * 这里才是真正构建 AlertDialog 的地方，通过 Builder 来构建出来的数据 p 传递参数</span></span><br><span class="line"><span class="comment">         * &lt;p&gt; </span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> AlertDialog <span class="title">create</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="comment">//实例化 AlertDialog 传参</span></span><br><span class="line">            <span class="keyword">final</span> AlertDialog dialog = <span class="keyword">new</span> AlertDialog(P.mContext, <span class="number">0</span>, <span class="keyword">false</span>);</span><br><span class="line">            <span class="comment">//将 p 中的参数应用到 dialog 中的 mAlert 对象中</span></span><br><span class="line">            P.apply(dialog.mAlert);</span><br><span class="line">            dialog.setCancelable(P.mCancelable);</span><br><span class="line">            <span class="keyword">if</span> (P.mCancelable) &#123;</span><br><span class="line">                dialog.setCanceledOnTouchOutside(<span class="keyword">true</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            dialog.setOnCancelListener(P.mOnCancelListener);</span><br><span class="line">            dialog.setOnDismissListener(P.mOnDismissListener);</span><br><span class="line">            <span class="keyword">if</span> (P.mOnKeyListener != <span class="keyword">null</span>) &#123;</span><br><span class="line">                dialog.setOnKeyListener(P.mOnKeyListener);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> dialog;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">  ...</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上述代码中，Builder 类可以设置 AlertDialog 中的 title , message , buttom 等参数，这些参数都存储在 Builder 成员变量 p 中，p 中包含了与 AlertDialog 视图中对应的成员变量。在调用 Builder 类的 create 函数时，此时才真正的创建 AlertDialog,并且将 Builder p 保存的参数交于 AlertDialog mAlert 对象中，既 p.apply(mAlert);我们可以看下 apply 源码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">       <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">apply</span><span class="params">(AlertController dialog)</span> </span>&#123;</span><br><span class="line">           <span class="keyword">if</span> (mCustomTitleView != <span class="keyword">null</span>) &#123;</span><br><span class="line">               dialog.setCustomTitle(mCustomTitleView);</span><br><span class="line">           &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">               <span class="keyword">if</span> (mTitle != <span class="keyword">null</span>) &#123;</span><br><span class="line">                   dialog.setTitle(mTitle);</span><br><span class="line">               &#125;</span><br><span class="line">               <span class="keyword">if</span> (mIcon != <span class="keyword">null</span>) &#123;</span><br><span class="line">                   dialog.setIcon(mIcon);</span><br><span class="line">               &#125;</span><br><span class="line">               <span class="keyword">if</span> (mIconId != <span class="number">0</span>) &#123;</span><br><span class="line">                   dialog.setIcon(mIconId);</span><br><span class="line">               &#125;</span><br><span class="line">               <span class="keyword">if</span> (mIconAttrId != <span class="number">0</span>) &#123;</span><br><span class="line">                   dialog.setIcon(dialog.getIconAttributeResId(mIconAttrId));</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">         <span class="comment">//赋值</span></span><br><span class="line">           <span class="keyword">if</span> (mMessage != <span class="keyword">null</span>) &#123;</span><br><span class="line">               dialog.setMessage(mMessage);</span><br><span class="line">           &#125;</span><br><span class="line">         </span><br><span class="line">....</span><br><span class="line">  </span><br><span class="line">           <span class="comment">// 如果设置了 ListView 则表示多选列表，此时创建一个 ListView</span></span><br><span class="line">           <span class="keyword">if</span> ((mItems != <span class="keyword">null</span>) || (mCursor != <span class="keyword">null</span>) || (mAdapter != <span class="keyword">null</span>)) &#123;</span><br><span class="line">               createListView(dialog);</span><br><span class="line">           &#125;</span><br><span class="line">           </span><br><span class="line">           <span class="comment">//最后将 mView Dialog 中</span></span><br><span class="line">           <span class="keyword">if</span> (mView != <span class="keyword">null</span>) &#123;</span><br><span class="line">               <span class="keyword">if</span> (mViewSpacingSpecified) &#123;</span><br><span class="line">                   dialog.setView(mView, mViewSpacingLeft, mViewSpacingTop, mViewSpacingRight,</span><br><span class="line">                           mViewSpacingBottom);</span><br><span class="line">               &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                   dialog.setView(mView);</span><br><span class="line">               &#125;</span><br><span class="line">           &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mViewLayoutResId != <span class="number">0</span>) &#123;</span><br><span class="line">               dialog.setView(mViewLayoutResId);</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">       &#125;</span><br></pre></td></tr></table></figure>
+
+<p>在 apply 函数中，只是将 AlertParams 参数设置到 AlertControler 中，当我们调用 show 就能显示对话框了，我们具体来看下 show 的源码实现:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 开始显示 Dialog </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">show</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">//如果已经显示出来了 则返回</span></span><br><span class="line">    <span class="keyword">if</span> (mShowing) &#123;</span><br><span class="line">        <span class="keyword">if</span> (mDecor != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (mWindow.hasFeature(Window.FEATURE_ACTION_BAR)) &#123;</span><br><span class="line">                mWindow.invalidatePanelMenu(Window.FEATURE_ACTION_BAR);</span><br><span class="line">            &#125;</span><br><span class="line">            mDecor.setVisibility(View.VISIBLE);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    mCanceled = <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 1. onCreate 生命周期方法</span></span><br><span class="line">    <span class="keyword">if</span> (!mCreated) &#123;</span><br><span class="line">        dispatchOnCreate(<span class="keyword">null</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">final</span> Configuration config = mContext.getResources().getConfiguration();</span><br><span class="line">        mWindow.getDecorView().dispatchConfigurationChanged(config);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 2. onStart 生命周期方法</span></span><br><span class="line">    onStart();</span><br><span class="line">    <span class="comment">//3. 获取 Window DecorView</span></span><br><span class="line">    mDecor = mWindow.getDecorView();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (mActionBar == <span class="keyword">null</span> &amp;&amp; mWindow.hasFeature(Window.FEATURE_ACTION_BAR)) &#123;</span><br><span class="line">        <span class="keyword">final</span> ApplicationInfo info = mContext.getApplicationInfo();</span><br><span class="line">        mWindow.setDefaultIcon(info.icon);</span><br><span class="line">        mWindow.setDefaultLogo(info.logo);</span><br><span class="line">        mActionBar = <span class="keyword">new</span> WindowDecorActionBar(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//4. 获取布局参数</span></span><br><span class="line">    WindowManager.LayoutParams l = mWindow.getAttributes();</span><br><span class="line">    <span class="keyword">if</span> ((l.softInputMode</span><br><span class="line">            &amp; WindowManager.LayoutParams.SOFT_INPUT_IS_FORWARD_NAVIGATION) == <span class="number">0</span>) &#123;</span><br><span class="line">        WindowManager.LayoutParams nl = <span class="keyword">new</span> WindowManager.LayoutParams();</span><br><span class="line">        nl.copyFrom(l);</span><br><span class="line">        nl.softInputMode |=</span><br><span class="line">                WindowManager.LayoutParams.SOFT_INPUT_IS_FORWARD_NAVIGATION;</span><br><span class="line">        l = nl;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//5. 将 mDecor 添加到 WindowManager 中</span></span><br><span class="line">    mWindowManager.addView(mDecor, l);</span><br><span class="line">    mShowing = <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//通知可以显示了</span></span><br><span class="line">    sendShowMessage();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在 show() 中主要做了如下几个事儿：</p>
+<ol>
+<li>通过dispatchOnCreate 函数调用 AlertDialog 生命周期 onCreate 函数；</li>
+<li>然后在调用 onStart</li>
+<li>最后通过 windowManager 把 Dialog 的 DecorView 添加进去</li>
+</ol>
+<p>那么按照构建，内容视图应该是在生命周期的 onCreate 里面</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        mAlert.installContent();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">installContent</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> contentView = selectContentView();</span><br><span class="line">        <span class="comment">//设置框口内容视图</span></span><br><span class="line">        mWindow.setContentView(contentView);</span><br><span class="line">        <span class="comment">//初始化 AlertDialog 其它子视图的内容</span></span><br><span class="line">        setupView();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>虽然 installContent 代码少，但是及其重要，它调用了 Window 对象的 setContentView, 此处的 setContentView 与 Activity setContentView 中的实现一模一样，都是调用 window 的方法。</p>
+<p>最后 setupView 就是初始化 AlertDialog 布局中各个参数，在调用完该函数之后 Dialog 的视图内容就全部显示完毕了，而这些各区域的视图都属于 mAlertDialogLayout 布局中的子 View ,Window 对象关联了mAlertDialogLayout 的整个布局树，当调用完 setupView 之后整个视图树的数据也就填充完毕，当用户调用 show 函数时， WindowManager 会将 window 对象的 DecorView (也就是 mAlertDialogLayout 对应的视图)添加到用户的窗口上，并且显示出来。到这里 Dialog 就出现在了手机屏幕中。</p>
+<h2 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h2><p>经过简单示例与分析源码中的 Builder 模式，相信大家对建造者模式已经有了一定了解了，现在我们就 Builder 模式来对<a href="https://zhangmiao.cc/posts/6a4629d8.html">ImageLoader 示例</a> 改造。请看改造后的 ImageLoader</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//增加了 Builder 配置类</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * &lt;pre&gt;</span></span><br><span class="line"><span class="comment"> *     author  : devyk on 2019-09-01 19:03</span></span><br><span class="line"><span class="comment"> *     blog    : https://juejin.im/user/578259398ac2470061f3a3fb/posts</span></span><br><span class="line"><span class="comment"> *     github  : https://github.com/yangkun19921001</span></span><br><span class="line"><span class="comment"> *     mailbox : yang1001yk@gmail.com</span></span><br><span class="line"><span class="comment"> *     desc    : This is ImageLoaderConfig</span></span><br><span class="line"><span class="comment"> * &lt;/pre&gt;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ImageLoaderConfig</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 图片缓存对象</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> IImageCache imageCache = <span class="keyword">new</span> MemoryCache();</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 允许最大线程数量</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> threadCount = -<span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 失败显示的图片配置</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> errorIcon = -<span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 图片下载</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> IDownloader downloader = <span class="keyword">new</span> HttpURLConnectionDownloaderImp();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">ImageLoaderConfig</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 配置 Builder</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Builder</span> </span>&#123;</span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 图片缓存对象</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        IImageCache imageCache = <span class="keyword">new</span> MemoryCache();</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 允许最大线程数量</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="keyword">int</span> threadCount = Runtime.getRuntime().availableProcessors() + <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 失败显示的图片配置</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="keyword">int</span> errorIcon = -<span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 图片下载</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        IDownloader downloader = <span class="keyword">new</span> HttpURLConnectionDownloaderImp();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="comment">//设置线程数量</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> Builder <span class="title">setThreadCount</span><span class="params">(<span class="keyword">int</span> threadCount)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.threadCount = threadCount;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//设置缓存</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> Builder <span class="title">setCache</span><span class="params">(IImageCache iImageCache)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.imageCache = iImageCache;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//图片下载</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> Builder <span class="title">setDownLoader</span><span class="params">(IDownloader iDownloader)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.downloader = iDownloader;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//设置显示失败的图片</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> Builder <span class="title">setLoaderErrorIcon</span><span class="params">(<span class="keyword">int</span> icon)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.errorIcon = icon;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">applyConfig</span><span class="params">(ImageLoaderConfig config)</span> </span>&#123;</span><br><span class="line">            config.errorIcon = <span class="keyword">this</span>.errorIcon;</span><br><span class="line">            config.imageCache = <span class="keyword">this</span>.imageCache;</span><br><span class="line">            config.threadCount = <span class="keyword">this</span>.threadCount;</span><br><span class="line">            config.downloader = <span class="keyword">this</span>.downloader;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 根据已经设置好的属性创建配置好对象</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> ImageLoaderConfig <span class="title">create</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            ImageLoaderConfig config = <span class="keyword">new</span> ImageLoaderConfig();</span><br><span class="line">            applyConfig(config);</span><br><span class="line">            <span class="keyword">return</span> config;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过上面代码可以看到 ImageLoader 需要的业务，都可以在 ImageLoaderConfig Builder 配置。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * &lt;pre&gt;</span></span><br><span class="line"><span class="comment"> *     author  : devyk on 2019-08-27 00:11</span></span><br><span class="line"><span class="comment"> *     blog    : https://juejin.im/user/578259398ac2470061f3a3fb/posts</span></span><br><span class="line"><span class="comment"> *     github  : https://github.com/yangkun19921001</span></span><br><span class="line"><span class="comment"> *     mailbox : yang1001yk@gmail.com</span></span><br><span class="line"><span class="comment"> *     desc    : This is ImageLoader</span></span><br><span class="line"><span class="comment"> * &lt;/pre&gt;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ImageLoader</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String TAG = getClass().getSimpleName();</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 默认内存缓存</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> IImageCache mCache;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 图片下载</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> IDownloader mImageDownloader;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 线程池</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> ExecutorService mExecutorService;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 主线程管理</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> Handler mHandler = <span class="keyword">new</span> Handler(Looper.getMainLooper());</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 显示失败的图片</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> mErrorIcon ;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> ImageLoader instance;</span><br><span class="line">    <span class="keyword">private</span> ImageLoaderConfig imageLoaderConfig;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ImageLoader <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (instance == <span class="keyword">null</span>)</span><br><span class="line">            instance = <span class="keyword">new</span> ImageLoader();</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">ImageLoader</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">(ImageLoaderConfig imageLoaderConfig)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.imageLoaderConfig = imageLoaderConfig;</span><br><span class="line">        checkConfig();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">checkConfig</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (imageLoaderConfig == <span class="keyword">null</span>) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (imageLoaderConfig.imageCache == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="comment">//图片缓存</span></span><br><span class="line">            <span class="keyword">this</span>.mCache = <span class="keyword">new</span> MemoryCache();</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">this</span>.mCache = imageLoaderConfig.imageCache;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (imageLoaderConfig.threadCount != -<span class="number">1</span>) &#123;</span><br><span class="line">            <span class="comment">//线程池，线程数据量为 CPU 的数量</span></span><br><span class="line">            <span class="keyword">this</span>.mExecutorService = Executors.newFixedThreadPool(imageLoaderConfig.threadCount);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (imageLoaderConfig.errorIcon != -<span class="number">1</span>)</span><br><span class="line">            <span class="keyword">this</span>.mErrorIcon = imageLoaderConfig.errorIcon;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//图片下载</span></span><br><span class="line">        <span class="keyword">this</span>.mImageDownloader = imageLoaderConfig.downloader;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 加载图片</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">loadImage</span><span class="params">(<span class="keyword">final</span> String url, <span class="keyword">final</span> ImageView imageView)</span> </span>&#123;</span><br><span class="line">        Bitmap bitmap = mCache.get(url);</span><br><span class="line">        <span class="keyword">if</span> (bitmap != <span class="keyword">null</span>) &#123;</span><br><span class="line">            imageView.setImageBitmap(bitmap);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        imageView.setTag(url);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//如果内存缓存中没有图片，就开启网络请求去下载</span></span><br><span class="line">        mExecutorService.submit(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                Bitmap imager = mImageDownloader.downLoader(url);</span><br><span class="line">                <span class="keyword">if</span> (imager == <span class="keyword">null</span>) <span class="keyword">return</span>;</span><br><span class="line">                <span class="keyword">if</span> (imageView.getTag().equals(url)) &#123;</span><br><span class="line">                    displayImage(imager, imageView);</span><br><span class="line">                &#125;</span><br><span class="line">                mCache.put(url, imager);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 显示图片</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> downBitmap</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> imageView</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">displayImage</span><span class="params">(<span class="keyword">final</span> Bitmap downBitmap, <span class="keyword">final</span> ImageView imageView)</span> </span>&#123;</span><br><span class="line">        mHandler.post(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                Log.i(TAG, <span class="string">"下载图片"</span>);</span><br><span class="line">                imageView.setImageBitmap(downBitmap);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 初始化配置</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">config</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ImageLoaderConfig config = <span class="keyword">new</span> ImageLoaderConfig.Builder()</span><br><span class="line">            .setCache(<span class="keyword">new</span> DoubleCache(getApplicationContext()))</span><br><span class="line">            .setLoaderErrorIcon(R.drawable.ic_launcher_background)</span><br><span class="line">            .setThreadCount(<span class="number">10</span>)</span><br><span class="line">            .setDownLoader(<span class="keyword">new</span> HttpURLConnectionDownloaderImp())</span><br><span class="line">            .create();</span><br><span class="line">    ImageLoader.getInstance().init(config);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过配置之后就可以正常使用了，各种 setter 函数不会再用户调用 ImageLoader 方法时出现在视野中，它已经被隔离到了 Builder 模式中。清晰、简单的 API 也是一个开源库必须要保证的地方。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Builder 模式在 Android 源码，开源库（Okhttp…）等常用，将配置的构建和表示分离开来，同时也是将配置从目标类中隔离出来，避免过多的 setter,Builder 模式比较常见的实现形式就是链式调用，这样使得代码更加简洁，易懂。</p>
+<p>优点：</p>
+<ol>
+<li>良好的封装性，使用建造者模式可以是客服端不必知道产品内部组成细节。</li>
+<li>独立，易扩展。</li>
+</ol>
+<p>缺点：</p>
+<ol>
+<li>会产生多余的 Builder 对象，消耗内存。</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="ZhangMiao 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="ZhangMiao 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    ZhangMiao
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://zhangmiao.cc/posts/8bd761ec.html" title="设计模式二之建造者模式">https://zhangmiao.cc/posts/8bd761ec.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+            <a href="/tags/Java/" rel="tag"># Java</a>
+          
+            <a href="/tags/设计模式/" rel="tag"># 设计模式</a>
+          
+            <a href="/tags/建造者模式/" rel="tag"># 建造者模式</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/ed2ac199.html" rel="next" title="设计模式一之单列模式">
+                <i class="fa fa-chevron-left"></i> 设计模式一之单列模式
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/posts/7a86e223.html" rel="prev" title="设计模式三之原型模式">
+                设计模式三之原型模式 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4" alt="ZhangMiao">
+            
+              <p class="site-author-name" itemprop="name">ZhangMiao</p>
+              <p class="site-description motion-element" itemprop="description">Android/Flutter Developer</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">373</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">58</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">143</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:zm@zhangmiao.cc" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://wpa.qq.com/msgrd?v=3&uin=153942241&site=qq&menu=yes" target="_blank" title="QQ">
+                      
+                        <i class="fa fa-fw fa-qq"></i>QQ</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/zhangmiaocc" target="_blank" title="Github">
+                      
+                        <i class="fa fa-fw fa-github"></i>Github</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://stackoverflow.com" target="_blank" title="StackOverflow">
+                      
+                        <i class="fa fa-fw fa-stack-overflow"></i>StackOverflow</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://blog.constore.cn/" title="Liujianhui" target="_blank">Liujianhui</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://xuebin.me" title="Leo" target="_blank">Leo</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.csdn.net/lmj623565791" title="Hongyang" target="_blank">Hongyang</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://liuwangshu.cn/" title="Liuwangshu" target="_blank">Liuwangshu</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://jspang.com/" title="Jspang" target="_blank">Jspang</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blankj.com/" title="Blankj" target="_blank">Blankj</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://wuxiaolong.me/" title="WuXiaoLong" target="_blank">WuXiaoLong</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://molunerfinn.com" title="Molunerfinn" target="_blank">Molunerfinn</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.ofind.cn/" title="Ofind" target="_blank">Ofind</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.gcssloop.com/" title="Gcssloop" target="_blank">Gcssloop</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#介绍"><span class="nav-number">1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#定义"><span class="nav-number">2.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用场景"><span class="nav-number">3.</span> <span class="nav-text">使用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#简单代码示例"><span class="nav-number">4.</span> <span class="nav-text">简单代码示例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Android-源码中-AlertDialog-的-Builder-模式全面解析"><span class="nav-number">5.</span> <span class="nav-text">Android 源码中 AlertDialog 的 Builder 模式全面解析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实战"><span class="nav-number">6.</span> <span class="nav-text">实战</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">7.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZhangMiao</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      本站访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+  <div>
+    <script type="text/javascript">
+      var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");
+      document.write(unescape("%3Cspan id='cnzz_stat_icon_1277928793'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1277928793%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+  </div>
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://zhangmiao.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://zhangmiao.cc/posts/8bd761ec.html';
+          this.page.identifier = 'posts/8bd761ec.html';
+          this.page.title = '设计模式二之建造者模式';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://zhangmiao.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("8iIYW0IGofqyvJiiuU5R9buW-gzGzoHsz", "ssmxRx0kELJir6mA02ziW3Ql");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/lib/zclip/clipboard.min.js"></script>
+<script type="text/javascript" src="/js/src/custom.js"></script>
+
+</body>
+</html>

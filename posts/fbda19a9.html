@@ -1,0 +1,1538 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Android,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="zm.blog" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="我们知道，多线程是Android开发中必现的场景，很多原生API和开源项目都有多线程的内容，这里简单总结和探讨一下常见的多线程切换方式。我们先回顾一下Java多线程的几个基础内容，然后再分析总结一些经典代码中对于线程切换的实现方式。 几点基础多线程切换，大概可以切分为这样几个内容：如何开启多个线程，如何定义每个线程的任务，如何在线程之间互相通信。 ThreadThread可以解决开启多个线程的问题">
+<meta name="keywords" content="Android">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android中多线程切换的几种方法">
+<meta property="og:url" content="https://zhangmiao.cc/posts/fbda19a9.html">
+<meta property="og:site_name" content="zm.blog">
+<meta property="og:description" content="我们知道，多线程是Android开发中必现的场景，很多原生API和开源项目都有多线程的内容，这里简单总结和探讨一下常见的多线程切换方式。我们先回顾一下Java多线程的几个基础内容，然后再分析总结一些经典代码中对于线程切换的实现方式。 几点基础多线程切换，大概可以切分为这样几个内容：如何开启多个线程，如何定义每个线程的任务，如何在线程之间互相通信。 ThreadThread可以解决开启多个线程的问题">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2021-12-24T02:05:29.918Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android中多线程切换的几种方法">
+<meta name="twitter:description" content="我们知道，多线程是Android开发中必现的场景，很多原生API和开源项目都有多线程的内容，这里简单总结和探讨一下常见的多线程切换方式。我们先回顾一下Java多线程的几个基础内容，然后再分析总结一些经典代码中对于线程切换的实现方式。 几点基础多线程切换，大概可以切分为这样几个内容：如何开启多个线程，如何定义每个线程的任务，如何在线程之间互相通信。 ThreadThread可以解决开启多个线程的问题">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://zhangmiao.cc/posts/fbda19a9.html">
+
+
+
+
+
+  <title>Android中多线程切换的几种方法 | zm.blog</title>
+  
+
+
+
+
+
+  <script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?44434226ba535875b1e807122adc3a04";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zm.blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">select * from learn</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhangmiao.cc/posts/fbda19a9.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZhangMiao">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zm.blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Android中多线程切换的几种方法</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-22T22:26:54+08:00">
+                2018-07-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/代码片段/" itemprop="url" rel="index">
+                    <span itemprop="name">代码片段</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/posts/fbda19a9.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="posts/fbda19a9.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/posts/fbda19a9.html" class="leancloud_visitors" data-flag-title="Android中多线程切换的几种方法">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>我们知道，多线程是Android开发中必现的场景，很多原生API和开源项目都有多线程的内容，这里简单总结和探讨一下常见的多线程切换方式。<br>我们先回顾一下Java多线程的几个基础内容，然后再分析总结一些经典代码中对于线程切换的实现方式。</p>
+<h4 id="几点基础"><a href="#几点基础" class="headerlink" title="几点基础"></a>几点基础</h4><p>多线程切换，大概可以切分为这样几个内容：如何开启多个线程，如何定义每个线程的任务，如何在线程之间互相通信。</p>
+<p><strong>Thread</strong><br>Thread可以解决开启多个线程的问题。<br>Thread是Java中实现多线程的线程类，每个Thread对象都可以启动一个新的线程，注意是可以启动，也可以不启动新线程：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">thread.run();<span class="comment">//不启动新线程，在当前线程执行</span></span><br><span class="line">thread.start();<span class="comment">//启动新线程。</span></span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+<p>另外就是Thread存在线程优先级问题，如果为Thread设置较高的线程优先级，就有机会获得更多的CPU资源，注意这里也是有机会，优先级高的Thread不是必然会先于其他Thread执行，只是系统会倾向于给它分配更多的CPU。<br>默认情况下，新建的Thread和当前Thread的线程优先级一致。<br>设置线程优先级有两种方式：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">thread.setPriority(Thread.MAX_PRIORITY);<span class="comment">//1~10，通过线程设置</span></span><br><span class="line">Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);<span class="comment">//-20~19，通过进程设置</span></span><br></pre></td></tr></table></figure>
+
+<p>这两种设置方式是相对独立的，在Android中，一般建议通过Process进程设置优先级。</p>
+<p><strong>ThreadPool</strong><br>Thread本身是需要占用内存的，开启/销毁过量的工作线程会造成过量的资源损耗，这种场景我们一般会通过对资源的复用来进行优化，针对IO资源我们会做IO复用（例如Http的KeepAlive），针对内存我们会做内存池复用（例如Fresco的内存池），针对CPU资源，我们一般会做线程复用，也就是线程池。<br>所以，在Android开发中，一般不会直接开启大量的Thread，而是会使用ThreadPool来复用线程。</p>
+<p><strong>Runnable</strong><br>Runnable主要解决如何定义每个线程的工作任务的问题。<br>Runnable是Java中实现多线程的接口，相对Thread而言，Runnable接口更容易扩展（不需要单继承），而且，Thread本身也是一种Runnable：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Thread</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br></pre></td></tr></table></figure>
+
+<p>相比Thread而言，Runnable不关注如何调度线程，只关心如何定义要执行的工作任务，所以在实际开发中，多使用Runnable接口完成多线程开发。</p>
+<p><strong>Callable</strong><br>Callable和Runnable基本类似，但是Callable可以返回执行结果。</p>
+<p><strong>线程间通信</strong><br>Thread和Runnable能实现切换到另一个线程工作（Runnable需要额外指派工作线程），但它们完成任务后就会退出，并不注重如何在线程间实现通信，所以切换线程时，还需要在线程间通信，这就需要一些线程间通信机制。</p>
+<p><strong>Future</strong><br>一般来说，如果要做简单的通信，我们最常用的是通过接口回调来实现。<br>Future就是这样一种接口，它可以部分地解决线程通信的问题，Future接口定义了done、canceled等回调函数，当工作线程的任务完成时，它会（在工作线程中）通过回调告知我们，我们再采用其他手段通知其他线程。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mFuture = <span class="keyword">new</span> FutureTask&lt;MyBizClass&gt;(runnable) &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">done</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        ...<span class="comment">//还是在工作线程里</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><strong>Condition</strong><br>Condition其实是和Lock一起使用的，但如果把它视为一种线程间通信的工具，也说的通。<br>因为，Condition本身定位就是一种多线程间协调通信的工具，Condition可以在某些条件下，唤醒等待线程。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"> Lock lock = <span class="keyword">new</span> ReentrantLock();</span><br><span class="line"> Condition notFull  = lock.newCondition(); <span class="comment">//定义Lock的Condition</span></span><br><span class="line">...</span><br><span class="line">   <span class="keyword">while</span> (count == items.length)</span><br><span class="line">                notFull.await();<span class="comment">//等待condition的状态</span></span><br><span class="line">...</span><br><span class="line">   notFull.signal();<span class="comment">//达到condition的状态</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>Handler</strong><br>其实，最完整的线程间通信机制，也是我们最熟悉的线程间通信机制，莫过于Handler通信机制，Handler利用线程封闭的ThreadLocal维持一个消息队列，Handler的核心是通过这个消息队列来传递Message，从而实现线程间通信。</p>
+<h4 id="AsyncTask的多线程切换"><a href="#AsyncTask的多线程切换" class="headerlink" title="AsyncTask的多线程切换"></a>AsyncTask的多线程切换</h4><p>回顾完多线程的几个基础概念，先来看看简单的多线程切换，Android自带的AsyncTask。<br>AsyncTask主要在doInBackground函数中定义工作线程的工作内容，在其他函数中定义主线程的工作内容，例如onPostExecute，这里面必然涉及两个问题：<br>1.如何实现把doInBackground抛给工作线程<br>2.如何实现把onPostExecute抛给主线程<br>其实非常简单，我们先看第一个</p>
+<p><strong>1.如何实现把doInBackground抛给工作线程</strong><br>在使用AsyncTask时，我们一般会创建一个基于AsyncTask的扩展类或匿名类，在其中实现几个抽象函数，例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">MyTask</span> <span class="keyword">extends</span> <span class="title">AsyncTask</span>&lt;<span class="title">String</span>, <span class="title">Object</span>, <span class="title">Long</span>&gt; </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onPreExecute</span><span class="params">()</span> </span>&#123;... &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> Long <span class="title">doInBackground</span><span class="params">(String... params)</span> </span>&#123;... &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onProgressUpdate</span><span class="params">(Object... values)</span> </span>&#123;... &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onPostExecute</span><span class="params">(Long aLong)</span> </span>&#123;... &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCancelled</span><span class="params">()</span> </span>&#123;... &#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后，我们会实例化这个AsyncTask：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MyTask mTask = <span class="keyword">new</span> MyTask();</span><br></pre></td></tr></table></figure>
+
+<p>在AsyncTask源码中，我们看到，构造函数里会创建一个WorkerRunnable：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">AsyncTask</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    mWorker = <span class="keyword">new</span> WorkerRunnable&lt;Params, Result&gt;() &#123;<span class="comment">//这是一个Callable</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> Result <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">            ...</span><br><span class="line">                result = doInBackground(mParams);<span class="comment">//在工作线程中执行</span></span><br><span class="line">                ...</span><br></pre></td></tr></table></figure>
+
+<p>WorkerRunnable实际上是一个Callable对象，所以，doInBackground是被包在一个Callable对象中了，这个Callable还会被继续包装，最终被交给一个线程池去执行：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Runnable mActive;</span><br><span class="line">...</span><br><span class="line"><span class="keyword">if</span> ((mActive = mTasks.poll()) != <span class="keyword">null</span>) &#123;</span><br><span class="line">    THREAD_POOL_EXECUTOR.execute(mActive);<span class="comment">//交给线程池执行</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>梳理一下，大致过程为：<br>定义doInBackground–&gt;被一个Callable调用–&gt;层层包为一个Runnable–&gt;交给线程池执行。<br>这样就解决了第一个问题，如何实现把doInBackground抛给工作线程。<br>我们再来看第二个问题。</p>
+<p><strong>2.如何实现把onPostExecute抛给主线程</strong><br>首先，我们要知道工作任务何时执行完毕，就需要在工作完成时触发一个接口回调，也就是前面说过的Future，还是看AsyncTask源码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">AsyncTask</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        mWorker = <span class="keyword">new</span> WorkerRunnable&lt;Params, Result&gt;() &#123;</span><br><span class="line">            <span class="function"><span class="keyword">public</span> Result <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">                ...</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        mFuture = <span class="keyword">new</span> FutureTask&lt;Result&gt;(mWorker) &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">done</span><span class="params">()</span> </span>&#123;<span class="comment">//Future的回调</span></span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    postResultIfNotInvoked(get());<span class="comment">//get()是FutureTask接口函数</span></span><br><span class="line">                ...</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样，我们就知道可以处理onPostExecute函数了，但是，我们还需要把它抛给主线程，主要源码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//mWorker、mFuture和都会指向postResult函数</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> Result <span class="title">postResult</span><span class="params">(Result result)</span> </span>&#123;</span><br><span class="line">    <span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</span><br><span class="line">    Message message = getHandler().obtainMessage(MESSAGE_POST_RESULT,</span><br><span class="line">            <span class="keyword">new</span> AsyncTaskResult&lt;Result&gt;(<span class="keyword">this</span>, result));</span><br><span class="line">    message.sendToTarget();</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//getHandler()会指向InternalHandler</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">InternalHandler</span> <span class="keyword">extends</span> <span class="title">Handler</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">InternalHandler</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(Looper.getMainLooper());<span class="comment">//指向MainLooper</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@SuppressWarnings</span>(&#123;<span class="string">"unchecked"</span>, <span class="string">"RawUseOfParameterizedType"</span>&#125;)</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleMessage</span><span class="params">(Message msg)</span> </span>&#123;</span><br><span class="line">        AsyncTaskResult&lt;?&gt; result = (AsyncTaskResult&lt;?&gt;) msg.obj;</span><br><span class="line">        <span class="keyword">switch</span> (msg.what) &#123;</span><br><span class="line">            <span class="keyword">case</span> MESSAGE_POST_RESULT:</span><br><span class="line">                <span class="comment">// There is only one result</span></span><br><span class="line">                result.mTask.finish(result.mData[<span class="number">0</span>]);<span class="comment">//通过handler机制，回到主线程，调用finish函数</span></span><br><span class="line">   ...</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//在Handler中，最终会在主线程中调用finish</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">finish</span><span class="params">(Result result)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (isCancelled()) &#123;</span><br><span class="line">        onCancelled(result);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        onPostExecute(result);<span class="comment">//调用onPostExecute接口函数</span></span><br><span class="line">    &#125;</span><br><span class="line">    mStatus = Status.FINISHED;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>从源码可以看到，其实AsyncTask还是通过Handler机制，把任务抛给了主线程。</p>
+<p>总体来说，AsyncTask的多线程任务是通过线程池实现的工作线程，在完成任务后利用Future的done回调来通知任务完成，并通过handler机制通知主线程去执行onPostExecute等回调函数。</p>
+<h4 id="EventBus的多线程切换"><a href="#EventBus的多线程切换" class="headerlink" title="EventBus的多线程切换"></a>EventBus的多线程切换</h4><p>EventBus会为每个订阅事件注册一个目标线程，所以需要从发布事件的线程中，根据注册信息，实时切换到目标线程中，所以，这是个很典型的多线程切换场景。<br>根据EventBus源码，多线程切换的主要判断代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">switch</span> (subscription.subscriberMethod.threadMode) &#123;</span><br><span class="line">    <span class="keyword">case</span> POSTING:</span><br><span class="line">        invokeSubscriber(subscription, event);<span class="comment">//直接在当前线程执行</span></span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> MAIN:</span><br><span class="line">        <span class="keyword">if</span> (isMainThread) &#123;</span><br><span class="line">            invokeSubscriber(subscription, event);<span class="comment">//在当前主线程执行</span></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            mainThreadPoster.enqueue(subscription, event);<span class="comment">//当然不是主线程，交给主线程执行</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> BACKGROUND:</span><br><span class="line">        <span class="keyword">if</span> (isMainThread) &#123;</span><br><span class="line">            backgroundPoster.enqueue(subscription, event);<span class="comment">//当前线程为主线程，交给工作线程</span></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            invokeSubscriber(subscription, event);<span class="comment">//直接在当前工作线程执行</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> ASYNC:</span><br><span class="line">        asyncPoster.enqueue(subscription, event);<span class="comment">//异步执行</span></span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">"Unknown thread mode: "</span> + subscription.subscriberMethod.threadMode);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>所以，在EventBus里，如果需要做线程间切换，主要是抛给不同的任务队列，实现线程间切换。<br>从任务队列判断，切换目标包括主线程Poster、backgroundPoster和asyncPoster这样三种。<br>我们先看任务队列的设计：</p>
+<p><strong>任务队列</strong><br>因为EventBus不能判断有哪些任务会并行，所以它采用了队列的设计，多线程任务（EventBus的事件）会先进入队列，然后再处理队列中的工作任务，这是典型的生产–消费场景。<br>主线程Poster、backgroundPoster和asyncPoster都是任务队列的不同实现。</p>
+<p><strong>主线程Poster</strong><br>负责处理主线程的mainThreadPoster是Handler的子类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">HandlerPoster</span> <span class="keyword">extends</span> <span class="title">Handler</span> </span>&#123;</span><br><span class="line">...</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">enqueue</span><span class="params">(Subscription subscription, Object event)</span> </span>&#123;</span><br><span class="line">        ...</span><br><span class="line">        <span class="keyword">synchronized</span> (<span class="keyword">this</span>) &#123;<span class="comment">//因为主线程只有一个，需要线程安全</span></span><br><span class="line">            queue.enqueue(pendingPost);</span><br><span class="line">            ...</span><br><span class="line">                <span class="keyword">if</span> (!sendMessage(obtainMessage())) &#123;<span class="comment">//作为handler发送消息</span></span><br><span class="line">                 ...</span><br><span class="line">    <span class="comment">//在主线程中处理消息</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleMessage</span><span class="params">(Message msg)</span> </span>&#123;</span><br><span class="line">         ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>从源码可以看出，这个Poster其实是一个Handler，它采用了哪个线程的消息队列，就决定了它能和哪个线程通信，我们确认一下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">EventBus(EventBusBuilder builder) &#123;</span><br><span class="line">     ...</span><br><span class="line">     mainThreadPoster = <span class="keyword">new</span> HandlerPoster(<span class="keyword">this</span>, Looper.getMainLooper(), <span class="number">10</span>);<span class="comment">//获取主线程的MainLooper</span></span><br></pre></td></tr></table></figure>
+
+<p>所以，EventBus是扩展了一个Handler，作为主线程的Handler，通过Handler消息机制实现的多线程切换。<br>当然，这个Handler本事，又多了一层queue。</p>
+<p><strong>backgroundPoster和asyncPoster</strong><br>backgroundPoster和asyncPoster其实都是使用了EventBus的线程池，默认是个缓存线程池：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> ExecutorService DEFAULT_EXECUTOR_SERVICE = Executors.newCachedThreadPool();</span><br></pre></td></tr></table></figure>
+
+<p>所以，backgroundPoster和asyncPoster都是把任务交给线程池处理，这样实现的多线程切换。<br>不过，backgroundPoster和asyncPoster也有一些不同，我们知道，在newCachedThreadPool中，最大线程数就是Integer的最大值，相当于不设上限，所以可以尽可能多的启动线程，asyncPoster就是这样做的，enqueu和run都没做同步，为每个事件单独开启新线程处理。<br>而在backgroundPoster中，可以尽量复用线程，主要方法是在run的时候，做个1秒的等待：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public void run() &#123; </span><br><span class="line">    ...</span><br><span class="line">    PendingPost pendingPost = queue.poll(1000);//允许等待1秒</span><br></pre></td></tr></table></figure>
+
+<p>因为做了这一秒的挂起等待，在enqueue和run时，都需要用synchronized (this) 来确保线程安全。</p>
+<p>另外，其实这里面还有个很重要的用法，就是Executors.newCachedThreadPool()中的SynchronousQueue：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ExecutorService <span class="title">newCachedThreadPool</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> ThreadPoolExecutor(<span class="number">0</span>, Integer.MAX_VALUE,</span><br><span class="line">                                  <span class="number">60L</span>, TimeUnit.SECONDS,</span><br><span class="line">                                  <span class="keyword">new</span> SynchronousQueue&lt;Runnable&gt;());<span class="comment">//用于辅助线程切换的阻塞队列</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个SynchronousQueue，在OkHttp中也使用了：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//okhttp3.Dispatcher源码</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> ExecutorService <span class="title">executorService</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (executorService == <span class="keyword">null</span>) &#123;</span><br><span class="line">    executorService = <span class="keyword">new</span> ThreadPoolExecutor(<span class="number">0</span>, Integer.MAX_VALUE, <span class="number">60</span>, TimeUnit.SECONDS,</span><br><span class="line">        <span class="keyword">new</span> SynchronousQueue&lt;Runnable&gt;(), Util.threadFactory(<span class="string">"OkHttp Dispatcher"</span>, <span class="keyword">false</span>));<span class="comment">//用于辅助线程切换的阻塞队列</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> executorService;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>SynchronousQueue与普通队列不同，不是数据等线程，而是线程等数据，这样每次向SynchronousQueue里传入数据时，都会立即交给一个线程执行，这样可以提高数据得到处理的速度。</p>
+<p>总的来看，EventBus还是采用线程池实现工作线程，采用handler机制通知到主线程。不同在于，它采用的queue的队列方式来管理所有的跨线程请求，而且它利用了SynchronousQueue阻塞队列来辅助实现线程切换。</p>
+<h4 id="RxJava的多线程切换"><a href="#RxJava的多线程切换" class="headerlink" title="RxJava的多线程切换"></a>RxJava的多线程切换</h4><p>其实在多线程管理这方面，RxJava的线程管理能力是非常令人赞叹的。<br>RxJava的主要概念是工作流，它可以把一序列工作流定义在一个线程类型上：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">myWorkFlow.getActResponse(myParam)</span><br><span class="line">                .subscribeOn(Schedulers.io())<span class="comment">//指定线程</span></span><br><span class="line">                .xxx<span class="comment">//其他操作</span></span><br></pre></td></tr></table></figure>
+
+<p>这个构建工作流的过程其实挺复杂的，不过如果我们只看线程操作这部分，其实流程非常清晰，我们追踪一下subscribeOn的源码（RxJava2）：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//进入subscribeOn</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> Flowable&lt;T&gt; <span class="title">subscribeOn</span><span class="params">(@NonNull Scheduler scheduler)</span> </span>&#123;</span><br><span class="line">    ObjectHelper.requireNonNull(scheduler, <span class="string">"scheduler is null"</span>);</span><br><span class="line">    <span class="keyword">return</span> subscribeOn(scheduler, !(<span class="keyword">this</span> <span class="keyword">instanceof</span> FlowableCreate));</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//继续进入subscribeOn</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> Flowable&lt;T&gt; <span class="title">subscribeOn</span><span class="params">(@NonNull Scheduler scheduler, <span class="keyword">boolean</span> requestOn)</span> </span>&#123;</span><br><span class="line">    ObjectHelper.requireNonNull(scheduler, <span class="string">"scheduler is null"</span>);</span><br><span class="line">    <span class="keyword">return</span> RxJavaPlugins.onAssembly(<span class="keyword">new</span> FlowableSubscribeOn&lt;T&gt;(<span class="keyword">this</span>, scheduler, requestOn));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后，进入FlowableSubscribeOn类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//进入FlowableSubscribeOn类</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">FlowableSubscribeOn</span><span class="params">(Flowable&lt;T&gt; source, Scheduler scheduler, <span class="keyword">boolean</span> nonScheduledRequests)</span> </span>&#123;</span><br><span class="line">   ...</span><br><span class="line">    <span class="keyword">this</span>.scheduler = scheduler;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">subscribeActual</span><span class="params">(<span class="keyword">final</span> Subscriber&lt;? <span class="keyword">super</span> T&gt; s)</span> </span>&#123;</span><br><span class="line">    Scheduler.Worker w = scheduler.createWorker();<span class="comment">//根据参数值，如Schedulers.io()创建worker</span></span><br><span class="line">    <span class="keyword">final</span> SubscribeOnSubscriber&lt;T&gt; sos = <span class="keyword">new</span> SubscribeOnSubscriber&lt;T&gt;(s, w, source, nonScheduledRequests);<span class="comment">//根据worker创建SubscribeOnSubscriber</span></span><br><span class="line">    s.onSubscribe(sos);</span><br><span class="line">    w.schedule(sos);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个SubscribeOnSubscriber是个内部类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">        SubscribeOnSubscriber(Subscriber&lt;? <span class="keyword">super</span> T&gt; actual, Scheduler.Worker worker, Publisher&lt;T&gt; source, <span class="keyword">boolean</span> requestOn) &#123;</span><br><span class="line">            ...</span><br><span class="line">            <span class="keyword">this</span>.worker = worker;</span><br><span class="line">            ...</span><br><span class="line">          &#125;</span><br><span class="line">...</span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">requestUpstream</span><span class="params">(<span class="keyword">final</span> <span class="keyword">long</span> n, <span class="keyword">final</span> Subscription s)</span> </span>&#123;</span><br><span class="line">            ...</span><br><span class="line">                worker.schedule(<span class="keyword">new</span> Request(s, n));<span class="comment">//worker会安排如何执行runnable（Request是一个runnable）</span></span><br><span class="line">            ...</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+
+<p>而这个worker，其实就是我们输入的线程参数，如Schedulers.io()，这个io是这样定义的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//io.reactivex.schedulers.Schedulers源码</span></span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        SINGLE = RxJavaPlugins.initSingleScheduler(<span class="keyword">new</span> SingleTask());</span><br><span class="line"></span><br><span class="line">        COMPUTATION = RxJavaPlugins.initComputationScheduler(<span class="keyword">new</span> ComputationTask());</span><br><span class="line"></span><br><span class="line">        IO = RxJavaPlugins.initIoScheduler(<span class="keyword">new</span> IOTask());</span><br><span class="line"></span><br><span class="line">        TRAMPOLINE = TrampolineScheduler.instance();</span><br><span class="line"></span><br><span class="line">        NEW_THREAD = RxJavaPlugins.initNewThreadScheduler(<span class="keyword">new</span> NewThreadTask());</span><br><span class="line">    &#125;</span><br><span class="line">...</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">IOTask</span> <span class="keyword">implements</span> <span class="title">Callable</span>&lt;<span class="title">Scheduler</span>&gt; </span>&#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> Scheduler <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> IoHolder.DEFAULT;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">NewThreadTask</span> <span class="keyword">implements</span> <span class="title">Callable</span>&lt;<span class="title">Scheduler</span>&gt; </span>&#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> Scheduler <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> NewThreadHolder.DEFAULT;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">SingleTask</span> <span class="keyword">implements</span> <span class="title">Callable</span>&lt;<span class="title">Scheduler</span>&gt; </span>&#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> Scheduler <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> SingleHolder.DEFAULT;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">ComputationTask</span> <span class="keyword">implements</span> <span class="title">Callable</span>&lt;<span class="title">Scheduler</span>&gt; </span>&#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> Scheduler <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> ComputationHolder.DEFAULT;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">...</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">SingleHolder</span> </span>&#123;</span><br><span class="line">        <span class="keyword">static</span> <span class="keyword">final</span> Scheduler DEFAULT = <span class="keyword">new</span> SingleScheduler();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">ComputationHolder</span> </span>&#123;</span><br><span class="line">        <span class="keyword">static</span> <span class="keyword">final</span> Scheduler DEFAULT = <span class="keyword">new</span> ComputationScheduler();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">IoHolder</span> </span>&#123;</span><br><span class="line">        <span class="keyword">static</span> <span class="keyword">final</span> Scheduler DEFAULT = <span class="keyword">new</span> IoScheduler();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">NewThreadHolder</span> </span>&#123;</span><br><span class="line">        <span class="keyword">static</span> <span class="keyword">final</span> Scheduler DEFAULT = <span class="keyword">new</span> NewThreadScheduler();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里的IO，最终会指向一个Scheduler，如IoScheduler：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//io.reactivex.internal.schedulers.IoScheduler源码</span></span><br><span class="line">...</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">EventLoopWorker</span> <span class="keyword">extends</span> <span class="title">Scheduler</span>.<span class="title">Worker</span> </span>&#123;<span class="comment">//Scheduler.Worker的实现类</span></span><br><span class="line">        ...</span><br><span class="line">        <span class="meta">@NonNull</span></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> Disposable <span class="title">schedule</span><span class="params">(@NonNull Runnable action, <span class="keyword">long</span> delayTime, @NonNull TimeUnit unit)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (tasks.isDisposed()) &#123;</span><br><span class="line">                <span class="comment">// don't schedule, we are unsubscribed</span></span><br><span class="line">                <span class="keyword">return</span> EmptyDisposable.INSTANCE;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> threadWorker.scheduleActual(action, delayTime, unit, tasks);<span class="comment">//交给线程池</span></span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样，Scheculer中的具体任务就交给了某个线程池来处理。</p>
+<p>需要特别说明的是，RxJava中调用Android主线程(AndroidSchedulers.mainThread)，其实还是使用了Handler机制：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">AndroidSchedulers</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">        <span class="keyword">static</span> <span class="keyword">final</span> Scheduler DEFAULT = <span class="keyword">new</span> HandlerScheduler(<span class="keyword">new</span> Handler(Looper.getMainLooper()));</span><br></pre></td></tr></table></figure>
+
+<p>这个HandlerScheduler其实就是实现了Scheduler和Scheduler.Worker内部类。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">HandlerScheduler</span> <span class="keyword">extends</span> <span class="title">Scheduler</span> </span>&#123;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> Handler handler;</span><br><span class="line"></span><br><span class="line">HandlerScheduler(Handler handler) &#123;</span><br><span class="line">    <span class="keyword">this</span>.handler = handler;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">HandlerWorker</span> <span class="keyword">extends</span> <span class="title">Worker</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Disposable <span class="title">schedule</span><span class="params">(Runnable run, <span class="keyword">long</span> delay, TimeUnit unit)</span> </span>&#123;</span><br><span class="line">        ...</span><br><span class="line">        handler.sendMessageDelayed(message, Math.max(<span class="number">0L</span>, unit.toMillis(delay)));</span><br></pre></td></tr></table></figure>
+
+<p>总的来看，RxJava的多线程切换其实是利用了Scheculer.Worker这个内部类，把任务交给Scheculer的Worker去做，而这个Scheculer的Worker是根据定义的线程来实现了不同的线程池，其实还是交给线程池去处理了。<br>至于主线程，RxJava也是使用了Handler机制。</p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>小小总结一下，基本上来说，Android中的多线程切换，主要使用Runnable和Callable来定义工作内容，使用线程池来实现异步并行，使用Handler机制来通知主线程，有些场景下会视情况需要，使用Future的接口回调，使用SynchronousQueue阻塞队列等。</p>
+<p>原文链接：<a href="https://link.juejin.im/?target=https%3A%2F%2Fmp.weixin.qq.com%2Fs%3F__biz%3DMzAxMTg2MjA2OA%3D%3D%26mid%3D2649842586%26idx%3D1%26sn%3Da1b16a9ccf5a81b6c8ab26daf209f734%26chksm%3D83bf6ac1b4c8e3d78d8c0c3f9a8548e0d28fcd6a7668b10ef5bf88ef1a18e3538da0a7a82376%26mpshare%3D1%26scene%3D1%26srcid%3D07200em5TTsL1uFk7QXSdIHm%26key%3Daf4929c97b407" target="_blank" rel="noopener">mp.weixin.qq.com</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="ZhangMiao 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="ZhangMiao 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    ZhangMiao
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://zhangmiao.cc/posts/fbda19a9.html" title="Android中多线程切换的几种方法">https://zhangmiao.cc/posts/fbda19a9.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/78b41fa0.html" rel="next" title="【Android珍藏】推荐10个炫酷的开源库">
+                <i class="fa fa-chevron-left"></i> 【Android珍藏】推荐10个炫酷的开源库
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/posts/8a91974c.html" rel="prev" title="Android-仪表盘控件仿芝麻信用">
+                Android-仪表盘控件仿芝麻信用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4" alt="ZhangMiao">
+            
+              <p class="site-author-name" itemprop="name">ZhangMiao</p>
+              <p class="site-description motion-element" itemprop="description">Android/Flutter Developer</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">373</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">58</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">143</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:zm@zhangmiao.cc" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://wpa.qq.com/msgrd?v=3&uin=153942241&site=qq&menu=yes" target="_blank" title="QQ">
+                      
+                        <i class="fa fa-fw fa-qq"></i>QQ</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/zhangmiaocc" target="_blank" title="Github">
+                      
+                        <i class="fa fa-fw fa-github"></i>Github</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://stackoverflow.com" target="_blank" title="StackOverflow">
+                      
+                        <i class="fa fa-fw fa-stack-overflow"></i>StackOverflow</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://blog.constore.cn/" title="Liujianhui" target="_blank">Liujianhui</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://xuebin.me" title="Leo" target="_blank">Leo</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.csdn.net/lmj623565791" title="Hongyang" target="_blank">Hongyang</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://liuwangshu.cn/" title="Liuwangshu" target="_blank">Liuwangshu</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://jspang.com/" title="Jspang" target="_blank">Jspang</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blankj.com/" title="Blankj" target="_blank">Blankj</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://wuxiaolong.me/" title="WuXiaoLong" target="_blank">WuXiaoLong</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://molunerfinn.com" title="Molunerfinn" target="_blank">Molunerfinn</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.ofind.cn/" title="Ofind" target="_blank">Ofind</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.gcssloop.com/" title="Gcssloop" target="_blank">Gcssloop</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#几点基础"><span class="nav-number">1.</span> <span class="nav-text">几点基础</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#AsyncTask的多线程切换"><span class="nav-number">2.</span> <span class="nav-text">AsyncTask的多线程切换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#EventBus的多线程切换"><span class="nav-number">3.</span> <span class="nav-text">EventBus的多线程切换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RxJava的多线程切换"><span class="nav-number">4.</span> <span class="nav-text">RxJava的多线程切换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZhangMiao</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      本站访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+  <div>
+    <script type="text/javascript">
+      var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");
+      document.write(unescape("%3Cspan id='cnzz_stat_icon_1277928793'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1277928793%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+  </div>
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://zhangmiao.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://zhangmiao.cc/posts/fbda19a9.html';
+          this.page.identifier = 'posts/fbda19a9.html';
+          this.page.title = 'Android中多线程切换的几种方法';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://zhangmiao.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("8iIYW0IGofqyvJiiuU5R9buW-gzGzoHsz", "ssmxRx0kELJir6mA02ziW3Ql");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/lib/zclip/clipboard.min.js"></script>
+<script type="text/javascript" src="/js/src/custom.js"></script>
+
+</body>
+</html>

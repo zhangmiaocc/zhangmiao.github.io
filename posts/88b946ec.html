@@ -1,0 +1,1510 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Android,Flutter,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="zm.blog" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="前言主要包括 MaterialApp、Scaffold、Text、Image、Icon、Button 以及 AppBar 部分内容，准备出发~  ​                            看完这篇文章你就在知道怎么写以上效果了">
+<meta name="keywords" content="Android,Flutter">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Flutter入门指南(二)基础部件">
+<meta property="og:url" content="https://zhangmiao.cc/posts/88b946ec.html">
+<meta property="og:site_name" content="zm.blog">
+<meta property="og:description" content="前言主要包括 MaterialApp、Scaffold、Text、Image、Icon、Button 以及 AppBar 部分内容，准备出发~  ​                            看完这篇文章你就在知道怎么写以上效果了">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190425162620.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190425162652.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190425162708.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190425162756.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190425162845.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190425162908.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190425163010.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190425163039.png">
+<meta property="og:updated_time" content="2021-12-24T02:05:29.961Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Flutter入门指南(二)基础部件">
+<meta name="twitter:description" content="前言主要包括 MaterialApp、Scaffold、Text、Image、Icon、Button 以及 AppBar 部分内容，准备出发~  ​                            看完这篇文章你就在知道怎么写以上效果了">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190425162620.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://zhangmiao.cc/posts/88b946ec.html">
+
+
+
+
+
+  <title>Flutter入门指南(二)基础部件 | zm.blog</title>
+  
+
+
+
+
+
+  <script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?44434226ba535875b1e807122adc3a04";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zm.blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">select * from learn</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhangmiao.cc/posts/88b946ec.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZhangMiao">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zm.blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Flutter入门指南(二)基础部件</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-24T17:17:10+08:00">
+                2019-04-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/Flutter/" itemprop="url" rel="index">
+                    <span itemprop="name">Flutter</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/posts/88b946ec.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="posts/88b946ec.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/posts/88b946ec.html" class="leancloud_visitors" data-flag-title="Flutter入门指南(二)基础部件">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>主要包括 MaterialApp、Scaffold、Text、Image、Icon、Button 以及 AppBar 部分内容，准备出发~</p>
+<p><img src="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190425162620.png" alt></p>
+<p>​                            看完这篇文章你就在知道怎么写以上效果了</p>
+<p><img src="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190425162652.png" alt></p>
+<a id="more"></a>
+
+<h3 id="1、Flutter-runApp"><a href="#1、Flutter-runApp" class="headerlink" title="1、Flutter runApp"></a>1、Flutter runApp</h3><p>新建 flutter 项目后，可以看到 lib 下的 main.dart 中 void main() =&gt; runApp(MyApp());这句就是程序的入口了。这里可以简单看下源码</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> runApp(Widget app) &#123;</span><br><span class="line">  WidgetsFlutterBinding.ensureInitialized()</span><br><span class="line">    ..attachRootWidget(app)</span><br><span class="line">    ..scheduleWarmUpFrame();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">///....</span></span><br><span class="line"><span class="keyword">static</span> WidgetsBinding ensureInitialized() &#123;</span><br><span class="line">  <span class="keyword">if</span> (WidgetsBinding.instance == <span class="keyword">null</span>)</span><br><span class="line">    WidgetsFlutterBinding();</span><br><span class="line">  <span class="keyword">return</span> WidgetsBinding.instance;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">///....</span></span><br><span class="line"><span class="keyword">void</span> attachRootWidget(Widget rootWidget) &#123;</span><br><span class="line">  _renderViewElement = RenderObjectToWidgetAdapter&lt;RenderBox&gt;(</span><br><span class="line">    container: renderView,</span><br><span class="line">    debugShortDescription: <span class="string">'[root]'</span>,</span><br><span class="line">    child: rootWidget</span><br><span class="line">  ).attachToRenderTree(buildOwner, renderViewElement);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>首先会创建一个 WidgetsBinding 单例对象，然后把传入的 App 添加到 rootWidget中，scheduleWarmUpFrame 方法比较长，这边看下对该方法的注释第一句就能了解方法的主要功能了</p>
+<p><code>Schedule a frame to run as soon as possible</code></p>
+<p>「安排框架尽快运行起来」(原谅我这渣英语，只能看懂不会翻译..大概就是「快速启动框架」的意思吧)</p>
+<p><img src="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190425162708.png" alt></p>
+<h3 id="2、Flutter-App"><a href="#2、Flutter-App" class="headerlink" title="2、Flutter App"></a>2、Flutter App</h3><p>接着看下 MyApp 这个类，继承自 StatelessWidget 并在 build 方法返回一个 MaterialApp 实例，(偷偷讲下，其实这边还可以返回 CupertinoApp，这是一个 iOS 风格的 widget，基本上你看到部件带 「Cupertino」的都是 iOS 风格的 widget，这里先不讲 iOS 风格的部件，目前 flutter 对 Cupertino 系列的 widget 支持不是很好，包括部件的广度，多语言的支持等等方面都不是很友好，所以我们还是继续看 MD 风格的 Android 部件吧~)，这里先看下 MaterialApp 的构造函数，介绍一些常用的参数</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> MaterialApp(&#123;</span><br><span class="line">    Key key,</span><br><span class="line">    <span class="keyword">this</span>.navigatorKey,</span><br><span class="line">    <span class="keyword">this</span>.home, <span class="comment">// 主界面的内容 widget</span></span><br><span class="line">    <span class="keyword">this</span>.routes = <span class="keyword">const</span> &lt;<span class="built_in">String</span>, WidgetBuilder&gt;&#123;&#125;, <span class="comment">// 带 router 和路由跳转有关</span></span><br><span class="line">    <span class="keyword">this</span>.initialRoute,</span><br><span class="line">    <span class="keyword">this</span>.onGenerateRoute,</span><br><span class="line">    <span class="keyword">this</span>.onUnknownRoute,</span><br><span class="line">    <span class="keyword">this</span>.navigatorObservers = <span class="keyword">const</span> &lt;NavigatorObserver&gt;[], </span><br><span class="line">    <span class="keyword">this</span>.builder,</span><br><span class="line">    <span class="keyword">this</span>.title = <span class="string">''</span>, <span class="comment">// *类似标题</span></span><br><span class="line">    <span class="keyword">this</span>.onGenerateTitle, <span class="comment">// 主要用于多语言情况下，需要根据当前语言替换 title，需要使用该值</span></span><br><span class="line">    <span class="keyword">this</span>.color, <span class="comment">// 主题色，如果该值未设置，取 theme.primaryColor,未设置 theme 则取蓝色</span></span><br><span class="line">    <span class="keyword">this</span>.theme, <span class="comment">// App 的主题风格，包括主题色，按钮默认颜色等等</span></span><br><span class="line">    <span class="keyword">this</span>.locale, <span class="comment">// 带 locale 的和多语言适配相关</span></span><br><span class="line">    <span class="keyword">this</span>.localizationsDelegates,</span><br><span class="line">    <span class="keyword">this</span>.localeListResolutionCallback,</span><br><span class="line">    <span class="keyword">this</span>.localeResolutionCallback,</span><br><span class="line">    <span class="keyword">this</span>.supportedLocales = <span class="keyword">const</span> &lt;Locale&gt;[Locale(<span class="string">'en'</span>, <span class="string">'US'</span>)],</span><br><span class="line">    <span class="keyword">this</span>.debugShowMaterialGrid = <span class="keyword">false</span>, </span><br><span class="line">    <span class="keyword">this</span>.showPerformanceOverlay = <span class="keyword">false</span>,</span><br><span class="line">    <span class="keyword">this</span>.checkerboardRasterCacheImages = <span class="keyword">false</span>,</span><br><span class="line">    <span class="keyword">this</span>.checkerboardOffscreenLayers = <span class="keyword">false</span>,</span><br><span class="line">    <span class="keyword">this</span>.showSemanticsDebugger = <span class="keyword">false</span>,</span><br><span class="line">    <span class="keyword">this</span>.debugShowCheckedModeBanner = <span class="keyword">true</span>, <span class="comment">// debug 模式下，是否显示 DEBUG 标示横幅</span></span><br><span class="line">  &#125;)</span><br></pre></td></tr></table></figure>
+
+<p>MaterialApp 继承自 StatefulWidget，它和 MyApp 所继承的类 StatelessWidget，就是日常开发中，自定义部件通常继承的抽象类了。</p>
+<ul>
+<li>StatelessWidget 是状态不可变部件，通过其构建的部件一般用来展示固定内容，例如需要展示固定的功能按钮列表，不需要根据不同界面状态进行修改其展示内容</li>
+<li>StatefulWidget 是可改变状态的部件，比如我们需要通过网络或者数据库获取数据，然后修改部件锁展示的数据内容，则需要通过 StatefulWidget 来构建。当然，不是说 StatelessWidget 不能实现修改界面数据的功能，这就需要涉及到 状态管理 的概念了，后面有机会再讲，这边先埋坑【坑1】</li>
+</ul>
+<h3 id="3、Flutter-Scaffold"><a href="#3、Flutter-Scaffold" class="headerlink" title="3、Flutter Scaffold"></a>3、Flutter Scaffold</h3><p>进入 App 后就需要构建界面了，Flutter 提供了 Scaffold 来快速构建一个 MaterialDesign 风格的界面，还是先看下 Scaffold 的构造函数吧，了解几个比较常用的部分。</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> Scaffold(&#123;</span><br><span class="line">    Key key,</span><br><span class="line">    <span class="keyword">this</span>.appBar, <span class="comment">// 界面顶部的那条栏，这边需要返回一个 AppBar 实例</span></span><br><span class="line">    <span class="keyword">this</span>.body, <span class="comment">// 界面的内容部分</span></span><br><span class="line">    <span class="keyword">this</span>.floatingActionButton, <span class="comment">// 悬浮部分，可以通过 floatingActionButtonLocation 设置位置</span></span><br><span class="line">    <span class="keyword">this</span>.floatingActionButtonLocation,</span><br><span class="line">    <span class="keyword">this</span>.floatingActionButtonAnimator,</span><br><span class="line">    <span class="keyword">this</span>.persistentFooterButtons,</span><br><span class="line">    <span class="keyword">this</span>.drawer, <span class="comment">// 侧滑抽屉部分，从左侧滑出(应该和语言有关，和文字方向同向)</span></span><br><span class="line">    <span class="keyword">this</span>.endDrawer, <span class="comment">// 侧滑抽屉部分，从右侧滑出</span></span><br><span class="line">    <span class="keyword">this</span>.bottomNavigationBar, <span class="comment">// 底部导航栏，就是通常看到的底部 TAB 切换部件</span></span><br><span class="line">    <span class="keyword">this</span>.bottomSheet, <span class="comment">// 展示从底部弹出的，起到提示作用的，通过 showModalBottomSheet 展示</span></span><br><span class="line">    <span class="keyword">this</span>.backgroundColor, <span class="comment">// 界面的背景色</span></span><br><span class="line">    <span class="keyword">this</span>.resizeToAvoidBottomPadding = <span class="keyword">true</span>, <span class="comment">// 避免 body 被底部弹出部件填充，例如输入法键盘</span></span><br><span class="line">    <span class="keyword">this</span>.primary = <span class="keyword">true</span>, <span class="comment">// 当前的 Scaffold 是否需要被展示在屏幕最上层</span></span><br><span class="line">  &#125;)</span><br></pre></td></tr></table></figure>
+
+<p>来张图吧，简洁明了</p>
+<p><img src="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190425162756.png" alt></p>
+<p>了解完 Scaffold 的整体构造后，我们从上到下，通过构造函数来了解下各个 Widget的使用方法</p>
+<h3 id="4、AppBar"><a href="#4、AppBar" class="headerlink" title="4、AppBar"></a>4、AppBar</h3><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">AppBar(&#123;</span><br><span class="line">    Key key,</span><br><span class="line">    <span class="keyword">this</span>.leading, <span class="comment">// 用于设置 AppBar 前置的按钮，例如设置返回我们需要的返回按钮等</span></span><br><span class="line">    <span class="keyword">this</span>.automaticallyImplyLeading = <span class="keyword">true</span>, <span class="comment">// 是否使用系统默认生成的按钮，如果替换 leading 的默认按钮，最好将该属性设置成 false</span></span><br><span class="line">    <span class="keyword">this</span>.title, <span class="comment">// AppBar 所需要展示的组件，传入一个 Widget 实例，通常使用 Text 展示一个标题</span></span><br><span class="line">    <span class="keyword">this</span>.actions, <span class="comment">// AppBar 末尾悬浮的一些操作组件，例如常见的会在末尾设置一个「...」按钮，点击弹出一个 menue 提供给用户操作选择</span></span><br><span class="line">    <span class="keyword">this</span>.flexibleSpace, <span class="comment">// AppBar 的背景，可以设置颜色，背景图等等 </span></span><br><span class="line">    <span class="keyword">this</span>.bottom, <span class="comment">// bottom 用于展示顶部导航 TAB</span></span><br><span class="line">    <span class="keyword">this</span>.elevation = <span class="number">4.0</span>,</span><br><span class="line">    <span class="keyword">this</span>.backgroundColor, <span class="comment">// AppBar 的背景色，如果只需要修改颜色，可以不通过 flexibleSpace 修改</span></span><br><span class="line">    <span class="keyword">this</span>.brightness,</span><br><span class="line">    <span class="keyword">this</span>.iconTheme, <span class="comment">// 按钮的默认样式</span></span><br><span class="line">    <span class="keyword">this</span>.textTheme, <span class="comment">// 文字的默认样式</span></span><br><span class="line">    <span class="keyword">this</span>.primary = <span class="keyword">true</span>,</span><br><span class="line">    <span class="keyword">this</span>.centerTitle, <span class="comment">// 是否将展示的 title 居中</span></span><br><span class="line">    <span class="keyword">this</span>.titleSpacing = NavigationToolbar.kMiddleSpacing, <span class="comment">// AppBar title 两侧的空白间隔</span></span><br><span class="line">    <span class="keyword">this</span>.toolbarOpacity = <span class="number">1.0</span>,</span><br><span class="line">    <span class="keyword">this</span>.bottomOpacity = <span class="number">1.0</span>,</span><br><span class="line">  &#125;)</span><br></pre></td></tr></table></figure>
+
+<p>在展示 AppBar 的 demo 之前，我们先学习几个基本的组件 Text、Image、Icon、Button 分布用于展示文字，图片，图标，按钮</p>
+<h3 id="5、Text"><a href="#5、Text" class="headerlink" title="5、Text"></a>5、Text</h3><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> Text(<span class="keyword">this</span>.data, &#123; <span class="comment">// Text 需要展示的文字</span></span><br><span class="line">    Key key,</span><br><span class="line">    <span class="keyword">this</span>.style, <span class="comment">// 文字的样式，包括颜色，大小，间距等等属性，这边就不继续展示 TextStyle 构造函数了，不然我怕大家都不想继续看了，稍后通过例子来说明</span></span><br><span class="line">    <span class="keyword">this</span>.textAlign, <span class="comment">// 文字的对齐方式，包括左对齐，右对齐，居中等，详见 TextAlign 类</span></span><br><span class="line">    <span class="keyword">this</span>.textDirection, <span class="comment">// 文字方向，ltr(left to right) 或者 rtl(right to left)</span></span><br><span class="line">    <span class="keyword">this</span>.locale, </span><br><span class="line">    <span class="keyword">this</span>.softWrap, <span class="comment">// 当文字一行显示不完是否换行</span></span><br><span class="line">    <span class="keyword">this</span>.overflow, <span class="comment">// 如果超出限制的行数，以哪种方式省略未展示的内容</span></span><br><span class="line">    <span class="keyword">this</span>.textScaleFactor, <span class="comment">// 文字缩放比例</span></span><br><span class="line">    <span class="keyword">this</span>.maxLines, <span class="comment">// 最多展示的行数</span></span><br><span class="line">    <span class="keyword">this</span>.semanticsLabel,</span><br><span class="line">  &#125;)</span><br></pre></td></tr></table></figure>
+
+<p>说了那么多，相信很多小伙伴都要急着撸代码了吧，接着来展示一些 Text 的示例，接下来的例子都会直接替换 HomePage 内的展示内容，其余都是相同的，接下来请关注 Text 别的部件先忽略，后面会介绍，这边先埋坑【坑2】</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> main() =&gt; runApp(DemoApp());</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DemoApp</span> <span class="keyword">extends</span> <span class="title">StatelessWidget</span> </span>&#123;</span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  Widget build(BuildContext context) &#123;</span><br><span class="line">    <span class="keyword">return</span> MaterialApp(</span><br><span class="line">      title: <span class="string">'Flutter Demo'</span>,</span><br><span class="line">      debugShowCheckedModeBanner: <span class="keyword">false</span>,</span><br><span class="line">      theme: ThemeData(primarySwatch: Colors.lightBlue),</span><br><span class="line">      home: HomePage(),</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">HomePage</span> <span class="keyword">extends</span> <span class="title">StatelessWidget</span> </span>&#123;</span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  Widget build(BuildContext context) &#123;</span><br><span class="line">    <span class="keyword">return</span> Scaffold(</span><br><span class="line">        appBar: AppBar(),</span><br><span class="line">        body: Container(</span><br><span class="line">          padding: <span class="keyword">const</span> EdgeInsets.only(top: <span class="number">10.0</span>),</span><br><span class="line">          child: Center(</span><br><span class="line">              child: Column(</span><br><span class="line">            mainAxisAlignment: MainAxisAlignment.center,</span><br><span class="line">            children: &lt;Widget&gt;[</span><br><span class="line">              Text(<span class="string">'绿色背景黑色文字展示'</span>,</span><br><span class="line">                  style: TextStyle(</span><br><span class="line">                      color: Colors.black, <span class="comment">// 设置文字颜色，不可和 foreground 同时设置</span></span><br><span class="line">                      fontSize: <span class="number">24.0</span>, <span class="comment">// 字体大小</span></span><br><span class="line">                      letterSpacing: <span class="number">2.0</span>, <span class="comment">// 每个字符之间的间隔</span></span><br><span class="line">                      background: Paint()..color = Colors.green)), <span class="comment">// 背景色</span></span><br><span class="line">              Text(<span class="string">'这是一个带红色下划线的文字展示'</span>,</span><br><span class="line">                  style: TextStyle(</span><br><span class="line">                      color: Colors.black,</span><br><span class="line">                      fontSize: <span class="number">24.0</span>,</span><br><span class="line">                      <span class="comment">// 文字装饰线，除了 underline 还有 overline, lineThrough，</span></span><br><span class="line">                      <span class="comment">// 不同的样式小伙伴可以通过自己修改代码来查看</span></span><br><span class="line">                      decoration: TextDecoration.underline,</span><br><span class="line">                      <span class="comment">// 文字装饰线的类型，除了 solid 还有 double,dotted,dashed,wavy 可选</span></span><br><span class="line">                      decorationStyle: TextDecorationStyle.solid,</span><br><span class="line">                      <span class="comment">// 装饰线的颜色</span></span><br><span class="line">                      decorationColor: Colors.red))</span><br><span class="line">            ],</span><br><span class="line">          )),</span><br><span class="line">        ));</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>该部分代码查看源码 text_main.dart 文件</p>
+<p>最后的展示效果如下图</p>
+<p><img src="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190425162845.png" alt></p>
+<h3 id="6、Image"><a href="#6、Image" class="headerlink" title="6、Image"></a>6、Image</h3><p>按照惯例，我们还是先看下 Image 的构造函数吧</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> Image(&#123;</span><br><span class="line">    Key key,</span><br><span class="line">    <span class="comment">// 一个 ImageProvider 实例，但是 ImageProvider 是一个抽象类，Flutter 已经给我们提供如下</span></span><br><span class="line">    <span class="comment">// AssetImage，NetworkImage，FileImage，MemoryImage 这四种图片加载器，为了方便调用</span></span><br><span class="line">    <span class="comment">// 我们可以直接通过 Image.asset, Image.network, Image.file, Image.memory 简化，</span></span><br><span class="line">    <span class="comment">// 通过方法名，可以看出分别从 asset 文件，网络，文件，内存中加载图片</span></span><br><span class="line">    <span class="meta">@required</span> <span class="keyword">this</span>.image, </span><br><span class="line">    <span class="keyword">this</span>.semanticLabel,</span><br><span class="line">    <span class="keyword">this</span>.excludeFromSemantics = <span class="keyword">false</span>,</span><br><span class="line">    <span class="keyword">this</span>.width, <span class="comment">// 图片宽度</span></span><br><span class="line">    <span class="keyword">this</span>.height, <span class="comment">// 图片高度</span></span><br><span class="line">    <span class="keyword">this</span>.color, <span class="comment">// 图片背景色</span></span><br><span class="line">    <span class="keyword">this</span>.colorBlendMode, <span class="comment">// color 和图片的混合模式(这个值比较多，可以一个个尝试)</span></span><br><span class="line">    <span class="keyword">this</span>.fit, <span class="comment">// 图片填充方式 fill, cover, contain, fillWidth, fillHeight, scaleDown, none</span></span><br><span class="line">    <span class="keyword">this</span>.alignment = Alignment.center, <span class="comment">// 对齐方式</span></span><br><span class="line">    <span class="keyword">this</span>.repeat = ImageRepeat.noRepeat, <span class="comment">// 若未填充满空间，重复展示的方式</span></span><br><span class="line">    <span class="keyword">this</span>.centerSlice,</span><br><span class="line">    <span class="keyword">this</span>.matchTextDirection = <span class="keyword">false</span>,</span><br><span class="line">    <span class="keyword">this</span>.gaplessPlayback = <span class="keyword">false</span>,</span><br><span class="line">    <span class="keyword">this</span>.filterQuality = FilterQuality.low,</span><br><span class="line">  &#125;)</span><br></pre></td></tr></table></figure>
+
+<p>好了好了，我知道你们又想自己写代码尝试下了，在这之前，需要你先准备一张本地图片，然后在项目的根目录，也就是 lib 文件夹同层，创建一个新的文件夹，命名为 images，把你准备好的图片放到这个目录下。放好之后打开 pubspec.yaml 把图片资源文件注册下</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># The following section <span class="keyword">is</span> specific to Flutter.</span><br><span class="line">flutter:</span><br><span class="line"></span><br><span class="line">  # The following line ensures that the Material Icons font <span class="keyword">is</span></span><br><span class="line">  # included <span class="keyword">with</span> your application, so that you can use the icons <span class="keyword">in</span></span><br><span class="line">  # the material Icons <span class="class"><span class="keyword">class</span>.</span></span><br><span class="line"><span class="class">  <span class="title">uses</span>-<span class="title">material</span>-<span class="title">design</span>: <span class="title">true</span></span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class">  # 这边注册资源文件，以后有图片文件也可以只注册 <span class="title">images</span> 文件夹，会自动读取内部的文件</span></span><br><span class="line"><span class="class">  <span class="title">assets</span>:</span></span><br><span class="line"><span class="class">    - <span class="title">images</span>/<span class="title">ali</span>.<span class="title">jpg</span></span></span><br></pre></td></tr></table></figure>
+
+<p>注册完成后，就可以继续愉快的撸代码了~</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">HomePage</span> <span class="keyword">extends</span> <span class="title">StatelessWidget</span> </span>&#123;</span><br><span class="line">  <span class="keyword">final</span> <span class="built_in">String</span> _assetAli = <span class="string">'images/ali.jpg'</span>;</span><br><span class="line">  <span class="keyword">final</span> <span class="built_in">String</span> _picUrl =</span><br><span class="line">      <span class="string">'https://timg05.bdimg.com/timg?wapbaike&amp;quality=60&amp;size=b1440_952&amp;cut_x=143&amp;cut_y=0&amp;cut_w=1633&amp;'</span></span><br><span class="line">      <span class="string">'cut_h=1080&amp;sec=1349839550&amp;di=cbbc175a45ccec5482ce2cff09a3ae34&amp;'</span></span><br><span class="line">      <span class="string">'src=http://imgsrc.baidu.com/baike/pic/item/4afbfbedab64034f104872baa7c379310b551d80.jpg'</span>;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  Widget build(BuildContext context) &#123;</span><br><span class="line">    <span class="keyword">return</span> Scaffold(</span><br><span class="line">        appBar: AppBar(),</span><br><span class="line">        body: Container(</span><br><span class="line">          padding: <span class="keyword">const</span> EdgeInsets.only(top: <span class="number">10.0</span>),</span><br><span class="line">          child: Center(</span><br><span class="line">              child: Column(</span><br><span class="line">            mainAxisAlignment: MainAxisAlignment.center,</span><br><span class="line">            children: &lt;Widget&gt;[</span><br><span class="line">              <span class="comment">// 这种展示图片方式和下一种会有相同的效果</span></span><br><span class="line">              Image(image: AssetImage(_assetAli), width: <span class="number">80.0</span>, height: <span class="number">80.0</span>),</span><br><span class="line">              <span class="comment">// 接下来加载图片都会使用这些比较方便的方法</span></span><br><span class="line">              Image.asset(_assetAli, width: <span class="number">80.0</span>, height: <span class="number">80.0</span>),</span><br><span class="line">              <span class="comment">// 加载一张网络图片</span></span><br><span class="line">              Image.network(_picUrl,</span><br><span class="line">                  height: <span class="number">80.0</span>,</span><br><span class="line">                  <span class="comment">// 横向重复</span></span><br><span class="line">                  repeat: ImageRepeat.repeatX,</span><br><span class="line">                  <span class="comment">// MediaQuery.of(context).size 获取到的为上层容器的宽高</span></span><br><span class="line">                  width: MediaQuery.of(context).size.width),</span><br><span class="line">              <span class="comment">// 通过设置混合模式，可以看到图片展示的样式已经修改</span></span><br><span class="line">              Image.asset(_assetAli,</span><br><span class="line">                  width: <span class="number">80.0</span>, height: <span class="number">80.0</span>, color: Colors.green, colorBlendMode: BlendMode.colorDodge),</span><br><span class="line">              <span class="comment">// 会优先加载指定的 asset 图片，然后等网络图片读取成功后加载网络图片，会通过渐隐渐现方式展现</span></span><br><span class="line">              <span class="comment">// cover 方式按照较小的边布满，较大的给切割</span></span><br><span class="line">              <span class="comment">// contain 会按照最大的边布满，较小的会被留白</span></span><br><span class="line">              <span class="comment">// fill 会把较大的一边压缩</span></span><br><span class="line">              <span class="comment">// fitHeight, fitWidth 分别按照长宽来布满</span></span><br><span class="line">              FadeInImage.assetNetwork(</span><br><span class="line">                  placeholder: _assetAli, image: _picUrl, width: <span class="number">120.0</span>, height: <span class="number">120.0</span>, fit: BoxFit.cover),</span><br><span class="line">              <span class="comment">// Icon 相对属性少了很多，需要传入一个 IconData 实例，flutter 提供了很多图标，</span></span><br><span class="line">              <span class="comment">// 但是实际情况我们需要加入我们自己的图标，这边再埋坑【坑3】</span></span><br><span class="line">              <span class="comment">// size 为图标显示的大小，color 为图标的颜色，这边通过 Theme 获取主题色调</span></span><br><span class="line">              Icon(Icons.android, size: <span class="number">40.0</span>, color: Theme.of(context).primaryColorDark)</span><br><span class="line">            ],</span><br><span class="line">          )),</span><br><span class="line">        ));</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>该部分代码查看源码 image_main.dart 文件</p>
+<p>最后的效果如下</p>
+<p><img src="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190425162908.png" alt></p>
+<h3 id="7、Button"><a href="#7、Button" class="headerlink" title="7、Button"></a>7、Button</h3><p>Flutter 提供了各种类型的 Button 几乎是大同小异的，这边就抽取一些比较常用的展示下效果，常用的主要有 RaisedButton 、FlatButton、IconButton、OutlineButton、MaterialButton、FloatActionButton、FloatingActionButton.extended</p>
+<p>Button 都有一个 onPress 参数，是 VoidCallback 类型的参数，通过查看源码可以知道 VoidCallback 是无参无返回值的一种类型参数。如果该参数传入的值为 null 那么这个按钮的就不可点击状态，无点击效果，等会可以在例子中查看。还有就是 child 参数，这里就是传入你需要展示的内容，比如 Text、Icon 等等。别的参数基本可以通过参数名了解，这边不扩展了(再看源码我怕你们都不想继续看下去了…)</p>
+<p><code>Talk is cheap, show me the code</code></p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">HomePage</span> <span class="keyword">extends</span> <span class="title">StatelessWidget</span> </span>&#123;</span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  Widget build(BuildContext context) &#123;</span><br><span class="line">    <span class="keyword">return</span> Scaffold(</span><br><span class="line">      appBar: AppBar(),</span><br><span class="line">      body: Container(</span><br><span class="line">        padding: <span class="keyword">const</span> EdgeInsets.only(top: <span class="number">10.0</span>),</span><br><span class="line">        child: Center(</span><br><span class="line">            child: Column(</span><br><span class="line">          mainAxisAlignment: MainAxisAlignment.center,</span><br><span class="line">          children: &lt;Widget&gt;[</span><br><span class="line">            RaisedButton(</span><br><span class="line">              onPressed: () &#123;</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">'This is a Rased Button can be clicked'</span>);</span><br><span class="line">              &#125;,</span><br><span class="line">              child: Text(<span class="string">'Raised Enable'</span>),</span><br><span class="line">            ),</span><br><span class="line">            RaisedButton(onPressed: <span class="keyword">null</span>, child: Text(<span class="string">'Raised Disable'</span>)),</span><br><span class="line">            FlatButton(</span><br><span class="line">              onPressed: () =&gt; <span class="built_in">print</span>(<span class="string">'This is a Flat Button can be clicker'</span>),</span><br><span class="line">              child: Text(<span class="string">'Flat Enable'</span>),</span><br><span class="line">            ),</span><br><span class="line">            FlatButton(onPressed: <span class="keyword">null</span>, child: Text(<span class="string">'Flat Disable'</span>)),</span><br><span class="line">            IconButton(icon: Icon(Icons.android), onPressed: () &#123;&#125;),</span><br><span class="line">            IconButton(icon: Icon(Icons.android), onPressed: <span class="keyword">null</span>),</span><br><span class="line">            MaterialButton(onPressed: () &#123;&#125;, child: Text(<span class="string">'Material Enable'</span>)),</span><br><span class="line">            MaterialButton(onPressed: <span class="keyword">null</span>, child: Text(<span class="string">'Material Disable'</span>)),</span><br><span class="line">            OutlineButton(onPressed: () &#123;&#125;, child: Text(<span class="string">'Outline Enable'</span>)),</span><br><span class="line">            OutlineButton(onPressed: <span class="keyword">null</span>, child: Text(<span class="string">'Outline Enable'</span>)),</span><br><span class="line">          ],</span><br><span class="line">        )),</span><br><span class="line">      ),</span><br><span class="line">      floatingActionButton:</span><br><span class="line">          FloatingActionButton.extended(onPressed: () &#123;&#125;, icon: Icon(Icons.android), label: Text(<span class="string">'Android'</span>)),</span><br><span class="line">      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>该部分代码查看源码 button_main.dart 部分</p>
+<p>最终的效果图</p>
+<p><img src="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190425163010.png" alt></p>
+<p>这篇终于到末尾了，最后留了 3 个坑等以后解决</p>
+<p><img src="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190425163039.png" alt></p>
+<p>文章 demo 的地址：<a href="https://github.com/kukyxs/flutter_arts_demos_app" target="_blank" rel="noopener">https://github.com/kukyxs/flutter_arts_demos_app</a></p>
+<p>一个课程(当时买了想看下代码规范的，代码更新会比较慢，虽然是跟着课上的一些写代码，但是还是做了自己的修改，很多地方看着不舒服，然后就改成自己的实现方式了)：<a href="https://github.com/kukyxs/flutter_shop" target="_blank" rel="noopener">https://github.com/kukyxs/flutter_shop</a></p>
+<p>如果对你有帮助的话，记得给个 Star，先谢过，你的认可就是支持我继续写下去的动力~</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="ZhangMiao 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="ZhangMiao 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    ZhangMiao
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://zhangmiao.cc/posts/88b946ec.html" title="Flutter入门指南(二)基础部件">https://zhangmiao.cc/posts/88b946ec.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+            <a href="/tags/Flutter/" rel="tag"># Flutter</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/6114f592.html" rel="next" title="Flutter入门指南(一)Dart">
+                <i class="fa fa-chevron-left"></i> Flutter入门指南(一)Dart
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/posts/5c762cf7.html" rel="prev" title="Flutter入门指南(三)快速搭建界面">
+                Flutter入门指南(三)快速搭建界面 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4" alt="ZhangMiao">
+            
+              <p class="site-author-name" itemprop="name">ZhangMiao</p>
+              <p class="site-description motion-element" itemprop="description">Android/Flutter Developer</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">373</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">58</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">143</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:zm@zhangmiao.cc" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://wpa.qq.com/msgrd?v=3&uin=153942241&site=qq&menu=yes" target="_blank" title="QQ">
+                      
+                        <i class="fa fa-fw fa-qq"></i>QQ</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/zhangmiaocc" target="_blank" title="Github">
+                      
+                        <i class="fa fa-fw fa-github"></i>Github</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://stackoverflow.com" target="_blank" title="StackOverflow">
+                      
+                        <i class="fa fa-fw fa-stack-overflow"></i>StackOverflow</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://blog.constore.cn/" title="Liujianhui" target="_blank">Liujianhui</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://xuebin.me" title="Leo" target="_blank">Leo</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.csdn.net/lmj623565791" title="Hongyang" target="_blank">Hongyang</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://liuwangshu.cn/" title="Liuwangshu" target="_blank">Liuwangshu</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://jspang.com/" title="Jspang" target="_blank">Jspang</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blankj.com/" title="Blankj" target="_blank">Blankj</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://wuxiaolong.me/" title="WuXiaoLong" target="_blank">WuXiaoLong</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://molunerfinn.com" title="Molunerfinn" target="_blank">Molunerfinn</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.ofind.cn/" title="Ofind" target="_blank">Ofind</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.gcssloop.com/" title="Gcssloop" target="_blank">Gcssloop</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1、Flutter-runApp"><span class="nav-number">2.</span> <span class="nav-text">1、Flutter runApp</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、Flutter-App"><span class="nav-number">3.</span> <span class="nav-text">2、Flutter App</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、Flutter-Scaffold"><span class="nav-number">4.</span> <span class="nav-text">3、Flutter Scaffold</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、AppBar"><span class="nav-number">5.</span> <span class="nav-text">4、AppBar</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5、Text"><span class="nav-number">6.</span> <span class="nav-text">5、Text</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6、Image"><span class="nav-number">7.</span> <span class="nav-text">6、Image</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7、Button"><span class="nav-number">8.</span> <span class="nav-text">7、Button</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZhangMiao</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      本站访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+  <div>
+    <script type="text/javascript">
+      var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");
+      document.write(unescape("%3Cspan id='cnzz_stat_icon_1277928793'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1277928793%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+  </div>
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://zhangmiao.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://zhangmiao.cc/posts/88b946ec.html';
+          this.page.identifier = 'posts/88b946ec.html';
+          this.page.title = 'Flutter入门指南(二)基础部件';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://zhangmiao.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("8iIYW0IGofqyvJiiuU5R9buW-gzGzoHsz", "ssmxRx0kELJir6mA02ziW3Ql");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/lib/zclip/clipboard.min.js"></script>
+<script type="text/javascript" src="/js/src/custom.js"></script>
+
+</body>
+</html>

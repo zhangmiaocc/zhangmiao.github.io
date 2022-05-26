@@ -1,0 +1,1514 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Android,Flutter,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="zm.blog" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="上一篇讲完 Flutter 中的一些基本部件，这篇就先填完上篇留下的没写的 AppBar 的坑，以及 Scaffold 其他参数的使用，在开始前，先补一张缩略版的脑图">
+<meta name="keywords" content="Android,Flutter">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Flutter入门指南(三)快速搭建界面">
+<meta property="og:url" content="https://zhangmiao.cc/posts/5c762cf7.html">
+<meta property="og:site_name" content="zm.blog">
+<meta property="og:description" content="上一篇讲完 Flutter 中的一些基本部件，这篇就先填完上篇留下的没写的 AppBar 的坑，以及 Scaffold 其他参数的使用，在开始前，先补一张缩略版的脑图">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190425155737.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190425160120.png">
+<meta property="og:image" content="https://res.wx.qq.com/mpres/htmledition/images/icon/common/emotion_panel/emoji_wx/2_05.png?wxfrom=5&wx_lazy=1&wx_co=1">
+<meta property="og:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190425160332.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190425160534.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190425160654.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190425161326.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/1.gif">
+<meta property="og:updated_time" content="2021-12-24T02:05:29.961Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Flutter入门指南(三)快速搭建界面">
+<meta name="twitter:description" content="上一篇讲完 Flutter 中的一些基本部件，这篇就先填完上篇留下的没写的 AppBar 的坑，以及 Scaffold 其他参数的使用，在开始前，先补一张缩略版的脑图">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190425155737.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://zhangmiao.cc/posts/5c762cf7.html">
+
+
+
+
+
+  <title>Flutter入门指南(三)快速搭建界面 | zm.blog</title>
+  
+
+
+
+
+
+  <script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?44434226ba535875b1e807122adc3a04";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zm.blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">select * from learn</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhangmiao.cc/posts/5c762cf7.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZhangMiao">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zm.blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Flutter入门指南(三)快速搭建界面</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-25T16:00:21+08:00">
+                2019-04-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/Flutter/" itemprop="url" rel="index">
+                    <span itemprop="name">Flutter</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/posts/5c762cf7.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="posts/5c762cf7.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/posts/5c762cf7.html" class="leancloud_visitors" data-flag-title="Flutter入门指南(三)快速搭建界面">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>上一篇讲完 Flutter 中的一些基本部件，这篇就先填完上篇留下的没写的 AppBar 的坑，以及 Scaffold 其他参数的使用，在开始前，先补一张缩略版的脑图</p>
+<p><img src="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190425155737.png" alt></p>
+<a id="more"></a>
+
+<p><img src="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190425160120.png" alt></p>
+<h3 id="1、AppBar"><a href="#1、AppBar" class="headerlink" title="1、AppBar"></a>1、AppBar</h3><p>这一部分，我们只关注 Scaffold 中的 AppBar 剩下的还是埋坑【坑4】(<img src="https://res.wx.qq.com/mpres/htmledition/images/icon/common/emotion_panel/emoji_wx/2_05.png?wxfrom=5&wx_lazy=1&wx_co=1" alt="img">，居然已经埋了那么多坑了，坑虽多，代码还是要继续的)，因为稍后会用到 StatefulWidget 的属性，所以就直接先使用了，和 StatelessWidget 区别用法可以这么记 需要数据更新的界面用 StatefulWidget，当然也不是绝对的，就是之前留的【坑1】所说的状态管理</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">HomePage</span> <span class="keyword">extends</span> <span class="title">StatefulWidget</span> </span>&#123;</span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  _HomePageState createState() =&gt; _HomePageState();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">_HomePageState</span> <span class="keyword">extends</span> <span class="title">State</span>&lt;<span class="title">HomePage</span>&gt; </span>&#123;</span><br><span class="line">  <span class="built_in">List</span>&lt;<span class="built_in">String</span>&gt; _abs = [<span class="string">'A'</span>, <span class="string">'B'</span>, <span class="string">'S'</span>];</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  Widget build(BuildContext context) &#123;</span><br><span class="line">    <span class="keyword">return</span> Scaffold(</span><br><span class="line">      appBar: AppBar(</span><br><span class="line">        centerTitle: <span class="keyword">true</span>, <span class="comment">// 标题内容居中</span></span><br><span class="line">        automaticallyImplyLeading: <span class="keyword">false</span>, <span class="comment">// 不使用默认</span></span><br><span class="line">        leading: Icon(Icons.menu, color: Colors.red, size: <span class="number">30.0</span>), <span class="comment">// 左侧按钮</span></span><br><span class="line">        flexibleSpace: Image.asset(<span class="string">'images/app_bar_hor.jpg'</span>, fit: BoxFit.cover), <span class="comment">// 背景</span></span><br><span class="line">        title: Text(<span class="string">'AppBar Demo'</span>, style: TextStyle(color: Colors.red)), <span class="comment">// 标题内容</span></span><br><span class="line">        <span class="comment">// 末尾的操作按钮列表</span></span><br><span class="line">        actions: &lt;Widget&gt;[</span><br><span class="line">          PopupMenuButton(</span><br><span class="line">              onSelected: (val) =&gt; <span class="built_in">print</span>(<span class="string">'Selected item is $val'</span>),</span><br><span class="line">              icon: Icon(Icons.more_vert, color: Colors.red),</span><br><span class="line">              itemBuilder: (context) =&gt;</span><br><span class="line">                  <span class="built_in">List</span>.generate(_abs.length, (index) =&gt; PopupMenuItem(value: _abs[index], child: Text(_abs[index]))))</span><br><span class="line">        ],</span><br><span class="line">      ),</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最后的效果图，未点击右侧按钮如左侧所示，点击右侧按钮会弹出相应的 mune</p>
+<p><img src="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190425160332.png" alt></p>
+<p>该部分代码查看 app_bar_main.dart 文件</p>
+<p>看到效果图，相信很多小伙伴会吐槽，「**，上面那层半透明的啥玩意，那么丑」，接下来我们来解决这个问题，修改 void main 方法</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> main() &#123;</span><br><span class="line">  runApp(DemoApp());</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 添加如下代码，使状态栏透明</span></span><br><span class="line">  <span class="keyword">if</span> (Platform.isAndroid) &#123;</span><br><span class="line">    <span class="keyword">var</span> style = SystemUiOverlayStyle(statusBarColor: Colors.transparent);</span><br><span class="line">    SystemChrome.setSystemUIOverlayStyle(style);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>关闭后重新运行，就可以看到那层丑丑的「半透明蒙层」没有了</p>
+<p><img src="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190425160534.png" alt></p>
+<p>接着介绍下 PopupMenuButton 这个部件，还是按照惯例看构造函数</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// itemBuilder</span></span><br><span class="line"><span class="keyword">typedef</span> PopupMenuItemBuilder&lt;T&gt; = <span class="built_in">List</span>&lt;PopupMenuEntry&lt;T&gt;&gt; <span class="built_in">Function</span>(BuildContext context);</span><br><span class="line"><span class="comment">// onSelected</span></span><br><span class="line"><span class="keyword">typedef</span> PopupMenuItemSelected&lt;T&gt; = <span class="keyword">void</span> <span class="built_in">Function</span>(T value);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> PopupMenuButton(&#123;</span><br><span class="line">    Key key,</span><br><span class="line">    <span class="meta">@required</span> <span class="keyword">this</span>.itemBuilder, <span class="comment">// 用于定义 menu 列表，需要传入 List&lt;PopupMenuEntry&lt;T&gt;&gt;</span></span><br><span class="line">    <span class="keyword">this</span>.initialValue, <span class="comment">// 初始值，是个泛型 T，也就是类型和你传入的值有关</span></span><br><span class="line">    <span class="keyword">this</span>.onSelected, <span class="comment">// 选中 item 的回调函数，返回 T value，例如选中 `s` 则返回 s</span></span><br><span class="line">    <span class="keyword">this</span>.onCanceled, <span class="comment">// 未选择任何 menu，直接点击外侧使 mune 列表关闭的回调</span></span><br><span class="line">    <span class="keyword">this</span>.tooltip, <span class="comment">// 长按时的提示</span></span><br><span class="line">    <span class="keyword">this</span>.elevation = <span class="number">8.0</span>,</span><br><span class="line">    <span class="keyword">this</span>.padding = <span class="keyword">const</span> EdgeInsets.all(<span class="number">8.0</span>),</span><br><span class="line">    <span class="keyword">this</span>.child, <span class="comment">// 用于自定义按钮的内容</span></span><br><span class="line">    <span class="keyword">this</span>.icon, <span class="comment">// 按钮的图标</span></span><br><span class="line">    <span class="keyword">this</span>.offset = Offset.zero, <span class="comment">// 展示时候的便宜，Offset 需要传入 x,y 轴偏移量，会根据传入值平移</span></span><br><span class="line">  &#125;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="2、AppBar-bottom"><a href="#2、AppBar-bottom" class="headerlink" title="2、AppBar - bottom"></a>2、AppBar - bottom</h3><p>AppBar 还有个 bottom 属性没讲，因为 bottom 这个属性和图片背景一起使用会比较丑，所以就单独拎出来讲，我们直接在原来的代码上修改</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 这里需要用 with 引入 `SingleTickerProviderStateMixin` 这个类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">_HomePageState</span> <span class="keyword">extends</span> <span class="title">State</span>&lt;<span class="title">HomePage</span>&gt; <span class="title">with</span> <span class="title">SingleTickerProviderStateMixin</span> </span>&#123;</span><br><span class="line">  <span class="built_in">List</span>&lt;<span class="built_in">String</span>&gt; _abs = [<span class="string">'A'</span>, <span class="string">'B'</span>, <span class="string">'S'</span>];</span><br><span class="line">  TabController _tabController; <span class="comment">// TabBar 必须传入这个参数</span></span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  <span class="keyword">void</span> initState() &#123;</span><br><span class="line">    <span class="keyword">super</span>.initState();</span><br><span class="line">    <span class="comment">// 引入 `SingleTickerProviderStateMixin` 类主要是因为 _tabController 需要传入 vsync 参数</span></span><br><span class="line">    _tabController = TabController(length: _abs.length, vsync: <span class="keyword">this</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  <span class="keyword">void</span> dispose() &#123;</span><br><span class="line">    <span class="comment">// 需要在界面 dispose 之前把 _tabController dispose，防止内存泄漏</span></span><br><span class="line">    _tabController.dispose();</span><br><span class="line">    <span class="keyword">super</span>.dispose();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  Widget build(BuildContext context) &#123;</span><br><span class="line">    <span class="keyword">return</span> Scaffold(</span><br><span class="line">      appBar: AppBar(</span><br><span class="line">        centerTitle: <span class="keyword">true</span>,</span><br><span class="line">        automaticallyImplyLeading: <span class="keyword">false</span>,</span><br><span class="line">        leading: Icon(Icons.menu, color: Colors.red, size: <span class="number">30.0</span>),</span><br><span class="line"><span class="comment">//        flexibleSpace: Image.asset('images/app_bar_hor.jpg', fit: BoxFit.cover),</span></span><br><span class="line">        title: Text(<span class="string">'AppBar Demo'</span>, style: TextStyle(color: Colors.red)),</span><br><span class="line">        actions: &lt;Widget&gt;[</span><br><span class="line">          PopupMenuButton(</span><br><span class="line">              offset: Offset(<span class="number">50.0</span>, <span class="number">100.0</span>),</span><br><span class="line">              onSelected: (val) =&gt; <span class="built_in">print</span>(<span class="string">'Selected item is $val'</span>),</span><br><span class="line">              icon: Icon(Icons.more_vert, color: Colors.red),</span><br><span class="line">              itemBuilder: (context) =&gt;</span><br><span class="line">                  <span class="built_in">List</span>.generate(_abs.length, (index) =&gt; PopupMenuItem(value: _abs[index], child: Text(_abs[index]))))</span><br><span class="line">        ],</span><br><span class="line">        bottom: TabBar(</span><br><span class="line">            labelColor: Colors.red, <span class="comment">// 选中时的颜色</span></span><br><span class="line">            unselectedLabelColor: Colors.white, <span class="comment">// 未选中颜色</span></span><br><span class="line">            controller: _tabController,</span><br><span class="line">            isScrollable: <span class="keyword">false</span>, <span class="comment">// 是否固定，当超过一定数量的 tab 时，如果一行排不下，可设置 true</span></span><br><span class="line">            indicatorColor: Colors.yellow, <span class="comment">// 导航的颜色</span></span><br><span class="line">            indicatorSize: TabBarIndicatorSize.tab, <span class="comment">// 导航样式，还有个选项是 TabBarIndicatorSize.label tab 时候，导航和 tab 同宽，label 时候，导航和 icon 同宽</span></span><br><span class="line">            indicatorWeight: <span class="number">5.0</span>, <span class="comment">// 导航高度</span></span><br><span class="line">            tabs: <span class="built_in">List</span>.generate(_abs.length, (index) =&gt; Tab(text: _abs[index], icon: Icon(Icons.android)))), <span class="comment">// 导航内容列表</span></span><br><span class="line">      ),</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最终的效果图如下</p>
+<p><img src="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190425160654.png" alt></p>
+<h3 id="3、PageView-TabBar"><a href="#3、PageView-TabBar" class="headerlink" title="3、PageView + TabBar"></a>3、PageView + TabBar</h3><p>那么如何通过 TabBar 切换界面呢，这边我们需要用到 PageView 这个部件，当然还有别的部件，例如 IndexStack 等，小伙伴可以自己尝试使用别的，这边通过 PageView 和 TabBar 进行关联，带动页面切换，PageViede 的属性参数相对比较简单，这边就不贴啦。最终的效果我们目前只展示一个文字即可，我们先定义一个通用的切换界面</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TabChangePage</span> <span class="keyword">extends</span> <span class="title">StatelessWidget</span> </span>&#123;</span><br><span class="line">  <span class="comment">// 需要传入的参数</span></span><br><span class="line">  <span class="keyword">final</span> <span class="built_in">String</span> content;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// TabChangePage(this.content); 不推荐这样写构造方法</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 推荐用这样的构造方法，key 可以作为唯一值查找</span></span><br><span class="line">  TabChangePage(&#123;Key key, <span class="keyword">this</span>.content&#125;) : <span class="keyword">super</span>(key: key);</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  Widget build(BuildContext context) &#123;</span><br><span class="line">    <span class="comment">// 仅展示传入的内容</span></span><br><span class="line">    <span class="keyword">return</span> Container(</span><br><span class="line">        alignment: Alignment.center, child: Text(content, style: TextStyle(color: Theme.of(context).primaryColor, fontSize: <span class="number">30.0</span>)));</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>定义通用界面后，就可以作为 PageView 的子界面传入并展示</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">HomePage</span> <span class="keyword">extends</span> <span class="title">StatefulWidget</span> </span>&#123;</span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  _HomePageState createState() =&gt; _HomePageState();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">_HomePageState</span> <span class="keyword">extends</span> <span class="title">State</span>&lt;<span class="title">HomePage</span>&gt; <span class="title">with</span> <span class="title">SingleTickerProviderStateMixin</span> </span>&#123;</span><br><span class="line">  <span class="built_in">List</span>&lt;<span class="built_in">String</span>&gt; _abs = [<span class="string">'A'</span>, <span class="string">'B'</span>, <span class="string">'S'</span>];</span><br><span class="line">  TabController _tabController;</span><br><span class="line">  <span class="comment">// 用于同 TabBar 进行联动</span></span><br><span class="line">  PageController _pageController;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  <span class="keyword">void</span> initState() &#123;</span><br><span class="line">    <span class="keyword">super</span>.initState();</span><br><span class="line">    _tabController = TabController(length: _abs.length, vsync: <span class="keyword">this</span>);</span><br><span class="line">    _pageController = PageController(initialPage: <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    _tabController.addListener(() &#123;</span><br><span class="line">      <span class="comment">// 判断 TabBar 是否切换位置了，如果切换了，则修改 PageView 的显示</span></span><br><span class="line">      <span class="keyword">if</span> (_tabController.indexIsChanging) &#123;</span><br><span class="line">        <span class="comment">// PageView 的切换通过 controller 进行滚动</span></span><br><span class="line">        <span class="comment">// duration 表示切换滚动的时长，curve 表示滚动动画的样式，</span></span><br><span class="line">        <span class="comment">// flutter 已经在 Curves 中定义许多样式，可以自行切换查看效果</span></span><br><span class="line">        _pageController.animateToPage(_tabController.index,</span><br><span class="line">            duration: <span class="built_in">Duration</span>(milliseconds: <span class="number">300</span>), curve: Curves.decelerate);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  <span class="keyword">void</span> dispose() &#123;</span><br><span class="line">    _tabController.dispose();</span><br><span class="line">    <span class="keyword">super</span>.dispose();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  Widget build(BuildContext context) &#123;</span><br><span class="line">    <span class="keyword">return</span> Scaffold(</span><br><span class="line">      appBar: AppBar(</span><br><span class="line">        centerTitle: <span class="keyword">true</span>,</span><br><span class="line">        automaticallyImplyLeading: <span class="keyword">false</span>,</span><br><span class="line">        leading: Icon(Icons.menu, color: Colors.red, size: <span class="number">30.0</span>),</span><br><span class="line"><span class="comment">//        flexibleSpace: Image.asset('images/app_bar_hor.jpg', fit: BoxFit.cover),</span></span><br><span class="line">        title: Text(<span class="string">'AppBar Demo'</span>, style: TextStyle(color: Colors.red)),</span><br><span class="line">        actions: &lt;Widget&gt;[</span><br><span class="line">          PopupMenuButton(</span><br><span class="line">              offset: Offset(<span class="number">50.0</span>, <span class="number">100.0</span>),</span><br><span class="line">              onSelected: (val) =&gt; <span class="built_in">print</span>(<span class="string">'Selected item is $val'</span>),</span><br><span class="line">              icon: Icon(Icons.more_vert, color: Colors.red),</span><br><span class="line">              itemBuilder: (context) =&gt;</span><br><span class="line">                  <span class="built_in">List</span>.generate(_abs.length, (index) =&gt; PopupMenuItem(value: _abs[index], child: Text(_abs[index]))))</span><br><span class="line">        ],</span><br><span class="line">        bottom: TabBar(</span><br><span class="line">            labelColor: Colors.red,</span><br><span class="line">            unselectedLabelColor: Colors.white,</span><br><span class="line">            controller: _tabController,</span><br><span class="line">            isScrollable: <span class="keyword">false</span>,</span><br><span class="line">            indicatorColor: Colors.yellow,</span><br><span class="line">            indicatorSize: TabBarIndicatorSize.tab,</span><br><span class="line">            indicatorWeight: <span class="number">5.0</span>,</span><br><span class="line">            tabs: <span class="built_in">List</span>.generate(_abs.length, (index) =&gt; Tab(text: _abs[index], icon: Icon(Icons.android)))),</span><br><span class="line">      ),</span><br><span class="line">      <span class="comment">// 通过 body 来展示内容，body 可以传入任何 Widget，里面就是你需要展示的界面内容</span></span><br><span class="line">      <span class="comment">// 所以前面留下 Scaffold 中 body 部分的坑就解决了</span></span><br><span class="line">      body: PageView(</span><br><span class="line">        controller: _pageController,</span><br><span class="line">        children:</span><br><span class="line">            _abs.map((str) =&gt; TabChangePage(content: str)).toList(), <span class="comment">// 通过 Map 转换后再通过 toList 转换成列表，效果同 List.generate</span></span><br><span class="line">        onPageChanged: (position) &#123;</span><br><span class="line">          <span class="comment">// PageView 切换的监听，这边切换 PageView 的页面后，TabBar 也需要随之改变</span></span><br><span class="line">          <span class="comment">// 通过 tabController 来改变 TabBar 的显示位置</span></span><br><span class="line">          _tabController.index = position;</span><br><span class="line">        &#125;,</span><br><span class="line">      ),</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最终的效果图就不贴了，可以发现滑动 PageView 或者点击切换 TabBar 的位置，界面显示的内容都会随之改变，同时，解决前面 Scaffold 留下 body 属性没讲的一个坑，就剩下 drawer 、 bottomNavigationBar 属性没讲了，在解决这两个坑之前，我们先处理下另一个问题</p>
+<p>Scaffold 能够使我们快速去搭建一个界面，但是，并不是所有的界面都需要 AppBar 这个标题，那么我们就不会传入 appBar 的属性，我们注释 _HomePageState 中 Scaffold 的 appBar 传入值，把 body 传入的 PageView 修改成单个 TabChangePage ，然后把 TabChangePage 这个类做下修改，把 Container 的 aligment 属性也注释了，这样显示的内容就会显示在左上角</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// _HomePageState</span></span><br><span class="line"><span class="comment">// ..</span></span><br><span class="line"><span class="meta">@override</span></span><br><span class="line">  Widget build(BuildContext context) &#123;</span><br><span class="line">    <span class="keyword">return</span> Scaffold(body: TabChangePage(content: <span class="string">'Content'</span>));</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TabChangePage</span> <span class="keyword">extends</span> <span class="title">StatelessWidget</span> </span>&#123;</span><br><span class="line">  <span class="keyword">final</span> <span class="built_in">String</span> content;</span><br><span class="line">    </span><br><span class="line">  TabChangePage(&#123;Key key, <span class="keyword">this</span>.content&#125;) : <span class="keyword">super</span>(key: key);</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  Widget build(BuildContext context) &#123;</span><br><span class="line">    <span class="keyword">return</span> Container(child: Text(content, style: TextStyle(color: Theme.of(context).primaryColor, fontSize: <span class="number">30.0</span>)));</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后运行下，「**，文字怎么被状态栏给挡了…」<br>不要慌，静下心喝杯茶，眺望下远方，这里就需要用 SafeArea 来处理了，在 TabChangePage 的 Container 外层加一层 SafeArea</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@override</span></span><br><span class="line">  <span class="function">Widget <span class="title">build</span><span class="params">(BuildContext context)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> SafeArea(</span><br><span class="line">        child:</span><br><span class="line">            Container(child: Text(content, style: TextStyle(color: Theme.of(context).primaryColor, fontSize: <span class="number">30.0</span>))));</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后重新运行，一切正常，SafeArea 的用途可以看下源码的解释</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// A widget that insets its child by sufficient padding to avoid intrusions by</span></span><br><span class="line"><span class="comment">/// the operating system.</span></span><br><span class="line"><span class="comment">///</span></span><br><span class="line"><span class="comment">/// For example, this will indent the child by enough to avoid the status bar at</span></span><br><span class="line"><span class="comment">/// the top of the screen.</span></span><br></pre></td></tr></table></figure>
+
+<p>翻译过来大概就是「给子部件和系统点击无效区域留有足够空间，比如状态栏和系统导航栏」，SafeArea 可以很好解决刘海屏覆盖页面内容的问题，那么到目前为止，AppBar 的一些坑就说的差不多了，就要解决剩下的坑了</p>
+<p><img src="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190425161326.png" alt></p>
+<h3 id="4、Scaffold-Drawer"><a href="#4、Scaffold-Drawer" class="headerlink" title="4、Scaffold - Drawer"></a>4、Scaffold - Drawer</h3><p>drawer 同 endDrawer 属性是一样的，除了滑动的方向，Drawer 这个组件也相对比较简单，只要传入一个 child 即可，在展示之前，先对 appBar 做下处理，设置 leading 为系统默认，点击 leading 的时候 Drawer 就可以滑出来了，当然手动滑也可以</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@override</span></span><br><span class="line">  Widget build(BuildContext context) &#123;</span><br><span class="line">    <span class="keyword">return</span> Scaffold(</span><br><span class="line">      appBar: AppBar(</span><br><span class="line">        centerTitle: <span class="keyword">true</span>,</span><br><span class="line"><span class="comment">//        automaticallyImplyLeading: false,</span></span><br><span class="line"><span class="comment">//        leading: Icon(Icons.menu, color: Colors.red, size: 30.0),</span></span><br><span class="line"><span class="comment">//        flexibleSpace: Image.asset('images/app_bar_hor.jpg', fit: BoxFit.cover),</span></span><br><span class="line">        title: Text(<span class="string">'AppBar Demo'</span>, style: TextStyle(color: Colors.red)),</span><br><span class="line">        actions: &lt;Widget&gt;[</span><br><span class="line">          PopupMenuButton(</span><br><span class="line">              offset: Offset(<span class="number">50.0</span>, <span class="number">100.0</span>),</span><br><span class="line">              onSelected: (val) =&gt; <span class="built_in">print</span>(<span class="string">'Selected item is $val'</span>),</span><br><span class="line">              icon: Icon(Icons.more_vert, color: Colors.red),</span><br><span class="line">              itemBuilder: (context) =&gt;</span><br><span class="line">                  <span class="built_in">List</span>.generate(_abs.length, (index) =&gt; PopupMenuItem(value: _abs[index], child: Text(_abs[index]))))</span><br><span class="line">        ],</span><br><span class="line">        bottom: TabBar(</span><br><span class="line">            labelColor: Colors.red,</span><br><span class="line">            unselectedLabelColor: Colors.white,</span><br><span class="line">            controller: _tabController,</span><br><span class="line">            isScrollable: <span class="keyword">false</span>,</span><br><span class="line">            indicatorColor: Colors.yellow,</span><br><span class="line">            indicatorSize: TabBarIndicatorSize.tab,</span><br><span class="line">            indicatorWeight: <span class="number">5.0</span>,</span><br><span class="line">            tabs: <span class="built_in">List</span>.generate(_abs.length, (index) =&gt; Tab(text: _abs[index], icon: Icon(Icons.android)))),</span><br><span class="line">      ),</span><br><span class="line">      <span class="comment">// body ....</span></span><br><span class="line">      drawer: Drawer(</span><br><span class="line">        <span class="comment">// 记得要先添加 `SafeArea` 防止视图顶到状态栏下面</span></span><br><span class="line">        child: SafeArea(</span><br><span class="line">            child: Container(</span><br><span class="line">          child: Text(<span class="string">'Drawer'</span>, style: TextStyle(color: Theme.of(context).primaryColor, fontSize: <span class="number">30.0</span>)),</span><br><span class="line">        )),</span><br><span class="line">      ),</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    <span class="comment">//    return Scaffold(body: TabChangePage(content: 'Content'));</span></span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>最终的效果图也不贴了，当手势从左侧滑出或者点击 leading 图标，抽屉就出来了</p>
+<h3 id="5、AppBar-bottomNavigationBar"><a href="#5、AppBar-bottomNavigationBar" class="headerlink" title="5、AppBar - bottomNavigationBar"></a>5、AppBar - bottomNavigationBar</h3><p>bottomNavigarionBar 可以传入一个 BottomNavigationBar 实例，BottomNavigationBar 需要传入 BottomNavigationBarItem 列表作为 items ，但是这边为了实现一个 bottomNavigationBar 和 floatingActionButton 一个特殊的组合效果，我们不使用 BottomNavigationBar，换做 BottomAppBar，直接上代码吧</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@override</span></span><br><span class="line">  Widget build(BuildContext context) &#123;</span><br><span class="line">    <span class="keyword">return</span> Scaffold(</span><br><span class="line">      <span class="comment">/// 一样的代码省略....</span></span><br><span class="line">      bottomNavigationBar: BottomAppBar(</span><br><span class="line">        shape: CircularNotchedRectangle(),</span><br><span class="line">        child: Row(</span><br><span class="line">          mainAxisSize: MainAxisSize.max,</span><br><span class="line">          mainAxisAlignment: MainAxisAlignment.spaceAround,</span><br><span class="line">          children: &lt;Widget&gt;[</span><br><span class="line">            IconButton(icon: Icon(Icons.android, size: <span class="number">30.0</span>, color: Theme.of(context).primaryColor), onPressed: () &#123;&#125;),</span><br><span class="line">            IconButton(icon: Icon(Icons.people, size: <span class="number">30.0</span>, color: Theme.of(context).primaryColor), onPressed: () &#123;&#125;)</span><br><span class="line">          ],</span><br><span class="line">        ),</span><br><span class="line">      ),</span><br><span class="line">      floatingActionButton:</span><br><span class="line">          FloatingActionButton(onPressed: () =&gt; <span class="built_in">print</span>(<span class="string">'Add'</span>), child: Icon(Icons.add, color: Colors.white)),</span><br><span class="line">      <span class="comment">// FAB 的位置，一共有 7 中位置可以选择，centerDocked, endDocked, centerFloat, endFloat, endTop, startTop, miniStartTop，这边选择悬浮在 dock</span></span><br><span class="line">      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,</span><br><span class="line">    );</span><br></pre></td></tr></table></figure>
+
+<p>最终的效果图</p>
+<p>![image-20190425161447777](/Users/zm/Library/Application Support/typora-user-images/image-20190425161447777.png)</p>
+<p>既然提到了 StatefulWidget，顺带提下两种比较简单的部件，也算是基础部件吧。CheckBox、CheckboxListTile，Switch、SwitchListTile 因为比较简单，就直接上代码了，里面都有完整的注释</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CheckSwitchDemoPage</span> <span class="keyword">extends</span> <span class="title">StatefulWidget</span> </span>&#123;</span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  _CheckSwitchDemoPageState createState() =&gt; _CheckSwitchDemoPageState();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">_CheckSwitchDemoPageState</span> <span class="keyword">extends</span> <span class="title">State</span>&lt;<span class="title">CheckSwitchDemoPage</span>&gt; </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> _isChecked = <span class="keyword">false</span>;</span><br><span class="line">  <span class="keyword">var</span> _isTitleChecked = <span class="keyword">false</span>;</span><br><span class="line">  <span class="keyword">var</span> _isOn = <span class="keyword">false</span>;</span><br><span class="line">  <span class="keyword">var</span> _isTitleOn = <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  <span class="keyword">void</span> initState() &#123;</span><br><span class="line">    <span class="keyword">super</span>.initState();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  Widget build(BuildContext context) &#123;</span><br><span class="line">    <span class="keyword">return</span> Scaffold(</span><br><span class="line">      appBar: AppBar(</span><br><span class="line">        title: Text(<span class="string">'Check Switch Demo'</span>),</span><br><span class="line">      ),</span><br><span class="line">      body: Column(children: &lt;Widget&gt;[</span><br><span class="line">        Row(</span><br><span class="line">          children: &lt;Widget&gt;[</span><br><span class="line">            Checkbox(</span><br><span class="line">              <span class="comment">// 是否开启三态</span></span><br><span class="line">              tristate: <span class="keyword">true</span>,</span><br><span class="line">              <span class="comment">// 控制当前 checkbox 的开启状态</span></span><br><span class="line">              value: _isChecked,</span><br><span class="line">              <span class="comment">// 不设置该方法，处于不可用状态</span></span><br><span class="line">              onChanged: (checked) &#123;</span><br><span class="line">                <span class="comment">// 管理状态值</span></span><br><span class="line">                setState(() =&gt; _isChecked = checked);</span><br><span class="line">              &#125;,</span><br><span class="line">              <span class="comment">// 选中时的颜色</span></span><br><span class="line">              activeColor: Colors.pink,</span><br><span class="line">              <span class="comment">// 这个值有 padded 和 shrinkWrap 两个值，</span></span><br><span class="line">              <span class="comment">// padded 时候所占有的空间比 shrinkWrap 大，别的原谅我没看出啥</span></span><br><span class="line">              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,</span><br><span class="line">            ),</span><br><span class="line"></span><br><span class="line">            <span class="comment">/// 点击无响应</span></span><br><span class="line">            Checkbox(value: _isChecked, onChanged: <span class="keyword">null</span>, tristate: <span class="keyword">true</span>)</span><br><span class="line">          ],</span><br><span class="line">        ),</span><br><span class="line">        Row(</span><br><span class="line">          children: &lt;Widget&gt;[</span><br><span class="line">            Switch(</span><br><span class="line">                <span class="comment">// 开启时候，那个条的颜色</span></span><br><span class="line">                activeTrackColor: Colors.yellow,</span><br><span class="line">                <span class="comment">// 关闭时候，那个条的颜色</span></span><br><span class="line">                inactiveTrackColor: Colors.yellow[<span class="number">200</span>],</span><br><span class="line">                <span class="comment">// 设置指示器的图片，当然也有 color 可以设置</span></span><br><span class="line">                activeThumbImage: AssetImage(<span class="string">'images/ali.jpg'</span>),</span><br><span class="line">                inactiveThumbImage: AssetImage(<span class="string">'images/ali.jpg'</span>),</span><br><span class="line">                <span class="comment">// 开始时候的颜色，貌似会被 activeTrackColor 顶掉</span></span><br><span class="line">                activeColor: Colors.pink,</span><br><span class="line">                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,</span><br><span class="line">                value: _isOn,</span><br><span class="line">                onChanged: (onState) &#123;</span><br><span class="line">                  setState(() =&gt; _isOn = onState);</span><br><span class="line">                &#125;),</span><br><span class="line"></span><br><span class="line">            <span class="comment">/// 点击无响应</span></span><br><span class="line">            Switch(value: _isOn, onChanged: <span class="keyword">null</span>)</span><br><span class="line">          ],</span><br><span class="line">        ),</span><br><span class="line">        CheckboxListTile(</span><br><span class="line">          <span class="comment">// 描述选项</span></span><br><span class="line">          title: Text(<span class="string">'Make this item checked'</span>),</span><br><span class="line">          <span class="comment">// 二级描述</span></span><br><span class="line">          subtitle: Text(<span class="string">'description...description...\ndescription...description...'</span>),</span><br><span class="line">          <span class="comment">// 和 checkbox 对立边的部件，例如 checkbox 在头部，则 secondary 在尾部</span></span><br><span class="line">          secondary: Image.asset(<span class="string">'images/ali.jpg'</span>, width: <span class="number">30.0</span>, height: <span class="number">30.0</span>),</span><br><span class="line">          value: _isTitleChecked,</span><br><span class="line">          <span class="comment">// title 和 subtitle 是否为垂直密集列表中一员，最明显就是部件会变小</span></span><br><span class="line">          dense: <span class="keyword">true</span>,</span><br><span class="line">          <span class="comment">// 是否需要使用 3 行的高度，该值为 true 时候，subtitle 不可为空</span></span><br><span class="line">          isThreeLine: <span class="keyword">true</span>,</span><br><span class="line">          <span class="comment">// 控制 checkbox 选择框是在前面还是后面</span></span><br><span class="line">          controlAffinity: ListTileControlAffinity.leading,</span><br><span class="line">          <span class="comment">// 是否将主题色应用到文字或者图标</span></span><br><span class="line">          selected: <span class="keyword">true</span>,</span><br><span class="line">          onChanged: (checked) &#123;</span><br><span class="line">            setState(() =&gt; _isTitleChecked = checked);</span><br><span class="line">          &#125;,</span><br><span class="line">        ),</span><br><span class="line">        SwitchListTile(</span><br><span class="line">            title: Text(<span class="string">'Turn On this item'</span>),</span><br><span class="line">            subtitle: Text(<span class="string">'description...description...\ndescription...description...'</span>),</span><br><span class="line">            secondary: Image.asset(<span class="string">'images/ali.jpg'</span>, width: <span class="number">30.0</span>, height: <span class="number">30.0</span>),</span><br><span class="line">            isThreeLine: <span class="keyword">true</span>,</span><br><span class="line">            value: _isTitleOn,</span><br><span class="line">            selected: <span class="keyword">true</span>,</span><br><span class="line">            onChanged: (onState) &#123;</span><br><span class="line">              setState(() =&gt; _isTitleOn = onState);</span><br><span class="line">            &#125;)</span><br><span class="line">      ]),</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/1.gif" alt></p>
+<p><em>该部分代码查看 checkbox_swicth_main.dart 文件</em></p>
+<p>终于这节把 <code>Scaffold</code> 留下的坑都填完了，然后又讲了两种基础部件，下节要填留下的别的坑了，目测还留了 2 个大坑，那就等以后继续解决吧~</p>
+<p>最后代码的地址还是要的：</p>
+<ol>
+<li>文章中涉及的代码：<a href="https://links.jianshu.com/go?to=https%3A%2F%2Fgithub.com%2Fkukyxs%2Fflutter_arts_demos_app" target="_blank" rel="noopener">demos</a></li>
+<li>基于郭神 <code>cool weather</code> 接口的一个项目，实现 <code>BLoC</code> 模式，实现状态管理：<a href="https://links.jianshu.com/go?to=https%3A%2F%2Fgithub.com%2Fkukyxs%2Fflutter_weather" target="_blank" rel="noopener">flutter_weather</a></li>
+<li>一个课程(当时买了想看下代码规范的，代码更新会比较慢，虽然是跟着课上的一些写代码，但是还是做了自己的修改，很多地方看着不舒服，然后就改成自己的实现方式了)：<a href="https://links.jianshu.com/go?to=https%3A%2F%2Fgithub.com%2Fkukyxs%2Fflutter_shop" target="_blank" rel="noopener">flutter_shop</a></li>
+</ol>
+<p>作者：Kuky_xs</p>
+<p>链接：<a href="https://www.jianshu.com/p/9119a1c1a123" target="_blank" rel="noopener">https://www.jianshu.com/p/9119a1c1a123</a></p>
+<p>来源：简书</p>
+<p>简书著作权归作者所有，任何形式的转载都请联系作者获得授权并注明出处。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="ZhangMiao 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="ZhangMiao 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    ZhangMiao
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://zhangmiao.cc/posts/5c762cf7.html" title="Flutter入门指南(三)快速搭建界面">https://zhangmiao.cc/posts/5c762cf7.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+            <a href="/tags/Flutter/" rel="tag"># Flutter</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/88b946ec.html" rel="next" title="Flutter入门指南(二)基础部件">
+                <i class="fa fa-chevron-left"></i> Flutter入门指南(二)基础部件
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/posts/14587b6a.html" rel="prev" title="Flutter入门指南(四)常用布局">
+                Flutter入门指南(四)常用布局 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4" alt="ZhangMiao">
+            
+              <p class="site-author-name" itemprop="name">ZhangMiao</p>
+              <p class="site-description motion-element" itemprop="description">Android/Flutter Developer</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">373</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">58</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">143</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:zm@zhangmiao.cc" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://wpa.qq.com/msgrd?v=3&uin=153942241&site=qq&menu=yes" target="_blank" title="QQ">
+                      
+                        <i class="fa fa-fw fa-qq"></i>QQ</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/zhangmiaocc" target="_blank" title="Github">
+                      
+                        <i class="fa fa-fw fa-github"></i>Github</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://stackoverflow.com" target="_blank" title="StackOverflow">
+                      
+                        <i class="fa fa-fw fa-stack-overflow"></i>StackOverflow</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://blog.constore.cn/" title="Liujianhui" target="_blank">Liujianhui</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://xuebin.me" title="Leo" target="_blank">Leo</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.csdn.net/lmj623565791" title="Hongyang" target="_blank">Hongyang</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://liuwangshu.cn/" title="Liuwangshu" target="_blank">Liuwangshu</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://jspang.com/" title="Jspang" target="_blank">Jspang</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blankj.com/" title="Blankj" target="_blank">Blankj</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://wuxiaolong.me/" title="WuXiaoLong" target="_blank">WuXiaoLong</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://molunerfinn.com" title="Molunerfinn" target="_blank">Molunerfinn</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.ofind.cn/" title="Ofind" target="_blank">Ofind</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.gcssloop.com/" title="Gcssloop" target="_blank">Gcssloop</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、AppBar"><span class="nav-number">1.</span> <span class="nav-text">1、AppBar</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、AppBar-bottom"><span class="nav-number">2.</span> <span class="nav-text">2、AppBar - bottom</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、PageView-TabBar"><span class="nav-number">3.</span> <span class="nav-text">3、PageView + TabBar</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、Scaffold-Drawer"><span class="nav-number">4.</span> <span class="nav-text">4、Scaffold - Drawer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5、AppBar-bottomNavigationBar"><span class="nav-number">5.</span> <span class="nav-text">5、AppBar - bottomNavigationBar</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZhangMiao</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      本站访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+  <div>
+    <script type="text/javascript">
+      var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");
+      document.write(unescape("%3Cspan id='cnzz_stat_icon_1277928793'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1277928793%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+  </div>
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://zhangmiao.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://zhangmiao.cc/posts/5c762cf7.html';
+          this.page.identifier = 'posts/5c762cf7.html';
+          this.page.title = 'Flutter入门指南(三)快速搭建界面';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://zhangmiao.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("8iIYW0IGofqyvJiiuU5R9buW-gzGzoHsz", "ssmxRx0kELJir6mA02ziW3Ql");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/lib/zclip/clipboard.min.js"></script>
+<script type="text/javascript" src="/js/src/custom.js"></script>
+
+</body>
+</html>

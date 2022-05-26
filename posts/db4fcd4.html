@@ -1,0 +1,1543 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Android Tips,lint,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="zm.blog" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="最近一周做了一些关于Android静态代码检测的东西，对于一些常见的lint警告做了记录,其实对于常见的lint警告我们得处理步骤可以分为如下：   查看lint报错的错误类型 追踪到代码处，确定是否代码自身问题 分析该类错误影响范围 确定解决方式(规范代码、添加注解、添加规则)   规范代码一般是由于开发者在开发时，不细心造成误写等，或者是某些API过时，需要进行手动修改。 添加注解对于某些特殊">
+<meta name="keywords" content="Android Tips,lint">
+<meta property="og:type" content="article">
+<meta property="og:title" content="静态代码lint常见报错处理">
+<meta property="og:url" content="https://zhangmiao.cc/posts/db4fcd4.html">
+<meta property="og:site_name" content="zm.blog">
+<meta property="og:description" content="最近一周做了一些关于Android静态代码检测的东西，对于一些常见的lint警告做了记录,其实对于常见的lint警告我们得处理步骤可以分为如下：   查看lint报错的错误类型 追踪到代码处，确定是否代码自身问题 分析该类错误影响范围 确定解决方式(规范代码、添加注解、添加规则)   规范代码一般是由于开发者在开发时，不细心造成误写等，或者是某些API过时，需要进行手动修改。 添加注解对于某些特殊">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2021-12-24T02:05:29.980Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="静态代码lint常见报错处理">
+<meta name="twitter:description" content="最近一周做了一些关于Android静态代码检测的东西，对于一些常见的lint警告做了记录,其实对于常见的lint警告我们得处理步骤可以分为如下：   查看lint报错的错误类型 追踪到代码处，确定是否代码自身问题 分析该类错误影响范围 确定解决方式(规范代码、添加注解、添加规则)   规范代码一般是由于开发者在开发时，不细心造成误写等，或者是某些API过时，需要进行手动修改。 添加注解对于某些特殊">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://zhangmiao.cc/posts/db4fcd4.html">
+
+
+
+
+
+  <title>静态代码lint常见报错处理 | zm.blog</title>
+  
+
+
+
+
+
+  <script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?44434226ba535875b1e807122adc3a04";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zm.blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">select * from learn</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhangmiao.cc/posts/db4fcd4.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZhangMiao">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zm.blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">静态代码lint常见报错处理</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-23T09:48:58+08:00">
+                2019-08-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/Android-Tips/" itemprop="url" rel="index">
+                    <span itemprop="name">Android Tips</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/posts/db4fcd4.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="posts/db4fcd4.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/posts/db4fcd4.html" class="leancloud_visitors" data-flag-title="静态代码lint常见报错处理">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近一周做了一些关于Android静态代码检测的东西，对于一些常见的lint警告做了记录,其实对于常见的lint警告我们得处理步骤可以分为如下：</p>
+<blockquote>
+<ul>
+<li>查看lint报错的错误类型</li>
+<li>追踪到代码处，确定是否代码自身问题</li>
+<li>分析该类错误影响范围</li>
+<li>确定解决方式(规范代码、添加注解、添加规则)</li>
+</ul>
+</blockquote>
+<h5 id="规范代码"><a href="#规范代码" class="headerlink" title="规范代码"></a>规范代码</h5><p>一般是由于开发者在开发时，不细心造成误写等，或者是某些API过时，需要进行手动修改。</p>
+<h4 id="添加注解"><a href="#添加注解" class="headerlink" title="添加注解"></a>添加注解</h4><p>对于某些特殊需求，可以通过加注解来避免lint报错,以下给出常见的添加注解的地方</p>
+<h5 id="java源代码"><a href="#java源代码" class="headerlink" title="java源代码"></a>java源代码</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SuppressLint</span>(<span class="string">"xxxx"</span>) <span class="comment">// xxxx代表某种lint检测类型</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span></span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+<h5 id="xml"><a href="#xml" class="headerlink" title="xml"></a>xml</h5><p>首先添加命名空间</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">namespace xmlns:tools="http://schemas.android.com/tools"</span><br></pre></td></tr></table></figure>
+
+<p>然后在报错地方添加</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--xxxx代表某种lint检测类型,或者可以是直接all,禁止掉所有检测类型--&gt;</span></span><br><span class="line">tools:ignore="xxxx"</span><br></pre></td></tr></table></figure>
+
+<h4 id="添加规则-lint-xml文件"><a href="#添加规则-lint-xml文件" class="headerlink" title="添加规则(lint.xml文件)"></a>添加规则(lint.xml文件)</h4><p>对于某些大规模类型的，或者是知道自己必须这么干时，就可以添加规则来规避某种类型的所有lint报错或者是指定路径，亦或者是通过正则指定。<br> 添加规则格式为：<br> <strong>规避一种类型</strong></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--xxxx代表某种lint检测类型--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">issue</span> <span class="attr">id</span>=<span class="string">"xxxx"</span> <span class="attr">severity</span>=<span class="string">"ignore"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>指定路径</strong></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">&lt;!--xxxx代表某种lint检测类型--&gt;</span></span><br><span class="line"> <span class="comment">&lt;!--****代表指定路径或者是文件--&gt;</span></span><br><span class="line"> <span class="comment">&lt;!--####通过正则来指定相关文件或者属性等--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">issue</span> <span class="attr">id</span>=<span class="string">"xxxx"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">ignore</span> <span class="attr">path</span>=<span class="string">"****"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">ignore</span> <span class="attr">regexp</span>=<span class="string">"####"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">issue</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>改变lint检测类型</strong></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">&lt;!--xxxx代表某种lint检测类型--&gt;</span></span><br><span class="line"> <span class="comment">&lt;!--severity有不同种程度的类型  Fatal、Error 、Warning 、Information 、Ignore--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">issue</span> <span class="attr">id</span>=<span class="string">"xxxx"</span> <span class="attr">severity</span>=<span class="string">"ignore"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>接下来记录下我见到和处理的一些报错类型</p>
+<h4 id="1-Missing-commit-on-SharedPreference-editor"><a href="#1-Missing-commit-on-SharedPreference-editor" class="headerlink" title="1. Missing commit() on SharedPreference editor"></a>1. Missing commit() on SharedPreference editor</h4><p>缺少commit()方法调用，添加即可;但是你或许会遇到下面这个问题,它依然会lint检测报错：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span></span>&#123;</span><br><span class="line">        SharedPreferencesUtils.apply(dataStore.edit() .putString(xxx, xxx));</span><br><span class="line">&#125;</span><br><span class="line">.</span><br><span class="line">.</span><br><span class="line">.</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">apply</span><span class="params">(SharedPreferences.Editor editor)</span> </span>&#123;</span><br><span class="line">        editor.apply();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果是这样的话，建议到指定方法调用处添加注解</p>
+<blockquote>
+<p>@SuppressLint(“CommitPrefEdits”)</p>
+</blockquote>
+<h4 id="2-Use-apply-on-SharedPreferences"><a href="#2-Use-apply-on-SharedPreferences" class="headerlink" title="2. Use apply() on SharedPreferences"></a>2. Use apply() on SharedPreferences</h4><p>建议使用apply()替换commit(),对于两个方法的区别，建议看看<a href="https://www.cnblogs.com/dd-dd/p/5688991.html" target="_blank" rel="noopener">这里</a></p>
+<h4 id="3-Mismatched-Styleable-Custom-View-Name"><a href="#3-Mismatched-Styleable-Custom-View-Name" class="headerlink" title="3. Mismatched Styleable/Custom View Name"></a>3. Mismatched Styleable/Custom View Name</h4><p>建议在自定义View的时候，尽量保证View名称与&lt;declare-styleable 的name一致,<br> 若有特殊需求需要对指定进行添加注解.</p>
+<blockquote>
+<p>@SuppressLint(“CustomViewStyleable”)<br> 若存在特殊需求，则更建议在lint.xml中添加规则:<br> <issue id="CustomViewStyleable" severity="ignore"></issue></p>
+</blockquote>
+<h4 id="4-Duplicate-ids-across-layouts-combined-with-include-tags"><a href="#4-Duplicate-ids-across-layouts-combined-with-include-tags" class="headerlink" title="4. Duplicate ids across layouts combined with include tags"></a>4. Duplicate ids across layouts combined with include tags</h4><p>在布局中，通过<include>进来的layout，存在和父布局中相同id的view，修改建议，修改布局中id命名.</include></p>
+<h4 id="5-Using-android-media-ExifInterface"><a href="#5-Using-android-media-ExifInterface" class="headerlink" title="5. Using android.media.ExifInterface"></a>5. Using android.media.ExifInterface</h4><p>Avoid using android.media.ExifInterface;use android.support.media.ExifInterface from the support library instead.<br> 使用support包相关替换</p>
+<h4 id="6-Hardcoded-reference-to-sdcard"><a href="#6-Hardcoded-reference-to-sdcard" class="headerlink" title="6. Hardcoded reference to /sdcard"></a>6. Hardcoded reference to /sdcard</h4><p>Do not hardcode “/data/“; use Context.getFilesDir().getPath() instead<br> lint 给出的修改建议是使用Context.getFilesDir().getPath() 替换直接通过路径拼接，但是根据场景可以自变吧；若不想通过这种方式可以直接忽略，添加注解<br> 类似错误场景：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DbCopyHelper</span> </span>&#123;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String DB_PATH = <span class="string">"/data/data/"</span> + BuildConfig.APPLICATION_ID + <span class="string">"/databases/"</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">copy</span><span class="params">(Context context, String dbName, <span class="keyword">boolean</span> force)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        File dir = <span class="keyword">new</span> File(DB_PATH);</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>@SuppressLint(“ SdCardPath”)<br> 若存在特殊需求，则更建议在lint.xml中添加规则:<br> <issue id="SdCardPath" severity="ignore"></issue></p>
+</blockquote>
+<h4 id="7-Attribute-unused-on-older-versions"><a href="#7-Attribute-unused-on-older-versions" class="headerlink" title="7. Attribute unused on older versions"></a>7. Attribute unused on older versions</h4><p>建议添加规则</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--xxxx代表某个属性--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">issue</span> <span class="attr">id</span>=<span class="string">"UnusedAttribute"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">ignore</span> <span class="attr">regexp</span>=<span class="string">".*xxxxx.*"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">issue</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="8-Appcompat-Custom-Widgets"><a href="#8-Appcompat-Custom-Widgets" class="headerlink" title="8. Appcompat Custom Widgets"></a>8. Appcompat Custom Widgets</h4><p>This custom view should extend android.support.v7.widget.AppCompatTextView instead<br> 建议:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">添加规则</span><br><span class="line"><span class="tag">&lt;<span class="name">issue</span> <span class="attr">id</span>=<span class="string">"AppCompatCustomView"</span> <span class="attr">severity</span>=<span class="string">"ignore"</span>/&gt;</span></span><br><span class="line">或者是添加注解</span><br><span class="line">@SuppressLint(“AppCompatCustomView”)</span><br></pre></td></tr></table></figure>
+
+<h4 id="9-Restricted-API"><a href="#9-Restricted-API" class="headerlink" title="9. Restricted API"></a>9. Restricted API</h4><p>xxx can only be called from within the same library group<br> 方法只能在同一个library group中调用<br> 添加注解:</p>
+<blockquote>
+<p>@SuppressLint(“RestrictedApi”)<br> 或者是规则</p>
+</blockquote>
+<h4 id="10-Invalid-format-string"><a href="#10-Invalid-format-string" class="headerlink" title="10. Invalid format string"></a>10. Invalid format string</h4><p>在进行字符串格式化处理的时候，需要注意formatted=“false” 的影响<br> 直接添加：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--忽略string的format--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">issue</span> <span class="attr">id</span>=<span class="string">"StringFormatInvalid"</span> <span class="attr">severity</span>=<span class="string">"ignore"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>对于formatted=“false”的理解,在进行string.xml编写的时候，注意内容的占位符号，如果大于等于2个占位符的时候，建议使用formatted=“false”，或者使用正则方式%n$m。</p>
+<h4 id="11-Insecure-HostnameVerifier"><a href="#11-Insecure-HostnameVerifier" class="headerlink" title="11. Insecure HostnameVerifier"></a>11. Insecure HostnameVerifier</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">HostnameVerifier hnv = <span class="keyword">new</span> HostnameVerifier() &#123;</span><br><span class="line">          <span class="meta">@Override</span></span><br><span class="line">          <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">verify</span><span class="params">(String hostname, SSLSession session)</span> </span>&#123;                    </span><br><span class="line">              <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">          &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>场景是直接均返回true，被认为是不安全的操作，若知道自己在干什么，可以直接添加注解</p>
+<blockquote>
+<p>@SuppressLint(“AllowAllHostnameVerifier”)</p>
+</blockquote>
+<p>或者添加规则</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--忽略业务中总是返回true--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">issue</span> <span class="attr">id</span>=<span class="string">"BadHostnameVerifier"</span> <span class="attr">severity</span>=<span class="string">"ignore"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="12-Insecure-TLS-SSL-trust-manager"><a href="#12-Insecure-TLS-SSL-trust-manager" class="headerlink" title="12. Insecure TLS/SSL trust manager"></a>12. Insecure TLS/SSL trust manager</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">checkServerTrusted</span><span class="params">(X509Certificate[] chain, String authType)</span> <span class="keyword">throws</span> </span></span><br><span class="line"><span class="function">       CertificateException </span>&#123;</span><br><span class="line"> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>建议添加规则</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--忽略信任X509TrustManager带来的危险--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">issue</span> <span class="attr">id</span>=<span class="string">"TrustAllX509TrustManager"</span> <span class="attr">severity</span>=<span class="string">"ignore"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="13-Obsolete-layout-params"><a href="#13-Obsolete-layout-params" class="headerlink" title="13. Obsolete layout params"></a>13. Obsolete layout params</h4><p>Invalid layout param in a LinearLayout: layout_centerInParent<br> 建议开发中，对布局的使用注意可用性，在参考代码的时候，注意删除修改后不可用的属性</p>
+<h4 id="14-Static-Field-Leaks"><a href="#14-Static-Field-Leaks" class="headerlink" title="14. Static Field Leaks"></a>14. Static Field Leaks</h4><p>注意在书写单例的时候，避免使用局部context.均转换为全局上下文</p>
+<h4 id="15-Node-can-be-replaced-by-a-TextView-with-compound-drawables"><a href="#15-Node-can-be-replaced-by-a-TextView-with-compound-drawables" class="headerlink" title="15. Node can be replaced by a TextView with compound drawables"></a>15. Node can be replaced by a TextView with compound drawables</h4><p>这个警告的产生，主要是在一个线性布局中存在一个textView和一个ImageView，认为一个textView可以实现类似的功能，而不用添加多余的嵌套和View；<br> 但是对于特定的需求，不能保证能实现想要的效果，因此建议添加规则忽略：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--忽略对linearlayout(包含TextView和ImageView)使用的误报--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">issue</span> <span class="attr">id</span>=<span class="string">"UseCompoundDrawables"</span> <span class="attr">severity</span>=<span class="string">"ignore"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="16-View-Holder-Candidates"><a href="#16-View-Holder-Candidates" class="headerlink" title="16. View Holder Candidates"></a>16. View Holder Candidates</h4><p>Unconditional layout inflation from view adapter: Should use View Holder pattern (use recycled view passed into this method as the second parameter) for smoother scrolling<br> 建议使用ViewHolder</p>
+<h4 id="17-Missing-baselineAligned-attribute"><a href="#17-Missing-baselineAligned-attribute" class="headerlink" title="17. Missing baselineAligned attribute"></a>17. Missing baselineAligned attribute</h4><p>缺少baselineAligned这个属性，建议看看<a href="https://www.jianshu.com/p/07ba80fdd86a" target="_blank" rel="noopener">这里</a>，这个警告可以根据需求自行添加属性与否，或者是添加规则和注解：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--忽略建议 Set android:baselineAligned="false"--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">issue</span> <span class="attr">id</span>=<span class="string">"DisableBaselineAlignment"</span> <span class="attr">severity</span>=<span class="string">"ignore"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="18-Inefficient-layout-weight"><a href="#18-Inefficient-layout-weight" class="headerlink" title="18. Inefficient layout weight"></a>18. Inefficient layout weight</h4><p>在使用layout weight属性的时候，应保持相应属性为0dp;或者是在copy代码的时候忘记删除layout_weight代码导致lint检测报错</p>
+<h4 id="19-Nested-layout-weights"><a href="#19-Nested-layout-weights" class="headerlink" title="19. Nested layout weights"></a>19. Nested layout weights</h4><p>在布局进行嵌套使用时，父布局与子布局都使用了android:layout_weight，根据需求进行修改;</p>
+<h4 id="20-Useless-parent-layout"><a href="#20-Useless-parent-layout" class="headerlink" title="20. Useless parent layout"></a>20. Useless parent layout</h4><p>警告有未使用的父布局，或者是无用的父布局。<br> 根据实际需求进行忽略或者是删除相应布局</p>
+<h4 id="21-Unused-namespace"><a href="#21-Unused-namespace" class="headerlink" title="21. Unused namespace"></a>21. Unused namespace</h4><p>命名空间重复添加，或者是删除对应属性后，命名空间未删除，删除.</p>
+<h4 id="22-Hyphen-can-be-replaced-with-dash"><a href="#22-Hyphen-can-be-replaced-with-dash" class="headerlink" title="22. Hyphen can be replaced with dash"></a>22. Hyphen can be replaced with dash</h4><p>Replace “-“ with an “en dash” character (–, –)<br> 为了符合人性化的开发，建议直接添加规则忽略</p>
+<h4 id="23-H-Ellipsis-string-can-be-replaced-with-ellipsis-character"><a href="#23-H-Ellipsis-string-can-be-replaced-with-ellipsis-character" class="headerlink" title="23. H Ellipsis string can be replaced with ellipsis character"></a>23. H Ellipsis string can be replaced with ellipsis character</h4><p>处理同上</p>
+<h4 id="24-Duplicated-icons-under-different-names"><a href="#24-Duplicated-icons-under-different-names" class="headerlink" title="24. Duplicated icons under different names"></a>24. Duplicated icons under different names</h4><p>存在不同命名的同文件的icons<br> 目前的处理是添加规则忽略</p>
+<h4 id="25-Missing-accessibility-label"><a href="#25-Missing-accessibility-label" class="headerlink" title="25. Missing accessibility label"></a>25. Missing accessibility label</h4><p>对EditTextView的使用，建议添加一个它的标签View<br> 根据需要进行忽略  或者添加android:labelfor</p>
+<h4 id="26-Keyboard-inaccessible-widget"><a href="#26-Keyboard-inaccessible-widget" class="headerlink" title="26. Keyboard inaccessible widget"></a>26. Keyboard inaccessible widget</h4><p>一个控件（比如图片），如果没有定义focusable(可聚焦的)，却定义了是clickable（可点击的），那么是不能通过键盘访问的。所以，需要添加一个focusable=“true”;相当于指定可获取焦点.</p>
+<h4 id="27-Usage-of-showAsAction-always"><a href="#27-Usage-of-showAsAction-always" class="headerlink" title="27. Usage of showAsAction=always"></a>27. Usage of showAsAction=always</h4><p>建议使用”ifRoom”替换”always”<br> 根据需求进行修改或者忽略</p>
+<h4 id="28-Missing-inputType"><a href="#28-Missing-inputType" class="headerlink" title="28. Missing inputType"></a>28. Missing inputType</h4><p>This text field does not specify an inputType<br> 建议为EditText指定inputType属性</p>
+<h4 id="29-Overdraw-Painting-regions-more-than-once"><a href="#29-Overdraw-Painting-regions-more-than-once" class="headerlink" title="29. Overdraw: Painting regions more than once"></a>29. Overdraw: Painting regions more than once</h4><p>Possible overdraw: Root element paints background @color/actionbar_color with a theme that also paints a background (inferred theme is @style/ActionTheme_NoTitle)<br> 存在过度绘制的可能性<br> 但是这个报警有点牵强，所以还是先添加规则给过滤吧</p>
+<h4 id="30-Hardware-Id-Usage"><a href="#30-Hardware-Id-Usage" class="headerlink" title="30. Hardware Id Usage"></a>30. Hardware Id Usage</h4><p>获取设备相关信息，可以查看官方API,使用其替换方法</p>
+<h4 id="31-Incompatible-Gradle-Versions"><a href="#31-Incompatible-Gradle-Versions" class="headerlink" title="31. Incompatible Gradle Versions"></a>31. Incompatible Gradle Versions</h4><p>不兼容依赖版本库，可通过打依赖树，进行查找</p>
+<h4 id="贴出常见的lint-issueid和秒速，以供对照"><a href="#贴出常见的lint-issueid和秒速，以供对照" class="headerlink" title="贴出常见的lint issueid和秒速，以供对照"></a>贴出常见的lint issueid和秒速，以供对照</h4><figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"ContentDescription"</span>: Image without contentDescription</span><br><span class="line"><span class="string">"AddJavascriptInterface"</span>: addJavascriptInterface Called</span><br><span class="line"><span class="string">"ShortAlarm"</span>: Short <span class="keyword">or</span> Frequent Alarm</span><br><span class="line"><span class="string">"AllCaps"</span>: Combining textAllCaps <span class="keyword">and</span> markup</span><br><span class="line"><span class="string">"AllowAllHostnameVerifier"</span>: Insecure HostnameVerifier</span><br><span class="line"><span class="string">"AlwaysShowAction"</span>: Usage of showAsAction=always</span><br><span class="line"><span class="string">"InvalidUsesTagAttribute"</span>: Invalid <span class="keyword">name</span> attribute <span class="keyword">for</span> uses element.</span><br><span class="line"><span class="string">"MissingIntentFilterForMediaSearch"</span>: Missing intent-filter with action</span><br><span class="line">      android.media.action.MEDIA_PLAY_FROM_SEARCH</span><br><span class="line"><span class="string">"MissingMediaBrowserServiceIntentFilter"</span>: Missing intent-filter with action</span><br><span class="line">      android.media.browse.MediaBrowserService.</span><br><span class="line"><span class="string">"MissingOnPlayFromSearch"</span>: Missing onPlayFromSearch.</span><br><span class="line"><span class="string">"ImpliedTouchscreenHardware"</span>: Hardware feature touchscreen <span class="keyword">not</span> explicitly</span><br><span class="line">      marked as optional</span><br><span class="line"><span class="string">"MissingTvBanner"</span>: TV Missing Banner</span><br><span class="line"><span class="string">"MissingLeanbackLauncher"</span>: Missing Leanback Launcher Intent Filter.</span><br><span class="line"><span class="string">"MissingLeanbackSupport"</span>: Missing Leanback Support.</span><br><span class="line"><span class="string">"PermissionImpliesUnsupportedHardware"</span>: Permission Implies Unsupported</span><br><span class="line">      Hardware</span><br><span class="line"><span class="string">"UnsupportedTvHardware"</span>: Unsupported TV Hardware Feature</span><br><span class="line"><span class="string">"SupportAnnotationUsage"</span>: Incorrect support annotation usage</span><br><span class="line"><span class="string">"ShiftFlags"</span>: Dangerous Flag Constant Declaration</span><br><span class="line"><span class="string">"LocalSuppress"</span>: @SuppressLint <span class="keyword">on</span> invalid element</span><br><span class="line"><span class="string">"SwitchIntDef"</span>: Missing @IntDef in Switch</span><br><span class="line"><span class="string">"UniqueConstants"</span>: Overlapping Enumeration Constants</span><br><span class="line"><span class="string">"InlinedApi"</span>: <span class="keyword">Using</span> inlined constants <span class="keyword">on</span> older versions</span><br><span class="line"><span class="string">"Override"</span>: Method conflicts with <span class="keyword">new</span> inherited method</span><br><span class="line"><span class="string">"ObsoleteSdkInt"</span>: Obsolete SDK_INT Version Check</span><br><span class="line"><span class="string">"NewApi"</span>: Calling <span class="keyword">new</span> methods <span class="keyword">on</span> older versions</span><br><span class="line"><span class="string">"UnusedAttribute"</span>: Attribute unused <span class="keyword">on</span> older versions</span><br><span class="line"><span class="string">"AppCompatMethod"</span>: <span class="keyword">Using</span> Wrong AppCompat Method</span><br><span class="line"><span class="string">"AppCompatCustomView"</span>: Appcompat Custom Widgets</span><br><span class="line"><span class="string">"AppCompatResource"</span>: Menu namespace</span><br><span class="line"><span class="string">"GoogleAppIndexingApiWarning"</span>: Missing support <span class="keyword">for</span> Firebase App Indexing Api</span><br><span class="line"><span class="string">"GoogleAppIndexingWarning"</span>: Missing support <span class="keyword">for</span> Firebase App Indexing</span><br><span class="line"><span class="string">"AppLinksAutoVerifyError"</span>: App Links <span class="keyword">Auto</span> Verification Failure</span><br><span class="line"><span class="string">"AppLinksAutoVerifyWarning"</span>: Potential App Links <span class="keyword">Auto</span> Verification Failure</span><br><span class="line"><span class="string">"AppLinkUrlError"</span>: URL <span class="keyword">not</span> supported by app <span class="keyword">for</span> Firebase App Indexing</span><br><span class="line"><span class="string">"TestAppLink"</span>: Unmatched URLs</span><br><span class="line"><span class="string">"InconsistentArrays"</span>: Inconsistencies in array element counts</span><br><span class="line"><span class="string">"Assert"</span>: Assertions</span><br><span class="line"><span class="string">"BadHostnameVerifier"</span>: Insecure HostnameVerifier</span><br><span class="line"><span class="string">"BatteryLife"</span>: Battery Life Issues</span><br><span class="line"><span class="string">"BackButton"</span>: Back button</span><br><span class="line"><span class="string">"ButtonCase"</span>: Cancel/OK dialog button capitalization</span><br><span class="line"><span class="string">"ButtonOrder"</span>: Button order</span><br><span class="line"><span class="string">"ButtonStyle"</span>: Button should be borderless</span><br><span class="line"><span class="string">"ByteOrderMark"</span>: Byte order mark inside <span class="keyword">files</span></span><br><span class="line"><span class="string">"MissingSuperCall"</span>: Missing Super <span class="keyword">Call</span></span><br><span class="line"><span class="string">"AdapterViewChildren"</span>: AdapterViews cannot have children in XML</span><br><span class="line"><span class="string">"ScrollViewCount"</span>: ScrollViews can have only one child</span><br><span class="line"><span class="string">"PermissionImpliesUnsupportedChromeOsHardware"</span>: Permission Implies Unsupported</span><br><span class="line">      Chrome OS Hardware</span><br><span class="line"><span class="string">"UnsupportedChromeOsHardware"</span>: Unsupported Chrome OS Hardware Feature</span><br><span class="line"><span class="string">"GetInstance"</span>: Cipher.getInstance with ECB</span><br><span class="line"><span class="string">"CommitTransaction"</span>: Missing commit() <span class="keyword">calls</span></span><br><span class="line"><span class="string">"Recycle"</span>: Missing recycle() <span class="keyword">calls</span></span><br><span class="line"><span class="string">"CommitPrefEdits"</span>: Missing commit() <span class="keyword">on</span> SharedPreference editor</span><br><span class="line"><span class="string">"ApplySharedPref"</span>: Use apply() <span class="keyword">on</span> SharedPreferences</span><br><span class="line"><span class="string">"ClickableViewAccessibility"</span>: Accessibility in Custom Views</span><br><span class="line"><span class="string">"EasterEgg"</span>: Code contains easter egg</span><br><span class="line"><span class="string">"StopShip"</span>: Code contains STOPSHIP marker</span><br><span class="line"><span class="string">"MissingConstraints"</span>: Missing Constraints in ConstraintLayout</span><br><span class="line"><span class="string">"VulnerableCordovaVersion"</span>: Vulnerable Cordova Version</span><br><span class="line"><span class="string">"CustomViewStyleable"</span>: Mismatched Styleable/Custom <span class="keyword">View</span> <span class="keyword">Name</span></span><br><span class="line"><span class="string">"CutPasteId"</span>: Likely cut &amp; paste mistakes</span><br><span class="line"><span class="string">"SimpleDateFormat"</span>: Implied locale in date format</span><br><span class="line"><span class="string">"SetTextI18n"</span>: TextView Internationalization</span><br><span class="line"><span class="string">"Deprecated"</span>: <span class="keyword">Using</span> deprecated resources</span><br><span class="line"><span class="string">"MissingPrefix"</span>: Missing Android XML namespace</span><br><span class="line"><span class="string">"MangledCRLF"</span>: Mangled file <span class="keyword">line</span> endings</span><br><span class="line"><span class="string">"DuplicateIncludedIds"</span>: Duplicate ids across layouts combined with include</span><br><span class="line">      tags</span><br><span class="line"><span class="string">"DuplicateIds"</span>: Duplicate ids within a single layout</span><br><span class="line"><span class="string">"DuplicateDefinition"</span>: Duplicate definitions of resources</span><br><span class="line"><span class="string">"ReferenceType"</span>: Incorrect reference types</span><br><span class="line"><span class="string">"StringEscaping"</span>: Invalid string escapes</span><br><span class="line"><span class="string">"UnpackedNativeCode"</span>: Missing android:extractNativeLibs=false</span><br><span class="line"><span class="string">"UnsafeDynamicallyLoadedCode"</span>: <span class="keyword">load</span> used <span class="keyword">to</span> dynamically <span class="keyword">load</span> code</span><br><span class="line"><span class="string">"UnsafeNativeCodeLocation"</span>: Native code outside library directory</span><br><span class="line"><span class="string">"EllipsizeMaxLines"</span>: Combining Ellipsize <span class="keyword">and</span> Maxlines</span><br><span class="line"><span class="string">"ExifInterface"</span>: <span class="keyword">Using</span> android.media.ExifInterface</span><br><span class="line"><span class="string">"ExtraText"</span>: Extraneous text in resource <span class="keyword">files</span></span><br><span class="line"><span class="string">"FieldGetter"</span>: <span class="keyword">Using</span> getter instead of <span class="keyword">field</span></span><br><span class="line"><span class="string">"InvalidAnalyticsName"</span>: Invalid Analytics <span class="keyword">Name</span></span><br><span class="line"><span class="string">"MissingFirebaseInstanceTokenRefresh"</span>: Missing Firebase Instance ID Token</span><br><span class="line">      Refresh</span><br><span class="line"><span class="string">"FontValidationError"</span>: Validation of font <span class="keyword">files</span></span><br><span class="line"><span class="string">"FontValidationWarning"</span>: Validation of font <span class="keyword">files</span></span><br><span class="line"><span class="string">"FullBackupContent"</span>: Valid Full Backup Content File</span><br><span class="line"><span class="string">"ValidFragment"</span>: Fragment <span class="keyword">not</span> instantiatable</span><br><span class="line"><span class="string">"GetContentDescriptionOverride"</span>: Overriding getContentDescription() <span class="keyword">on</span> a <span class="keyword">View</span></span><br><span class="line"><span class="string">"PackageManagerGetSignatures"</span>: Potential Multiple Certificate Exploit</span><br><span class="line"><span class="string">"AccidentalOctal"</span>: Accidental Octal</span><br><span class="line"><span class="string">"UseOfBundledGooglePlayServices"</span>: Use of bundled version of Google <span class="keyword">Play</span></span><br><span class="line">      services</span><br><span class="line"><span class="string">"GradleCompatible"</span>: Incompatible Gradle Versions</span><br><span class="line"><span class="string">"GradleDependency"</span>: Obsolete Gradle Dependency</span><br><span class="line"><span class="string">"GradleDeprecated"</span>: Deprecated Gradle Construct</span><br><span class="line"><span class="string">"DevModeObsolete"</span>: Dev Mode Obsolete</span><br><span class="line"><span class="string">"DuplicatePlatformClasses"</span>: Duplicate Platform Classes</span><br><span class="line"><span class="string">"GradleGetter"</span>: Gradle Implicit Getter <span class="keyword">Call</span></span><br><span class="line"><span class="string">"GradlePluginVersion"</span>: Incompatible Android Gradle Plugin</span><br><span class="line"><span class="string">"HighAppVersionCode"</span>: VersionCode too high</span><br><span class="line"><span class="string">"GradleIdeError"</span>: Gradle IDE Support Issues</span><br><span class="line"><span class="string">"GradlePath"</span>: Gradle Path Issues</span><br><span class="line"><span class="string">"GradleDynamicVersion"</span>: Gradle Dynamic Version</span><br><span class="line"><span class="string">"NotInterpolated"</span>: Incorrect Interpolation</span><br><span class="line"><span class="string">"StringShouldBeInt"</span>: String should be <span class="keyword">int</span></span><br><span class="line"><span class="string">"NewerVersionAvailable"</span>: Newer Library Versions Available</span><br><span class="line"><span class="string">"MinSdkTooLow"</span>: API Version Too Low</span><br><span class="line"><span class="string">"GridLayout"</span>: GridLayout validation</span><br><span class="line"><span class="string">"HandlerLeak"</span>: Handler reference leaks</span><br><span class="line"><span class="string">"HardcodedDebugMode"</span>: Hardcoded value of android:debuggable in the manifest</span><br><span class="line"><span class="string">"HardcodedText"</span>: Hardcoded text</span><br><span class="line"><span class="string">"HardwareIds"</span>: Hardware Id Usage</span><br><span class="line"><span class="string">"IconDuplicatesConfig"</span>: Identical bitmaps across various configurations</span><br><span class="line"><span class="string">"IconDuplicates"</span>: Duplicated icons under different names</span><br><span class="line"><span class="string">"GifUsage"</span>: <span class="keyword">Using</span> .gif format <span class="keyword">for</span> bitmaps is discouraged</span><br><span class="line"><span class="string">"IconColors"</span>: Icon colors do <span class="keyword">not</span> follow the recommended visual style</span><br><span class="line"><span class="string">"IconDensities"</span>: Icon densities validation</span><br><span class="line"><span class="string">"IconDipSize"</span>: Icon density-independent size validation</span><br><span class="line"><span class="string">"IconExpectedSize"</span>: Icon has incorrect size</span><br><span class="line"><span class="string">"IconExtension"</span>: Icon format does <span class="keyword">not</span> match the file extension</span><br><span class="line"><span class="string">"IconLauncherShape"</span>: The launcher icon shape should use a distinct silhouette</span><br><span class="line"><span class="string">"IconLocation"</span>: Image defined in density-independent drawable folder</span><br><span class="line"><span class="string">"IconMissingDensityFolder"</span>: Missing density folder</span><br><span class="line"><span class="string">"IconMixedNinePatch"</span>: Clashing PNG <span class="keyword">and</span> <span class="number">9</span>-PNG <span class="keyword">files</span></span><br><span class="line"><span class="string">"IconNoDpi"</span>: Icon appears in both -nodpi <span class="keyword">and</span> dpi folders</span><br><span class="line"><span class="string">"IconXmlAndPng"</span>: Icon is specified both as .xml file <span class="keyword">and</span> as a bitmap</span><br><span class="line"><span class="string">"ConvertToWebp"</span>: Convert <span class="keyword">to</span> WebP</span><br><span class="line"><span class="string">"WebpUnsupported"</span>: WebP Unsupported</span><br><span class="line"><span class="string">"IncludeLayoutParam"</span>: Ignored layout params <span class="keyword">on</span> include</span><br><span class="line"><span class="string">"DisableBaselineAlignment"</span>: Missing baselineAligned attribute</span><br><span class="line"><span class="string">"InefficientWeight"</span>: Inefficient layout weight</span><br><span class="line"><span class="string">"NestedWeights"</span>: Nested layout weights</span><br><span class="line"><span class="string">"Orientation"</span>: Missing explicit orientation</span><br><span class="line"><span class="string">"Suspicious0dp"</span>: Suspicious <span class="number">0d</span>p dimension</span><br><span class="line"><span class="string">"InstantApps"</span>: Instant App Issues</span><br><span class="line"><span class="string">"DuplicateDivider"</span>: Unnecessary Divider Copy</span><br><span class="line"><span class="string">"TrustAllX509TrustManager"</span>: Insecure TLS/SSL trust manager</span><br><span class="line"><span class="string">"InvalidImeActionId"</span>: Invalid imeActionId declaration</span><br><span class="line"><span class="string">"InvalidPackage"</span>: Package <span class="keyword">not</span> included in Android</span><br><span class="line"><span class="string">"DrawAllocation"</span>: Memory allocations within drawing code</span><br><span class="line"><span class="string">"UseSparseArrays"</span>: HashMap can be replaced with SparseArray</span><br><span class="line"><span class="string">"UseValueOf"</span>: Should use valueOf instead of <span class="keyword">new</span></span><br><span class="line"><span class="string">"JavascriptInterface"</span>: Missing @JavascriptInterface <span class="keyword">on</span> methods</span><br><span class="line"><span class="string">"JobSchedulerService"</span>: JobScheduler problems</span><br><span class="line"><span class="string">"KeyboardInaccessibleWidget"</span>: Keyboard inaccessible widget</span><br><span class="line"><span class="string">"LabelFor"</span>: Missing labelFor attribute</span><br><span class="line"><span class="string">"InconsistentLayout"</span>: Inconsistent Layouts</span><br><span class="line"><span class="string">"InflateParams"</span>: Layout Inflation without a Parent</span><br><span class="line"><span class="string">"StaticFieldLeak"</span>: Static <span class="keyword">Field</span> Leaks</span><br><span class="line"><span class="string">"DefaultLocale"</span>: Implied default locale in case conversion</span><br><span class="line"><span class="string">"LocaleFolder"</span>: Wrong locale <span class="keyword">name</span></span><br><span class="line"><span class="string">"GetLocales"</span>: Locale crash</span><br><span class="line"><span class="string">"InvalidResourceFolder"</span>: Invalid Resource Folder</span><br><span class="line"><span class="string">"WrongRegion"</span>: Suspicious Language/Region Combination</span><br><span class="line"><span class="string">"UseAlpha2"</span>: <span class="keyword">Using</span> <span class="number">3</span>-letter Codes</span><br><span class="line"><span class="string">"LogConditional"</span>: Unconditional Logging <span class="keyword">Calls</span></span><br><span class="line"><span class="string">"LongLogTag"</span>: Too Long <span class="keyword">Log</span> Tags</span><br><span class="line"><span class="string">"LogTagMismatch"</span>: Mismatched <span class="keyword">Log</span> Tags</span><br><span class="line"><span class="string">"AllowBackup"</span>: AllowBackup/FullBackupContent Problems</span><br><span class="line"><span class="string">"MissingApplicationIcon"</span>: Missing application icon</span><br><span class="line"><span class="string">"DeviceAdmin"</span>: Malformed Device Admin</span><br><span class="line"><span class="string">"DuplicateActivity"</span>: Activity registered more than once</span><br><span class="line"><span class="string">"DuplicateUsesFeature"</span>: Feature declared more than once</span><br><span class="line"><span class="string">"GradleOverrides"</span>: Value overridden by Gradle build script</span><br><span class="line"><span class="string">"IllegalResourceRef"</span>: <span class="keyword">Name</span> <span class="keyword">and</span> version must be integer <span class="keyword">or</span> string, <span class="keyword">not</span></span><br><span class="line">      resource</span><br><span class="line"><span class="string">"MipmapIcons"</span>: Use Mipmap Launcher Icons</span><br><span class="line"><span class="string">"MockLocation"</span>: <span class="keyword">Using</span> mock location provider in production</span><br><span class="line"><span class="string">"MultipleUsesSdk"</span>: Multiple &lt;uses-sdk&gt; elements in the manifest</span><br><span class="line"><span class="string">"ManifestOrder"</span>: Incorrect order of elements in manifest</span><br><span class="line"><span class="string">"MissingVersion"</span>: Missing application <span class="keyword">name</span>/version</span><br><span class="line"><span class="string">"OldTargetApi"</span>: Target SDK attribute is <span class="keyword">not</span> targeting latest version</span><br><span class="line"><span class="string">"UniquePermission"</span>: Permission names are <span class="keyword">not</span> unique</span><br><span class="line"><span class="string">"UsesMinSdkAttributes"</span>: Minimum SDK <span class="keyword">and</span> target SDK attributes <span class="keyword">not</span> defined</span><br><span class="line"><span class="string">"WearableBindListener"</span>: Usage of Android Wear BIND_LISTENER is deprecated</span><br><span class="line"><span class="string">"WrongManifestParent"</span>: Wrong manifest parent</span><br><span class="line"><span class="string">"InvalidPermission"</span>: Invalid Permission Attribute</span><br><span class="line"><span class="string">"ManifestResource"</span>: Manifest Resource References</span><br><span class="line"><span class="string">"ManifestTypo"</span>: Typos in manifest tags</span><br><span class="line"><span class="string">"FloatMath"</span>: <span class="keyword">Using</span> FloatMath instead of Math</span><br><span class="line"><span class="string">"MergeMarker"</span>: Code contains <span class="keyword">merge</span> marker</span><br><span class="line"><span class="string">"MergeRootFrame"</span>: FrameLayout can be replaced with &lt;<span class="keyword">merge</span>&gt; tag</span><br><span class="line"><span class="string">"IncompatibleMediaBrowserServiceCompatVersion"</span>: Obsolete version of</span><br><span class="line">      MediaBrowserServiceCompat</span><br><span class="line"><span class="string">"InnerclassSeparator"</span>: Inner classes should use $ rather than .</span><br><span class="line"><span class="string">"Instantiatable"</span>: Registered class is <span class="keyword">not</span> instantiatable</span><br><span class="line"><span class="string">"MissingRegistered"</span>: Missing registered class</span><br><span class="line"><span class="string">"MissingId"</span>: Fragments should specify an id <span class="keyword">or</span> tag</span><br><span class="line"><span class="string">"LibraryCustomView"</span>: Custom views in libraries should use res-<span class="keyword">auto</span>-namespace</span><br><span class="line"><span class="string">"ResAuto"</span>: Hardcoded Package in Namespace</span><br><span class="line"><span class="string">"NamespaceTypo"</span>: Misspelled namespace declaration</span><br><span class="line"><span class="string">"UnusedNamespace"</span>: Unused namespace</span><br><span class="line"><span class="string">"NegativeMargin"</span>: Negative Margins</span><br><span class="line"><span class="string">"NestedScrolling"</span>: Nested scrolling widgets</span><br><span class="line"><span class="string">"NetworkSecurityConfig"</span>: Valid Network Security Config File</span><br><span class="line"><span class="string">"MissingBackupPin"</span>: Missing Backup Pin</span><br><span class="line"><span class="string">"PinSetExpiry"</span>: Validate &lt;pin-set&gt; expiration attribute</span><br><span class="line"><span class="string">"NfcTechWhitespace"</span>: Whitespace in NFC tech lists</span><br><span class="line"><span class="string">"UnlocalizedSms"</span>: SMS phone number missing country code</span><br><span class="line"><span class="string">"ObjectAnimatorBinding"</span>: Incorrect ObjectAnimator Property</span><br><span class="line"><span class="string">"AnimatorKeep"</span>: Missing @Keep <span class="keyword">for</span> Animated Properties</span><br><span class="line"><span class="string">"ObsoleteLayoutParam"</span>: Obsolete layout params</span><br><span class="line"><span class="string">"OnClick"</span>: onClick method does <span class="keyword">not</span> exist</span><br><span class="line"><span class="string">"Overdraw"</span>: Overdraw: Painting regions more than once</span><br><span class="line"><span class="string">"DalvikOverride"</span>: Method considered overridden by Dalvik</span><br><span class="line"><span class="string">"OverrideAbstract"</span>: <span class="keyword">Not</span> overriding abstract methods <span class="keyword">on</span> older platforms</span><br><span class="line"><span class="string">"ParcelCreator"</span>: Missing Parcelable CREATOR <span class="keyword">field</span></span><br><span class="line"><span class="string">"UnusedQuantity"</span>: Unused quantity translations</span><br><span class="line"><span class="string">"MissingQuantity"</span>: Missing quantity translation</span><br><span class="line"><span class="string">"ImpliedQuantity"</span>: Implied Quantities</span><br><span class="line"><span class="string">"ExportedPreferenceActivity"</span>: PreferenceActivity should <span class="keyword">not</span> be exported</span><br><span class="line"><span class="string">"PrivateApi"</span>: <span class="keyword">Using</span> Private APIs</span><br><span class="line"><span class="string">"PackagedPrivateKey"</span>: Packaged private <span class="keyword">key</span></span><br><span class="line"><span class="string">"PrivateResource"</span>: <span class="keyword">Using</span> private resources</span><br><span class="line"><span class="string">"ProguardSplit"</span>: Proguard.cfg file contains generic Android rules</span><br><span class="line"><span class="string">"Proguard"</span>: <span class="keyword">Using</span> obsolete ProGuard configuration</span><br><span class="line"><span class="string">"PropertyEscape"</span>: Incorrect property escapes</span><br><span class="line"><span class="string">"UsingHttp"</span>: <span class="keyword">Using</span> HTTP instead of HTTPS</span><br><span class="line"><span class="string">"SpUsage"</span>: <span class="keyword">Using</span> dp instead of sp <span class="keyword">for</span> text sizes</span><br><span class="line"><span class="string">"InOrMmUsage"</span>: <span class="keyword">Using</span> mm <span class="keyword">or</span> in dimensions</span><br><span class="line"><span class="string">"PxUsage"</span>: <span class="keyword">Using</span> <span class="comment">'px' dimension</span></span><br><span class="line"><span class="string">"SmallSp"</span>: Text size is too small</span><br><span class="line"><span class="string">"ParcelClassLoader"</span>: Default Parcel Class Loader</span><br><span class="line"><span class="string">"PendingBindings"</span>: Missing Pending Bindings</span><br><span class="line"><span class="string">"RecyclerView"</span>: RecyclerView Problems</span><br><span class="line"><span class="string">"Registered"</span>: Class is <span class="keyword">not</span> registered in the manifest</span><br><span class="line"><span class="string">"RelativeOverlap"</span>: Overlapping items in RelativeLayout</span><br><span class="line"><span class="string">"RequiredSize"</span>: Missing layout_width <span class="keyword">or</span> layout_height attributes</span><br><span class="line"><span class="string">"AaptCrash"</span>: Potential AAPT crash</span><br><span class="line"><span class="string">"ResourceCycle"</span>: Cycle in resource definitions</span><br><span class="line"><span class="string">"ResourceName"</span>: Resource with Wrong Prefix</span><br><span class="line"><span class="string">"ValidRestrictions"</span>: Invalid Restrictions Descriptor</span><br><span class="line"><span class="string">"RtlCompat"</span>: Right-<span class="keyword">to</span>-left text compatibility issues</span><br><span class="line"><span class="string">"RtlEnabled"</span>: <span class="keyword">Using</span> RTL attributes without enabling RTL support</span><br><span class="line"><span class="string">"RtlSymmetry"</span>: Padding <span class="keyword">and</span> margin symmetry</span><br><span class="line"><span class="string">"RtlHardcoded"</span>: <span class="keyword">Using</span> left/right instead of start/<span class="keyword">end</span> attributes</span><br><span class="line"><span class="string">"ScrollViewSize"</span>: ScrollView size validation</span><br><span class="line"><span class="string">"SdCardPath"</span>: Hardcoded reference <span class="keyword">to</span> /sdcard</span><br><span class="line"><span class="string">"SecureRandom"</span>: <span class="keyword">Using</span> a fixed seed with SecureRandom</span><br><span class="line"><span class="string">"TrulyRandom"</span>: Weak RNG</span><br><span class="line"><span class="string">"ExportedContentProvider"</span>: Content provider does <span class="keyword">not</span> require permission</span><br><span class="line"><span class="string">"ExportedReceiver"</span>: Receiver does <span class="keyword">not</span> require permission</span><br><span class="line"><span class="string">"ExportedService"</span>: Exported service does <span class="keyword">not</span> require permission</span><br><span class="line"><span class="string">"SetWorldReadable"</span>: File.setReadable() used <span class="keyword">to</span> make file world-readable</span><br><span class="line"><span class="string">"SetWorldWritable"</span>: File.setWritable() used <span class="keyword">to</span> make file world-writable</span><br><span class="line"><span class="string">"GrantAllUris"</span>: Content provider shares everything</span><br><span class="line"><span class="string">"WorldReadableFiles"</span>: openFileOutput() <span class="keyword">or</span> similar <span class="keyword">call</span> passing</span><br><span class="line">      MODE_WORLD_READABLE</span><br><span class="line"><span class="string">"WorldWriteableFiles"</span>: openFileOutput() <span class="keyword">or</span> similar <span class="keyword">call</span> passing</span><br><span class="line">      MODE_WORLD_WRITEABLE</span><br><span class="line"><span class="string">"ServiceCast"</span>: Wrong <span class="keyword">system</span> service casts</span><br><span class="line"><span class="string">"WifiManagerLeak"</span>: WifiManager Leak</span><br><span class="line"><span class="string">"WifiManagerPotentialLeak"</span>: WifiManager Potential Leak</span><br><span class="line"><span class="string">"SetJavaScriptEnabled"</span>: <span class="keyword">Using</span> setJavaScriptEnabled</span><br><span class="line"><span class="string">"SignatureOrSystemPermissions"</span>: signatureOrSystem permissions declared</span><br><span class="line"><span class="string">"SQLiteString"</span>: <span class="keyword">Using</span> STRING instead of TEXT</span><br><span class="line"><span class="string">"SSLCertificateSocketFactoryCreateSocket"</span>: Insecure <span class="keyword">call</span> <span class="keyword">to</span></span><br><span class="line">      SSLCertificateSocketFactory.createSocket()</span><br><span class="line"><span class="string">"SSLCertificateSocketFactoryGetInsecure"</span>: <span class="keyword">Call</span> <span class="keyword">to</span></span><br><span class="line">      SSLCertificateSocketFactory.getInsecure()</span><br><span class="line"><span class="string">"StateListReachable"</span>: Unreachable state in a &lt;selector&gt;</span><br><span class="line"><span class="string">"AuthLeak"</span>: Code might contain an auth leak</span><br><span class="line"><span class="string">"StringFormatCount"</span>: Formatting argument types incomplete <span class="keyword">or</span> inconsistent</span><br><span class="line"><span class="string">"StringFormatMatches"</span>: <span class="string">"String.format string doesn't match the XML format</span></span><br><span class="line"><span class="string">      string"</span></span><br><span class="line"><span class="string">"StringFormatInvalid"</span>: Invalid format string</span><br><span class="line"><span class="string">"PluralsCandidate"</span>: Potential Plurals</span><br><span class="line"><span class="string">"UseCheckPermission"</span>: <span class="keyword">Using</span> the result of check permission <span class="keyword">calls</span></span><br><span class="line"><span class="string">"CheckResult"</span>: Ignoring results</span><br><span class="line"><span class="string">"ResourceAsColor"</span>: Should pass resolved <span class="keyword">color</span> instead of resource id</span><br><span class="line"><span class="string">"MissingPermission"</span>: Missing Permissions</span><br><span class="line"><span class="string">"Range"</span>: Outside Range</span><br><span class="line"><span class="string">"ResourceType"</span>: Wrong Resource Type</span><br><span class="line"><span class="string">"RestrictedApi"</span>: Restricted API</span><br><span class="line"><span class="string">"WrongThread"</span>: Wrong Thread</span><br><span class="line"><span class="string">"WrongConstant"</span>: Incorrect constant</span><br><span class="line"><span class="string">"VisibleForTests"</span>: Visible Only <span class="keyword">For</span> Tests</span><br><span class="line"><span class="string">"ProtectedPermissions"</span>: <span class="keyword">Using</span> <span class="keyword">system</span> app permission</span><br><span class="line"><span class="string">"TextFields"</span>: Missing inputType <span class="keyword">or</span> hint</span><br><span class="line"><span class="string">"TextViewEdits"</span>: TextView should probably be an EditText instead</span><br><span class="line"><span class="string">"SelectableText"</span>: Dynamic text should probably be selectable</span><br><span class="line"><span class="string">"MenuTitle"</span>: Missing menu title</span><br><span class="line"><span class="string">"ShowToast"</span>: Toast created but <span class="keyword">not</span> shown</span><br><span class="line"><span class="string">"TooDeepLayout"</span>: Layout hierarchy is too deep</span><br><span class="line"><span class="string">"TooManyViews"</span>: Layout has too many views</span><br><span class="line"><span class="string">"ExtraTranslation"</span>: Extra translation</span><br><span class="line"><span class="string">"MissingTranslation"</span>: Incomplete translation</span><br><span class="line"><span class="string">"Typos"</span>: Spelling <span class="keyword">error</span></span><br><span class="line"><span class="string">"TypographyDashes"</span>: Hyphen can be replaced with dash</span><br><span class="line"><span class="string">"TypographyEllipsis"</span>: Ellipsis string can be replaced with ellipsis character</span><br><span class="line"><span class="string">"TypographyFractions"</span>: Fraction string can be replaced with fraction</span><br><span class="line">      character</span><br><span class="line"><span class="string">"TypographyOther"</span>: Other typographical problems</span><br><span class="line"><span class="string">"TypographyQuotes"</span>: Straight quotes can be replaced with curvy quotes</span><br><span class="line"><span class="string">"UnsafeProtectedBroadcastReceiver"</span>: Unsafe Protected BroadcastReceiver</span><br><span class="line"><span class="string">"UnprotectedSMSBroadcastReceiver"</span>: Unprotected SMS BroadcastReceiver</span><br><span class="line"><span class="string">"UnusedResources"</span>: Unused resources</span><br><span class="line"><span class="string">"UnusedIds"</span>: Unused id</span><br><span class="line"><span class="string">"UseCompoundDrawables"</span>: Node can be replaced by a TextView with compound</span><br><span class="line">      drawables</span><br><span class="line"><span class="string">"UselessLeaf"</span>: Useless leaf layout</span><br><span class="line"><span class="string">"UselessParent"</span>: Useless parent layout</span><br><span class="line"><span class="string">"EnforceUTF8"</span>: Encoding used in resource <span class="keyword">files</span> is <span class="keyword">not</span> UTF-<span class="number">8</span></span><br><span class="line"><span class="string">"VectorRaster"</span>: Vector Image Generation</span><br><span class="line"><span class="string">"VectorDrawableCompat"</span>: <span class="keyword">Using</span> VectorDrawableCompat</span><br><span class="line"><span class="string">"VectorPath"</span>: Long vector paths</span><br><span class="line"><span class="string">"InvalidVectorPath"</span>: Invalid vector paths</span><br><span class="line"><span class="string">"ViewConstructor"</span>: Missing <span class="keyword">View</span> constructors <span class="keyword">for</span> XML inflation</span><br><span class="line"><span class="string">"ViewHolder"</span>: <span class="keyword">View</span> Holder Candidates</span><br><span class="line"><span class="string">"ViewTag"</span>: Tagged object leaks</span><br><span class="line"><span class="string">"WrongViewCast"</span>: Mismatched <span class="keyword">view</span> type</span><br><span class="line"><span class="string">"FindViewByIdCast"</span>: Add Explicit Cast</span><br><span class="line"><span class="string">"Wakelock"</span>: Incorrect WakeLock usage</span><br><span class="line"><span class="string">"WakelockTimeout"</span>: <span class="keyword">Using</span> wakeLock without timeout</span><br><span class="line"><span class="string">"InvalidWearFeatureAttribute"</span>: Invalid attribute <span class="keyword">for</span> Wear uses-feature</span><br><span class="line"><span class="string">"WearStandaloneAppFlag"</span>: Invalid <span class="keyword">or</span> missing Wear standalone app flag</span><br><span class="line"><span class="string">"WebViewLayout"</span>: WebViews in wrap_content parents</span><br><span class="line"><span class="string">"WrongCall"</span>: <span class="keyword">Using</span> wrong <span class="keyword">draw</span>/layout method</span><br><span class="line"><span class="string">"WrongCase"</span>: Wrong case <span class="keyword">for</span> <span class="keyword">view</span> tag</span><br><span class="line"><span class="string">"InvalidId"</span>: Invalid ID declaration</span><br><span class="line"><span class="string">"NotSibling"</span>: RelativeLayout Invalid Constraints</span><br><span class="line"><span class="string">"UnknownId"</span>: Reference <span class="keyword">to</span> an unknown id</span><br><span class="line"><span class="string">"UnknownIdInLayout"</span>: Reference <span class="keyword">to</span> an id that is <span class="keyword">not</span> in the current layout</span><br><span class="line"><span class="string">"SuspiciousImport"</span>: import android.R statement</span><br><span class="line"><span class="string">"WrongFolder"</span>: Resource file in the wrong res folder</span><br><span class="line"><span class="string">"WrongThreadInterprocedural"</span>: Wrong Thread (Interprocedural)</span><br></pre></td></tr></table></figure>
+
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>还有遇到一些简单代码规范的问题，平时注意，就能规避，比如常见的宽高，写成了sp、xp；总之就是sp、xp、dp使用混乱等一些规范问题，或者是内存泄漏风险.</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="ZhangMiao 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="ZhangMiao 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    ZhangMiao
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://zhangmiao.cc/posts/db4fcd4.html" title="静态代码lint常见报错处理">https://zhangmiao.cc/posts/db4fcd4.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android-Tips/" rel="tag"># Android Tips</a>
+          
+            <a href="/tags/lint/" rel="tag"># lint</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/6cc70a12.html" rel="next" title="正确的提问方式">
+                <i class="fa fa-chevron-left"></i> 正确的提问方式
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/posts/2da5bed1.html" rel="prev" title="Android APK 安装的原理">
+                Android APK 安装的原理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4" alt="ZhangMiao">
+            
+              <p class="site-author-name" itemprop="name">ZhangMiao</p>
+              <p class="site-description motion-element" itemprop="description">Android/Flutter Developer</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">373</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">58</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">143</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:zm@zhangmiao.cc" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://wpa.qq.com/msgrd?v=3&uin=153942241&site=qq&menu=yes" target="_blank" title="QQ">
+                      
+                        <i class="fa fa-fw fa-qq"></i>QQ</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/zhangmiaocc" target="_blank" title="Github">
+                      
+                        <i class="fa fa-fw fa-github"></i>Github</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://stackoverflow.com" target="_blank" title="StackOverflow">
+                      
+                        <i class="fa fa-fw fa-stack-overflow"></i>StackOverflow</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://blog.constore.cn/" title="Liujianhui" target="_blank">Liujianhui</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://xuebin.me" title="Leo" target="_blank">Leo</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.csdn.net/lmj623565791" title="Hongyang" target="_blank">Hongyang</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://liuwangshu.cn/" title="Liuwangshu" target="_blank">Liuwangshu</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://jspang.com/" title="Jspang" target="_blank">Jspang</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blankj.com/" title="Blankj" target="_blank">Blankj</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://wuxiaolong.me/" title="WuXiaoLong" target="_blank">WuXiaoLong</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://molunerfinn.com" title="Molunerfinn" target="_blank">Molunerfinn</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.ofind.cn/" title="Ofind" target="_blank">Ofind</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.gcssloop.com/" title="Gcssloop" target="_blank">Gcssloop</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#规范代码"><span class="nav-number">1.</span> <span class="nav-text">规范代码</span></a></li></ol><li class="nav-item nav-level-4"><a class="nav-link" href="#添加注解"><span class="nav-number"></span> <span class="nav-text">添加注解</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#java源代码"><span class="nav-number">1.</span> <span class="nav-text">java源代码</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#xml"><span class="nav-number">2.</span> <span class="nav-text">xml</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#添加规则-lint-xml文件"><span class="nav-number"></span> <span class="nav-text">添加规则(lint.xml文件)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-Missing-commit-on-SharedPreference-editor"><span class="nav-number"></span> <span class="nav-text">1. Missing commit() on SharedPreference editor</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-Use-apply-on-SharedPreferences"><span class="nav-number"></span> <span class="nav-text">2. Use apply() on SharedPreferences</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-Mismatched-Styleable-Custom-View-Name"><span class="nav-number"></span> <span class="nav-text">3. Mismatched Styleable/Custom View Name</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-Duplicate-ids-across-layouts-combined-with-include-tags"><span class="nav-number"></span> <span class="nav-text">4. Duplicate ids across layouts combined with include tags</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-Using-android-media-ExifInterface"><span class="nav-number"></span> <span class="nav-text">5. Using android.media.ExifInterface</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-Hardcoded-reference-to-sdcard"><span class="nav-number"></span> <span class="nav-text">6. Hardcoded reference to /sdcard</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-Attribute-unused-on-older-versions"><span class="nav-number"></span> <span class="nav-text">7. Attribute unused on older versions</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-Appcompat-Custom-Widgets"><span class="nav-number"></span> <span class="nav-text">8. Appcompat Custom Widgets</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9-Restricted-API"><span class="nav-number"></span> <span class="nav-text">9. Restricted API</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#10-Invalid-format-string"><span class="nav-number"></span> <span class="nav-text">10. Invalid format string</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#11-Insecure-HostnameVerifier"><span class="nav-number"></span> <span class="nav-text">11. Insecure HostnameVerifier</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#12-Insecure-TLS-SSL-trust-manager"><span class="nav-number"></span> <span class="nav-text">12. Insecure TLS/SSL trust manager</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#13-Obsolete-layout-params"><span class="nav-number"></span> <span class="nav-text">13. Obsolete layout params</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#14-Static-Field-Leaks"><span class="nav-number"></span> <span class="nav-text">14. Static Field Leaks</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#15-Node-can-be-replaced-by-a-TextView-with-compound-drawables"><span class="nav-number"></span> <span class="nav-text">15. Node can be replaced by a TextView with compound drawables</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#16-View-Holder-Candidates"><span class="nav-number"></span> <span class="nav-text">16. View Holder Candidates</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#17-Missing-baselineAligned-attribute"><span class="nav-number"></span> <span class="nav-text">17. Missing baselineAligned attribute</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#18-Inefficient-layout-weight"><span class="nav-number"></span> <span class="nav-text">18. Inefficient layout weight</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#19-Nested-layout-weights"><span class="nav-number"></span> <span class="nav-text">19. Nested layout weights</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#20-Useless-parent-layout"><span class="nav-number"></span> <span class="nav-text">20. Useless parent layout</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#21-Unused-namespace"><span class="nav-number"></span> <span class="nav-text">21. Unused namespace</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#22-Hyphen-can-be-replaced-with-dash"><span class="nav-number"></span> <span class="nav-text">22. Hyphen can be replaced with dash</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#23-H-Ellipsis-string-can-be-replaced-with-ellipsis-character"><span class="nav-number"></span> <span class="nav-text">23. H Ellipsis string can be replaced with ellipsis character</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#24-Duplicated-icons-under-different-names"><span class="nav-number"></span> <span class="nav-text">24. Duplicated icons under different names</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#25-Missing-accessibility-label"><span class="nav-number"></span> <span class="nav-text">25. Missing accessibility label</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#26-Keyboard-inaccessible-widget"><span class="nav-number"></span> <span class="nav-text">26. Keyboard inaccessible widget</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#27-Usage-of-showAsAction-always"><span class="nav-number"></span> <span class="nav-text">27. Usage of showAsAction=always</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#28-Missing-inputType"><span class="nav-number"></span> <span class="nav-text">28. Missing inputType</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#29-Overdraw-Painting-regions-more-than-once"><span class="nav-number"></span> <span class="nav-text">29. Overdraw: Painting regions more than once</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#30-Hardware-Id-Usage"><span class="nav-number"></span> <span class="nav-text">30. Hardware Id Usage</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#31-Incompatible-Gradle-Versions"><span class="nav-number"></span> <span class="nav-text">31. Incompatible Gradle Versions</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#贴出常见的lint-issueid和秒速，以供对照"><span class="nav-number"></span> <span class="nav-text">贴出常见的lint issueid和秒速，以供对照</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#总结"><span class="nav-number"></span> <span class="nav-text">总结</span></a></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZhangMiao</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      本站访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+  <div>
+    <script type="text/javascript">
+      var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");
+      document.write(unescape("%3Cspan id='cnzz_stat_icon_1277928793'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1277928793%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+  </div>
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://zhangmiao.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://zhangmiao.cc/posts/db4fcd4.html';
+          this.page.identifier = 'posts/db4fcd4.html';
+          this.page.title = '静态代码lint常见报错处理';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://zhangmiao.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("8iIYW0IGofqyvJiiuU5R9buW-gzGzoHsz", "ssmxRx0kELJir6mA02ziW3Ql");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/lib/zclip/clipboard.min.js"></script>
+<script type="text/javascript" src="/js/src/custom.js"></script>
+
+</body>
+</html>

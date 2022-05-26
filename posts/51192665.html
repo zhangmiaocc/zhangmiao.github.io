@@ -1,0 +1,2115 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Android,优化,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="zm.blog" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="目录介绍 1.OOM和崩溃优化  1.1 OOM优化 1.2 ANR优化 1.3 Crash优化   2.内存泄漏优化  2.0 动画资源未释放 2.1 错误使用单利 2.2 错误使用静态变量 2.3 handler内存泄漏 2.4 线程造成内存泄漏 2.5 非静态内部类 2.6 未移除监听 2.7 持有activity引用 2.8 资源未关闭 2.9 其他原因   3.布局优化  3.1 inc">
+<meta name="keywords" content="Android,优化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android优化总结">
+<meta property="og:url" content="https://zhangmiao.cc/posts/51192665.html">
+<meta property="og:site_name" content="zm.blog">
+<meta property="og:description" content="目录介绍 1.OOM和崩溃优化  1.1 OOM优化 1.2 ANR优化 1.3 Crash优化   2.内存泄漏优化  2.0 动画资源未释放 2.1 错误使用单利 2.2 错误使用静态变量 2.3 handler内存泄漏 2.4 线程造成内存泄漏 2.5 非静态内部类 2.6 未移除监听 2.7 持有activity引用 2.8 资源未关闭 2.9 其他原因   3.布局优化  3.1 inc">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190618101852.png">
+<meta property="og:updated_time" content="2021-12-24T02:05:29.971Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android优化总结">
+<meta name="twitter:description" content="目录介绍 1.OOM和崩溃优化  1.1 OOM优化 1.2 ANR优化 1.3 Crash优化   2.内存泄漏优化  2.0 动画资源未释放 2.1 错误使用单利 2.2 错误使用静态变量 2.3 handler内存泄漏 2.4 线程造成内存泄漏 2.5 非静态内部类 2.6 未移除监听 2.7 持有activity引用 2.8 资源未关闭 2.9 其他原因   3.布局优化  3.1 inc">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190618101852.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://zhangmiao.cc/posts/51192665.html">
+
+
+
+
+
+  <title>Android优化总结 | zm.blog</title>
+  
+
+
+
+
+
+  <script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?44434226ba535875b1e807122adc3a04";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zm.blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">select * from learn</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhangmiao.cc/posts/51192665.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZhangMiao">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zm.blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Android优化总结</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-10T09:28:36+08:00">
+                2018-12-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/面试/" itemprop="url" rel="index">
+                    <span itemprop="name">面试</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/posts/51192665.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="posts/51192665.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/posts/51192665.html" class="leancloud_visitors" data-flag-title="Android优化总结">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="目录介绍"><a href="#目录介绍" class="headerlink" title="目录介绍"></a>目录介绍</h4><ul>
+<li>1.OOM和崩溃优化 <ul>
+<li>1.1 OOM优化</li>
+<li>1.2 ANR优化</li>
+<li>1.3 Crash优化</li>
+</ul>
+</li>
+<li>2.内存泄漏优化 <ul>
+<li>2.0 动画资源未释放</li>
+<li>2.1 错误使用单利</li>
+<li>2.2 错误使用静态变量</li>
+<li>2.3 handler内存泄漏</li>
+<li>2.4 线程造成内存泄漏</li>
+<li>2.5 非静态内部类</li>
+<li>2.6 未移除监听</li>
+<li>2.7 持有activity引用</li>
+<li>2.8 资源未关闭</li>
+<li>2.9 其他原因</li>
+</ul>
+</li>
+<li>3.布局优化 <ul>
+<li>3.1 include优化</li>
+<li>3.2 ViewStub优化</li>
+<li>3.3 merge优化</li>
+<li>3.4 其他建议</li>
+</ul>
+</li>
+<li>4.代码优化 <ul>
+<li>4.1 lint代码检测</li>
+<li>4.2 代码规范优化</li>
+<li>4.3 View异常优化</li>
+<li>4.4 去除淡黄色警告优化</li>
+<li>4.5 合理使用集合</li>
+<li>4.6 Activity不可见优化</li>
+<li>4.7 节制的使用Service</li>
+</ul>
+</li>
+<li>5.网络优化 <ul>
+<li>5.1 图片分类</li>
+<li>5.2 获取网络数据优化</li>
+<li>5.3 网络请求异常拦截优化</li>
+</ul>
+</li>
+<li>6.线程优化 <ul>
+<li>6.1 使用线程池</li>
+</ul>
+</li>
+<li>7.图片优化 <ul>
+<li>7.1 bitmap优化</li>
+<li>7.2 glide加载优化</li>
+</ul>
+</li>
+<li>8.加载优化 <ul>
+<li>8.1 懒加载优化</li>
+<li>8.2 启动页优化</li>
+</ul>
+</li>
+<li>9.其他优化 <ul>
+<li>9.1 静态变量优化</li>
+<li>9.2 注解替代枚举</li>
+<li>9.3 多渠道打包优化</li>
+<li>9.4 TrimMemory和LowMemory优化</li>
+<li>9.5 轮询操作优化</li>
+<li>9.6 去除重复依赖库优化</li>
+<li>9.7 四种引用优化</li>
+<li>9.8 加载loading优化</li>
+<li>9.9 对象池Pools优化</li>
+</ul>
+</li>
+<li>10.RecyclerView优化 <ul>
+<li>10.1 页面为何卡顿</li>
+<li>10.2 具体优化方案</li>
+</ul>
+</li>
+</ul>
+<a id="more"></a>
+
+<h3 id="1-OOM和崩溃优化"><a href="#1-OOM和崩溃优化" class="headerlink" title="1.OOM和崩溃优化"></a>1.OOM和崩溃优化</h3><h4 id="1-2-ANR优化"><a href="#1-2-ANR优化" class="headerlink" title="1.2 ANR优化"></a>1.2 ANR优化</h4><ul>
+<li>ANR的产生需要满足三个条件 <ul>
+<li>主线程：只有应用程序进程的主线程响应超时才会产生ANR；</li>
+<li>超时时间：产生ANR的上下文不同，超时时间也会不同，但只要在这个时间上限内没有响应就会ANR；</li>
+<li>输入事件/特定操作：输入事件是指按键、触屏等设备输入事件，特定操作是指BroadcastReceiver和Service的生命周期中的各个函数，产生ANR的上下文不同，导致ANR的原因也会不同；</li>
+</ul>
+</li>
+<li>ANR优化具体措施 <ul>
+<li>将所有耗时操作，比如访问网络，Socket通信，查询大量SQL 语句，复杂逻辑计算等都放在子线程中去，然 后通过handler.sendMessage、runonUIThread、AsyncTask 等方式更新UI。无论如何都要确保用户界面作的流畅 度。如果耗时操作需要让用户等待，那么可以在界面上显示度条。</li>
+<li>使用AsyncTask处理耗时IO操作。在一些同步的操作主线程有可能被锁，需要等待其他线程释放相应锁才能继续执行，这样会有一定的ANR风险，对于这种情况有时也可以用异步线程来执行相应的逻辑。另外，要避免死锁的发生。</li>
+<li>使用Handler处理工作线程结果，而不是使用Thread.wait()或者Thread.sleep()来阻塞主线程。</li>
+<li>Activity的onCreate和onResume回调中尽量避免耗时的代码</li>
+<li>BroadcastReceiver中onReceive代码也要尽量减少耗时，建议使用IntentService处理。</li>
+<li>各个组件的生命周期函数都不应该有太耗时的操作，即使对于后台Service或者ContentProvider来讲，应用在后台运行时候其onCreate()时候不会有用户输入引起事件无响应ANR，但其执行时间过长也会引起Service的ANR和ContentProvider的ANR</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-内存泄漏优化"><a href="#2-内存泄漏优化" class="headerlink" title="2.内存泄漏优化"></a>2.内存泄漏优化</h3><ul>
+<li><p>内存检测第一种：代码方式获取内存</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 内存使用检测：可以调用系统的getMemoryInfo()来获取当前内存的使用情况</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initMemoryInfo</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ActivityManager activityManager = (ActivityManager) Utils.getApp()</span><br><span class="line">            .getSystemService(Context.ACTIVITY_SERVICE);</span><br><span class="line">    ActivityManager.MemoryInfo memoryInfo = <span class="keyword">new</span> ActivityManager.MemoryInfo();</span><br><span class="line">    <span class="keyword">if</span> (activityManager != <span class="keyword">null</span>) &#123;</span><br><span class="line">        activityManager.getMemoryInfo(memoryInfo);</span><br><span class="line">        LogUtils.d(<span class="string">"totalMem="</span> + memoryInfo.totalMem + <span class="string">",availMem="</span> + memoryInfo.availMem);</span><br><span class="line">        <span class="keyword">if</span> (!memoryInfo.lowMemory) &#123;</span><br><span class="line">            <span class="comment">// 运行在低内存环境</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<ul>
+<li><p>内存检测第二种：leakcanary工具 </p>
+<ul>
+<li>LeakCanary的原理是监控每个activity，在activity ondestory后，在后台线程检测引用，然后过一段时间进行gc，gc后如果引用还在，那么dump出内存堆栈，并解析进行可视化显示。</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-0-动画资源未释放"><a href="#2-0-动画资源未释放" class="headerlink" title="2.0 动画资源未释放"></a>2.0 动画资源未释放</h4><ul>
+<li><p>问题代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LeakActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> TextView textView;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_leak);</span><br><span class="line">        textView = (TextView)findViewById(R.id.text_view);</span><br><span class="line">        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(textView,<span class="string">"rotation"</span>,<span class="number">0</span>,<span class="number">360</span>);</span><br><span class="line">        objectAnimator.setRepeatCount(ValueAnimator.INFINITE);</span><br><span class="line">        objectAnimator.start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<ul>
+<li><p>解决办法 </p>
+<ul>
+<li>在属性动画中有一类无限循环动画，如果在Activity中播放这类动画并且在onDestroy中去停止动画，那么这个动画将会一直播放下去，这时候Activity会被View所持有，从而导致Activity无法被释放。解决此类问题则是需要早Activity中onDestroy去去调用objectAnimator.cancel()来停止动画。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onDestroy</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>.onDestroy();</span><br><span class="line">    mAnimator.cancel();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h4 id="2-1-错误使用单利"><a href="#2-1-错误使用单利" class="headerlink" title="2.1 错误使用单利"></a>2.1 错误使用单利</h4><ul>
+<li>在开发中单例经常需要持有Context对象，如果持有的Context对象生命周期与单例生命周期更短时，或导致Context无法被释放回收，则有可能造成内存泄漏。比如：在一个Activity中调用的，然后关闭该Activity则会出现内存泄漏。</li>
+<li>解决办法： <ul>
+<li>要保证Context和AppLication的生命周期一样，修改后代码如下：</li>
+<li>this.mContext = context.getApplicationContext();</li>
+<li>1、如果此时传入的是 Application 的 Context，因为 Application 的生命周期就是整个应用的生命周期，所以这将没有任何问题。</li>
+<li>2、如果此时传入的是 Activity 的 Context，当这个 Context 所对应的 Activity 退出时，由于该 Context 的引用被单例对象所持有，其生命周期等于整个应用程序的生命周期，所以当前 Activity 退出时它的内存并不会被回收，这就造成泄漏了。</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-2-错误使用静态变量"><a href="#2-2-错误使用静态变量" class="headerlink" title="2.2 错误使用静态变量"></a>2.2 错误使用静态变量</h4><ul>
+<li>使用静态方法是十分方便的。但是创建的对象，建议不要全局化，全局化的变量必须加上static。全局化后的变量或者对象会导致内存泄漏！</li>
+<li>原因分析 <ul>
+<li>这里内部类AClass隐式的持有外部类Activity的引用，而在Activity的onCreate方法中调用了。这样AClass就会在Activity创建的时候是有了他的引用，而AClass是静态类型的不会被垃圾回收，Activity在执行onDestory方法的时候由于被AClass持有了引用而无法被回收，所以这样Activity就总是被AClass持有而无法回收造成内存泄露。</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-3-handler内存泄漏"><a href="#2-3-handler内存泄漏" class="headerlink" title="2.3 handler内存泄漏"></a>2.3 handler内存泄漏</h4><ul>
+<li>造成内存泄漏原因分析 <ul>
+<li>通过内部类的方式创建mHandler对象,此时mHandler会隐式地持有一个外部类对象引用这里就是MainActivity，当执行postDelayed方法时，该方法会将你的Handler装入一个Message，并把这条Message推到MessageQueue中，MessageQueue是在一个Looper线程中不断轮询处理消息，那么当这个Activity退出时消息队列中还有未处理的消息或者正在处理消息，而消息队列中的Message持有mHandler实例的引用，mHandler又持有Activity的引用，所以导致该Activity的内存资源无法及时回收，引发内存泄漏。</li>
+</ul>
+</li>
+<li>解决Handler内存泄露主要2点 <ul>
+<li>有延时消息，要在Activity销毁的时候移除Messages监听</li>
+<li>匿名内部类导致的泄露改为匿名静态内部类，并且对上下文或者Activity使用弱引用。</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-4-线程造成内存泄漏"><a href="#2-4-线程造成内存泄漏" class="headerlink" title="2.4 线程造成内存泄漏"></a>2.4 线程造成内存泄漏</h4><ul>
+<li>早时期的时候处理耗时操作多数都是采用Thread+Handler的方式，后来逐步被AsyncTask取代，直到现在采用RxJava的方式来处理异步。</li>
+<li>造成内存泄漏原因分析 <ul>
+<li>在处理一个比较耗时的操作时，可能还没处理结束MainActivity就执行了退出操作，但是此时AsyncTask依然持有对MainActivity的引用就会导致MainActivity无法释放回收引发内存泄漏。</li>
+</ul>
+</li>
+<li>解决办法 <ul>
+<li>在使用AsyncTask时，在Activity销毁时候也应该取消相应的任务AsyncTask.cancel()方法，避免任务在后台执行浪费资源，进而避免内存泄漏的发生。</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-5-非静态内部类"><a href="#2-5-非静态内部类" class="headerlink" title="2.5 非静态内部类"></a>2.5 非静态内部类</h4><ul>
+<li><p>非静态内部类创建静态实例造成的内存泄漏。有的时候我们可能会在启动频繁的Activity中，为了避免重复创建相同的数据资源，可能会出现这种写法。</p>
+</li>
+<li><p>问题代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> TestResource mResource = <span class="keyword">null</span>;</span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">    setContentView(R.layout.activity_main);</span><br><span class="line">    <span class="keyword">if</span>(mResource == <span class="keyword">null</span>)&#123;</span><br><span class="line">        mResource = <span class="keyword">new</span> TestResource();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TestResource</span> </span>&#123;</span><br><span class="line">     <span class="comment">//里面代码引用上下文，Activity.this会导致内存泄漏</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<ul>
+<li><p>解决办法 </p>
+<ul>
+<li>将该内部类设为静态内部类或将该内部类抽取出来封装成一个单例，如果需要使用Context，请按照上面推荐的使用Application 的 Context。</li>
+</ul>
+</li>
+<li><p>分析问题 </p>
+<ul>
+<li>这样就在Activity内部创建了一个非静态内部类的单例，每次启动Activity时都会使用该单例的数据，这样虽然避免了资源的重复创建，不过这种写法却会造成内存泄漏，因为非静态内部类默认会持有外部类的引用，而该非静态内部类又创建了一个静态的实例，该实例的生命周期和应用的一样长，这就导致了该静态实例一直会持有该Activity的引用，导致Activity的内存资源不能正常回收。</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-6-未移除监听"><a href="#2-6-未移除监听" class="headerlink" title="2.6 未移除监听"></a>2.6 未移除监听</h4><ul>
+<li><p>问题代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//add监听，放到集合里面</span></span><br><span class="line">tv.getViewTreeObserver().addOnWindowFocusChangeListener(<span class="keyword">new</span> ViewTreeObserver.OnWindowFocusChangeListener() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onWindowFocusChanged</span><span class="params">(<span class="keyword">boolean</span> b)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//监听view的加载，view加载出来的时候，计算他的宽高等。</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<ul>
+<li><p>解决办法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//计算完后，一定要移除这个监听</span></span><br><span class="line">tv.getViewTreeObserver().removeOnWindowFocusChangeListener(<span class="keyword">this</span>);</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<ul>
+<li><p>注意事项：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tv.setOnClickListener();<span class="comment">//监听执行完回收对象，不用考虑内存泄漏</span></span><br><span class="line">tv.getViewTreeObserver().addOnWindowFocusChangeListene,add监听，放到集合里面，需要考虑内存泄漏</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h4 id="2-7-持有activity引用"><a href="#2-7-持有activity引用" class="headerlink" title="2.7 持有activity引用"></a>2.7 持有activity引用</h4><h4 id="2-8-资源未关闭"><a href="#2-8-资源未关闭" class="headerlink" title="2.8 资源未关闭"></a>2.8 资源未关闭</h4><ul>
+<li>在使用IO、File流或者Sqlite、Cursor等资源时要及时关闭。这些资源在进行读写操作时通常都使用了缓冲，如果及时不关闭，这些缓冲对象就会一直被占用而得不到释放，以致发生内存泄露。因此我们在不需要使用它们的时候就及时关闭，以便缓冲能及时得到释放，从而避免内存泄露。</li>
+<li>BroadcastReceiver，ContentObserver，FileObserver，Cursor，Callback等在 Activity onDestroy 或者某类生命周期结束之后一定要 unregister 或者 close 掉，否则这个 Activity 类会被 system 强引用，不会被内存回收。值得注意的是，关闭的语句必须在finally中进行关闭，否则有可能因为异常未关闭资源，致使activity泄漏。</li>
+</ul>
+<h4 id="2-9-其他原因"><a href="#2-9-其他原因" class="headerlink" title="2.9 其他原因"></a>2.9 其他原因</h4><ul>
+<li><p>静态集合使用不当导致的内存泄漏 </p>
+<ul>
+<li>有时候我们需要把一些对象加入到集合容器（例如ArrayList）中，当不再需要当中某些对象时，如果不把该对象的引用从集合中清理掉，也会使得GC无法回收该对象。如果集合是static类型的话，那内存泄漏情况就会更为严重。因此，当不再需要某对象时，需要主动将之从集合中移除。</li>
+</ul>
+</li>
+<li><p>不需要用的监听未移除会发生内存泄露 </p>
+<ul>
+<li><p>问题代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//add监听，放到集合里面</span></span><br><span class="line">tv.getViewTreeObserver().addOnWindowFocusChangeListener(<span class="keyword">new</span> ViewTreeObserver.OnWindowFocusChangeListener() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onWindowFocusChanged</span><span class="params">(<span class="keyword">boolean</span> b)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//监听view的加载，view加载出来的时候，计算他的宽高等。</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>解决办法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//计算完后，一定要移除这个监听</span></span><br><span class="line">tv.getViewTreeObserver().removeOnWindowFocusChangeListener(<span class="keyword">this</span>);</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<ul>
+<li><p>注意事项：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tv.setOnClickListener();//监听执行完回收对象，不用考虑内存泄漏</span><br><span class="line">  tv.getViewTreeObserver().addOnWindowFocusChangeListene,add监听，放到集合里面，需要考虑内存泄漏</span><br><span class="line">  复制代码</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="3-布局优化"><a href="#3-布局优化" class="headerlink" title="3.布局优化"></a>3.布局优化</h3><h4 id="3-1-include优化"><a href="#3-1-include优化" class="headerlink" title="3.1 include优化"></a>3.1 include优化</h4><ul>
+<li>重用布局文件 <ul>
+<li>标签可以允许在一个布局当中引入另一个布局，那么比如说我们程序的所有界面都有一个公共的部分，这个时候最好的做法就是将这个公共的部分提取到一个独立的布局中，然后每个界面的布局文件当中来引用这个公共的布局。</li>
+<li>如果我们要在标签中覆写layout属性，必须要将layout_width和layout_height这两个属性也进行覆写，否则覆写效果将不会生效。</li>
+<li>标签是作为标签的一种辅助扩展来使用的，它的主要作用是为了防止在引用布局文件时引用文件时产生多余的布局嵌套。布局嵌套越多，解析起来就越耗时，性能就越差。因此编写布局文件时应该让嵌套的层数越少越好。</li>
+<li>举例：比如在LinearLayout里边使用一个布局。里边又有一个LinearLayout，那么其实就存在了多余的布局嵌套，使用merge可以解决这个问题。</li>
+</ul>
+</li>
+</ul>
+<h4 id="3-2-ViewStub优化"><a href="#3-2-ViewStub优化" class="headerlink" title="3.2 ViewStub优化"></a>3.2 ViewStub优化</h4><ul>
+<li>仅在需要时才加载布局[ViewStub] <ul>
+<li>某个布局当中的元素不是一起显示出来的，普通情况下只显示部分常用的元素，而那些不常用的元素只有在用户进行特定操作时才会显示出来。</li>
+<li>举例：填信息时不是需要全部填的，有一个添加更多字段的选项，当用户需要添加其他信息的时候，才将另外的元素显示到界面上。用VISIBLE性能表现一般，可以用ViewStub。</li>
+<li>ViewStub也是View的一种，但是没有大小，没有绘制功能，也不参与布局，资源消耗非常低，可以认为完全不影响性能。</li>
+<li>ViewStub所加载的布局是不可以使用标签的，因此这有可能导致加载出来出来的布局存在着多余的嵌套结构。</li>
+</ul>
+</li>
+<li>自定义全局的状态管理器【充分使用ViewStub】 <ul>
+<li>针对多状态，有数据，空数据，加载失败，加载异常，网络异常等。针对空数据，加载失败，异常使用viewStub布局，一键设置自定义布局，也是优化的一种。</li>
+<li>项目地址：</li>
+</ul>
+</li>
+</ul>
+<h4 id="3-3-merge优化"><a href="#3-3-merge优化" class="headerlink" title="3.3 merge优化"></a>3.3 merge优化</h4><ul>
+<li>视图层级 <ul>
+<li>这个标签在UI的结构优化中起着非常重要的作用，它可以删减多余的层级，优化UI。但是就有一点不好，无法预览布局效果！</li>
+</ul>
+</li>
+</ul>
+<h4 id="3-4-其他建议"><a href="#3-4-其他建议" class="headerlink" title="3.4 其他建议"></a>3.4 其他建议</h4><ul>
+<li>减少太多重叠的背景(overdraw) <ul>
+<li>这个问题其实最容易解决，建议就是检查你在布局和代码中设置的背景，有些背景是隐藏在底下的，它永远不可能显示出来，这种没必要的背景一定要移除，因为它很可能会严重影响到app的性能。如果采用的是selector的背景，将normal状态的color设置为”@android:color/transparent”,也同样可以解决问题。</li>
+</ul>
+</li>
+<li>避免复杂的Layout层级 <ul>
+<li>这里的建议比较多一些，首先推荐使用Android提供的布局工具Hierarchy Viewer来检查和优化布局。第一个建议是：如果嵌套的线性布局加深了布局层次，可以使用相对布局来取代。第二个建议是：用标签来合并布局。第三个建议是：用标签来重用布局，抽取通用的布局可以让布局的逻辑更清晰明了。记住，这些建议的最终目的都是使得你的Layout在Hierarchy Viewer里变得宽而浅，而不是窄而深。</li>
+<li>总结：可以考虑多使用merge和include，ViewStub。尽量使布局浅平，根布局尽量少使用RelactivityLayout,因为RelactivityLayout每次需要测量2次。</li>
+</ul>
+</li>
+</ul>
+<h3 id="4-代码优化"><a href="#4-代码优化" class="headerlink" title="4.代码优化"></a>4.代码优化</h3><ul>
+<li>都是一些微优化，在性能方面看不出有什么显著的提升的。使用合适的算法和数据结构是优化程序性能的最主要手段。</li>
+</ul>
+<h4 id="4-1-建议使用lint检查去除无效代码"><a href="#4-1-建议使用lint检查去除无效代码" class="headerlink" title="4.1 建议使用lint检查去除无效代码"></a>4.1 建议使用lint检查去除无效代码</h4><ul>
+<li>lint去除无效资源和代码 <ul>
+<li>如何检测哪些图片未被使用 <ul>
+<li>点击菜单栏 Analyze -&gt; Run Inspection by Name -&gt; unused resources -&gt; Moudule ‘app’ -&gt; OK，这样会搜出来哪些未被使用到未使用到xml和图片，如下：</li>
+</ul>
+</li>
+<li>如何检测哪些无效代码 <ul>
+<li>使用Android Studio的Lint，步骤：点击菜单栏 Analyze -&gt; Run Inspection by Name -&gt; unused declaration -&gt; Moudule ‘app’ -&gt; OK</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="4-2-代码规范优化"><a href="#4-2-代码规范优化" class="headerlink" title="4.2 代码规范优化"></a>4.2 代码规范优化</h4><ul>
+<li>避免创建不必要的对象 不必要的对象应该避免创建： <ul>
+<li>如果有需要拼接的字符串，那么可以优先考虑使用StringBuffer或者StringBuilder来进行拼接，而不是加号连接符，因为使用加号连接符会创建多余的对象，拼接的字符串越长，加号连接符的性能越低。</li>
+<li>当一个方法的返回值是String的时候，通常需要去判断一下这个String的作用是什么，如果明确知道调用方会将返回的String再进行拼接操作的话，可以考虑返回一个StringBuffer对象来代替，因为这样可以将一个对象的引用进行返回，而返回String的话就是创建了一个短生命周期的临时对象。</li>
+<li>尽可能地少创建临时对象，越少的对象意味着越少的GC操作。</li>
+<li>nDraw方法里面不要执行对象的创建</li>
+</ul>
+</li>
+<li>静态优于抽象 <ul>
+<li>如果你并不需要访问一个对系那个中的某些字段，只是想调用它的某些方法来去完成一项通用的功能，那么可以将这个方法设置成静态方法，调用速度提升15%-20%，同时也不用为了调用这个方法去专门创建对象了，也不用担心调用这个方法后是否会改变对象的状态(静态方法无法访问非静态字段)。</li>
+</ul>
+</li>
+<li>对常量使用static final修饰符 <ul>
+<li>static int intVal = 42;  static String strVal = “Hello, world!”;</li>
+<li>编译器会为上面的代码生成一个初始方法，称为方法，该方法会在定义类第一次被使用的时候调用。这个方法会将42的值赋值到intVal当中，从字符串常量表中提取一个引用赋值到strVal上。当赋值完成后，我们就可以通过字段搜寻的方式去访问具体的值了。</li>
+<li>final进行优化:</li>
+<li>static final int intVal = 42;  static final String strVal = “Hello, world!”;</li>
+<li>这样，定义类就不需要方法了，因为所有的常量都会在dex文件的初始化器当中进行初始化。当我们调用intVal时可以直接指向42的值，而调用strVal会用一种相对轻量级的字符串常量方式，而不是字段搜寻的方式。</li>
+<li>这种优化方式只对基本数据类型以及String类型的常量有效，对于其他数据类型的常量是无效的。</li>
+</ul>
+</li>
+<li>在没有特殊原因的情况下，尽量使用基本数据类型来代替封装数据类型，int比Integer要更加有效，其它数据类型也是一样。 <ul>
+<li>基本数据类型的数组也要优于对象数据类型的数组。另外两个平行的数组要比一个封装好的对象数组更加高效，举个例子，Foo[]和Bar[]这样的数组，使用起来要比Custom(Foo,Bar)[]这样的一个数组高效的多。</li>
+</ul>
+</li>
+</ul>
+<h4 id="4-3-View异常优化"><a href="#4-3-View异常优化" class="headerlink" title="4.3 View异常优化"></a>4.3 View异常优化</h4><ul>
+<li><p>view自定义控件异常销毁保存状态 </p>
+<ul>
+<li><p>经常容易被人忽略，但是为了追求高质量代码，这个也有必要加上。举个例子！</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> Parcelable <span class="title">onSaveInstanceState</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">//异常情况保存重要信息。</span></span><br><span class="line">    <span class="comment">//return super.onSaveInstanceState();</span></span><br><span class="line">    <span class="keyword">final</span> Bundle bundle = <span class="keyword">new</span> Bundle();</span><br><span class="line">    bundle.putInt(<span class="string">"selectedPosition"</span>,selectedPosition);</span><br><span class="line">    bundle.putInt(<span class="string">"flingSpeed"</span>,mFlingSpeed);</span><br><span class="line">    bundle.putInt(<span class="string">"orientation"</span>,orientation);</span><br><span class="line">    <span class="keyword">return</span> bundle;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onRestoreInstanceState</span><span class="params">(Parcelable state)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (state <span class="keyword">instanceof</span> Bundle) &#123;</span><br><span class="line">        <span class="keyword">final</span> Bundle bundle = (Bundle) state;</span><br><span class="line">        selectedPosition = bundle.getInt(<span class="string">"selectedPosition"</span>,selectedPosition);</span><br><span class="line">        mFlingSpeed = bundle.getInt(<span class="string">"flingSpeed"</span>,mFlingSpeed);</span><br><span class="line">        orientation = bundle.getInt(<span class="string">"orientation"</span>,orientation);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">super</span>.onRestoreInstanceState(state);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="4-4-去除淡黄色警告优化"><a href="#4-4-去除淡黄色警告优化" class="headerlink" title="4.4 去除淡黄色警告优化"></a>4.4 去除淡黄色警告优化</h4><ul>
+<li>淡黄色警告虽然不会造成崩溃，但是作为程序员还是要尽量去除淡黄色警告，规范代码</li>
+</ul>
+<h4 id="4-5-合理使用集合"><a href="#4-5-合理使用集合" class="headerlink" title="4.5 合理使用集合"></a>4.5 合理使用集合</h4><ul>
+<li>使用优化过的数据集合 <ul>
+<li>Android提供了一系列优化过后的数据集合工具类，如SparseArray、SparseBooleanArray、LongSparseArray，使用这些API可以让我们的程序更加高效。HashMap工具类会相对比较低效，因为它需要为每一个键值对都提供一个对象入口，而SparseArray就避免掉了基本数据类型转换成对象数据类型的时间。</li>
+</ul>
+</li>
+</ul>
+<h4 id="4-6-Activity不可见优化"><a href="#4-6-Activity不可见优化" class="headerlink" title="4.6 Activity不可见优化"></a>4.6 Activity不可见优化</h4><ul>
+<li>当Activity界面不可见时释放内存 <ul>
+<li>当用户打开了另外一个程序，我们的程序界面已经不可见的时候，我们应当将所有和界面相关的资源进行释放。重写Activity的onTrimMemory()方法，然后在这个方法中监听TRIM_MEMORY_UI_HIDDEN这个级别，一旦触发说明用户离开了程序，此时就可以进行资源释放操作了。</li>
+</ul>
+</li>
+<li>当时看到这个觉得很新奇的，但是具体还是没有用到，要是那个大神有具体操作方案，可以分享一下。</li>
+</ul>
+<h4 id="4-7-节制的使用Service"><a href="#4-7-节制的使用Service" class="headerlink" title="4.7 节制的使用Service"></a>4.7 节制的使用Service</h4><ul>
+<li>节制的使用Service <ul>
+<li>如果应用程序需要使用Service来执行后台任务的话，只有当任务正在执行的时候才应该让Service运行起来。当启动一个Service时，系统会倾向于将这个Service所依赖的进程进行保留，系统可以在LRUcache当中缓存的进程数量也会减少，导致切换程序的时候耗费更多性能。我们可以使用IntentService，当后台任务执行结束后会自动停止，避免了Service的内存泄漏。</li>
+</ul>
+</li>
+</ul>
+<h3 id="5-网络优化"><a href="#5-网络优化" class="headerlink" title="5.网络优化"></a>5.网络优化</h3><h4 id="5-1-图片分类"><a href="#5-1-图片分类" class="headerlink" title="5.1 图片分类"></a>5.1 图片分类</h4><ul>
+<li>图片网络优化 <ul>
+<li>比如我之前看到豆瓣接口，提供一种加载图片方式特别好。接口返回图片的数据有三种，一种是高清大图，一种是正常图片，一种是缩略小图。当用户处于wifi下给控件设置高清大图，当4g或者3g模式下加载正常图片，当弱网条件下加载缩略图【也称与加载图】。</li>
+<li>简单来说根据用户的当前的网络质量来判断下载什么质量的图片（电商用的比较多）。豆瓣开源接口可以参考一下！</li>
+</ul>
+</li>
+</ul>
+<h4 id="5-2-获取网络数据优化"><a href="#5-2-获取网络数据优化" class="headerlink" title="5.2 获取网络数据优化"></a>5.2 获取网络数据优化</h4><ul>
+<li>移动端获取网络数据优化的几个点</li>
+<li>连接复用：节省连接建立时间，如开启 keep-alive。 <ul>
+<li>对于Android来说默认情况下HttpURLConnection和HttpClient都开启了keep-alive。只是2.2之前HttpURLConnection存在影响连接池的Bug，具体可见：Android HttpURLConnection及HttpClient选择</li>
+</ul>
+</li>
+<li>请求合并：即将多个请求合并为一个进行请求，比较常见的就是网页中的CSS Image Sprites。如果某个页面内请求过多，也可以考虑做一定的请求合并。</li>
+<li>减少请求数据的大小：对于post请求，body可以做gzip压缩的，header也可以做数据压缩(不过只支持http <ul>
+<li>返回数据的body也可以做gzip压缩，body数据体积可以缩小到原来的30%左右。（也可以考虑压缩返回的json数据的key数据的体积，尤其是针对返回数据格式变化不大的情况，支付宝聊天返回的数据用到了）</li>
+</ul>
+</li>
+</ul>
+<h3 id="5-3-网络请求异常拦截优化"><a href="#5-3-网络请求异常拦截优化" class="headerlink" title="5.3 网络请求异常拦截优化"></a>5.3 网络请求异常拦截优化</h3><ul>
+<li><p>在获取数据的流程中，访问接口和解析数据时都有可能会出错，我们可以通过拦截器在这两层拦截错误。 </p>
+<ul>
+<li>1.在访问接口时，我们不用设置拦截器，因为一旦出现错误，Retrofit会自动抛出异常。比如，常见请求异常404，500，503等等。</li>
+<li>2.在解析数据时，我们设置一个拦截器，判断Result里面的code是否为成功，如果不成功，则要根据与服务器约定好的错误码来抛出对应的异常。比如，token失效，禁用同账号登陆多台设备，缺少参数，参数传递异常等等。</li>
+<li>3.除此以外，为了我们要尽量避免在View层对错误进行判断，处理，我们必须还要设置一个拦截器，拦截onError事件，然后使用ExceptionUtils，让其根据错误类型来分别处理。</li>
+<li>具体可以直接看lib中的ExceptionUtils类，那么如何调用呢？入侵性极低，不用改变之前的代码！</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onError</span><span class="params">(Throwable e)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//直接调用即可</span></span><br><span class="line">    ExceptionUtils.handleException(e);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="6-线程优化"><a href="#6-线程优化" class="headerlink" title="6.线程优化"></a>6.线程优化</h3><h4 id="6-1-使用线程池"><a href="#6-1-使用线程池" class="headerlink" title="6.1 使用线程池"></a>6.1 使用线程池</h4><ul>
+<li>将全局线程用线程池管理 <ul>
+<li>直接创建Thread实现runnable方法的弊端 <ul>
+<li>大量的线程的创建和销毁很容易导致GC频繁的执行，从而发生内存抖动现象，而发生了内存抖动，对于移动端来说，最大的影响就是造成界面卡顿</li>
+<li>线程的创建和销毁都需要时间，当有大量的线程创建和销毁时，那么这些时间的消耗则比较明显，将导致性能上的缺失</li>
+</ul>
+</li>
+<li>为什么要用线程池 <ul>
+<li>重用线程池中的线程，避免频繁地创建和销毁线程带来的性能消耗；有效控制线程的最大并发数量，防止线程过大导致抢占资源造成系统阻塞；可以对线程进行一定地管理。</li>
+</ul>
+</li>
+<li>使用线程池管理的经典例子 <ul>
+<li>RxJava，RxAndroid，底层对线程池的封装管理特别值得参考</li>
+</ul>
+</li>
+<li>关于线程池，线程，多线程的具体内容 <ul>
+<li>参考：<a href="https://link.juejin.im?target=https%3A%2F%2Fgithub.com%2Fyangchong211%2FYCThreadPool" target="_blank" rel="noopener">轻量级线程池封装库，支持异步回调，可以检测线程执行的状态</a></li>
+<li>该项目中哪里用到频繁new Thread <ul>
+<li>保存图片[注意，尤其是大图和多图场景下注意耗时太久]；某些页面从数据库查询数据；设置中心清除图片，视频，下载文件，日志，系统缓存等缓存内容</li>
+<li>使用线程池管理库好处，比如保存图片，耗时操作放到子线程中，处理过程中，可以检测到执行开始，异常，成功，失败等多种状态。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="7-图片优化"><a href="#7-图片优化" class="headerlink" title="7.图片优化"></a>7.图片优化</h3><h4 id="7-1-bitmap优化"><a href="#7-1-bitmap优化" class="headerlink" title="7.1 bitmap优化"></a>7.1 bitmap优化</h4><ul>
+<li>加载图片所占的内存大小计算方式 <ul>
+<li>加载网络图片：bitmap内存大小 = 图片长度 x 图片宽度 x 单位像素占用的字节数【看到网上很多都是这样写的，但是不全面】</li>
+<li>加载本地图片：bitmap内存大小 = width * height * nTargetDensity/inDensity 一个像素所占的内存。注意不要忽略了一个影响项：Density</li>
+</ul>
+</li>
+<li>第一种加载图片优化处理：压缩图片 <ul>
+<li>质量压缩方法：在保持像素的前提下改变图片的位深及透明度等，来达到压缩图片的目的，这样适合去传递二进制的图片数据，比如分享图片，要传入二进制数据过去，限制500kb之内。</li>
+<li>采样率压缩方法：设置inSampleSize的值(int类型)后，假如设为n，则宽和高都为原来的1/n，宽高都减少，内存降低。</li>
+<li>缩放法压缩：Android中使用Matrix对图像进行缩放、旋转、平移、斜切等变换的。功能十分强大！</li>
+</ul>
+</li>
+<li>第二种加载图片优化：不压缩加载高清图片如何做？ <ul>
+<li>使用BitmapRegionDecoder，主要用于显示图片的某一块矩形区域，如果你需要显示某个图片的指定区域，那么这个类非常合适。</li>
+</ul>
+</li>
+</ul>
+<h4 id="7-2-glide加载优化"><a href="#7-2-glide加载优化" class="headerlink" title="7.2 glide加载优化"></a>7.2 glide加载优化</h4><ul>
+<li><p>在画廊中加载大图 </p>
+<ul>
+<li><p>假如你滑动特别快，glide加载优化就显得非常重要呢，具体优化方法如下所示</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">recyclerView.addOnScrollListener(<span class="keyword">new</span> RecyclerView.OnScrollListener() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onScrollStateChanged</span><span class="params">(@NonNull RecyclerView recyclerView, <span class="keyword">int</span> newState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onScrollStateChanged(recyclerView, newState);</span><br><span class="line">        <span class="keyword">if</span> (newState == RecyclerView.SCROLL_STATE_IDLE) &#123;</span><br><span class="line">            LoggerUtils.e(<span class="string">"initRecyclerView"</span>+ <span class="string">"恢复Glide加载图片"</span>);</span><br><span class="line">            Glide.with(ImageBrowseActivity.<span class="keyword">this</span>).resumeRequests();</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            LoggerUtils.e(<span class="string">"initRecyclerView"</span>+<span class="string">"禁止Glide加载图片"</span>);</span><br><span class="line">            Glide.with(ImageBrowseActivity.<span class="keyword">this</span>).pauseRequests();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="8-加载优化"><a href="#8-加载优化" class="headerlink" title="8.加载优化"></a>8.加载优化</h3><h4 id="8-1-懒加载优化"><a href="#8-1-懒加载优化" class="headerlink" title="8.1 懒加载优化"></a>8.1 懒加载优化</h4><ul>
+<li>该优化在新闻类app中十分常见 <ul>
+<li>ViewPager+Fragment的搭配在日常开发中也比较常见，可用于切换展示不同类别的页面。</li>
+<li>懒加载,其实也就是延迟加载,就是等到该页面的UI展示给用户时,再加载该页面的数据(从网络、数据库等),而不是依靠ViewPager预加载机制提前加载两三个，甚至更多页面的数据。这样可以提高所属Activity的初始化速度,也可以为用户节省流量.而这种懒加载的方式也已经/正在被诸多APP所采用。</li>
+</ul>
+</li>
+<li>具体看这篇文章 <ul>
+<li><a href="https://link.juejin.im?target=https%3A%2F%2Fwww.jianshu.com%2Fp%2Fcf1f4104de78" target="_blank" rel="noopener">www.jianshu.com/p/cf1f4104d…</a></li>
+</ul>
+</li>
+</ul>
+<h4 id="8-2-启动页优化"><a href="#8-2-启动页优化" class="headerlink" title="8.2 启动页优化"></a>8.2 启动页优化</h4><ul>
+<li>启动时间分析 <ul>
+<li>系统创建进程的时间和应用进程启动的时间，前者是由系统自行完成的，一般都会很快，我们也干预不了，我觉得能做的就是去优化应用进程启动，具体说来就是从发Application的onCreate()执行开始到MainActivity的onCreate()执行结束这一段时间。</li>
+</ul>
+</li>
+<li>启动时间优化 <ul>
+<li>Application的onCreate()方法</li>
+<li>MainActivity的onCreate()方法</li>
+<li>优化的手段也无非三种，如下所示： <ul>
+<li>延迟初始化</li>
+<li>后台任务</li>
+<li>启动界面预加载</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>启动页白屏优化 <ul>
+<li>为什么存在这个问题？ <ul>
+<li>当系统启动一个APP时，zygote进程会首先创建一个新的进程去运行这个APP，但是进程的创建是需要时间的，在创建完成之前，界面是呈现假死状态，于是系统根据你的manifest文件设置的主题颜色的不同来展示一个白屏或者黑屏。而这个黑（白）屏正式的称呼应该是Preview Window，即预览窗口。</li>
+<li>实际上就是是activity默认的主题中的android:windowBackground为白色或者黑色导致的。</li>
+<li>总结来说启动顺序就是：app启动——Preview Window(也称为预览窗口)——启动页</li>
+</ul>
+</li>
+<li>解决办法 <ul>
+<li>常见有三种，这里解决办法是给当前启动页添加一个有背景的style样式，然后SplashActivity引用当前theme主题，注意在该页面将window的背景图设置为空！</li>
+<li>更多关于启动页为什么白屏闪屏，以及不同解决办法，可以看我这篇博客：<a href="https://link.juejin.im?target=https%3A%2F%2Fgithub.com%2Fyangchong211%2FYCBlogs%2Fblob%2Fmaster%2Fandroid%2F%E4%BC%98%E5%8C%96%E7%9B%B8%E5%85%B3%2F07.App%E5%90%AF%E5%8A%A8%E9%A1%B5%E9%9D%A2%E4%BC%98%E5%8C%96.md" target="_blank" rel="noopener">App启动页面优化</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>启动时间优化 <ul>
+<li>IntentService子线程分担部分初始化工作 <ul>
+<li>现在application初始化内容有：阿里云推送初始化，腾讯bugly初始化，im初始化，神策初始化，内存泄漏工具初始化，头条适配方案初始化，阿里云热修复……等等。将部分逻辑放到IntentService中处理，可以缩短很多时间。</li>
+<li>开启IntentSerVice线程，将部分逻辑和耗时的初始化操作放到这里处理，可以减少application初始化时间</li>
+<li>关于IntentService使用和源码分析，性能分析等可以参考博客：<a href="https://link.juejin.im?target=https%3A%2F%2Fgithub.com%2Fyangchong211%2FYCBlogs%2Fblob%2Fmaster%2Fandroid%2F%E5%A4%9A%E7%BA%BF%E7%A8%8B%2F04.IntentService%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90.md" target="_blank" rel="noopener">IntentService源码分析</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="9-其他优化"><a href="#9-其他优化" class="headerlink" title="9.其他优化"></a>9.其他优化</h3><h4 id="9-1-静态变量优化"><a href="#9-1-静态变量优化" class="headerlink" title="9.1 静态变量优化"></a>9.1 静态变量优化</h4><ul>
+<li>尽量不使用静态变量保存核心数据。这是为什么呢？ - 这是因为android的进程并不是安全的，包括application对象以及静态变量在内的进程级别变量并不会一直呆着内存里面，因为它很有会被kill掉。 - 当被kill掉之后，实际上app不会重新开始启动。Android系统会创建一个新的Application对象，然后启动上次用户离开时的activity以造成这个app从来没有被kill掉的假象。而这时候静态变量等数据由于进程已经被杀死而被初始化，所以就有了不推荐在静态变量（包括Application中保存全局数据静态数据）的观点。</li>
+</ul>
+<h4 id="9-2-注解替代枚举"><a href="#9-2-注解替代枚举" class="headerlink" title="9.2 注解替代枚举"></a>9.2 注解替代枚举</h4><ul>
+<li><p>使用注解限定传入类型 </p>
+<ul>
+<li><p>比如，尤其是写第三方开源库，对于有些暴露给开发者的方法，需要限定传入类型是有必要的。举个例子：</p>
+</li>
+<li><p>刚开始的代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 设置播放器类型，必须设置</span></span><br><span class="line"><span class="comment"> * 注意：感谢某人建议，这里限定了传入值类型</span></span><br><span class="line"><span class="comment"> * 输入值：111   或者  222</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> playerType IjkPlayer or MediaPlayer.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPlayerType</span><span class="params">(<span class="keyword">int</span> playerType)</span> </span>&#123;</span><br><span class="line">    mPlayerType = playerType;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>优化后的代码，有效避免第一种方式开发者传入值错误</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 设置播放器类型，必须设置</span></span><br><span class="line"><span class="comment"> * 注意：感谢某人建议，这里限定了传入值类型</span></span><br><span class="line"><span class="comment"> * 输入值：ConstantKeys.IjkPlayerType.TYPE_IJK   或者  ConstantKeys.IjkPlayerType.TYPE_NATIVE</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> playerType IjkPlayer or MediaPlayer.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPlayerType</span><span class="params">(@ConstantKeys.PlayerType <span class="keyword">int</span> playerType)</span> </span>&#123;</span><br><span class="line">    mPlayerType = playerType;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 通过注解限定类型</span></span><br><span class="line"><span class="comment"> * TYPE_IJK                 IjkPlayer，基于IjkPlayer封装播放器</span></span><br><span class="line"><span class="comment"> * TYPE_NATIVE              MediaPlayer，基于原生自带的播放器控件</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.SOURCE)</span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> IjkPlayerType &#123;</span><br><span class="line">    <span class="keyword">int</span> TYPE_IJK = <span class="number">111</span>;</span><br><span class="line">    <span class="keyword">int</span> TYPE_NATIVE = <span class="number">222</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">@IntDef</span>(&#123;IjkPlayerType.TYPE_IJK,IjkPlayerType.TYPE_NATIVE&#125;)</span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> PlayerType&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<ul>
+<li><p>使用注解替代枚举，代码如下所示</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.SOURCE)</span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> ViewStateType &#123;</span><br><span class="line">    <span class="keyword">int</span> HAVE_DATA = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> EMPTY_DATA = <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">int</span> ERROR_DATA = <span class="number">3</span>;</span><br><span class="line">    <span class="keyword">int</span> ERROR_NETWORK = <span class="number">4</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h4 id="9-3-多渠道打包优化"><a href="#9-3-多渠道打包优化" class="headerlink" title="9.3 多渠道打包优化"></a>9.3 多渠道打包优化</h4><ul>
+<li>还在手动打包吗？尝试一下python自动化打包吧…… <ul>
+<li>瓦力多渠道打包的Python脚本测试工具，通过该自动化脚本，自需要run一下或者命令行运行脚本即可实现美团瓦力多渠道打包，打包速度很快。配置信息十分简单，代码中已经注释十分详细。可以自定义输出文件路径，可以修改多渠道配置信息，简单实用。 项目地址：<a href="https://link.juejin.im?target=https%3A%2F%2Fgithub.com%2Fyangchong211%2FYCWalleHelper" target="_blank" rel="noopener">github.com/yangchong21…</a></li>
+</ul>
+</li>
+</ul>
+<h4 id="9-4-TrimMemory和LowMemory优化"><a href="#9-4-TrimMemory和LowMemory优化" class="headerlink" title="9.4 TrimMemory和LowMemory优化"></a>9.4 TrimMemory和LowMemory优化</h4><ul>
+<li>可以优化什么？ <ul>
+<li>在 onTrimMemory() 回调中，应该在一些状态下清理掉不重要的内存资源。对于这些缓存，只要是读进内存内的都算，例如最常见的图片缓存、文件缓存等。拿图片缓存来说，市场上，常规的图片加载库，一般而言都是三级缓存，所以在内存吃紧的时候，我们就应该优先清理掉这部分图片缓存，毕竟图片是吃内存大户，而且再次回来的时候，虽然内存中的资源被回收掉了，依然可以从磁盘或者网络上恢复它。</li>
+</ul>
+</li>
+<li>大概的思路如下所示 <ul>
+<li>在lowMemory的时候，调用Glide.cleanMemory()清理掉所有的内存缓存。</li>
+<li>在App被置换到后台的时候，调用Glide.cleanMemory()清理掉所有的内存缓存。</li>
+<li>在其它情况的onTrimMemory()回调中，直接调用Glide.trimMemory()方法来交给Glide处理内存情况。</li>
+</ul>
+</li>
+</ul>
+<h4 id="9-5-轮询操作优化"><a href="#9-5-轮询操作优化" class="headerlink" title="9.5 轮询操作优化"></a>9.5 轮询操作优化</h4><ul>
+<li>什么叫轮训请求？ <ul>
+<li>简单理解就是App端每隔一定的时间重复请求的操作就叫做轮训请求，比如：App端每隔一段时间上报一次定位信息，App端每隔一段时间拉去一次用户状态等，这些应该都是轮训请求。比如，电商类项目，某个抽奖活动页面，隔1分钟调用一次接口，弹出一些获奖人信息，你应该某个阶段看过这类轮询操作！</li>
+</ul>
+</li>
+<li>具体优化操作 <ul>
+<li>长连接并不是稳定的可靠的，而执行轮训操作的时候一般都是要稳定的网络请求，而且轮训操作一般都是有生命周期的，即在一定的生命周期内执行轮训操作，而长连接一般都是整个进程生命周期的，所以从这方面讲也不太适合。</li>
+<li>建议在service中做轮询操作，轮询请求接口，具体做法和注意要点，可以直接看该项目代码。看app包下的LoopRequestService类即可。</li>
+<li>大概思路：当用户打开这个页面的时候初始化TimerTask对象，每个一分钟请求一次服务器拉取订单信息并更新UI，当用户离开页面的时候清除TimerTask对象，即取消轮训请求操作。</li>
+</ul>
+</li>
+</ul>
+<h4 id="9-6-去除重复依赖库优化"><a href="#9-6-去除重复依赖库优化" class="headerlink" title="9.6 去除重复依赖库优化"></a>9.6 去除重复依赖库优化</h4><ul>
+<li><p>我相信你看到了这里会有疑问，网上有许多博客作了这方面说明。但是我在这里想说，如何查找自己项目的所有依赖关系树 </p>
+<ul>
+<li>注意要点：其中app就是项目mudule名字。 正常情况下就是app！</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gradlew app:dependencies</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<ul>
+<li><p>关于依赖关系树的结构图如下所示，此处省略很多代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">|    |    |    |    |    |    \--- android.arch.core:common:1.1.1 (*)</span><br><span class="line">|    |    |    |         \--- com.android.support:support-annotations:26.1.0 -&gt; 28.0.0</span><br><span class="line">|    +--- com.journeyapps:zxing-android-embedded:3.6.0</span><br><span class="line">|    |    +--- com.google.zxing:core:3.3.2</span><br><span class="line">|    |    \--- com.android.support:support-v4:25.3.1</span><br><span class="line">|    |         +--- com.android.support:support-compat:25.3.1 -&gt; 28.0.0 (*)</span><br><span class="line">|    |         +--- com.android.support:support-media-compat:25.3.1</span><br><span class="line">|    |         |    +--- com.android.support:support-annotations:25.3.1 -&gt; 28.0.0</span><br><span class="line">|    |         |    \--- com.android.support:support-compat:25.3.1 -&gt; 28.0.0 (*)</span><br><span class="line">|    |         +--- com.android.support:support-core-utils:25.3.1 -&gt; 28.0.0 (*)</span><br><span class="line">|    |         +--- com.android.support:support-core-ui:25.3.1 -&gt; 28.0.0 (*)</span><br><span class="line">|    |         \--- com.android.support:support-fragment:25.3.1 -&gt; 28.0.0 (*)</span><br><span class="line">\--- com.android.support:multidex:1.0.2 -&gt; 1.0.3</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<ul>
+<li><p>然后查看哪些重复jar </p>
+<ul>
+<li><img src="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190618101852.png" alt></li>
+</ul>
+</li>
+<li><p>然后修改gradle配置代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">api (rootProject.ext.dependencies[&quot;zxing&quot;])&#123;</span><br><span class="line">    exclude module: &apos;support-v4&apos;</span><br><span class="line">    exclude module: &apos;appcompat-v7&apos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h4 id="9-7-四种引用优化"><a href="#9-7-四种引用优化" class="headerlink" title="9.7 四种引用优化"></a>9.7 四种引用优化</h4><ul>
+<li><p>软引用使用场景 </p>
+<ul>
+<li><p>正常是用来处理大图片这种占用内存大的情况</p>
+<ul>
+<li>代码如下所示</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Bitmap bitmap = bitmaps.get(position);</span><br><span class="line"><span class="comment">//正常是用来处理图片这种占用内存大的情况</span></span><br><span class="line">bitmapSoftReference = <span class="keyword">new</span> SoftReference&lt;&gt;(bitmap);</span><br><span class="line"><span class="keyword">if</span>(bitmapSoftReference.get() != <span class="keyword">null</span>) &#123;</span><br><span class="line">    viewHolder.imageView.setImageBitmap(bitmapSoftReference.get());</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//其实看glide底层源码可知，也做了相关软引用的操作</span></span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>这样使用软引用好处</p>
+<ul>
+<li>通过软引用的get()方法，取得bitmap对象实例的强引用，发现对象被未回收。在GC在内存充足的情况下，不会回收软引用对象。此时view的背景显示<ul>
+<li>实际情况中,我们会获取很多图片.然后可能给很多个view展示, 这种情况下很容易内存吃紧导致oom,内存吃紧，系统开始会GC。这次GC后，bitmapSoftReference.get()不再返回bitmap对象，而是返回null，这时屏幕上背景图不显示，说明在系统内存紧张的情况下，软引用被回收。</li>
+<li>使用软引用以后，在OutOfMemory异常发生之前，这些缓存的图片资源的内存空间可以被释放掉的，从而避免内存达到上限，避免Crash发生。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>弱引用使用场景 </p>
+<ul>
+<li>弱引用–&gt;随时可能会被垃圾回收器回收，不一定要等到虚拟机内存不足时才强制回收。</li>
+<li>对于使用频次少的对象，希望尽快回收，使用弱引用可以保证内存被虚拟机回收。比如handler，如果希望使用完后尽快回收，看下面代码</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> MyHandler handler = <span class="keyword">new</span> MyHandler(<span class="keyword">this</span>);</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">MyHandler</span> <span class="keyword">extends</span> <span class="title">Handler</span></span>&#123;</span><br><span class="line">    WeakReference&lt;FirstActivity&gt; weakReference;</span><br><span class="line">    MyHandler(FirstActivity activity) &#123;</span><br><span class="line">        weakReference = <span class="keyword">new</span> WeakReference&lt;&gt;(activity);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleMessage</span><span class="params">(Message msg)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.handleMessage(msg);</span><br><span class="line">        <span class="keyword">switch</span> (msg.what)&#123;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<ul>
+<li><p>到底什么时候使用软引用，什么时候使用弱引用呢？ </p>
+<ul>
+<li>个人认为，如果只是想避免OutOfMemory异常的发生，则可以使用软引用。如果对于应用的性能更在意，想尽快回收一些占用内存比较大的对象，则可以使用弱引用。</li>
+<li>还有就是可以根据对象是否经常使用来判断。如果该对象可能会经常使用的，就尽量用软引用。如果该对象不被使用的可能性更大些，就可以用弱引用。</li>
+</ul>
+</li>
+</ul>
+<h4 id="9-8-加载loading优化"><a href="#9-8-加载loading优化" class="headerlink" title="9.8 加载loading优化"></a>9.8 加载loading优化</h4><ul>
+<li>一般实际开发中会至少有两种loading <ul>
+<li>第一种是从A页面进入B页面时的加载loading，这个时候特点是显示loading的时候，页面是纯白色的，加载完数据后才显示内容页面。</li>
+<li>第二种是在某个页面操作某种逻辑，比如某些耗时操作，这个时候是局部loading[一般用个帧动画或者补间动画]，由于使用频繁，因为建议在销毁弹窗时，添加销毁动画的操作。</li>
+</ul>
+</li>
+<li>自定义loading加载 <ul>
+<li><a href="https://link.juejin.im?target=https%3A%2F%2Fgithub.com%2Fyangchong211%2FYCDialog" target="_blank" rel="noopener">github.com/yangchong21…</a></li>
+</ul>
+</li>
+</ul>
+<h4 id="9-9-对象池Pools优化"><a href="#9-9-对象池Pools优化" class="headerlink" title="9.9 对象池Pools优化"></a>9.9 对象池Pools优化</h4><ul>
+<li>对象池Pools优化频繁创建和销毁对象</li>
+<li>使用对象池，可以防止频繁创建和销毁对象而出现内存抖动 <ul>
+<li>在某些时候，我们需要频繁使用一些临时对象，如果每次使用的时候都申请新的资源，很有可能会引发频繁的 gc 而影响应用的流畅性。这个时候如果对象有明确的生命周期，那么就可以通过定义一个对象池来高效的完成复用对象。</li>
+<li>具体参考案例，可以看该项目：<a href="https://link.juejin.im?target=https%3A%2F%2Fgithub.com%2Fyangchong211%2FYCZoomImage" target="_blank" rel="noopener">github.com/yangchong21…</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="10-RecyclerView优化"><a href="#10-RecyclerView优化" class="headerlink" title="10.RecyclerView优化"></a>10.RecyclerView优化</h3><h4 id="10-1-页面为何卡顿"><a href="#10-1-页面为何卡顿" class="headerlink" title="10.1 页面为何卡顿"></a>10.1 页面为何卡顿</h4><ul>
+<li>RecyclerView滑动卡顿的原因有哪些？ <ul>
+<li>第一种：嵌套布局滑动冲突 <ul>
+<li>导致嵌套滑动难处理的关键原因在于当子控件消费了事件, 那么父控件就不会再有机会处理这个事件了, 所以一旦内部的滑动控件消费了滑动操作, 外部的滑动控件就再也没机会响应这个滑动操作了</li>
+</ul>
+</li>
+<li>第二种：嵌套布局层次太深，比如六七层等 <ul>
+<li>测量，绘制布局可能会导致滑动卡顿</li>
+</ul>
+</li>
+<li>第三种：比如用RecyclerView实现画廊，加载比较大的图片，如果快速滑动，则可能会出现卡顿，主要是加载图片需要时间</li>
+<li>第四种：在onCreateViewHolder或者在onBindViewHolder中做了耗时的操作导致卡顿。按stackoverflow上面比较通俗的解释：RecyclerView.Adapter里面的onCreateViewHolder()方法和onBindViewHolder()方法对时间都非常敏感。类似I/O读写，Bitmap解码一类的耗时操作，最好不要在它们里面进行。</li>
+</ul>
+</li>
+<li>关于RecyclerView封装库 <ul>
+<li><a href="https://link.juejin.im?target=https%3A%2F%2Fgithub.com%2Fyangchong211%2FYCRefreshView" target="_blank" rel="noopener">github.com/yangchong21…</a></li>
+</ul>
+</li>
+</ul>
+<h4 id="10-2-具体优化方案"><a href="#10-2-具体优化方案" class="headerlink" title="10.2 具体优化方案"></a>10.2 具体优化方案</h4><ul>
+<li>03.SparseArray替代HashMap</li>
+<li>04.瀑布流图片错乱问题解决</li>
+<li>05.item点击事件放在哪里优化</li>
+<li>06.ViewHolder优化</li>
+<li>07.连续上拉加载更多优化</li>
+<li>08.拖拽排序与滑动删除优化</li>
+<li>09.暂停或停止加载数据优化</li>
+<li>11.异常情况下保存状态</li>
+<li>12.多线程下插入数据优化</li>
+<li>14.recyclerView优化处理</li>
+<li>15.adapter优化</li>
+<li>具体看这篇博客：<a href="https://link.juejin.im?target=https%3A%2F%2Fgithub.com%2Fyangchong211%2FYCBlogs%2Fblob%2Fmaster%2Fandroid%2FrecyclerView%2F21.RecyclerView%E4%BC%98%E5%8C%96%E5%A4%84%E7%90%86.md" target="_blank" rel="noopener">recyclerView优化</a></li>
+</ul>
+<h3 id="关于其他内容介绍"><a href="#关于其他内容介绍" class="headerlink" title="关于其他内容介绍"></a>关于其他内容介绍</h3><h4 id="于博客汇总链接"><a href="#于博客汇总链接" class="headerlink" title="于博客汇总链接"></a>于博客汇总链接</h4><ul>
+<li>1.<a href="https://link.juejin.im/?target=https%3A%2F%2Fwww.jianshu.com%2Fp%2F614cb839182c" target="_blank" rel="noopener">技术博客汇总</a></li>
+<li>2.<a href="https://link.juejin.im/?target=https%3A%2F%2Fblog.csdn.net%2Fm0_37700275%2Farticle%2Fdetails%2F80863574" target="_blank" rel="noopener">开源项目汇总</a></li>
+<li>3.<a href="https://link.juejin.im/?target=https%3A%2F%2Fblog.csdn.net%2Fm0_37700275%2Farticle%2Fdetails%2F79832978" target="_blank" rel="noopener">生活博客汇总</a></li>
+<li>4.<a href="https://link.juejin.im/?target=https%3A%2F%2Fwww.jianshu.com%2Fp%2Ff665de16d1eb" target="_blank" rel="noopener">喜马拉雅音频汇总</a></li>
+<li>5.<a href="https://link.juejin.im/?target=https%3A%2F%2Fwww.jianshu.com%2Fp%2F53017c3fc75d" target="_blank" rel="noopener">其他汇总</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="ZhangMiao 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="ZhangMiao 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    ZhangMiao
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://zhangmiao.cc/posts/51192665.html" title="Android优化总结">https://zhangmiao.cc/posts/51192665.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+            <a href="/tags/优化/" rel="tag"># 优化</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/2114cdef.html" rel="next" title="Android骨架屏，了解一下">
+                <i class="fa fa-chevron-left"></i> Android骨架屏，了解一下
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/posts/7a69db10.html" rel="prev" title="Gradle依赖配置说明">
+                Gradle依赖配置说明 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4" alt="ZhangMiao">
+            
+              <p class="site-author-name" itemprop="name">ZhangMiao</p>
+              <p class="site-description motion-element" itemprop="description">Android/Flutter Developer</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">373</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">58</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">143</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:zm@zhangmiao.cc" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://wpa.qq.com/msgrd?v=3&uin=153942241&site=qq&menu=yes" target="_blank" title="QQ">
+                      
+                        <i class="fa fa-fw fa-qq"></i>QQ</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/zhangmiaocc" target="_blank" title="Github">
+                      
+                        <i class="fa fa-fw fa-github"></i>Github</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://stackoverflow.com" target="_blank" title="StackOverflow">
+                      
+                        <i class="fa fa-fw fa-stack-overflow"></i>StackOverflow</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://blog.constore.cn/" title="Liujianhui" target="_blank">Liujianhui</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://xuebin.me" title="Leo" target="_blank">Leo</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.csdn.net/lmj623565791" title="Hongyang" target="_blank">Hongyang</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://liuwangshu.cn/" title="Liuwangshu" target="_blank">Liuwangshu</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://jspang.com/" title="Jspang" target="_blank">Jspang</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blankj.com/" title="Blankj" target="_blank">Blankj</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://wuxiaolong.me/" title="WuXiaoLong" target="_blank">WuXiaoLong</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://molunerfinn.com" title="Molunerfinn" target="_blank">Molunerfinn</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.ofind.cn/" title="Ofind" target="_blank">Ofind</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.gcssloop.com/" title="Gcssloop" target="_blank">Gcssloop</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#目录介绍"><span class="nav-number">1.</span> <span class="nav-text">目录介绍</span></a></li></ol><li class="nav-item nav-level-3"><a class="nav-link" href="#1-OOM和崩溃优化"><span class="nav-number"></span> <span class="nav-text">1.OOM和崩溃优化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-ANR优化"><span class="nav-number">1.</span> <span class="nav-text">1.2 ANR优化</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-内存泄漏优化"><span class="nav-number"></span> <span class="nav-text">2.内存泄漏优化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-0-动画资源未释放"><span class="nav-number">1.</span> <span class="nav-text">2.0 动画资源未释放</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-错误使用单利"><span class="nav-number">2.</span> <span class="nav-text">2.1 错误使用单利</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-错误使用静态变量"><span class="nav-number">3.</span> <span class="nav-text">2.2 错误使用静态变量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-handler内存泄漏"><span class="nav-number">4.</span> <span class="nav-text">2.3 handler内存泄漏</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-线程造成内存泄漏"><span class="nav-number">5.</span> <span class="nav-text">2.4 线程造成内存泄漏</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-5-非静态内部类"><span class="nav-number">6.</span> <span class="nav-text">2.5 非静态内部类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-6-未移除监听"><span class="nav-number">7.</span> <span class="nav-text">2.6 未移除监听</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-7-持有activity引用"><span class="nav-number">8.</span> <span class="nav-text">2.7 持有activity引用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-8-资源未关闭"><span class="nav-number">9.</span> <span class="nav-text">2.8 资源未关闭</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-9-其他原因"><span class="nav-number">10.</span> <span class="nav-text">2.9 其他原因</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-布局优化"><span class="nav-number"></span> <span class="nav-text">3.布局优化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-include优化"><span class="nav-number">1.</span> <span class="nav-text">3.1 include优化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-ViewStub优化"><span class="nav-number">2.</span> <span class="nav-text">3.2 ViewStub优化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-merge优化"><span class="nav-number">3.</span> <span class="nav-text">3.3 merge优化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-其他建议"><span class="nav-number">4.</span> <span class="nav-text">3.4 其他建议</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-代码优化"><span class="nav-number"></span> <span class="nav-text">4.代码优化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-建议使用lint检查去除无效代码"><span class="nav-number">1.</span> <span class="nav-text">4.1 建议使用lint检查去除无效代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-代码规范优化"><span class="nav-number">2.</span> <span class="nav-text">4.2 代码规范优化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-3-View异常优化"><span class="nav-number">3.</span> <span class="nav-text">4.3 View异常优化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-4-去除淡黄色警告优化"><span class="nav-number">4.</span> <span class="nav-text">4.4 去除淡黄色警告优化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-5-合理使用集合"><span class="nav-number">5.</span> <span class="nav-text">4.5 合理使用集合</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-6-Activity不可见优化"><span class="nav-number">6.</span> <span class="nav-text">4.6 Activity不可见优化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-7-节制的使用Service"><span class="nav-number">7.</span> <span class="nav-text">4.7 节制的使用Service</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-网络优化"><span class="nav-number"></span> <span class="nav-text">5.网络优化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#5-1-图片分类"><span class="nav-number">1.</span> <span class="nav-text">5.1 图片分类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-2-获取网络数据优化"><span class="nav-number">2.</span> <span class="nav-text">5.2 获取网络数据优化</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3-网络请求异常拦截优化"><span class="nav-number"></span> <span class="nav-text">5.3 网络请求异常拦截优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-线程优化"><span class="nav-number"></span> <span class="nav-text">6.线程优化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#6-1-使用线程池"><span class="nav-number">1.</span> <span class="nav-text">6.1 使用线程池</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-图片优化"><span class="nav-number"></span> <span class="nav-text">7.图片优化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#7-1-bitmap优化"><span class="nav-number">1.</span> <span class="nav-text">7.1 bitmap优化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-2-glide加载优化"><span class="nav-number">2.</span> <span class="nav-text">7.2 glide加载优化</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-加载优化"><span class="nav-number"></span> <span class="nav-text">8.加载优化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#8-1-懒加载优化"><span class="nav-number">1.</span> <span class="nav-text">8.1 懒加载优化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-2-启动页优化"><span class="nav-number">2.</span> <span class="nav-text">8.2 启动页优化</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-其他优化"><span class="nav-number"></span> <span class="nav-text">9.其他优化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#9-1-静态变量优化"><span class="nav-number">1.</span> <span class="nav-text">9.1 静态变量优化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9-2-注解替代枚举"><span class="nav-number">2.</span> <span class="nav-text">9.2 注解替代枚举</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9-3-多渠道打包优化"><span class="nav-number">3.</span> <span class="nav-text">9.3 多渠道打包优化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9-4-TrimMemory和LowMemory优化"><span class="nav-number">4.</span> <span class="nav-text">9.4 TrimMemory和LowMemory优化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9-5-轮询操作优化"><span class="nav-number">5.</span> <span class="nav-text">9.5 轮询操作优化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9-6-去除重复依赖库优化"><span class="nav-number">6.</span> <span class="nav-text">9.6 去除重复依赖库优化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9-7-四种引用优化"><span class="nav-number">7.</span> <span class="nav-text">9.7 四种引用优化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9-8-加载loading优化"><span class="nav-number">8.</span> <span class="nav-text">9.8 加载loading优化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9-9-对象池Pools优化"><span class="nav-number">9.</span> <span class="nav-text">9.9 对象池Pools优化</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-RecyclerView优化"><span class="nav-number"></span> <span class="nav-text">10.RecyclerView优化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#10-1-页面为何卡顿"><span class="nav-number">1.</span> <span class="nav-text">10.1 页面为何卡顿</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#10-2-具体优化方案"><span class="nav-number">2.</span> <span class="nav-text">10.2 具体优化方案</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于其他内容介绍"><span class="nav-number"></span> <span class="nav-text">关于其他内容介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#于博客汇总链接"><span class="nav-number">1.</span> <span class="nav-text">于博客汇总链接</span></a></li></ol></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZhangMiao</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      本站访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+  <div>
+    <script type="text/javascript">
+      var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");
+      document.write(unescape("%3Cspan id='cnzz_stat_icon_1277928793'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1277928793%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+  </div>
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://zhangmiao.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://zhangmiao.cc/posts/51192665.html';
+          this.page.identifier = 'posts/51192665.html';
+          this.page.title = 'Android优化总结';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://zhangmiao.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("8iIYW0IGofqyvJiiuU5R9buW-gzGzoHsz", "ssmxRx0kELJir6mA02ziW3Ql");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/lib/zclip/clipboard.min.js"></script>
+<script type="text/javascript" src="/js/src/custom.js"></script>
+
+</body>
+</html>

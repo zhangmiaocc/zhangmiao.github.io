@@ -1,0 +1,1547 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Android,面试,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="zm.blog" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="Android部分    一、Android四大组件    二、Fragment相关    三、动画相关    四、布局相关    五、数据存储    六、线程、进程    七、网络    八、WebView    九、图片    十、Camera相关    十一、音视频相关    十二、ViewPager相关    十三、RecyclerView相关    十四、Canvas相关    十五、传">
+<meta name="keywords" content="Android,面试">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android知识点归纳总结提纲">
+<meta property="og:url" content="https://zhangmiao.cc/posts/9a278d8c.html">
+<meta property="og:site_name" content="zm.blog">
+<meta property="og:description" content="Android部分    一、Android四大组件    二、Fragment相关    三、动画相关    四、布局相关    五、数据存储    六、线程、进程    七、网络    八、WebView    九、图片    十、Camera相关    十一、音视频相关    十二、ViewPager相关    十三、RecyclerView相关    十四、Canvas相关    十五、传">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2021-12-24T02:05:29.971Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android知识点归纳总结提纲">
+<meta name="twitter:description" content="Android部分    一、Android四大组件    二、Fragment相关    三、动画相关    四、布局相关    五、数据存储    六、线程、进程    七、网络    八、WebView    九、图片    十、Camera相关    十一、音视频相关    十二、ViewPager相关    十三、RecyclerView相关    十四、Canvas相关    十五、传">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://zhangmiao.cc/posts/9a278d8c.html">
+
+
+
+
+
+  <title>Android知识点归纳总结提纲 | zm.blog</title>
+  
+
+
+
+
+
+  <script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?44434226ba535875b1e807122adc3a04";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zm.blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">select * from learn</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhangmiao.cc/posts/9a278d8c.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZhangMiao">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zm.blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Android知识点归纳总结提纲</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-11T10:51:17+08:00">
+                2018-09-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/面试/" itemprop="url" rel="index">
+                    <span itemprop="name">面试</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/posts/9a278d8c.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="posts/9a278d8c.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/posts/9a278d8c.html" class="leancloud_visitors" data-flag-title="Android知识点归纳总结提纲">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Android部分<br>    一、Android四大组件<br>    二、Fragment相关<br>    三、动画相关<br>    四、布局相关<br>    五、数据存储<br>    六、线程、进程<br>    七、网络<br>    八、WebView<br>    九、图片<br>    十、Camera相关<br>    十一、音视频相关<br>    十二、ViewPager相关<br>    十三、RecyclerView相关<br>    十四、Canvas相关<br>    十五、传感器相关<br>    十六、性能优化<br>    十七、UI适配<br>    十八、Android中的Context<br>    十九、序列化与反序列化<br>    二十、JSON解析<br>    二十一、二维码<br>    二十二、Permission权限<br>    二十三、Activity工作原理<br>    二十四、View事件分发机制<br>    二十五、View的绘制流程<br>    二十六、自定义view基本流程<br>    二十七、Apk的打包/安装过程<br>    二十八、App混淆<br>    二十九、App冷启动优化<br>    三十、子线程不能更新UI<br>    三十一、Android Studio Gradle<br>    三十二、adb相关<br>    三十三、逆向安全<br>    三十四、NDK开发<br>    三十五、设计模式<br>    三十六、架构模式<br>    RxJava<br>    Kotlin<br>    Dagger 2<br>    Flutter<br>    Weex<br>    Hybrid 混合开发<br>    OpenGL<br>    测试工具<br>其他冷门知识<br>其他补充：<br>Java部分<br>    一、Java基础<br>    二、Java数据结构和算法</p>
+<a id="more"></a>
+
+<h2 id="Android部分"><a href="#Android部分" class="headerlink" title="Android部分"></a>Android部分</h2><!-- toc -->
+
+<h3 id="一、Android四大组件"><a href="#一、Android四大组件" class="headerlink" title="一、Android四大组件"></a>一、Android四大组件</h3><p>1：Activity相关， Activity生命周期理解，Activity启动另一个Activity返回的完整生命周期， Activity四种启动模式，Activity任务栈理解（先进后出），Activity的显示隐式启动，Activity的隐式启动（理解Scheme跳转协议），Activity之间的跳转与回调，Activity之间的intent数据传递，理解Activity工作原理Activity与Window之间的关系，Activity和dectorView等<br>2：Service相关， Service生命周期方法，Service的两种启动方式的使用，start与bind的区别，何时需要停止Service, Service的使用场景理解, 后台Service与前台Service，如何提高后台服务的存活率，如何保证一个后台服务不被kill, IntentService的使用等<br>3：BroadcastReceiver相关，广播的两种注册方式（隐式/显示广播），广播的注册/反注册注意事项，有序广播、本地广播，接收到广播Action后的处理方法等<br>4：ContentProvider相关，ContentProvider的使用，如何使用ContentProvider实现应用间的数据共享，ContentProvider使用的content URI形式的理解等</p>
+<h3 id="二、Fragment相关"><a href="#二、Fragment相关" class="headerlink" title="二、Fragment相关"></a>二、Fragment相关</h3><p>虽然Fragment不属于Android四大组件（也有人说它是第五大组件），但是作为Android日常开发使用的高频组件之一，必须要了解Fragment的使用方法和注意事项</p>
+<p>1：Fragment的生命周期，以及Fragment生命周期与其宿主Activity生命周期的对应关系<br>2：如何通过FragmentTransaction实现Fragment的添加、移除、替换、显示、隐藏等<br>3：Fragment之间的跳转，Fragment如何与Activity交互<br>4：如何管理Fragment回退栈<br>5：没有视图的Fragment的用处<br>6：FragmentManager可提供使用的方法<br>7：v4包与app包提供的Fragment使用的区别注意项<br>8：Fragment使用的其他坑</p>
+<h3 id="三、动画相关"><a href="#三、动画相关" class="headerlink" title="三、动画相关"></a>三、动画相关</h3><p>1：帧动画（FrameAnimation），帧动画的使用方式，xml和代码两种实现方式，帧动画使用注意事项，利弊等<br>2：补间动画（TweenAnimation）, 四种常用的补间动画：alpha（淡入淡出），translate（位移），scale（缩放大小），rotate（旋转）的使用方式，xml和代码两种实现方式，相关属性的理解与注意事项，动画的监听设置，使用AnimatorSet播放多个组合动画等<br>3：属性动画（PropertyAnimation）, 属性动画的使用方法，ValueAnimator与ObjectAnimator的使用，相关属性的理解，AnimatorSet同时播放多个动画，Interpolator（动画差值器）的理解与使用，AnimatorListener的设置，属性动画的工作原理等<br>4：如何利用Canvas绘制动画<br>5：了解Android 矢量动画实现<br>6：转场动画，触摸反馈动画，其他自定义动画</p>
+<h3 id="四、布局相关"><a href="#四、布局相关" class="headerlink" title="四、布局相关"></a>四、布局相关</h3><p>1：常用布局LinearLayout、RelativeLayout、FrameLayout, xml与代码两种使用方式，相关属性的理解，会在代码中动态的设置与改变LayoutParams的相关属性控制view<br>2：非常用布局AbsoluteLayout、TableLayout、GridLayout的使用<br>3：百分比布局，PercentRelativeLayout、PercentLinearLayout、PercentFrameLayout的了解与使用<br>4：ConstraintLayout（约束布局）的使用，相关属性的理解<br>5：FlexboxLayout（流动布局）的使用，相关属性的理解<br>6：CoordinatorLayout的使用，会使用support.design库提供的CoordinatorLayout布局来实现常见的滑动折叠/展开浸入式联动特效，理解Behavior解决嵌套滑动冲突与事件拦截处理的原理，理解NestedScroll机制<br>7：界面布局类型的选择和性能优化</p>
+<h3 id="五、数据存储"><a href="#五、数据存储" class="headerlink" title="五、数据存储"></a>五、数据存储</h3><p>1：SharedPreferences，sp的使用场景，sp的常用方法，sp能保存的数据类型，sp的保存位置，注意事项等<br>文件存储，常规文件操作（I/O读写操作、文件的创建/删除/复制）、外置sdcard卡的文件存储，读写权限， 如何使用FileProvider适配Android 7.0 (file uri exposed问题)，应用目录下文件的创建存取（应用私有文件），压缩文件（zip/rar）的压缩与解压缩<br>2：SQLite数据库存储，SQLiteOpenHelper的使用，数据库需要升级时的注意事项（新老数据的保留），数据库表的创建/删除/清空，SQL语句语法（增删改查、排序、多表联查），利用execSql和系统提供的增删改查api两种方式操作，多线程操作数据库安全问题（加锁同步），大量频繁数据库操作使用事务，第三方的基于数据库的开源库方案<br>3：ContentProvider，自定义ContentProvider的使用，ContentProvider的抽象方法增删改查的实现，ContentProvider如何在应用间共享数据，ContentProvider涉及的Uri概念理解，有哪些系统的ContentUrl，什么是ContentResolver，如何用ContentResolver查询手机的存储信息（如联系人、多媒体图片、音视频等）<br>4：网络存储，如何读取文件流上传文件（表单方式），如何下载文件并保存，如何提交json格式的数据，如何解析服务器返回的json数据，网络传输数据的加密解密，常规的数据提交方式（GET/POST）以及 Content-type的几种常见方式的理解（具体参考网络部分总结）</p>
+<h3 id="六、线程、进程"><a href="#六、线程、进程" class="headerlink" title="六、线程、进程"></a>六、线程、进程</h3><p>1：什么是进程，什么是线程，理解进程和线程的区别和联系（默认一个android应用是系统的一个进程，线程共享进程的所有资源，app的默认工作线程是主线程UI线程）<br>2：如何在app创建多进程/子进程，子进程与主进程的关系，进程间通信方式IPC（文件共享/Messenger/AIDL/ContentProvider/饿了么HermesEventBus等），app开启多进程有哪些好处/坏处，Android进程的优先级（前台/可见/服务/后台/空），如何提升app自身的进程优先级，进程保活方案，多进程情况下Application创建的区别（onCreate）<br>3：如何在app创建子线程，子线程与主线程的通信方式（共享内存变量/Handler/runOnUiThread/EventBus等），线程池的使用，如何手动创建线程池，线程池各个参数的合理设置，系统提供的四种线程池的使用，Thread和Runnable的区别，如何安全的取消/终止一个线程的运行（有几种方式），Thread类的wait() sleep() notify()，线程/线程池有上限吗<br>4：线程同步，多线程访问共享资源会带来的安全问题，线程死锁，线程同步的几种方式（同步方法/同步代码块/volatile/ThreadLocal/阻塞队列/原子变量）<br>5：AsyncTask的使用，AsyncTask三个方法的解析，AsyncTask源码实现原理解析，什么情况下AsyncTask的doInBackground会不被执行，为什么new AsyncTask只能执行一次，如何避免AsyncTask导致内存泄露、销毁Activity后它内部的AsyncTask一定会终止运行吗，如何取消AsyncTask<br>6：Handler, Handler发消息的所有使用方式及区别，为什么不能直接在子线程中直接new Handler ，如何Handler实现主线程给子线程发消息，Handler的消息队列实现原理，Handler与Looper、Message的关系，如何避免Handler内存泄漏，HandlerThread的使用<br>7：AIDL的实现使用，AIDL的原理分析（Binder机制）<br>8：EventBus实现原理分析</p>
+<h3 id="七、网络"><a href="#七、网络" class="headerlink" title="七、网络"></a>七、网络</h3><p>1：七层网络结构OSI，每层的含义理解<br>2：域名解析的过程，一次网络请求的完整流程<br>3：HTTP协议，什么是HTTP协议，HTTP1.0与2.0的区别，http完整报文的格式（请求头、请求正文、响应头、响应正文），请求头和响应头中常用字段的含义解析，GET/POST，上传文件、上传json格式与普通文本数据的get/post方式的区别（报文角度解析），HTTP响应头各个状态码的含义, 常见网络框架是如何解析响应头/响应正文的，可以自定义响应头中的ResponseCode吗, Cookie和Session, 长连接和短连接<br>4：TCP三次握手, TCP与UDP的区别，Android代码实现TCP和UDP通信（Socket api实现），Socket，如何使用Socket自定义协议（如可以用Socket api实现http协议，或任何双方约定好的自定义协议），使用Websocket实现收发消息等<br>5：常见网络请求库（OkHttp3/Volley/Retrofit）及实现原理解析，原生的网络请求使用，理解异步请求和同步请求<br>6：Https安全通信，与Http的区别，TSL/SSL加密协议，CA证书，防止运营商劫持<br>7：如何自己实现一个网络请求框架</p>
+<h3 id="八、WebView"><a href="#八、WebView" class="headerlink" title="八、WebView"></a>八、WebView</h3><p>1：WebView的基本使用和设置方法<br>2：WebView JS与原生代码交互的几种方式（方法互调、传参、返回值），优缺点/安全性，JSBridge, 如何自定义协议实现一个JSBridge<br>3：WebView的各种坑，避免WebView内存泄漏<br>4：WebView安全漏洞，不同Android版本的差异，如何避免WebView安全漏洞<br>5：Hybrid App混合开发的原理，Hybrid与原生开发有哪些优势与不足，H5/CSS/JS语法了解</p>
+<h3 id="九、图片"><a href="#九、图片" class="headerlink" title="九、图片"></a>九、图片</h3><p>1：主流图片格式（png jpg gif bmp wbmp ）的区别，ARGB_8888，RGB_888，RGB_565, RGB_444等色彩格式的区别<br>2：如何计算一张图片（Bitmap）在Android中占用的内存大小分析（加载网络/sdcard图片与加载drawable下的图片两种），<br>3：图片的压缩，从图片尺寸（节约内存），图片大小（节约流量），图片格式（色彩像素大小）三方面考虑<br>4：加载大图注意事项，OOM<br>5：图片缓存，三级缓存，LRU Cache原理，缓存大小是如何调整的，Android提供的LRUCache解析<br>6：图片加载库（Glide/Picasso/Fresco）的使用方法，实现原理（如何做到保证跟Activity/Fragment生命周期一致的），使用的缓存策略，内存策略，如何自己实现一个图片加载库<br>7：如何从图片文件/资源图片文件加载Bitmap. Bitmap压缩存储到文件<br>8：图片剪裁、旋转、缩放<br>9：圆角图片的实现（几种方式）以及其他各种形状图片<br>10：图片选择库，第三方开源的与调用系统的</p>
+<h3 id="十、Camera相关"><a href="#十、Camera相关" class="headerlink" title="十、Camera相关"></a>十、Camera相关</h3><p>1：利用系统Camera api自定义一个Camera的流程，如何配合Surfaceview/TextureView使用，Camera参数的设置，Camera预览，预览大小拍照大小的选择，预览画面旋转角度问题的处理，闪光灯，前置摄像头与后置摄像头切换，自动对焦问题，Camera坐标系，如何捕获Camera预览数据保存为图片（拍照功能的实现），保存图片时旋转角度问题的处理，何时需要释放Camera资源（不释放会导致什么问题），如何打开系统相机进行拍照/录视频（需要注意什么），Camera录制视频（配置MediaRecorder使用）<br>2：Camera2，Camera2与Camera的区别，Camera2中常用的类，如何利用Camera2实现预览、拍照等功能</p>
+<h3 id="十一、音视频相关"><a href="#十一、音视频相关" class="headerlink" title="十一、音视频相关"></a>十一、音视频相关</h3><p>1：使用MediaRecorder录制音频<br>2：使用MediaRecorder录制视频（配合Camera使用）<br>3：使用AudioRecord录制音频，特殊格式如Mp3格式的录制，Android常见哪些音频格式, 哪些是同时可以兼容IOS平台的<br>4：使用MediaPlayer播放视频/音频<br>5：使用AudioTrack播放音频<br>6：音视频编解码，常见的音视频的编码格式，硬解与软解/硬编与软编的区别及常用解决方案（目前硬件编解码主要是用Android的MediaCodec，软解编解码一般是采用开源库FFMpeg）<br>7：视频的特效实现（如滤镜、合成、转场、涂鸦、水印、美颜、叠加等），美拍、抖音、直播等视频特效，市场主流的短视频SDK<br>8：Android视频直播的实现（推流、播放），流媒体，主要的流媒体协议（RTMP、RTSP等），跟HTTP区别是什么，市场主流的直播SDK<br>9：视频播放器，自定义实现播放功能（MediaPlayer或VideoView）, 播放本地视频/在线视频，常见开源播放器引擎（如bilibili的ijkPlayer的，Google的ExoPlayer）的学习使用源码解析，如何实现常见视频app软件的弹幕、音量调节、亮度调节、 倍速调节、 清晰度切换等功能（可以参考主流开源库GSYVideoPlayer、JiaoZiVideoPlayer等的实现）<br>10：录屏（视频/Gif），截屏</p>
+<h3 id="十二、ViewPager相关"><a href="#十二、ViewPager相关" class="headerlink" title="十二、ViewPager相关"></a>十二、ViewPager相关</h3><p>1：ViewPager + PagerAdapter+View的使用方式<br>2：ViewPager + FragmentPagerAdapter + Fragment的使用方式<br>3：ViewPager的页面预加载特性，如何防止/进行数据预加载（View和Fragment两种），PagerAdapter/FragmentPagerAdapter 的缺陷，ViewPager刷新问题（PagerAdapter/FragmentPagerAdapter）, POSITION_NONE问题<br>4：ViewPager的常见特效实现，如无限循环滑动的Banner广告条，单页显示3个Item的ViewPager炫酷切换效果，ViewPager换页滑动特效（PageTransformer应用动画效果）<br>5：ViewPager的左右滑动监听，PageChangeListener中的几个方法解析，ViewPager指示器，自定义实现，常见开源库（ViewPagerIndicator、MagicIndicator）</p>
+<h3 id="十三、RecyclerView相关"><a href="#十三、RecyclerView相关" class="headerlink" title="十三、RecyclerView相关"></a>十三、RecyclerView相关</h3><p>1：RecyclerView的基本使用方式，如何使用RecyclerView的三种布局管理器LinearLayoutManager、GridLayoutManager、StaggeredGridLayoutManager实现以前ListView、GridView以及瀑布流的效果，RecyclerViewAdapter的使用，多类型布局的、分组布局的Adapter使用（可以参考RecyclerViewAdapter简化使用开源库BRVAH），RecyclerView设置header/footer, RecyclerView上拉刷新、下拉刷新（配合SwipeRefreshLayout），RecyclerView设置分割线（ItemDecoration），RecyclerView点击事件<br>2：RecyclerView的源码解析，与ListView相比的差异， ViewHolder<br>3：RecyclerView的局部刷新，如何只刷新某一项，只刷新某一项中的某个控件，与ListView的局部刷新比较</p>
+<h3 id="十四、Canvas相关"><a href="#十四、Canvas相关" class="headerlink" title="十四、Canvas相关"></a>十四、Canvas相关</h3><p>1：Canvas基本使用方法，画笔Paint的使用，Canvas绘制各种形状、文字、图片、曲线，Canvas画笔设置，Canvas剪裁，Canvas的现场保存/恢复，Canvas的变换、平移、缩放、旋转等<br>2：Canvas在自定义View当中的使用</p>
+<h3 id="十五、传感器相关"><a href="#十五、传感器相关" class="headerlink" title="十五、传感器相关"></a>十五、传感器相关</h3><p>1：GPS, 如何使用Android原始代码实现GPS定位的获取（LocationManager），权限，注意事项（耗电量高，不能一直开着），拓展：LBS基站定位（国内常用的地图SDK高德/百度等定位都是以上两种方式的组合）<br>2：其他手机支持的常见传感器，如加速度传感器、方向传感器、陀螺仪传感器、重力传感器、加速度传感器、距离传感器、计步传感器、光线传感器等，如何代码中设置监听器实时监听这些传感器的变化参数值，SensorManager，注册/反注册监听</p>
+<h3 id="十六、性能优化"><a href="#十六、性能优化" class="headerlink" title="十六、性能优化"></a>十六、性能优化</h3><p>1：ANR, 什么是ANR, Activity/BroadcastReceiver/Service对ANR的响应时间，ANR产生的根本原因是什么，如何避免ANR, 如何避免在UI线程执行耗时任务，哪些日常操作任务是耗时任务（文件I/O、数据库、网络、解析等等）、有哪些方式可以异步处理耗时任务（线程、Aynctask等），区分UI线程和子线程，哪些日常场景是在UI线程中运行的（如四大组件都是在UI线程执行的），在不确定是UI还是非UI线程的运行环境中如何判断当前是否是主线程？（有几种方法）<br>2：OOM，什么是OOM, 哪些情况容易产生OOM，如何避免OOM<br>3：ListView优化，理解ListView的重用item机制原理，利用ViewHolder缓存view减少getView的执行时间，减少ItemView的布局层次，减少getView方法中的判断/计算/耗时逻辑，item中的图片避免每次都重新加载，做好图片缓存（使用图片加载库），快速滑动时不加载图片, 数据分页加载，图片错乱问题<br>4：UI 卡顿，UI 卡顿的原因，帧率，16ms, 过渡绘制，耗时任务，如何布局优化，减少布局嵌套<br>5：内存泄漏，GC垃圾回收机制，可能造成Android内存泄漏的几种情况，如何避免内存泄漏，Java内存分配管理的机制，堆内存和栈内存的区别，Android系统会为一个应用分配多大内存，如何提高应用内存，内存泄漏的排查方法/工具<br>6：内存优化，弱引用与软引用（Weakreference、Softreference）, 避免对Activity作为Context的长时间引用或静态引用(如创建Handler AsyncTask的正确姿势)，SparseArray, 为什么Android推荐使用SparseArray来替代1：HashMap? 优越在哪里<br>7：Crash崩溃异常，ForceClose，各种运行时异常（如空指针），如何避免，发生Crash时如何在app中捕获并保存本地或上传服务器<br>8：广播和Service中可以进行网络请求吗，可以执行耗时任务吗<br>9：AS哪些工具可以用来排查性能问题<br>10：电池优化，网络优化 （缓存/离线）</p>
+<h3 id="十七、UI适配"><a href="#十七、UI适配" class="headerlink" title="十七、UI适配"></a>十七、UI适配</h3><p>1：px、dp、sp、像素密度density和屏幕分辨率以及屏幕尺寸之间的关系，res/drawable-xxx各个文件夹与屏幕像素密度之间的关系<br>2：保证不同屏幕展示的效果最好用Android系统提供的布局属性，不要写死固定大小，图片按照比例放在不同密度的drawable文件下或只用一套<br>3：使用百分比布局（PercentxxxLayout）<br>4：使用约束布局（ConstraintLayout）<br>5：目前主流适配方案，今日头条屏幕适配方案和smallestWidth限定符适配方案分析<br>6：目前市面上流行的刘海屏幕适配方法目前市面上流行的刘海屏幕适配方法</p>
+<h3 id="十八、Android中的Context"><a href="#十八、Android中的Context" class="headerlink" title="十八、Android中的Context"></a>十八、Android中的Context</h3><p>1：理解Context的含义，Activity、Context、Application的区别和使用场景， ContextWrapper解析，getActivity()/getContext()/getApplication()/getApplicationContext()的区别<br>2：避免Context静态持有，避免内存泄漏</p>
+<h3 id="十九、序列化与反序列化"><a href="#十九、序列化与反序列化" class="headerlink" title="十九、序列化与反序列化"></a>十九、序列化与反序列化</h3><p>1：Serializable实现，实现方法，Intent传递与获取Serializable的方法<br>2：Parcelable实现，实现方法，，Intent传递与获取Parcelable的方法<br>3：Serializable和Parcelable区别，适合的使用场景（存储在内存中，推荐使用parcelable，存储在硬盘上，推荐使用Serializable）</p>
+<h3 id="二十、JSON解析"><a href="#二十、JSON解析" class="headerlink" title="二十、JSON解析"></a>二十、JSON解析</h3><p>1：理解json格式的定义，什么是合法/不合法的json格式，什么样的json格式利于/不利于客户端开发的解析<br>2：Json的解析，使用原生代码解析，使用第三方库解析（Gson、FastJson、Jackson），Java类与Json字符串互转，注意事项，同一个字段多类型的json解析</p>
+<h3 id="二十一、二维码"><a href="#二十一、二维码" class="headerlink" title="二十一、二维码"></a>二十一、二维码</h3><p>1：二维码扫描，基于ZXing或Zbar开源库的开发（如开源库BGAQRCode-Android），如何提高二维码扫描的识别率，生成二维码</p>
+<h3 id="二十二、Permission权限"><a href="#二十二、Permission权限" class="headerlink" title="二十二、Permission权限"></a>二十二、Permission权限</h3><p>1：Android 6.0以后的权限适配，动态检查是否有某项权限，动态申请权限，申请权限的回调处理（有哪些第三方库可简化处理）、明确哪些行为是危险权限需要动态申请的，6.0以前的权限处理方式对比</p>
+<h3 id="二十三、Activity工作原理"><a href="#二十三、Activity工作原理" class="headerlink" title="二十三、Activity工作原理"></a>二十三、Activity工作原理</h3><p>1：从手指点击桌面的app开始到界面呈现发生了哪些过程，第一个Activity对象是如何被创建的，Application对象是如何被创建的，默认的工作线程（UI线程）是如何创建的，主线程Looper的如何创建的，Activity与Window的关系，WindowManager解析，Android系统是如何通过WindowManager管理窗口的</p>
+<h3 id="二十四、View事件分发机制"><a href="#二十四、View事件分发机制" class="headerlink" title="二十四、View事件分发机制"></a>二十四、View事件分发机制</h3><p>1：Touch事件的各个Action含义，何时会被触发<br>2：Touch事件在View之间的传递过程（View、ViewGroup、Activity）,分发与处理的流程，何时会被消费，何时会被拦截，如何解决滑动冲突, onTouch 和 onTouchEvent区别，onClick与onTouch的关系<br>3：Android手势处理，双指缩放、双击、单击，多点触控</p>
+<h3 id="二十五、View的绘制流程"><a href="#二十五、View的绘制流程" class="headerlink" title="二十五、View的绘制流程"></a>二十五、View的绘制流程</h3><p>1：Activity的setContentView()做了什么，Window&amp;PhoneWindow&amp;DectorView&amp;ViewRoot&amp;contentView之间的关系<br>2：View绘制的三个阶段measure，layout, draw的解析<br>3：requestLayout，onLayout, onDraw, drawChild的区别与联系<br>4：invalidate与postInvalidate的区别与联系</p>
+<h3 id="二十六、自定义view基本流程"><a href="#二十六、自定义view基本流程" class="headerlink" title="二十六、自定义view基本流程"></a>二十六、自定义view基本流程</h3><p>1：自定义属性，onMesure()，onLayout(ViewGroup) , onDraw(), TouchEvent的处理<br>2：组合控件的自定义方式</p>
+<h3 id="二十七、Apk的打包-安装过程"><a href="#二十七、Apk的打包-安装过程" class="headerlink" title="二十七、Apk的打包/安装过程"></a>二十七、Apk的打包/安装过程</h3><p>1：apk的打包过程，经过哪些步骤，每个步骤做了什么，AS的打包过程执行哪些task，每个task干了什么，apk签名（签名文件生成，AS打包apk时v1与v2选项的区别），apk对齐，apk加固（第三方都是如何实现的）<br>2：apk的安装过程，系统在安装之前会做哪些工作？校验哪些信息？（不同Android版本之间的差异），安装apk的过程做了什么，会生成哪些文件，apk会被安装到系统哪个路径，app的私有数据（sp/数据库/私有文件）存储在哪个路径，哪些情况下安装apk会不成功，覆盖安装时（app升级）与app的包名、签名、版本号versionCode之间的关系, 什么是ART, Android 5.0以后ART替代之前的Dalvik虚拟机有哪些优点，AOT，为啥5.0以后安装的时候时间特别长但是运行速度比以前快<br>3：app的卸载过程发生了什么，系统会删除哪些与apk相关的东西</p>
+<h3 id="二十八、App混淆"><a href="#二十八、App混淆" class="headerlink" title="二十八、App混淆"></a>二十八、App混淆</h3><p>1：混淆常用基本语法，混淆类、成员、方法，哪些类需要混淆，哪些类不能被混淆的，混淆文件的配置<br>2：如何根据混淆之后的错误日志定位混淆之前的代码</p>
+<h3 id="二十九、App冷启动优化"><a href="#二十九、App冷启动优化" class="headerlink" title="二十九、App冷启动优化"></a>二十九、App冷启动优化</h3><p>1：冷启动与热启动的区别，从点击桌面app图标到app的第一个Activity页面呈现经历了什么，优化哪个地方能加快页面的呈现<br>2：如何实现app冷启动秒开，如何避免冷启动白屏/黑屏/缓慢，有哪些优化方案</p>
+<h3 id="三十、子线程不能更新UI"><a href="#三十、子线程不能更新UI" class="headerlink" title="三十、子线程不能更新UI"></a>三十、子线程不能更新UI</h3><p>1：正常情况下子线程不能更新UI，“子线程不能更新UI”这句话是一定的吗？什么情况下子线程可以更新UI？（如这个UI控件是由这个线程创建时，SurfaceView也可以在单独线程中刷新，OpenGL可以在渲染线程中绘制）<br>2：view.postDelay(Runnable r)方法是运行在子线程中的吗？区分哪些场景是在主线程中的</p>
+<h3 id="三十一、Android-Studio-Gradle"><a href="#三十一、Android-Studio-Gradle" class="headerlink" title="三十一、Android Studio Gradle"></a>三十一、Android Studio Gradle</h3><p>1：build.gradle常用配置，minSdkVersion、targetSdkVersion、compileSdkVersion三者的关系区别，这三个值对app代码开发/安装运行/版本更新时的影响，包名/签名/混淆/源码路径的配置、如何利用BuildConfig添加自定义的属性配置，从gradle中加载properties配置文件，如何在gradle中开启/关闭混淆/调试/Log输出，如何使用gradle任务打包，如何在dependence中添加依赖(本地jar包、aar包、so库依赖，远程依赖)，3.0以后的implementation、api、compileOnly与3.0以前的compile provided的区别，如何配置product falvor实现Build Variant变体打包，简单的Gradle task定义，指定task依赖任务，Android Studio的Gradle任务分析，Gradle插件，Gradle版本/仓库配置，groovy语法了解</p>
+<h3 id="三十二、adb相关"><a href="#三十二、adb相关" class="headerlink" title="三十二、adb相关"></a>三十二、adb相关</h3><p>1：掌握常用的adb命令，如使用adb pull/push从手机中拉取/推送文件，adb 截屏，使用adb 抓取log日志, 使用adb 安装/卸载应用，adb命令下调试应用等等</p>
+<h3 id="三十三、逆向安全"><a href="#三十三、逆向安全" class="headerlink" title="三十三、逆向安全"></a>三十三、逆向安全</h3><p>1：app敏感数据的存储，如账户密码，请求的秘钥等，银行类交易类自定义输入键盘（避免拦截），设备唯一标识（Android目前有哪几种方式）<br>2：反编译 apk, 反编译so等, 混淆<br>3：app加固<br>4：如何防止app网络请求被第三方抓包（socket/https）<br>5：WebView开发JS交互避免远程执行漏洞<br>6：加密算法（DES,AES,RSA,MD5,SHA1,Base64）,对称加密与非对称加密<br>7：视频加密</p>
+<h3 id="三十四、NDK开发"><a href="#三十四、NDK开发" class="headerlink" title="三十四、NDK开发"></a>三十四、NDK开发</h3><p>1：JNI基本数据类型，jni函数签名，jni注册native函数的两种方式（静态、动态）<br>2：java与jni互调，java如何调用jni层，jni层如何调用java代码, JNI各种层数据类型与Java/C层各种数据类型互转调用<br>3：Android.mk文件编写，如何连接源文件、.a .so库文件，如何编译生成动态链接库so文件，编译不同平台的so, 编译生成arm64位平台so时注意什么（指针要long型存）, Application.mk, build过程解析<br>4：Android Studio环境下如何使用CMake方式进行NDK开发</p>
+<h3 id="三十五、设计模式"><a href="#三十五、设计模式" class="headerlink" title="三十五、设计模式"></a>三十五、设计模式</h3><p>1：UML类图、时序图<br>2：OO六大设计原则，面向对象的三个基本特征<br>3：23种设计模式，了解常用常见的设计模式并在项目中实践，Android源码中的设计模式<br>4：如何优化代码，如何重构代码，去除重复代码，代码规范</p>
+<h3 id="三十六、架构模式"><a href="#三十六、架构模式" class="headerlink" title="三十六、架构模式"></a>三十六、架构模式</h3><p>1：MVP模式， MVP、 MVC、MVVM（数据绑定式的MVP）的区别, MVP + Clean模式<br>2：模块化（从功能/业务上区分）<br>3：组件化的开发架构，组件化带来的问题，模块之间的跳转，路由，ARouter<br>4：插件化的开发架构，插件化的核心原理，虚拟机(内存管理，类加载，双亲委派), 主流插件化框架原理分析<br>5：热修复核心原理，主流热修复框架原理分析</p>
+<h3 id="RxJava"><a href="#RxJava" class="headerlink" title="RxJava"></a>RxJava</h3><ul>
+<li>实现原理，什么是响应式编程，观察者/订阅模式，RxJava是如何实现线程自由切换的, RxJava在空间和时间维度上重新组织事件的能力</li>
+</ul>
+<h3 id="Kotlin"><a href="#Kotlin" class="headerlink" title="Kotlin"></a>Kotlin</h3><ul>
+<li>Kotlin学习了解，与Java的区别，哪个更好用</li>
+</ul>
+<h3 id="Dagger-2"><a href="#Dagger-2" class="headerlink" title="Dagger 2"></a>Dagger 2</h3><ul>
+<li>依赖注入框架，使用与原理解析</li>
+</ul>
+<h3 id="Flutter"><a href="#Flutter" class="headerlink" title="Flutter"></a>Flutter</h3><ul>
+<li>Flutter学习了解，跨平台，同时支持iOS和Android</li>
+</ul>
+<h3 id="Weex"><a href="#Weex" class="headerlink" title="Weex"></a>Weex</h3><ul>
+<li>Weex学习了解，跨平台，同时支持iOS和Android</li>
+</ul>
+<h3 id="Hybrid-混合开发"><a href="#Hybrid-混合开发" class="headerlink" title="Hybrid 混合开发"></a>Hybrid 混合开发</h3><ul>
+<li>除H5以外，有哪些混合开发方式（weex，小程序，React Native等了解）</li>
+</ul>
+<h3 id="OpenGL"><a href="#OpenGL" class="headerlink" title="OpenGL"></a>OpenGL</h3><ul>
+<li>OpenGL了解，了解OpenGL 的渲染流程（顶点着色器、片元着色器、光栅化、顶点坐标系、法向量、光照、投影、剪裁等等）</li>
+<li>学习Android系统中OpenGL ES 2.0/3.0的Api，使用OpenGL配合GLSurfaceView、Render等绘制点、线、面、纹理贴图等等</li>
+</ul>
+<h3 id="测试工具"><a href="#测试工具" class="headerlink" title="测试工具"></a>测试工具</h3><ul>
+<li>内存分析:MAT,DDMS,Leakcanary(Square)</li>
+<li>静态分析:Find Bugs,Lint</li>
+<li>压力测试:Monkey</li>
+<li>自动化测试: UiAutomator,MonkeyRunner,Rubotium,Athrun(淘宝)</li>
+</ul>
+<h3 id="其他冷门知识"><a href="#其他冷门知识" class="headerlink" title="其他冷门知识"></a>其他冷门知识</h3><ul>
+<li>Android近场通信NFC、Wifi、蓝牙、USB串口通信等开发</li>
+<li>Android内核移植、嵌入式终端开发(非手机，如定制的平板、TV，定制的点餐平台，显示器等), 或基于终端系统之上的应用开发</li>
+<li>手机开发(非app开发，这里指手机厂商，如华为，小米，需要精通framework层以及Android系统底层源码)，手机操作系统定制</li>
+<li>Android游戏开发（这个不算冷门，只是平时接触比较少）</li>
+</ul>
+<h3 id="其他补充："><a href="#其他补充：" class="headerlink" title="其他补充："></a>其他补充：</h3><ul>
+<li>Notification</li>
+<li>Dialog</li>
+<li>Bitmap对象的理解</li>
+<li>AndroidManifest的作用与理解</li>
+<li>App中唤醒其他进程/应用的实现方式</li>
+<li>ButterKnife实现原理</li>
+<li>Dagger依赖注入</li>
+<li>Android 多进程和Application关系</li>
+<li>Android页面恢复</li>
+<li>如何监听Home键和back键点击</li>
+<li>apk多入口</li>
+<li>第三方消息推送SDK</li>
+<li>地图</li>
+<li>硬件加速</li>
+<li>Emoji</li>
+<li>多国语言适配（不单单指语言strings.xml适配 布局也可能要支持RTL）</li>
+<li>正则表达式</li>
+<li>armeabi/armeabi-v7a/arm64-v8a等so库兼容问题</li>
+<li>类的加载机制</li>
+<li>Android 65K问题，分包，引入第三方包冲突解决方案</li>
+<li>计时器/定时任务（Android有哪几种实现方式）</li>
+<li>Theme 和 Styles</li>
+<li>多点触控</li>
+<li>闹钟</li>
+<li>音乐播放器</li>
+<li>输入法软键盘相关</li>
+<li>分屏</li>
+<li>夜间模式</li>
+<li>待续…</li>
+</ul>
+<h2 id="Java部分"><a href="#Java部分" class="headerlink" title="Java部分"></a>Java部分</h2><h3 id="一、Java基础"><a href="#一、Java基础" class="headerlink" title="一、Java基础"></a>一、Java基础</h3><p>1：Java基础数据类型，各占用多少字节，数据类型之间的相互转换，数据类型之间的比较==和equals的区别<br>2：String、StringBuffer、StringBuilder区别，哪个是线程安全的，何时需要使用后面两个（有什么区别），String属于Java的基础数据类型吗，字符串操作（分隔、拼接、替换、查找），字符串比较，String与其他基础数据类型的包装类型之间的互转，String与char或byte Array之间的互转，创建字符串变量有几种方式有什么区别，什么是字符串池，为什么说Java字符串是不可变对象<br>3：Java集合相关，集合的排序/遍历/复制， HashMap原理，HashMap 和 HashTable 区别，LinkedHashMap源码分析， HashCode 作用，如何重载hashCode方法，ArrayList与LinkList区别与联系, List与数组[]相互转换，List,Set,Map的区别，ConcurrentHashMap的实现原理，要存储一个数据元素不重复的集合该使用哪种集合，要存储一个数据元素是有序的集合该使用哪种集合，ArrayList和HashMap 等集合是如何扩容的<br>4：Java反射相关，方法、成员变量<br>5：Java注解相关<br>6：Java线程同步相关，Java死锁产生的原因及避免，方法锁、对象锁、类锁的意义和区别，线程同步的方法：Synchronized、lock、reentrantLock分析，Synchronized原理，Volatile实现原理，ThreadLocal的原理和用法，ThreadPool的用法和示例，wait()和sleep()的区别，wait/notify关键字的理解<br>7：Java枚举相关<br>8：Java内存管理，虚拟机 ，GC机制，Java引用类型，循环引用，Java内存泄漏，Java内存模型（堆内存 栈内存 常量池），Java中new 一个对象是存在哪里的<br>9：JVM类加载机制，ClassLoader(类加载器)的理解，Android中的区别<br>10：什么是多态，Java封装、继承和多态的理解<br>11：什么是内部类？内部类的作用，静态内部类的作用<br>12：什么是抽象类，抽象类和接口区别，抽象类是否可以没有方法和属性，接口的意义<br>13：Java泛型相关，如何通过泛型传递Java类作为参数<br>14：序列化的方式 Serializable 和Parcelable 的区别<br>15：静态属性和静态方法是否可以被继承？重写？以及原因？<br>16：final，finally，finalize的区别<br>17：utf-8编码中的中文占几个字节；int型几个字节？，java unicode编码，中文与unicode互转<br>18：什么是深拷贝和浅拷贝<br>19：如何实现多线程断点续传<br>20：Class.forName()和ClassLoader的区别<br>21：待续…</p>
+<h3 id="二、Java数据结构和算法"><a href="#二、Java数据结构和算法" class="headerlink" title="二、Java数据结构和算法"></a>二、Java数据结构和算法</h3><p>1：栈和队列，栈和队列的概念理解，Java代码实现栈LIFO（后进先出）和队列FIFO（先进先出），实现思路，入栈/出栈，栈顶/栈底，入队/出队，队头/队尾，栈/队的遍历，循环队列，判断栈/队列是否为空<br>2：数组和链表，数组和链表的特点和区别，Java代码实现链表结构，数组和链表分别实现查找、插入，删除等操作以及各自的时间复杂度和空间复杂度，链表的反序，两个有序链表的合并，双向链表结构的实现，双向链表的插入、删除等，自定义一个动态数组，Java 类中哪些结构属于数组/链表<br>3：排序算法，Java八大排序算法的实现思路（选择排序，快速排序，冒泡排序，堆排序，希尔排序，归并排序，直接插入排序，基数排序）以及各自的时间复杂度和空间复杂度，最快的排序算法是哪个？ 哪些是稳定/不稳定的排序算法，快排的优化，手写冒泡、快排代码<br>4：查找算法，Java代码实现顺序查找和二分查找，实现思路<br>5：二叉树，二叉树排序，二叉树遍历、查找、删除，哈夫曼树、红黑树<br>6：Hash表，及Hash冲突的解决<br>7：Java有向图的遍历，BFS遍历和DFS遍历（深度优先搜索算法和广度优先搜索算法）、Prim、Dijkstra算法<br>8：经典问题：海量数据的处理 （10亿个数中找出最大的10000个数 TOP K问题）<br>9：两个不重复的数组集合中，两个集合都是海量数据，内存中放不下，求共同元素<br>10：烧一根不均匀的绳，从头烧到尾总共需要1个小时。现在有若干条材质相同的绳子，问如何用烧绳的方法来计时一个小时十五分钟呢？<br>11：时针走一圈，时针分针重合几次<br>12：N*N的方格纸,里面有多少个正方形<br>13：待续…</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="ZhangMiao 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="ZhangMiao 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    ZhangMiao
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://zhangmiao.cc/posts/9a278d8c.html" title="Android知识点归纳总结提纲">https://zhangmiao.cc/posts/9a278d8c.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+            <a href="/tags/面试/" rel="tag"># 面试</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/df7e47f7.html" rel="next" title="ListView中添加的HeadView隐藏时仍然占用空间的解决方法">
+                <i class="fa fa-chevron-left"></i> ListView中添加的HeadView隐藏时仍然占用空间的解决方法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/posts/547382f.html" rel="prev" title="android判断文件是否存在,新建、删除">
+                android判断文件是否存在,新建、删除 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4" alt="ZhangMiao">
+            
+              <p class="site-author-name" itemprop="name">ZhangMiao</p>
+              <p class="site-description motion-element" itemprop="description">Android/Flutter Developer</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">373</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">58</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">143</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:zm@zhangmiao.cc" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://wpa.qq.com/msgrd?v=3&uin=153942241&site=qq&menu=yes" target="_blank" title="QQ">
+                      
+                        <i class="fa fa-fw fa-qq"></i>QQ</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/zhangmiaocc" target="_blank" title="Github">
+                      
+                        <i class="fa fa-fw fa-github"></i>Github</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://stackoverflow.com" target="_blank" title="StackOverflow">
+                      
+                        <i class="fa fa-fw fa-stack-overflow"></i>StackOverflow</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://blog.constore.cn/" title="Liujianhui" target="_blank">Liujianhui</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://xuebin.me" title="Leo" target="_blank">Leo</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.csdn.net/lmj623565791" title="Hongyang" target="_blank">Hongyang</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://liuwangshu.cn/" title="Liuwangshu" target="_blank">Liuwangshu</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://jspang.com/" title="Jspang" target="_blank">Jspang</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blankj.com/" title="Blankj" target="_blank">Blankj</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://wuxiaolong.me/" title="WuXiaoLong" target="_blank">WuXiaoLong</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://molunerfinn.com" title="Molunerfinn" target="_blank">Molunerfinn</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.ofind.cn/" title="Ofind" target="_blank">Ofind</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.gcssloop.com/" title="Gcssloop" target="_blank">Gcssloop</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Android部分"><span class="nav-number">1.</span> <span class="nav-text">Android部分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、Android四大组件"><span class="nav-number">1.1.</span> <span class="nav-text">一、Android四大组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、Fragment相关"><span class="nav-number">1.2.</span> <span class="nav-text">二、Fragment相关</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、动画相关"><span class="nav-number">1.3.</span> <span class="nav-text">三、动画相关</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、布局相关"><span class="nav-number">1.4.</span> <span class="nav-text">四、布局相关</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五、数据存储"><span class="nav-number">1.5.</span> <span class="nav-text">五、数据存储</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#六、线程、进程"><span class="nav-number">1.6.</span> <span class="nav-text">六、线程、进程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#七、网络"><span class="nav-number">1.7.</span> <span class="nav-text">七、网络</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#八、WebView"><span class="nav-number">1.8.</span> <span class="nav-text">八、WebView</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#九、图片"><span class="nav-number">1.9.</span> <span class="nav-text">九、图片</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#十、Camera相关"><span class="nav-number">1.10.</span> <span class="nav-text">十、Camera相关</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#十一、音视频相关"><span class="nav-number">1.11.</span> <span class="nav-text">十一、音视频相关</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#十二、ViewPager相关"><span class="nav-number">1.12.</span> <span class="nav-text">十二、ViewPager相关</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#十三、RecyclerView相关"><span class="nav-number">1.13.</span> <span class="nav-text">十三、RecyclerView相关</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#十四、Canvas相关"><span class="nav-number">1.14.</span> <span class="nav-text">十四、Canvas相关</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#十五、传感器相关"><span class="nav-number">1.15.</span> <span class="nav-text">十五、传感器相关</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#十六、性能优化"><span class="nav-number">1.16.</span> <span class="nav-text">十六、性能优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#十七、UI适配"><span class="nav-number">1.17.</span> <span class="nav-text">十七、UI适配</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#十八、Android中的Context"><span class="nav-number">1.18.</span> <span class="nav-text">十八、Android中的Context</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#十九、序列化与反序列化"><span class="nav-number">1.19.</span> <span class="nav-text">十九、序列化与反序列化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二十、JSON解析"><span class="nav-number">1.20.</span> <span class="nav-text">二十、JSON解析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二十一、二维码"><span class="nav-number">1.21.</span> <span class="nav-text">二十一、二维码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二十二、Permission权限"><span class="nav-number">1.22.</span> <span class="nav-text">二十二、Permission权限</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二十三、Activity工作原理"><span class="nav-number">1.23.</span> <span class="nav-text">二十三、Activity工作原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二十四、View事件分发机制"><span class="nav-number">1.24.</span> <span class="nav-text">二十四、View事件分发机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二十五、View的绘制流程"><span class="nav-number">1.25.</span> <span class="nav-text">二十五、View的绘制流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二十六、自定义view基本流程"><span class="nav-number">1.26.</span> <span class="nav-text">二十六、自定义view基本流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二十七、Apk的打包-安装过程"><span class="nav-number">1.27.</span> <span class="nav-text">二十七、Apk的打包/安装过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二十八、App混淆"><span class="nav-number">1.28.</span> <span class="nav-text">二十八、App混淆</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二十九、App冷启动优化"><span class="nav-number">1.29.</span> <span class="nav-text">二十九、App冷启动优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三十、子线程不能更新UI"><span class="nav-number">1.30.</span> <span class="nav-text">三十、子线程不能更新UI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三十一、Android-Studio-Gradle"><span class="nav-number">1.31.</span> <span class="nav-text">三十一、Android Studio Gradle</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三十二、adb相关"><span class="nav-number">1.32.</span> <span class="nav-text">三十二、adb相关</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三十三、逆向安全"><span class="nav-number">1.33.</span> <span class="nav-text">三十三、逆向安全</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三十四、NDK开发"><span class="nav-number">1.34.</span> <span class="nav-text">三十四、NDK开发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三十五、设计模式"><span class="nav-number">1.35.</span> <span class="nav-text">三十五、设计模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三十六、架构模式"><span class="nav-number">1.36.</span> <span class="nav-text">三十六、架构模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RxJava"><span class="nav-number">1.37.</span> <span class="nav-text">RxJava</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Kotlin"><span class="nav-number">1.38.</span> <span class="nav-text">Kotlin</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dagger-2"><span class="nav-number">1.39.</span> <span class="nav-text">Dagger 2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Flutter"><span class="nav-number">1.40.</span> <span class="nav-text">Flutter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Weex"><span class="nav-number">1.41.</span> <span class="nav-text">Weex</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hybrid-混合开发"><span class="nav-number">1.42.</span> <span class="nav-text">Hybrid 混合开发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#OpenGL"><span class="nav-number">1.43.</span> <span class="nav-text">OpenGL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试工具"><span class="nav-number">1.44.</span> <span class="nav-text">测试工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他冷门知识"><span class="nav-number">1.45.</span> <span class="nav-text">其他冷门知识</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他补充："><span class="nav-number">1.46.</span> <span class="nav-text">其他补充：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java部分"><span class="nav-number">2.</span> <span class="nav-text">Java部分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、Java基础"><span class="nav-number">2.1.</span> <span class="nav-text">一、Java基础</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、Java数据结构和算法"><span class="nav-number">2.2.</span> <span class="nav-text">二、Java数据结构和算法</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZhangMiao</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      本站访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+  <div>
+    <script type="text/javascript">
+      var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");
+      document.write(unescape("%3Cspan id='cnzz_stat_icon_1277928793'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1277928793%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+  </div>
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://zhangmiao.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://zhangmiao.cc/posts/9a278d8c.html';
+          this.page.identifier = 'posts/9a278d8c.html';
+          this.page.title = 'Android知识点归纳总结提纲';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://zhangmiao.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("8iIYW0IGofqyvJiiuU5R9buW-gzGzoHsz", "ssmxRx0kELJir6mA02ziW3Ql");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/lib/zclip/clipboard.min.js"></script>
+<script type="text/javascript" src="/js/src/custom.js"></script>
+
+</body>
+</html>

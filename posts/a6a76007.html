@@ -1,0 +1,1674 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Android,Android Tips,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="zm.blog" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="Android开发中，大多APP可能根据实际情况直接将APP的界面方向设死了，或竖屏或横屏。但是，我们还是会遇到横竖屏切换的功能需求，不管是通过物理重力感应触发，还是用户手动触发。所以，我们有必要去弄清楚Android中横竖屏切换到底做了什么。 Follow me ……">
+<meta name="keywords" content="Android,Android Tips">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android横竖屏切换">
+<meta property="og:url" content="https://zhangmiao.cc/posts/a6a76007.html">
+<meta property="og:site_name" content="zm.blog">
+<meta property="og:description" content="Android开发中，大多APP可能根据实际情况直接将APP的界面方向设死了，或竖屏或横屏。但是，我们还是会遇到横竖屏切换的功能需求，不管是通过物理重力感应触发，还是用户手动触发。所以，我们有必要去弄清楚Android中横竖屏切换到底做了什么。 Follow me ……">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190505173850.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190505173916.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190505173934.png">
+<meta property="og:updated_time" content="2021-12-24T02:05:29.951Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android横竖屏切换">
+<meta name="twitter:description" content="Android开发中，大多APP可能根据实际情况直接将APP的界面方向设死了，或竖屏或横屏。但是，我们还是会遇到横竖屏切换的功能需求，不管是通过物理重力感应触发，还是用户手动触发。所以，我们有必要去弄清楚Android中横竖屏切换到底做了什么。 Follow me ……">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190505173850.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://zhangmiao.cc/posts/a6a76007.html">
+
+
+
+
+
+  <title>Android横竖屏切换 | zm.blog</title>
+  
+
+
+
+
+
+  <script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?44434226ba535875b1e807122adc3a04";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zm.blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">select * from learn</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhangmiao.cc/posts/a6a76007.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZhangMiao">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zm.blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Android横竖屏切换</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-11T17:30:43+08:00">
+                2019-01-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/Android-Tips/" itemprop="url" rel="index">
+                    <span itemprop="name">Android Tips</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/posts/a6a76007.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="posts/a6a76007.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/posts/a6a76007.html" class="leancloud_visitors" data-flag-title="Android横竖屏切换">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Android开发中，大多APP可能根据实际情况直接将APP的界面方向设死了，或竖屏或横屏。但是，我们还是会遇到横竖屏切换的功能需求，不管是通过物理重力感应触发，还是用户手动触发。所以，我们有必要去弄清楚Android中横竖屏切换到底做了什么。</p>
+<p>Follow me ……</p>
+<a id="more"></a>
+
+<h3 id="一、android-screenOrientation-amp-android-configChanges"><a href="#一、android-screenOrientation-amp-android-configChanges" class="headerlink" title="一、android:screenOrientation &amp; android:configChanges"></a>一、android:screenOrientation &amp; android:configChanges</h3><ul>
+<li><strong>android:screenOrientation</strong><br>是用来设置 activity在设备上的显示方向的，只能是下面的唯一值：</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>unspecified</td>
+<td><strong>默认值</strong>。系统自动选择屏幕方向</td>
+</tr>
+<tr>
+<td>behind</td>
+<td>跟activity堆栈中的下面一个activity的方向一致</td>
+</tr>
+<tr>
+<td>landscape</td>
+<td>横屏方向，显示的宽比高长</td>
+</tr>
+<tr>
+<td>portrait</td>
+<td>竖屏方向，显示的高比宽长</td>
+</tr>
+<tr>
+<td>sensor</td>
+<td>由设备的物理方向传感器决定，如果用户旋转设备，这屏幕就会横竖屏切换</td>
+</tr>
+<tr>
+<td>nosensor</td>
+<td>忽略物理方向传感器，这样就不会随着用户旋转设备而横竖屏切换了（”unspecified”设置除外）</td>
+</tr>
+<tr>
+<td>user</td>
+<td>用户当前首选的方向</td>
+</tr>
+<tr>
+<td>reverseLandscape</td>
+<td>API 9 以上，反向横屏</td>
+</tr>
+<tr>
+<td>reversePortrait</td>
+<td>API 9 以上，反向竖屏</td>
+</tr>
+<tr>
+<td>sensorLandscape</td>
+<td>API 9 以上，横屏，但是可以根据 物理方向传感器来切换正反向横屏</td>
+</tr>
+<tr>
+<td>sensorPortrait</td>
+<td>API 9 以上，竖屏，但是可以根据 物理方向传感器来切换正反向竖屏</td>
+</tr>
+<tr>
+<td>fullSensor</td>
+<td>API 9 以上，上下左右四个方向，由物理方向传感器决定</td>
+</tr>
+<tr>
+<td>locked</td>
+<td>API 18 以上，锁死当前屏幕的方向</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>如果你上传应用到 Google Play，需要注意以下提示：<br> <strong>Note:</strong> When you declare one of the landscape or portrait values, it is considered a hard requirement for the orientation in which the activity runs. As such, the value you declare enables filtering by services such as Google Play so your application is available only to devices that support the orientation required by your activities. For example, if you declare either”landscape”, “reverseLandscape”, or “sensorLandscape”, then your application will be available only to devices that support landscape orientation. However, you should also explicitly declare that your application requires either portrait or landscape orientation with the <a href="https://link.jianshu.com?t=https://developer.android.com/guide/topics/manifest/uses-feature-element.html" target="_blank" rel="noopener">
+ </a> element. For example, <uses-feature android:name="android.hardware.screen.portrait">. This is purely a filtering behavior provided by Google Play (and other services that support it) and the platform itself does not control whether your app can be installed when a device supports only certain orientations.</uses-feature></p>
+</blockquote>
+<ul>
+<li><strong>android:configChanges</strong><br>用来设置 activity配置改变（不仅仅是屏幕方向，还有语言、地区等等）的集合。当一个配置改变在运行中发生时，activity默认情况下会先销毁然后重新创建。但是，如果通过这个属性声明了某个配置后，将可以避免上面的情况，而是依然运行，并回调 <a href="https://link.jianshu.com?t=https://developer.android.com/reference/android/app/Activity.html#onConfigurationChanged(android.content.res.Configuration)" target="_blank" rel="noopener">onConfigurationChanged()</a> 方法。该属性可以设置多个值：</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>mcc</td>
+<td>IMSI移动台的国家代码（MCC）发生变化——一个SIM被探测到并且更新MCC</td>
+</tr>
+<tr>
+<td>mnc</td>
+<td>IMSI移动台的网络代码（MNC）发生变化——一个SIM被探测到并且更新MNC</td>
+</tr>
+<tr>
+<td>locale</td>
+<td>区域发生变化——用户选择了一个文本需要显示的新语言</td>
+</tr>
+<tr>
+<td>keyboard</td>
+<td>键盘类型发生变化——例如：用户插入了外接键盘。</td>
+</tr>
+<tr>
+<td>keyboardHidden</td>
+<td>键盘的可访问性发生变化——例如：用户发现了硬件键盘。</td>
+</tr>
+<tr>
+<td>screenLayout</td>
+<td>屏幕布局发生变化——这个会导致显示不同的Activity。</td>
+</tr>
+<tr>
+<td>orientation</td>
+<td>屏幕方向发生变化——用户旋转了屏幕。注意：如果应用程序的目标API级别是13或更高（通过属性minSdkVersion和属性targetSdkVersion声明），你也需要声明配置项screenSize，因为这将在设备选择肖像和屏幕方向时发生改变。</td>
+</tr>
+<tr>
+<td>screenSize</td>
+<td>当前可用屏幕大小发生变化。这代表一个当前可用大小的变化，和当前的比率相关，因此当用户选择不同的画面和图像，会发生变化。然而，如果你的程序目标API级别是12或更低，你的Activity总是会自己处理这个配置变化（这个变化不会引起Activity的重启，甚至在Android 3.2或更新的设备上）。在API级别13里加入的。</td>
+</tr>
+<tr>
+<td>smallestScreenSize</td>
+<td>物理屏幕大小的变化。不管方向的变化，仅仅在实际物理屏幕打包变化的时候，如：外接显示器。这个配置项的变化引起在smallestWidth configuration里的变化。然而，如果你的程序目标API级别是12或更低，你的Activity将自己处理这个变化（这个变化不会引起Activity的重启，甚至在Android 3.2或更新的设备上）在API级别13里加入的。</td>
+</tr>
+<tr>
+<td>layoutDirection</td>
+<td>布局方向变化。例如书写方式从左向右（LTR）转换为从右向左（RTL）</td>
+</tr>
+</tbody></table>
+<p>想了解更多就看<a href="https://link.jianshu.com?t=https://developer.android.com/guide/topics/manifest/activity-element.html" target="_blank" rel="noopener">官方文档</a>。</p>
+<h3 id="二、横竖屏切换对Activity生命周期的影响"><a href="#二、横竖屏切换对Activity生命周期的影响" class="headerlink" title="二、横竖屏切换对Activity生命周期的影响"></a>二、横竖屏切换对Activity生命周期的影响</h3><p>通过打印Activity各个生命周期的执行情况，我们根据以下几种情况来分析：</p>
+<h4 id="1-不配置-configChanges"><a href="#1-不配置-configChanges" class="headerlink" title="1. 不配置 configChanges"></a>1. 不配置 configChanges</h4><h4 id="2-配置-android-configChanges-quot-orientation-quot"><a href="#2-配置-android-configChanges-quot-orientation-quot" class="headerlink" title="2. 配置 android:configChanges=&quot;orientation&quot;"></a>2. 配置 <code>android:configChanges=&quot;orientation&quot;</code></h4><h4 id="3-配置android-configChanges-quot-orientation-keyboardHidden-quot"><a href="#3-配置android-configChanges-quot-orientation-keyboardHidden-quot" class="headerlink" title="3. 配置android:configChanges=&quot;orientation|keyboardHidden&quot;"></a>3. 配置<code>android:configChanges=&quot;orientation|keyboardHidden&quot;</code></h4><ul>
+<li>竖屏切横屏</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">11</span>-<span class="number">02</span> <span class="number">20</span>:<span class="number">17</span>:<span class="number">44.898</span> <span class="number">13324</span>-<span class="number">13324</span>/com.ys.yoosir.screenconfigchange D/MainActivity:  -- onPause</span><br><span class="line"><span class="number">11</span>-<span class="number">02</span> <span class="number">20</span>:<span class="number">17</span>:<span class="number">45.008</span> <span class="number">13324</span>-<span class="number">13324</span>/com.ys.yoosir.screenconfigchange D/MainActivity:  -- onSaveInstanceState</span><br><span class="line"><span class="number">11</span>-<span class="number">02</span> <span class="number">20</span>:<span class="number">17</span>:<span class="number">45.008</span> <span class="number">13324</span>-<span class="number">13324</span>/com.ys.yoosir.screenconfigchange D/MainActivity:  -- onStop</span><br><span class="line"><span class="number">11</span>-<span class="number">02</span> <span class="number">20</span>:<span class="number">17</span>:<span class="number">45.018</span> <span class="number">13324</span>-<span class="number">13324</span>/com.ys.yoosir.screenconfigchange D/MainActivity:  -- onDestroy</span><br><span class="line"><span class="number">11</span>-<span class="number">02</span> <span class="number">20</span>:<span class="number">17</span>:<span class="number">45.038</span> <span class="number">13324</span>-<span class="number">13324</span>/com.ys.yoosir.screenconfigchange D/MainActivity:  -- onCreate - orientation</span><br><span class="line"><span class="number">11</span>-<span class="number">02</span> <span class="number">20</span>:<span class="number">17</span>:<span class="number">45.088</span> <span class="number">13324</span>-<span class="number">13324</span>/com.ys.yoosir.screenconfigchange D/MainActivity:  -- onStart</span><br><span class="line"><span class="number">11</span>-<span class="number">02</span> <span class="number">20</span>:<span class="number">17</span>:<span class="number">45.088</span> <span class="number">13324</span>-<span class="number">13324</span>/com.ys.yoosir.screenconfigchange D/MainActivity:  -- onRestoreInstanceState</span><br><span class="line"><span class="number">11</span>-<span class="number">02</span> <span class="number">20</span>:<span class="number">17</span>:<span class="number">45.088</span> <span class="number">13324</span>-<span class="number">13324</span>/com.ys.yoosir.screenconfigchange D/MainActivity:  -- onResume</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>横屏切竖屏：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">11</span>-<span class="number">02</span> <span class="number">20</span>:<span class="number">19</span>:<span class="number">00.268</span> <span class="number">13324</span>-<span class="number">13324</span>/com.ys.yoosir.screenconfigchange D/MainActivity:  -- onPause</span><br><span class="line"><span class="number">11</span>-<span class="number">02</span> <span class="number">20</span>:<span class="number">19</span>:<span class="number">00.268</span> <span class="number">13324</span>-<span class="number">13324</span>/com.ys.yoosir.screenconfigchange D/MainActivity:  -- onSaveInstanceState</span><br><span class="line"><span class="number">11</span>-<span class="number">02</span> <span class="number">20</span>:<span class="number">19</span>:<span class="number">00.268</span> <span class="number">13324</span>-<span class="number">13324</span>/com.ys.yoosir.screenconfigchange D/MainActivity:  -- onStop</span><br><span class="line"><span class="number">11</span>-<span class="number">02</span> <span class="number">20</span>:<span class="number">19</span>:<span class="number">00.268</span> <span class="number">13324</span>-<span class="number">13324</span>/com.ys.yoosir.screenconfigchange D/MainActivity:  -- onDestroy</span><br><span class="line"><span class="number">11</span>-<span class="number">02</span> <span class="number">20</span>:<span class="number">19</span>:<span class="number">00.318</span> <span class="number">13324</span>-<span class="number">13324</span>/com.ys.yoosir.screenconfigchange D/MainActivity:  -- onCreate - orientation</span><br><span class="line"><span class="number">11</span>-<span class="number">02</span> <span class="number">20</span>:<span class="number">19</span>:<span class="number">00.338</span> <span class="number">13324</span>-<span class="number">13324</span>/com.ys.yoosir.screenconfigchange D/MainActivity:  -- onStart</span><br><span class="line"><span class="number">11</span>-<span class="number">02</span> <span class="number">20</span>:<span class="number">19</span>:<span class="number">00.338</span> <span class="number">13324</span>-<span class="number">13324</span>/com.ys.yoosir.screenconfigchange D/MainActivity:  -- onRestoreInstanceState</span><br><span class="line"><span class="number">11</span>-<span class="number">02</span> <span class="number">20</span>:<span class="number">19</span>:<span class="number">00.338</span> <span class="number">13324</span>-<span class="number">13324</span>/com.ys.yoosir.screenconfigchange D/MainActivity:  -- onResume</span><br></pre></td></tr></table></figure>
+
+<p>从上面的 3种方式配置 打印的 Log （<strong>三种方式 Log是一样的，故合并显示</strong>），我们可以总结如下：</p>
+<blockquote>
+<p>不设置Activity的<code>android:configChanges</code>时，或 设置Activity的<code>android:configChanges=&quot;orientation&quot;</code>时，或设置Activity的<code>android:configChanges=&quot;orientation|keyboardHidden&quot;</code>时，切屏会重新调用各个生命周期，切横屏时会执行一次，切竖屏时会执行一次方法。</p>
+</blockquote>
+<p>而我们经常在其他地方看到的结论如下：</p>
+<blockquote>
+<p>1、不设置Activity的android:configChanges时，切屏会重新调用各个生命周期，切横屏时会执行一次，切竖屏时会执行两次<br> 2、设置Activity的android:configChanges=”orientation”时，切屏还是会重新调用各个生命周期，切横、竖屏时只会执行一次<br> 3、设置Activity的android:configChanges=”orientation|keyboardHidden”时，切屏不会重新调用各个生命周期，只会执行onConfigurationChanged方法</p>
+</blockquote>
+<h4 id="4-所以是什么原因导致我们的结论不一样呢？"><a href="#4-所以是什么原因导致我们的结论不一样呢？" class="headerlink" title="4. 所以是什么原因导致我们的结论不一样呢？"></a>4. 所以是什么原因导致我们的结论不一样呢？</h4><p>需要说明的是：** 我的测试环境是 targetSdkVersion 24，测试模拟器是 系统API 5.0！**</p>
+<p>查看官方文档，发现有如下提示：</p>
+<blockquote>
+<p><strong>注意：</strong>从 Android 3.2（API 级别 13）开始，当设备在纵向和横向之间切换时，<strong>“屏幕尺寸”也会发生变化</strong>。因此，在开发针对 API 级别 13 或更高版本系统的应用时，若要避免由于设备方向改变而导致运行时重启（正如 <a href="https://link.jianshu.com?t=https://developer.android.com/guide/topics/manifest/uses-sdk-element.html#min" target="_blank" rel="noopener">minSdkVersion
+ </a> 和 <a href="https://link.jianshu.com?t=https://developer.android.com/guide/topics/manifest/uses-sdk-element.html#target" target="_blank" rel="noopener">targetSdkVersion
+ </a> 属性中所声明），则除了”orientation”值以外，您还必须添加 “screenSize”值。即，您必须声明 android:configChanges=”orientation|screenSize”。但是，如果您的应用是面向 API 级别 12 或更低版本的系统，则 Activity 始终会自行处理此配置变更（即便是在 Android 3.2 或更高版本的设备上运行，此配置变更也不会重启 Activity）。</p>
+</blockquote>
+<p>我们现在测试第四种配置方式。</p>
+<h4 id="5-配置-android-configChanges-quot-orientation-keyboardHidden-screenSize-quot"><a href="#5-配置-android-configChanges-quot-orientation-keyboardHidden-screenSize-quot" class="headerlink" title="5. 配置 android:configChanges=&quot;orientation|keyboardHidden|screenSize&quot;"></a>5. 配置 <code>android:configChanges=&quot;orientation|keyboardHidden|screenSize&quot;</code></h4><ul>
+<li>竖屏切横屏</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">11</span>-<span class="number">02</span> <span class="number">20</span>:<span class="number">44</span>:<span class="number">06.568</span> <span class="number">7792</span>-<span class="number">7792</span>/com.ys.yoosir.screenconfigchange D/MainActivity:  -- onConfigurationChanged</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>横屏切竖屏</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">11</span>-<span class="number">02</span> <span class="number">20</span>:<span class="number">44</span>:<span class="number">52.918</span> <span class="number">7792</span>-<span class="number">7792</span>/com.ys.yoosir.screenconfigchange D/MainActivity:  -- onConfigurationChanged</span><br></pre></td></tr></table></figure>
+
+<p>结论： 从 API 13开始，配置 <code>android:configChanges=&quot;orientation|keyboardHidden|screenSize&quot;</code>，才不会销毁 activity，且只调用 <code>onConfigurationChanged</code>方法。</p>
+<h4 id="6-横竖屏切换小结"><a href="#6-横竖屏切换小结" class="headerlink" title="6. 横竖屏切换小结"></a>6. 横竖屏切换小结</h4><ul>
+<li><strong>（一）、Android 3.2 （API 级别 13）以前</strong><br>1、不设置Activity的android:configChanges时，切屏会重新调用各个生命周期，切横屏时会执行一次，切竖屏时会执行两次。<br>2、设置Activity的android:configChanges=”orientation”时，切屏还是会重新调用各个生命周期，切横、竖屏时只会执行一次。<br>3、设置Activity的android:configChanges=”orientation|keyboardHidden”时，切屏不会重新调用各个生命周期，只会执行onConfigurationChanged方法。</li>
+</ul>
+<blockquote>
+<p><strong>注意：</strong>  不设置Activity的android:configChanges时，切换竖屏activity的各个生命周期执行两次，有人说是 在API 2.x下，我未测试，大家可以考证下。</p>
+</blockquote>
+<ul>
+<li><strong>（二）、从 Android 3.2 (API级别 13)开始</strong><br>1、不设置Activity的<code>android:configChanges</code>，或设置Activity的<code>android:configChanges=&quot;orientation&quot;</code>，或设置Activity的<code>android:configChanges=&quot;orientation|keyboardHidden&quot;</code>，切屏会重新调用各个生命周期，切横屏时会执行一次，切竖屏时会执行一次。<br>2、配置 <code>android:configChanges=&quot;orientation|keyboardHidden|screenSize&quot;</code>，才不会销毁 activity，且只调用 <code>onConfigurationChanged</code>方法。</li>
+</ul>
+<h3 id="三、代码中动态切换横竖屏"><a href="#三、代码中动态切换横竖屏" class="headerlink" title="三、代码中动态切换横竖屏"></a>三、代码中动态切换横竖屏</h3><p>在代码中切换屏幕的方向主要调用 <code>setRequestedOrientation（int requestedOrientation）</code> 方法，此方法的作用等同于在 <code>AndroidManifest.xml</code>设置Activity 的<code>android:screenOrientation</code>，所以，其可传递的参数如 <code>android:screenOrientation</code>表格中一样。</p>
+<p>示例代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">findViewById(R.id.btn_click).setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;  </span><br><span class="line">  <span class="meta">@Override</span> </span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View view)</span> </span>&#123;   </span><br><span class="line">     Log.d(TAG,<span class="string">"被点击了"</span>);  </span><br><span class="line">      <span class="comment">//判断当前屏幕方向  </span></span><br><span class="line">      <span class="keyword">if</span>(getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) &#123;     </span><br><span class="line">       <span class="comment">//切换竖屏   </span></span><br><span class="line">         MainActivity.<span class="keyword">this</span>.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);   </span><br><span class="line">      &#125;<span class="keyword">else</span>&#123;   </span><br><span class="line">         <span class="comment">//切换横屏     </span></span><br><span class="line">         MainActivity.<span class="keyword">this</span>.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);  </span><br><span class="line">      &#125; </span><br><span class="line">   &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p><strong>非重启Activity模式</strong>：即设置了<code>android:configChanges=&quot;orientation|keyboardHidden|screenSize&quot;</code>，Log输出（横竖屏切换一样）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">11-03 10:38:33.998 20317-20317/com.ys.yoosir.screenconfigchange D/MainActivity: 被点击了</span><br><span class="line">11-03 10:38:34.108 20317-20317/com.ys.yoosir.screenconfigchange D/MainActivity:  -- onConfigurationChanged</span><br></pre></td></tr></table></figure>
+
+<p><strong>重启Activity模式</strong>：即<strong>没有</strong>设置<code>android:configChanges=&quot;orientation|keyboardHidden|screenSize&quot;</code>，Log输出（横竖屏切换一样）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">11</span>-<span class="number">03</span> <span class="number">10</span>:<span class="number">59</span>:<span class="number">23.268</span> <span class="number">7724</span>-<span class="number">7724</span>/com.ys.yoosir.screenconfigchange D/MainActivity: 被点击了</span><br><span class="line"><span class="number">11</span>-<span class="number">03</span> <span class="number">10</span>:<span class="number">59</span>:<span class="number">23.368</span> <span class="number">7724</span>-<span class="number">7724</span>/com.ys.yoosir.screenconfigchange D/MainActivity:  -- onPause</span><br><span class="line"><span class="number">11</span>-<span class="number">03</span> <span class="number">10</span>:<span class="number">59</span>:<span class="number">23.368</span> <span class="number">7724</span>-<span class="number">7724</span>/com.ys.yoosir.screenconfigchange D/MainActivity:  -- onSaveInstanceState</span><br><span class="line"><span class="number">11</span>-<span class="number">03</span> <span class="number">10</span>:<span class="number">59</span>:<span class="number">23.368</span> <span class="number">7724</span>-<span class="number">7724</span>/com.ys.yoosir.screenconfigchange D/MainActivity:  -- onStop</span><br><span class="line"><span class="number">11</span>-<span class="number">03</span> <span class="number">10</span>:<span class="number">59</span>:<span class="number">23.368</span> <span class="number">7724</span>-<span class="number">7724</span>/com.ys.yoosir.screenconfigchange D/MainActivity:  -- onDestroy</span><br><span class="line"><span class="number">11</span>-<span class="number">03</span> <span class="number">10</span>:<span class="number">59</span>:<span class="number">23.428</span> <span class="number">7724</span>-<span class="number">7724</span>/com.ys.yoosir.screenconfigchange D/MainActivity:  -- onCreate - orientation</span><br><span class="line"><span class="number">11</span>-<span class="number">03</span> <span class="number">10</span>:<span class="number">59</span>:<span class="number">23.458</span> <span class="number">7724</span>-<span class="number">7724</span>/com.ys.yoosir.screenconfigchange D/MainActivity:  -- onStart</span><br><span class="line"><span class="number">11</span>-<span class="number">03</span> <span class="number">10</span>:<span class="number">59</span>:<span class="number">23.458</span> <span class="number">7724</span>-<span class="number">7724</span>/com.ys.yoosir.screenconfigchange D/MainActivity:  -- onRestoreInstanceState</span><br><span class="line"><span class="number">11</span>-<span class="number">03</span> <span class="number">10</span>:<span class="number">59</span>:<span class="number">23.458</span> <span class="number">7724</span>-<span class="number">7724</span>/com.ys.yoosir.screenconfigchange D/MainActivity:  -- onResume</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>注意：</strong> 通过 <code>setRequestedOrientation（int requestedOrientation）</code> 修改了屏幕方向后，就类似于设置了<code>android:screenOrientation</code>，效果是一样的，比如：调用<code>setRequestedOrientation（ActivityInfo.SCREEN_ORIENTATION_PORTRAIT）</code>，无论屏幕怎么旋转，都不会切换屏幕方向。如果要恢复为响应横竖屏随物理方向传感器设备变换，那么就需要手动调用类似<code>setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);</code>代码进行恢复。</p>
+</blockquote>
+<h3 id="四、横竖屏切换我们需要做的事"><a href="#四、横竖屏切换我们需要做的事" class="headerlink" title="四、横竖屏切换我们需要做的事"></a>四、横竖屏切换我们需要做的事</h3><ul>
+<li><strong>重启Activity模式</strong><br>在重启Activity模式下，横竖屏切换的时候会导致数据丢失，我们可以通过如下代码来保正数据不丢失：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"> <span class="meta">@Overrideprotected</span></span><br><span class="line"> <span class="function"><span class="keyword">void</span> <span class="title">onSaveInstanceState</span><span class="params">(Bundle outState)</span> </span>&#123; </span><br><span class="line">   Log.d(TAG,<span class="string">" -- onSaveInstanceState"</span>); </span><br><span class="line">   Log.d(TAG,<span class="string">" -- onSaveInstanceState save: name = yoosir,age = 24,handsome = ture"</span>); </span><br><span class="line">   outState.putString(<span class="string">"name"</span>,<span class="string">"yoosir"</span>); </span><br><span class="line">   outState.putInt(<span class="string">"age"</span>,<span class="number">24</span>); </span><br><span class="line">   outState.putBoolean(<span class="string">"handsome"</span>,<span class="keyword">true</span>); </span><br><span class="line">   <span class="keyword">super</span>.onSaveInstanceState(outState);</span><br><span class="line">&#125;</span><br><span class="line">....</span><br><span class="line"> <span class="meta">@Overrideprotected</span></span><br><span class="line"> <span class="function"><span class="keyword">void</span> <span class="title">onRestoreInstanceState</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123; </span><br><span class="line">   <span class="keyword">super</span>.onRestoreInstanceState(savedInstanceState); </span><br><span class="line">   Log.d(TAG,<span class="string">" -- onRestoreInstanceState"</span>); </span><br><span class="line">   <span class="keyword">if</span>(savedInstanceState != <span class="keyword">null</span>) &#123; </span><br><span class="line">       String name = savedInstanceState.getString(<span class="string">"name"</span>); </span><br><span class="line">       <span class="keyword">int</span> age = savedInstanceState.getInt(<span class="string">"age"</span>); </span><br><span class="line">       <span class="keyword">boolean</span> isHandsome = savedInstanceState.getBoolean(<span class="string">"handsome"</span>); </span><br><span class="line">       Log.d(TAG, <span class="string">" -- onRestoreInstanceState get: name = "</span> + name + <span class="string">",age = "</span> + age + <span class="string">",handsome = "</span> + isHandsome); </span><br><span class="line">   &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>横竖屏切换Log 输出：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">11</span>-<span class="number">03</span> <span class="number">12</span>:<span class="number">03</span>:<span class="number">31.678</span> <span class="number">3663</span>-<span class="number">3663</span>/com.ys.yoosir.screenconfigchange D/MainActivity:  -- onPause</span><br><span class="line"><span class="number">11</span>-<span class="number">03</span> <span class="number">12</span>:<span class="number">03</span>:<span class="number">31.678</span> <span class="number">3663</span>-<span class="number">3663</span>/com.ys.yoosir.screenconfigchange D/MainActivity:  -- onSaveInstanceState</span><br><span class="line"><span class="number">11</span>-<span class="number">03</span> <span class="number">12</span>:<span class="number">03</span>:<span class="number">31.678</span> <span class="number">3663</span>-<span class="number">3663</span>/com.ys.yoosir.screenconfigchange D/MainActivity:  -- onSaveInstanceState save: name = yoosir,age = <span class="number">24</span>,handsome = ture</span><br><span class="line"><span class="number">11</span>-<span class="number">03</span> <span class="number">12</span>:<span class="number">03</span>:<span class="number">31.688</span> <span class="number">3663</span>-<span class="number">3663</span>/com.ys.yoosir.screenconfigchange D/MainActivity:  -- onStop</span><br><span class="line"><span class="number">11</span>-<span class="number">03</span> <span class="number">12</span>:<span class="number">03</span>:<span class="number">31.688</span> <span class="number">3663</span>-<span class="number">3663</span>/com.ys.yoosir.screenconfigchange D/MainActivity:  -- onDestroy</span><br><span class="line"><span class="number">11</span>-<span class="number">03</span> <span class="number">12</span>:<span class="number">03</span>:<span class="number">31.758</span> <span class="number">3663</span>-<span class="number">3663</span>/com.ys.yoosir.screenconfigchange D/MainActivity:  -- onCreate - orientation</span><br><span class="line"><span class="number">11</span>-<span class="number">03</span> <span class="number">12</span>:<span class="number">03</span>:<span class="number">31.758</span> <span class="number">3663</span>-<span class="number">3663</span>/com.ys.yoosir.screenconfigchange D/MainActivity:  -- onCreate get: name = yoosir,age = <span class="number">24</span>,handsome = <span class="keyword">true</span></span><br><span class="line"><span class="number">11</span>-<span class="number">03</span> <span class="number">12</span>:<span class="number">03</span>:<span class="number">31.788</span> <span class="number">3663</span>-<span class="number">3663</span>/com.ys.yoosir.screenconfigchange D/MainActivity:  -- onStart</span><br><span class="line"><span class="number">11</span>-<span class="number">03</span> <span class="number">12</span>:<span class="number">03</span>:<span class="number">31.788</span> <span class="number">3663</span>-<span class="number">3663</span>/com.ys.yoosir.screenconfigchange D/MainActivity:  -- onRestoreInstanceState</span><br><span class="line"><span class="number">11</span>-<span class="number">03</span> <span class="number">12</span>:<span class="number">03</span>:<span class="number">31.788</span> <span class="number">3663</span>-<span class="number">3663</span>/com.ys.yoosir.screenconfigchange D/MainActivity:  -- onRestoreInstanceState get: name = yoosir,age = <span class="number">24</span>,handsome = <span class="keyword">true</span></span><br><span class="line"><span class="number">11</span>-<span class="number">03</span> <span class="number">12</span>:<span class="number">03</span>:<span class="number">31.788</span> <span class="number">3663</span>-<span class="number">3663</span>/com.ys.yoosir.screenconfigchange D/MainActivity:  -- onResume</span><br></pre></td></tr></table></figure>
+
+<p>如上，大家可以看到在 onCreate() 中也是可以拿到我们之前保存的数据的。</p>
+<blockquote>
+<p><strong>补充一点：</strong> 如果大家在资源目录res 中添加了 layout-land（横向布局文件夹） 和 layout-port （竖想布局文件夹），重启Activity模式的横竖屏切换，系统会自动帮我们显示正确方向的布局UI。</p>
+<p><img src="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190505173850.png" alt></p>
+</blockquote>
+<ul>
+<li><strong>非重启Activity模式</strong><br>非重启Activity模式下横竖屏切换，我们的Activity 不会销毁重建，数据也不会丢失。但是，如果我们想根据不同的屏幕方向来展示不同UI或做不同的事，应该怎么做呢？直接上代码：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Overridepublic</span> <span class="function"><span class="keyword">void</span> <span class="title">onConfigurationChanged</span><span class="params">(Configuration newConfig)</span> </span>&#123; </span><br><span class="line">   <span class="keyword">super</span>.onConfigurationChanged(newConfig); </span><br><span class="line">   Log.d(TAG,<span class="string">" -- onConfigurationChanged"</span>); </span><br><span class="line">   <span class="keyword">if</span>(newConfig.orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)&#123; </span><br><span class="line">       <span class="comment">//切换到竖屏  </span></span><br><span class="line">      <span class="comment">//修改布局文件  </span></span><br><span class="line">      setContentView(R.layout.activity_main);  </span><br><span class="line">      <span class="comment">//findViewById ....   </span></span><br><span class="line">     <span class="comment">//TODO something  </span></span><br><span class="line">      Log.d(TAG,<span class="string">" -- onConfigurationChanged  可以在竖屏方向 to do something"</span>); </span><br><span class="line">   &#125;<span class="keyword">else</span>&#123;  </span><br><span class="line">      <span class="comment">//切换到横屏  </span></span><br><span class="line">      <span class="comment">//修改布局文件  </span></span><br><span class="line">      setContentView(R.layout.activity_main);  </span><br><span class="line">      <span class="comment">//findViewById ....  </span></span><br><span class="line">      <span class="comment">//TODO something  </span></span><br><span class="line">      Log.d(TAG,<span class="string">" -- onConfigurationChanged  可以在横屏方向 to do something"</span>); </span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>横竖屏切换Log 输出：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">11</span>-<span class="number">03</span> <span class="number">14</span>:<span class="number">56</span>:<span class="number">50.465</span> <span class="number">28612</span>-<span class="number">28612</span>/com.ys.yoosir.screenconfigchange D/MainActivity:  -- onConfigurationChanged</span><br><span class="line"><span class="number">11</span>-<span class="number">03</span> <span class="number">14</span>:<span class="number">56</span>:<span class="number">50.495</span> <span class="number">28612</span>-<span class="number">28612</span>/com.ys.yoosir.screenconfigchange D/MainActivity:  -- onConfigurationChanged  可以在横屏方向 to <span class="keyword">do</span> something</span><br></pre></td></tr></table></figure>
+
+<p>大家可以看到，在非重启Activity模式下，横竖屏切换修改UI布局文件时，其实挺麻烦的（我是这样的看法，^_~），需要重新初始化一遍UI。不过，不需要我们手动保存数据倒是挺方便的。</p>
+<h3 id="五、横竖屏切换对Fragment的影响"><a href="#五、横竖屏切换对Fragment的影响" class="headerlink" title="五、横竖屏切换对Fragment的影响"></a>五、横竖屏切换对Fragment的影响</h3><p>打印 Activity 和 Fragment 各个生命周期，并在Activity 的 onCreate() 中添加如下代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//是否已经 add 了 Fragment</span></span><br><span class="line"><span class="keyword">if</span>(getSupportFragmentManager().findFragmentByTag(<span class="string">"child"</span>) == <span class="keyword">null</span>) &#123;</span><br><span class="line">    Log.d(TAG, <span class="string">" -- onCreate has no child "</span>);</span><br><span class="line">    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();</span><br><span class="line">    blankFragment = BlankFragment.newInstance(<span class="string">"one"</span>, <span class="string">"two"</span>);</span><br><span class="line">    fragmentTransaction.add(R.id.root_view, blankFragment, <span class="string">"child"</span>);</span><br><span class="line">    fragmentTransaction.commit();</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    Log.d(TAG, <span class="string">" -- onCreate has child "</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>重建Activity模式</strong><br><strong>Log：</strong> 带有 <strong>BlankFragment</strong> 即为 Fragment 的打印，其他则为 Activity 的打印<br><strong>进入Activity的Log：</strong> 我们可以关注下第 2 行log——<code>-- onCreate has no child</code> </li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">11</span>-<span class="number">03</span> <span class="number">17</span>:<span class="number">56</span>:<span class="number">19.465</span> <span class="number">26990</span>-<span class="number">26990</span>/com.ys.yoosir.screenconfigchange D/Main2Activity:  -- onCreate - orientation</span><br><span class="line"><span class="number">11</span>-<span class="number">03</span> <span class="number">17</span>:<span class="number">56</span>:<span class="number">19.525</span> <span class="number">26990</span>-<span class="number">26990</span>/com.ys.yoosir.screenconfigchange D/Main2Activity:  -- onCreate has no child </span><br><span class="line"><span class="number">11</span>-<span class="number">03</span> <span class="number">17</span>:<span class="number">56</span>:<span class="number">19.545</span> <span class="number">26990</span>-<span class="number">26990</span>/com.ys.yoosir.screenconfigchange D/Main2Activity:  BlankFragment -- newInstance </span><br><span class="line"><span class="number">11</span>-<span class="number">03</span> <span class="number">17</span>:<span class="number">56</span>:<span class="number">19.545</span> <span class="number">26990</span>-<span class="number">26990</span>/com.ys.yoosir.screenconfigchange D/Main2Activity:  BlankFragment -- onAttach </span><br><span class="line"><span class="number">11</span>-<span class="number">03</span> <span class="number">17</span>:<span class="number">56</span>:<span class="number">19.545</span> <span class="number">26990</span>-<span class="number">26990</span>/com.ys.yoosir.screenconfigchange D/Main2Activity:  BlankFragment -- onCreate </span><br><span class="line"><span class="number">11</span>-<span class="number">03</span> <span class="number">17</span>:<span class="number">56</span>:<span class="number">19.545</span> <span class="number">26990</span>-<span class="number">26990</span>/com.ys.yoosir.screenconfigchange D/Main2Activity:  BlankFragment -- onCreateView </span><br><span class="line"><span class="number">11</span>-<span class="number">03</span> <span class="number">17</span>:<span class="number">56</span>:<span class="number">19.585</span> <span class="number">26990</span>-<span class="number">26990</span>/com.ys.yoosir.screenconfigchange D/Main2Activity:  BlankFragment -- onActivityCreated </span><br><span class="line"><span class="number">11</span>-<span class="number">03</span> <span class="number">17</span>:<span class="number">56</span>:<span class="number">19.585</span> <span class="number">26990</span>-<span class="number">26990</span>/com.ys.yoosir.screenconfigchange D/Main2Activity:  BlankFragment -- onStart </span><br><span class="line"><span class="number">11</span>-<span class="number">03</span> <span class="number">17</span>:<span class="number">56</span>:<span class="number">19.585</span> <span class="number">26990</span>-<span class="number">26990</span>/com.ys.yoosir.screenconfigchange D/Main2Activity:  -- onStart</span><br><span class="line"><span class="number">11</span>-<span class="number">03</span> <span class="number">17</span>:<span class="number">56</span>:<span class="number">19.585</span> <span class="number">26990</span>-<span class="number">26990</span>/com.ys.yoosir.screenconfigchange D/Main2Activity:  -- onResume</span><br><span class="line"><span class="number">11</span>-<span class="number">03</span> <span class="number">17</span>:<span class="number">56</span>:<span class="number">19.585</span> <span class="number">26990</span>-<span class="number">26990</span>/com.ys.yoosir.screenconfigchange D/Main2Activity:  BlankFragment -- onResume </span><br><span class="line"><span class="number">11</span>-<span class="number">03</span> <span class="number">17</span>:<span class="number">57</span>:<span class="number">02.285</span> <span class="number">26990</span>-<span class="number">26990</span>/com.ys.yoosir.screenconfigchange D/Main2Activity: -- one btn click </span><br><span class="line"><span class="number">11</span>-<span class="number">03</span> <span class="number">17</span>:<span class="number">57</span>:<span class="number">05.705</span> <span class="number">26990</span>-<span class="number">26990</span>/com.ys.yoosir.screenconfigchange D/Main2Activity: -- two btn click</span><br></pre></td></tr></table></figure>
+
+<p><strong>横竖屏切换的Log：</strong></p>
+<ul>
+<li>1、我们关注一下 第17行 <code>onCreate has child</code> ，所以** Fragment 本身是没有被 destroy，它的views 是被destroy 的**</li>
+<li>2、关注一下 第5、6、19 和 20 行，Fragment 的局部变量数据被销毁了，我们可以在<strong>onSaveInstanceState</strong> 保存数据，虽然 Fragment 不像 Activity 拥有 <code>onRestoreInstanceState</code> 方法，但是我们可以在 <strong>onActivityCreated</strong> 中获取之前保存的数据。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">11-03 17:57:40.095 26990-26990/com.ys.yoosir.screenconfigchange D/Main2Activity:  BlankFragment -- onPause </span><br><span class="line">11-03 17:57:40.095 26990-26990/com.ys.yoosir.screenconfigchange D/Main2Activity:  -- onPause</span><br><span class="line">11-03 17:57:40.095 26990-26990/com.ys.yoosir.screenconfigchange D/Main2Activity:  -- onSaveInstanceState</span><br><span class="line">11-03 17:57:40.095 26990-26990/com.ys.yoosir.screenconfigchange D/Main2Activity:  -- onSaveInstanceState save: name = yoosir,age = 24,handsome = ture</span><br><span class="line">11-03 17:57:40.095 26990-26990/com.ys.yoosir.screenconfigchange D/Main2Activity:  BlankFragment -- onSaveInstanceState </span><br><span class="line">11-03 17:57:40.095 26990-26990/com.ys.yoosir.screenconfigchange D/Main2Activity:  BlankFragment -- onSaveInstanceState save str</span><br><span class="line">11-03 17:57:40.095 26990-26990/com.ys.yoosir.screenconfigchange D/Main2Activity:  BlankFragment -- onStop </span><br><span class="line">11-03 17:57:40.095 26990-26990/com.ys.yoosir.screenconfigchange D/Main2Activity:  -- onStop</span><br><span class="line">11-03 17:57:40.095 26990-26990/com.ys.yoosir.screenconfigchange D/Main2Activity:  BlankFragment -- onDestroyView </span><br><span class="line">11-03 17:57:40.095 26990-26990/com.ys.yoosir.screenconfigchange D/Main2Activity:  BlankFragment -- onDestroy </span><br><span class="line">11-03 17:57:40.095 26990-26990/com.ys.yoosir.screenconfigchange D/Main2Activity:  BlankFragment -- onDetach </span><br><span class="line">11-03 17:57:40.095 26990-26990/com.ys.yoosir.screenconfigchange D/Main2Activity:  -- onDestroy</span><br><span class="line">11-03 17:57:40.165 26990-26990/com.ys.yoosir.screenconfigchange D/Main2Activity:  BlankFragment -- onAttach </span><br><span class="line">11-03 17:57:40.165 26990-26990/com.ys.yoosir.screenconfigchange D/Main2Activity:  BlankFragment -- onCreate </span><br><span class="line">11-03 17:57:40.165 26990-26990/com.ys.yoosir.screenconfigchange D/Main2Activity:  -- onCreate - orientation</span><br><span class="line">11-03 17:57:40.165 26990-26990/com.ys.yoosir.screenconfigchange D/Main2Activity:  -- onCreate get: name = yoosir,age = 24,handsome = true</span><br><span class="line">11-03 17:57:40.175 26990-26990/com.ys.yoosir.screenconfigchange D/Main2Activity:  -- onCreate has child </span><br><span class="line">11-03 17:57:40.175 26990-26990/com.ys.yoosir.screenconfigchange D/Main2Activity:  BlankFragment -- onCreateView </span><br><span class="line">11-03 17:57:40.185 26990-26990/com.ys.yoosir.screenconfigchange D/Main2Activity:  BlankFragment -- onActivityCreated </span><br><span class="line">11-03 17:57:40.185 26990-26990/com.ys.yoosir.screenconfigchange D/Main2Activity:  BlankFragment -- onActivityCreated get 我设置了参数</span><br><span class="line">11-03 17:57:40.185 26990-26990/com.ys.yoosir.screenconfigchange D/Main2Activity:  BlankFragment -- onStart </span><br><span class="line">11-03 17:57:40.185 26990-26990/com.ys.yoosir.screenconfigchange D/Main2Activity:  -- onStart</span><br><span class="line">11-03 17:57:40.195 26990-26990/com.ys.yoosir.screenconfigchange D/Main2Activity:  -- onRestoreInstanceState</span><br><span class="line">11-03 17:57:40.195 26990-26990/com.ys.yoosir.screenconfigchange D/Main2Activity:  -- onRestoreInstanceState get: name = yoosir,age = 24,handsome = true</span><br><span class="line">11-03 17:57:40.195 26990-26990/com.ys.yoosir.screenconfigchange D/Main2Activity:  -- onResume</span><br><span class="line">11-03 17:57:40.195 26990-26990/com.ys.yoosir.screenconfigchange D/Main2Activity:  BlankFragment -- onResume</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>非重建Activity模式：</strong><br><strong>横竖屏切换Log</strong>(进入Activity的Log 与 <em>重建Activity模式一样</em> )：横竖屏切换时，Fragment 和 Activity 都只会调用 <strong>onConfigurationChanged</strong> 方法。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">11</span>-<span class="number">03</span> <span class="number">18</span>:<span class="number">31</span>:<span class="number">21.725</span> <span class="number">27309</span>-<span class="number">27309</span>/com.ys.yoosir.screenconfigchange D/Main2Activity:  BlankFragment -- onConfigurationChanged </span><br><span class="line"><span class="number">11</span>-<span class="number">03</span> <span class="number">18</span>:<span class="number">31</span>:<span class="number">21.725</span> <span class="number">27309</span>-<span class="number">27309</span>/com.ys.yoosir.screenconfigchange D/Main2Activity:  -- onConfigurationChanged</span><br><span class="line"><span class="number">11</span>-<span class="number">03</span> <span class="number">18</span>:<span class="number">31</span>:<span class="number">21.725</span> <span class="number">27309</span>-<span class="number">27309</span>/com.ys.yoosir.screenconfigchange D/Main2Activity:  -- onConfigurationChanged  可以在横屏方向 to <span class="keyword">do</span> something</span><br><span class="line"><span class="number">11</span>-<span class="number">03</span> <span class="number">18</span>:<span class="number">31</span>:<span class="number">36.545</span> <span class="number">27309</span>-<span class="number">27309</span>/com.ys.yoosir.screenconfigchange D/Main2Activity:  BlankFragment -- onConfigurationChanged </span><br><span class="line"><span class="number">11</span>-<span class="number">03</span> <span class="number">18</span>:<span class="number">31</span>:<span class="number">36.545</span> <span class="number">27309</span>-<span class="number">27309</span>/com.ys.yoosir.screenconfigchange D/Main2Activity:  -- onConfigurationChanged</span><br><span class="line"><span class="number">11</span>-<span class="number">03</span> <span class="number">18</span>:<span class="number">31</span>:<span class="number">36.545</span> <span class="number">27309</span>-<span class="number">27309</span>/com.ys.yoosir.screenconfigchange D/Main2Activity:  -- onConfigurationChanged  可以在竖屏方向 to <span class="keyword">do</span> something</span><br></pre></td></tr></table></figure>
+
+<h3 id="六、其他小技巧"><a href="#六、其他小技巧" class="headerlink" title="六、其他小技巧"></a>六、其他小技巧</h3><p>如果我们应用是手机和平板都可用的，且手机的只能是竖屏不可切换，平板的只能是横屏不可切换。首先，我们要区分设备是手机还是平板，然后设置屏幕方向。代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 判断是否平板设备</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> context</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> true:平板,false:手机 </span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">isTabletDevice</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (context.getResources().getConfiguration().screenLayout &amp; Configuration.SCREENLAYOUT_SIZE_MASK) &gt;= Configuration.SCREENLAYOUT_SIZE_LARGE;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//设置屏幕方向</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">setScreenOrientation</span><span class="params">(Context context)</span></span>&#123;  </span><br><span class="line">    <span class="keyword">if</span>(!isTabletDevice(context))&#123;  </span><br><span class="line">        <span class="comment">//手机，竖屏   </span></span><br><span class="line">       MainActivity.<span class="keyword">this</span>.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);  </span><br><span class="line">    &#125;<span class="keyword">else</span>&#123; </span><br><span class="line">         <span class="comment">//平板，横屏   </span></span><br><span class="line">       MainActivity.<span class="keyword">this</span>.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);   </span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="参考学习的文章："><a href="#参考学习的文章：" class="headerlink" title="参考学习的文章："></a>参考学习的文章：</h3><p><a href="https://link.jianshu.com?t=https://inthecheesefactory.com/blog/fragment-state-saving-best-practices/en" target="_blank" rel="noopener">The Real Best Practices to Save/Restore Activity’s and Fragment’s state</a>     《===== 重点推荐阅读<br> <a href="https://link.jianshu.com?t=https://segmentfault.com/a/1190000006691830" target="_blank" rel="noopener">[译] 保存/恢复 Activity 和 Fragment 状态的最佳实践</a>   《=== 上面一篇文章的译文<br> <a href="https://link.jianshu.com?t=https://segmentfault.com/a/1190000003965285" target="_blank" rel="noopener">如何在Android设备旋转时暂存数据以保护当前的交互状态？</a><br> <a href="https://link.jianshu.com?t=http://www.cnblogs.com/franksunny/p/3714442.html" target="_blank" rel="noopener">Android横竖屏切换小结</a></p>
+<h4 id="附图两张："><a href="#附图两张：" class="headerlink" title="附图两张："></a>附图两张：</h4><p><img src="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190505173916.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190505173934.png" alt></p>
+<h3 id="小小总结"><a href="#小小总结" class="headerlink" title="小小总结"></a>小小总结</h3><p>通过一步一步代码验证，我们终于明白了横竖屏切换时发生了什么，又可以愉快的写代码了，啦啦啦…，I AM CODER！<br>若有错误的地方，欢迎大家指正和评论，谢谢！:-)</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="ZhangMiao 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="ZhangMiao 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    ZhangMiao
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://zhangmiao.cc/posts/a6a76007.html" title="Android横竖屏切换">https://zhangmiao.cc/posts/a6a76007.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+            <a href="/tags/Android-Tips/" rel="tag"># Android Tips</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/86664ecf.html" rel="next" title="awesome-comment神级注释">
+                <i class="fa fa-chevron-left"></i> awesome-comment神级注释
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/posts/a8391ded.html" rel="prev" title="Activity切换动画常用实现方式">
+                Activity切换动画常用实现方式 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4" alt="ZhangMiao">
+            
+              <p class="site-author-name" itemprop="name">ZhangMiao</p>
+              <p class="site-description motion-element" itemprop="description">Android/Flutter Developer</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">373</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">58</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">143</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:zm@zhangmiao.cc" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://wpa.qq.com/msgrd?v=3&uin=153942241&site=qq&menu=yes" target="_blank" title="QQ">
+                      
+                        <i class="fa fa-fw fa-qq"></i>QQ</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/zhangmiaocc" target="_blank" title="Github">
+                      
+                        <i class="fa fa-fw fa-github"></i>Github</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://stackoverflow.com" target="_blank" title="StackOverflow">
+                      
+                        <i class="fa fa-fw fa-stack-overflow"></i>StackOverflow</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://blog.constore.cn/" title="Liujianhui" target="_blank">Liujianhui</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://xuebin.me" title="Leo" target="_blank">Leo</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.csdn.net/lmj623565791" title="Hongyang" target="_blank">Hongyang</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://liuwangshu.cn/" title="Liuwangshu" target="_blank">Liuwangshu</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://jspang.com/" title="Jspang" target="_blank">Jspang</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blankj.com/" title="Blankj" target="_blank">Blankj</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://wuxiaolong.me/" title="WuXiaoLong" target="_blank">WuXiaoLong</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://molunerfinn.com" title="Molunerfinn" target="_blank">Molunerfinn</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.ofind.cn/" title="Ofind" target="_blank">Ofind</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.gcssloop.com/" title="Gcssloop" target="_blank">Gcssloop</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、android-screenOrientation-amp-android-configChanges"><span class="nav-number">1.</span> <span class="nav-text">一、android:screenOrientation &amp; android:configChanges</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、横竖屏切换对Activity生命周期的影响"><span class="nav-number">2.</span> <span class="nav-text">二、横竖屏切换对Activity生命周期的影响</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-不配置-configChanges"><span class="nav-number">2.1.</span> <span class="nav-text">1. 不配置 configChanges</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-配置-android-configChanges-quot-orientation-quot"><span class="nav-number">2.2.</span> <span class="nav-text">2. 配置 android:configChanges=&quot;orientation&quot;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-配置android-configChanges-quot-orientation-keyboardHidden-quot"><span class="nav-number">2.3.</span> <span class="nav-text">3. 配置android:configChanges=&quot;orientation|keyboardHidden&quot;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-所以是什么原因导致我们的结论不一样呢？"><span class="nav-number">2.4.</span> <span class="nav-text">4. 所以是什么原因导致我们的结论不一样呢？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-配置-android-configChanges-quot-orientation-keyboardHidden-screenSize-quot"><span class="nav-number">2.5.</span> <span class="nav-text">5. 配置 android:configChanges=&quot;orientation|keyboardHidden|screenSize&quot;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-横竖屏切换小结"><span class="nav-number">2.6.</span> <span class="nav-text">6. 横竖屏切换小结</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、代码中动态切换横竖屏"><span class="nav-number">3.</span> <span class="nav-text">三、代码中动态切换横竖屏</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、横竖屏切换我们需要做的事"><span class="nav-number">4.</span> <span class="nav-text">四、横竖屏切换我们需要做的事</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五、横竖屏切换对Fragment的影响"><span class="nav-number">5.</span> <span class="nav-text">五、横竖屏切换对Fragment的影响</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#六、其他小技巧"><span class="nav-number">6.</span> <span class="nav-text">六、其他小技巧</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考学习的文章："><span class="nav-number">7.</span> <span class="nav-text">参考学习的文章：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#附图两张："><span class="nav-number">7.1.</span> <span class="nav-text">附图两张：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小小总结"><span class="nav-number">8.</span> <span class="nav-text">小小总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZhangMiao</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      本站访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+  <div>
+    <script type="text/javascript">
+      var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");
+      document.write(unescape("%3Cspan id='cnzz_stat_icon_1277928793'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1277928793%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+  </div>
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://zhangmiao.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://zhangmiao.cc/posts/a6a76007.html';
+          this.page.identifier = 'posts/a6a76007.html';
+          this.page.title = 'Android横竖屏切换';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://zhangmiao.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("8iIYW0IGofqyvJiiuU5R9buW-gzGzoHsz", "ssmxRx0kELJir6mA02ziW3Ql");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/lib/zclip/clipboard.min.js"></script>
+<script type="text/javascript" src="/js/src/custom.js"></script>
+
+</body>
+</html>

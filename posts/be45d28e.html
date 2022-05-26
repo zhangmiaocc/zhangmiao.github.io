@@ -1,0 +1,1549 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Android,Flutter Tips,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="zm.blog" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="本文首先讲的Flutter中的路由，然后主要讲下Flutter中栈管理的几种方法。  了解下Route和Navigator 简单的路由 命名路由 自定义路由 Flutter中使用的路由场景 Flutter中的路由栈管理 实战  了解下Route和Navigator在Flutter中，我们需要在不同屏幕或者页面之间进行切换和发送数据,这些“screens”或者“pages”被称为Route(路由),">
+<meta name="keywords" content="Android,Flutter Tips">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Flutter中管理路由栈的方法和应用">
+<meta property="og:url" content="https://zhangmiao.cc/posts/be45d28e.html">
+<meta property="og:site_name" content="zm.blog">
+<meta property="og:description" content="本文首先讲的Flutter中的路由，然后主要讲下Flutter中栈管理的几种方法。  了解下Route和Navigator 简单的路由 命名路由 自定义路由 Flutter中使用的路由场景 Flutter中的路由栈管理 实战  了解下Route和Navigator在Flutter中，我们需要在不同屏幕或者页面之间进行切换和发送数据,这些“screens”或者“pages”被称为Route(路由),">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/WechatIMG14.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/WechatIMG16.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/WechatIMG17.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/WechatIMG18.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/WechatIMG2031231.png">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/2/3/168b2f2a94dd26d2">
+<meta property="og:updated_time" content="2021-12-24T02:05:29.993Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Flutter中管理路由栈的方法和应用">
+<meta name="twitter:description" content="本文首先讲的Flutter中的路由，然后主要讲下Flutter中栈管理的几种方法。  了解下Route和Navigator 简单的路由 命名路由 自定义路由 Flutter中使用的路由场景 Flutter中的路由栈管理 实战  了解下Route和Navigator在Flutter中，我们需要在不同屏幕或者页面之间进行切换和发送数据,这些“screens”或者“pages”被称为Route(路由),">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/WechatIMG14.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://zhangmiao.cc/posts/be45d28e.html">
+
+
+
+
+
+  <title>Flutter中管理路由栈的方法和应用 | zm.blog</title>
+  
+
+
+
+
+
+  <script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?44434226ba535875b1e807122adc3a04";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zm.blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">select * from learn</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhangmiao.cc/posts/be45d28e.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZhangMiao">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zm.blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Flutter中管理路由栈的方法和应用</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-12T17:36:03+08:00">
+                2020-03-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/Flutter-Tips/" itemprop="url" rel="index">
+                    <span itemprop="name">Flutter Tips</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/posts/be45d28e.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="posts/be45d28e.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/posts/be45d28e.html" class="leancloud_visitors" data-flag-title="Flutter中管理路由栈的方法和应用">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文首先讲的Flutter中的路由，然后主要讲下Flutter中栈管理的几种方法。</p>
+<ul>
+<li>了解下Route和Navigator</li>
+<li>简单的路由</li>
+<li>命名路由</li>
+<li>自定义路由</li>
+<li>Flutter中使用的路由场景</li>
+<li>Flutter中的路由栈管理</li>
+<li>实战</li>
+</ul>
+<h2 id="了解下Route和Navigator"><a href="#了解下Route和Navigator" class="headerlink" title="了解下Route和Navigator"></a>了解下Route和Navigator</h2><p>在Flutter中，我们需要在不同屏幕或者页面之间进行切换和发送数据,这些“screens”或者“pages”被称为Route(路由),是由一个Navigator的小部件进行管理。</p>
+<p>Navigator可以管理包含若干Route对象的堆栈，并提供了管理的方法，平常我们经常用的就是[Navigator.push]和[Navigator.pop]。</p>
+<p>尽管我们可以自己直接创建一个navigator,但是当我们创建一个WidgetsApp或者MaterialApp,Flutter会自动默认创建一个Navigator。<br> 所以我们一般是使用由[WidgetsApp]或者[MaterialApp]所创建的Navigator就行了，然后通过调用[Navigator.of]<br> 来拿到当前的Navigator的状态NavigatorState,然后调用它的pop或者push方法。</p>
+<h2 id="简单的路由"><a href="#简单的路由" class="headerlink" title="简单的路由"></a>简单的路由</h2><p>比如要导航到一个新的页面，我们可以创建一个[MaterialPageRoute]的实例，然后调用Navigator.of(context).push()方法就将新页面添加到堆栈的顶部。</p>
+<p>返回上一个页面，则调用Navigator.pop(context)就可以从堆栈中删除这个屏幕;</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Navigator.of(context)</span><br><span class="line">  .push(<span class="keyword">new</span> MaterialPageRoute(builder: (context) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> DetailPage();</span><br><span class="line">  &#125;));</span><br><span class="line"> Navigator.pop(context);</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+<h2 id="命名路由"><a href="#命名路由" class="headerlink" title="命名路由"></a>命名路由</h2><p>如果每次跳转到一个新的路由页面，都要跟上面一样的写法，创建MaterialPageRoute实例然后调用push方法，这样的话就太麻烦了。</p>
+<p>所以，Flutter提供了另外一种方式来管理路由，可以使用命名路由，然后使用Navigator.pushNamed（）方法来弹出路由。</p>
+<p>创建MaterialApp的时候需要传入一个routes参数，routes本质上是一个Map&lt;String,WidgetBuilder&gt;,key值对应自定义的路径名字，value值会映射到对应的WidgetBuilder,我们可以在WidgetBuilder中创建对应的页面。</p>
+<p>Navigator.pushNamed()方法有两个参数（BuildContext，String),第一个是上下文，第二个是在路由中预定义的string。</p>
+<p>特殊情况处理：当push一个不存在的路由页面的时候，需要进行提示操作。可以使用UnknownRoute的属性。比如下面的例子，<br> 当push一个不存在的路由的时候，会跳转到NotFoundPage的页面。</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> main() =&gt; runApp(<span class="keyword">new</span> MyApp());</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyApp</span> <span class="keyword">extends</span> <span class="title">StatelessWidget</span> </span>&#123;</span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  Widget build(BuildContext context) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> MaterialApp(</span><br><span class="line">      routes: &#123;</span><br><span class="line">        <span class="comment">//Map&lt;String, WidgetBuilder&gt;</span></span><br><span class="line">        <span class="string">"/splash"</span>: (context) =&gt; <span class="keyword">new</span> SplashPage(),</span><br><span class="line">        <span class="string">"/login"</span>: (context) =&gt; <span class="keyword">new</span> LoginPage(),</span><br><span class="line">        <span class="string">"/home"</span>: (context) =&gt; <span class="keyword">new</span> HomePage(),</span><br><span class="line">        <span class="string">"/detail"</span>: (context) =&gt; <span class="keyword">new</span> DetailPage(),</span><br><span class="line">      &#125;,</span><br><span class="line">      onUnknownRoute: (RouteSettings setting) &#123;</span><br><span class="line">        <span class="built_in">String</span> name = setting.name;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"onUnknownRoute:$name"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> MaterialPageRoute(builder: (context) &#123;</span><br><span class="line">          <span class="keyword">return</span> <span class="keyword">new</span> NotFoundPage();</span><br><span class="line">        &#125;);</span><br><span class="line">      &#125;,</span><br><span class="line">      title: <span class="string">'Flutter Demo'</span>,</span><br><span class="line">      theme: <span class="keyword">new</span> ThemeData(</span><br><span class="line">        primarySwatch: Colors.blue,</span><br><span class="line">      ),</span><br><span class="line">      home: <span class="keyword">new</span> SplashPage(),</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//弹出路由，跳转到其他页面</span></span><br><span class="line"> Navigator.of(context).pushNamed(<span class="string">"/detail"</span>);</span><br></pre></td></tr></table></figure>
+
+<h2 id="自定义路由"><a href="#自定义路由" class="headerlink" title="自定义路由"></a>自定义路由</h2><p>比如我们上面使用的是MaterialPageRoute，在页面切换的时候，会有默认的自适应平台的过渡动画。<br> 如果想自定义页面的进场和出场动画，那么需要使用PageRouteBuilder来创建路由。<br> PageRouteBuilder是主要的部分，一个是“pageBuilder”，用来创建所要跳转到的页面，另一个是“transitionsBuilder”，也就是我们可以自定义的转场效果。</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">PageRouteBuilder(&#123;</span><br><span class="line">  RouteSettings settings,</span><br><span class="line">  <span class="meta">@required</span> <span class="keyword">this</span>.pageBuilder,<span class="comment">//构造页面</span></span><br><span class="line">  <span class="keyword">this</span>.transitionsBuilder = _defaultTransitionsBuilder,<span class="comment">//创建转场动画</span></span><br><span class="line">  <span class="keyword">this</span>.transitionDuration = <span class="keyword">const</span> <span class="built_in">Duration</span>(milliseconds: <span class="number">300</span>),<span class="comment">//转场动画的持续时间</span></span><br><span class="line">  <span class="keyword">this</span>.opaque = <span class="keyword">true</span>,<span class="comment">//是否是透明的</span></span><br><span class="line">  <span class="keyword">this</span>.barrierDismissible = <span class="keyword">false</span>,<span class="comment">//举个例子，比如AlertDialog也是利用PageRouteBuilder进行创建的，barrierDismissible若为false，点击对话框周围，对话框不会关闭；若为true，点击对话框周围，对话框自动关闭。</span></span><br><span class="line">  <span class="keyword">this</span>.barrierColor,</span><br><span class="line">  <span class="keyword">this</span>.barrierLabel,</span><br><span class="line">  <span class="keyword">this</span>.maintainState = <span class="keyword">true</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>只修改单独一个页面的过渡动画，可以这样操作，例如下面的代码，</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//自定义跳转动画</span></span><br><span class="line">Navigator.push(</span><br><span class="line">  context,</span><br><span class="line">  PageRouteBuilder(</span><br><span class="line">    opaque: <span class="keyword">false</span>,</span><br><span class="line">    pageBuilder: (BuildContext context, _, __) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">new</span> HomePage();</span><br><span class="line">    &#125;,</span><br><span class="line">    transitionsBuilder: (___, Animation&lt;<span class="built_in">double</span>&gt; animation,</span><br><span class="line">                         ____, Widget child) &#123;</span><br><span class="line">      <span class="keyword">return</span> FadeTransition(</span><br><span class="line">        opacity: animation,</span><br><span class="line">        child: RotationTransition(</span><br><span class="line">          turns: Tween&lt;<span class="built_in">double</span>&gt;(begin: <span class="number">0.5</span>, end: <span class="number">1.0</span>)</span><br><span class="line">          .animate(animation),</span><br><span class="line">          child: child,</span><br><span class="line">        ),</span><br><span class="line">      );</span><br><span class="line">    &#125;));</span><br></pre></td></tr></table></figure>
+
+<h2 id="Flutter中使用的路由场景"><a href="#Flutter中使用的路由场景" class="headerlink" title="Flutter中使用的路由场景"></a>Flutter中使用的路由场景</h2><p>在Flutter中，我们会使用到这些方法，例如[showDialog()], [showMenu()], and [showModalBottomSheet()]等，这些方法其实本质上是创建了一个路由的页面后，并调用Navigator的push方法去push到当前的屏幕上。</p>
+<p>showDialog()其实是调用了showGeneralDialog()，所以下面贴了showGeneralDialog的源码，可以看出，也是利用了Navigator的push方法的。</p>
+<p>这里插一下，关于对话框的使用，比如列表对话框，自定义对话框的使用和踩坑，可以看下我的另外一篇文章：<a href="https://juejin.im/post/5c0aa283518825444612a1eb" target="_blank" rel="noopener">Flutter之Dialog使用和踩坑</a></p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">Future&lt;T&gt; showGeneralDialog&lt;T&gt;(&#123;</span><br><span class="line">  <span class="meta">@required</span> BuildContext context,</span><br><span class="line">  <span class="meta">@required</span> RoutePageBuilder pageBuilder,</span><br><span class="line">  <span class="built_in">bool</span> barrierDismissible,</span><br><span class="line">  <span class="built_in">String</span> barrierLabel,</span><br><span class="line">  Color barrierColor,</span><br><span class="line">  <span class="built_in">Duration</span> transitionDuration,</span><br><span class="line">  RouteTransitionsBuilder transitionBuilder,</span><br><span class="line">&#125;) &#123;</span><br><span class="line">  <span class="keyword">return</span> Navigator.of(context, rootNavigator: <span class="keyword">true</span>).push&lt;T&gt;(_DialogRoute&lt;T&gt;(</span><br><span class="line">    pageBuilder: pageBuilder,</span><br><span class="line">    barrierDismissible: barrierDismissible,</span><br><span class="line">    barrierLabel: barrierLabel,</span><br><span class="line">    barrierColor: barrierColor,</span><br><span class="line">    transitionDuration: transitionDuration,</span><br><span class="line">    transitionBuilder: transitionBuilder,</span><br><span class="line">  ));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Flutter中的路由栈管理"><a href="#Flutter中的路由栈管理" class="headerlink" title="Flutter中的路由栈管理"></a>Flutter中的路由栈管理</h2><p>相信大家对栈Stack都有一定的了解，push方法是将元素添加到堆栈的顶部，pop方法是删除顶部元素。</p>
+<p>下面用图文的方式来讲解Flutter中几个管理栈的方法之间的区别。</p>
+<h3 id="push（）"><a href="#push（）" class="headerlink" title="push（）"></a>push（）</h3><p>push()，就是直接将一个元素插入到堆栈的顶部。</p>
+<p>这个方法很简单，并且我们会经常用到。比如从Screen1中利用navigator的push方法，将Screen2的路由弹到堆栈的顶部。堆栈的情况如下图：</p>
+<p><img src="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/WechatIMG14.png" alt></p>
+<p>可以利用下面的两个push方法，实现这个目的。</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Navigator.of(context).pushNamed(<span class="string">"/111"</span>);</span><br><span class="line">Navigator.of(context).push(route);</span><br></pre></td></tr></table></figure>
+
+<h3 id="pop"><a href="#pop" class="headerlink" title="pop()"></a>pop()</h3><p>pop(), 就是将堆栈的顶部元素进行删除，回退到上一个界面。</p>
+<p>比如上面的例子，在Screen2中利用pop()将顶部的Screen2从堆栈中移除，之后的堆栈如下图：</p>
+<p><img src="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/WechatIMG16.png" alt></p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Navigator.of(context).pop();</span><br></pre></td></tr></table></figure>
+
+<p>注意：</p>
+<ul>
+<li>当利用push()跳转到一个使用Scaffold的页面的时候，Scaffold会自动在其AppBar上添加一个“ 后退 ”按钮，点击按钮会自动调用Navigator.pop()。</li>
+<li>在Android中，按下设备后退按钮也会自动调用Navigator.pop()。</li>
+</ul>
+<h3 id="pushReplacementNamed-和popAndPushNamed"><a href="#pushReplacementNamed-和popAndPushNamed" class="headerlink" title="pushReplacementNamed()和popAndPushNamed()"></a>pushReplacementNamed()和popAndPushNamed()</h3><p>有下面的这种场景，我们进入到Screen3页面后，要跳转到Screen4页面，不过点击返回按钮，并不想回退到Screen3页面。也就是想将Screen4的元素插入栈顶的同时，将Screen3的元素夜进行移除。</p>
+<p><img src="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/WechatIMG17.png" alt></p>
+<p>这个时候，我们就要用到pushReplacementNamed()或者popAndPushNamed(),pushReplacement()都可以实现这个目的。</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Navigator.of(context).pushReplacementNamed(<span class="string">'/screen4'</span>);</span><br><span class="line">Navigator.popAndPushNamed(context, <span class="string">'/screen4'</span>);</span><br><span class="line">Navigator.of(context).pushReplacement(newRoute);</span><br></pre></td></tr></table></figure>
+
+<h3 id="pushNamedAndRemoveUntil"><a href="#pushNamedAndRemoveUntil" class="headerlink" title="pushNamedAndRemoveUntil()"></a>pushNamedAndRemoveUntil()</h3><p>一般会有这种场景，我们在已经登录的情况下，在设置界面会有个退出用户登录的按钮，点击后会注销用户退出登录，并且会跳转到登录界面。那么路由栈的变化应该会如下图所示：</p>
+<p><img src="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/WechatIMG18.png" alt></p>
+<p>如果只是简单的进行push一个LoginScreen的操作的话，那么按返回键的话，会回到上一个页面，这样的逻辑是不对的。</p>
+<p>所以我们应该删除掉路由栈中的所有route，然后再弹出LoginScreen。这个时候就要用到pushNamedAndRemoveUntil()或者pushAndRemoveUntil()了。</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> RoutePredicate = <span class="built_in">bool</span> <span class="built_in">Function</span>(Route&lt;<span class="keyword">dynamic</span>&gt; route);</span><br><span class="line"><span class="comment">//第一个参数context是上下文的context，</span></span><br><span class="line"><span class="comment">//第二个参数newRouteName是新的路由所命名的路径</span></span><br><span class="line"><span class="comment">//第三个参数predicate，返回值是bool类型，按照我的理解，就是用来判断Until所结</span></span><br><span class="line"><span class="comment">//束的时机，如果为false的话，就会一直继续执行Remove的操作，直到为true的时候，停止Remove操作，然后才执行push操作。</span></span><br><span class="line">  <span class="keyword">static</span> Future&lt;T&gt; pushNamedAndRemoveUntil&lt;T <span class="keyword">extends</span> <span class="built_in">Object</span>&gt;(BuildContext context, <span class="built_in">String</span> newRouteName, RoutePredicate predicate) &#123;</span><br><span class="line">    <span class="keyword">return</span> Navigator.of(context).pushNamedAndRemoveUntil&lt;T&gt;(newRouteName, predicate);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>如果想在弹出新路由之前，删除路由栈中的所有路由，那可以使用下面的这种写法，(Route<dynamic> route) =&gt; false，这样能保证把之前所有的路由都进行删除，然后才push新的路由。</dynamic></li>
+</ul>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Navigator.of(context).pushNamedAndRemoveUntil(<span class="string">'/LoginScreen'</span>, (Route&lt;<span class="keyword">dynamic</span>&gt; route) =&gt; <span class="keyword">false</span>);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>如果想在弹出新路由之前，删除路由栈中的部分路由。比如只弹出Screen1路由上面的Screen3和Screen2，然后再push新的Screen4，堆栈的情况如下图：</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/WechatIMG2031231.png" alt></p>
+<p>利用ModalRoute.withName(name)，来执行判断，可以看下面的源码，当所传的name跟堆栈中的路由所定义的时候，会返回true值，不匹配的话，则返回false。</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Navigator.of(context).pushNamedAndRemoveUntil(<span class="string">'/screen4'</span>,ModalRoute.withName(<span class="string">'/screen1'</span>));</span><br><span class="line"> </span><br><span class="line"> <span class="comment">//ModalRoute.withName的源码</span></span><br><span class="line">   <span class="keyword">static</span> RoutePredicate withName(<span class="built_in">String</span> name) &#123;</span><br><span class="line">    <span class="keyword">return</span> (Route&lt;<span class="keyword">dynamic</span>&gt; route) &#123;</span><br><span class="line">      <span class="keyword">return</span> !route.willHandlePopInternally</span><br><span class="line">          &amp;&amp; route <span class="keyword">is</span> ModalRoute</span><br><span class="line">          &amp;&amp; route.settings.name == name;</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="popUntil"><a href="#popUntil" class="headerlink" title="popUntil()"></a>popUntil()</h3><p>popUntil()方法的过程其实跟上面差不多，就是是少了push一个新页面的操作，只是单纯的进行移除路由操作。</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">popUntil(RoutePredicate predicate);</span><br><span class="line">Navigator.of(context).popUntil(ModalRoute.withName(<span class="string">"/XXX"</span>));</span><br></pre></td></tr></table></figure>
+
+<h2 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h2><p>这里写了一个Demo，将上面的几种管理栈的用法都运用了一下。</p>
+<img src="https://user-gold-cdn.xitu.io/2019/2/3/168b2f2a94dd26d2" width="300" height="600/">
+
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyApp</span> <span class="keyword">extends</span> <span class="title">StatelessWidget</span> </span>&#123;</span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  Widget build(BuildContext context) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> MaterialApp(</span><br><span class="line">      routes: &#123;</span><br><span class="line">        <span class="comment">//Map&lt;String, WidgetBuilder&gt;</span></span><br><span class="line">        <span class="string">"/splash"</span>: (context) =&gt; <span class="keyword">new</span> SplashPage(),</span><br><span class="line">        <span class="string">"/login"</span>: (context) =&gt; <span class="keyword">new</span> LoginPage(),</span><br><span class="line">        <span class="string">"/home"</span>: (context) =&gt; <span class="keyword">new</span> HomePage(),</span><br><span class="line">        <span class="string">"/detail"</span>: (context) =&gt; <span class="keyword">new</span> DetailPage(),</span><br><span class="line">      &#125;,</span><br><span class="line">      onUnknownRoute: (RouteSettings setting) &#123;</span><br><span class="line">        <span class="built_in">String</span> name = setting.name;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"onUnknownRoute:$name"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> MaterialPageRoute(builder: (context) &#123;</span><br><span class="line">          <span class="keyword">return</span> <span class="keyword">new</span> NotFoundPage();</span><br><span class="line">        &#125;);</span><br><span class="line">      &#125;,</span><br><span class="line">      title: <span class="string">'Flutter Demo'</span>,</span><br><span class="line">      theme: <span class="keyword">new</span> ThemeData(</span><br><span class="line">        primarySwatch: Colors.blue,</span><br><span class="line">      ),</span><br><span class="line">      home: <span class="keyword">new</span> SplashPage(),</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>首先是定义在MaterialApp中定义多个路由，Demo中有多个路由:</p>
+<ul>
+<li>SplashPage 启动页面，设置2秒后自动跳转到LoginPage</li>
+<li>LoginPage 登录页面，点击按钮，模仿登录成功的动作并跳转到HomePage</li>
+<li>HomePage 主页，显示一个列表，点击列表项跳转到DetailPage</li>
+<li>DetailPage 详细信息页面，并且有一个退出登录的按钮</li>
+<li>NotFoundPage 当没有路由可以匹配的时候，弹出这个页面</li>
+</ul>
+<p>下面简单讲一下代码：</p>
+<h4 id="SplashPage-gt-LoginPage-LoginPage-gt-HomePage"><a href="#SplashPage-gt-LoginPage-LoginPage-gt-HomePage" class="headerlink" title="SplashPage-&gt;LoginPage,LoginPage-&gt;HomePage"></a>SplashPage-&gt;LoginPage,LoginPage-&gt;HomePage</h4><p>用的都是pushReplacementNamed()。因为跳到登录界面后，不需要返回到SplashPage，所以需要将SplashPage从路由栈中移除。LoginPage-&gt;HomePage，也是同样的道理。</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Navigator.of(context).pushReplacementNamed(<span class="string">"/login"</span>);</span><br><span class="line">Navigator.of(context).pushReplacementNamed(<span class="string">"/home"</span>);</span><br></pre></td></tr></table></figure>
+
+<h4 id="HomePage-gt-DetailPage"><a href="#HomePage-gt-DetailPage" class="headerlink" title="HomePage-&gt;DetailPage"></a>HomePage-&gt;DetailPage</h4><p>使用的是简单的pushNamed()就可以了，没必要移除HomePage，因为从DetailPage点击返回后，需要返回到HomePage界面。</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//下面的两种写法都是可以的</span></span><br><span class="line">Navigator.of(context).pushNamed(<span class="string">"/detail"</span>);</span><br><span class="line">Navigator.of(context)</span><br><span class="line">         .push(<span class="keyword">new</span> MaterialPageRoute(builder: (context) &#123;</span><br><span class="line">         <span class="keyword">return</span> <span class="keyword">new</span> DetailPage();</span><br><span class="line">       &#125;));</span><br></pre></td></tr></table></figure>
+
+<h4 id="DetailPage-gt-LoginPage"><a href="#DetailPage-gt-LoginPage" class="headerlink" title="DetailPage-&gt;LoginPage"></a>DetailPage-&gt;LoginPage</h4><p>利用的是从DetailPage点击退出登录按钮，会弹出路由栈中的所有路由页面，然后再将LoginPage的路由插入到栈顶。这样的话，路由栈中就只剩下LoginPage了，若是点击返回按钮的话，默认就会退出应用程序了，因为堆栈为空了。</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Navigator.of(context).pushNamedAndRemoveUntil(<span class="string">"/login"</span>, (Route&lt;<span class="keyword">dynamic</span>&gt; route) =&gt; <span class="keyword">false</span>);</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="ZhangMiao 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="ZhangMiao 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    ZhangMiao
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://zhangmiao.cc/posts/be45d28e.html" title="Flutter中管理路由栈的方法和应用">https://zhangmiao.cc/posts/be45d28e.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+            <a href="/tags/Flutter-Tips/" rel="tag"># Flutter Tips</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/16d03859.html" rel="next" title="Flutter自定义导航栏AppBar">
+                <i class="fa fa-chevron-left"></i> Flutter自定义导航栏AppBar
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/posts/251aa72f.html" rel="prev" title="Flutter自定义TabBar">
+                Flutter自定义TabBar <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4" alt="ZhangMiao">
+            
+              <p class="site-author-name" itemprop="name">ZhangMiao</p>
+              <p class="site-description motion-element" itemprop="description">Android/Flutter Developer</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">373</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">58</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">143</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:zm@zhangmiao.cc" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://wpa.qq.com/msgrd?v=3&uin=153942241&site=qq&menu=yes" target="_blank" title="QQ">
+                      
+                        <i class="fa fa-fw fa-qq"></i>QQ</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/zhangmiaocc" target="_blank" title="Github">
+                      
+                        <i class="fa fa-fw fa-github"></i>Github</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://stackoverflow.com" target="_blank" title="StackOverflow">
+                      
+                        <i class="fa fa-fw fa-stack-overflow"></i>StackOverflow</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://blog.constore.cn/" title="Liujianhui" target="_blank">Liujianhui</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://xuebin.me" title="Leo" target="_blank">Leo</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.csdn.net/lmj623565791" title="Hongyang" target="_blank">Hongyang</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://liuwangshu.cn/" title="Liuwangshu" target="_blank">Liuwangshu</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://jspang.com/" title="Jspang" target="_blank">Jspang</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blankj.com/" title="Blankj" target="_blank">Blankj</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://wuxiaolong.me/" title="WuXiaoLong" target="_blank">WuXiaoLong</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://molunerfinn.com" title="Molunerfinn" target="_blank">Molunerfinn</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.ofind.cn/" title="Ofind" target="_blank">Ofind</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.gcssloop.com/" title="Gcssloop" target="_blank">Gcssloop</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#了解下Route和Navigator"><span class="nav-number">1.</span> <span class="nav-text">了解下Route和Navigator</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#简单的路由"><span class="nav-number">2.</span> <span class="nav-text">简单的路由</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#命名路由"><span class="nav-number">3.</span> <span class="nav-text">命名路由</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自定义路由"><span class="nav-number">4.</span> <span class="nav-text">自定义路由</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Flutter中使用的路由场景"><span class="nav-number">5.</span> <span class="nav-text">Flutter中使用的路由场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Flutter中的路由栈管理"><span class="nav-number">6.</span> <span class="nav-text">Flutter中的路由栈管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#push（）"><span class="nav-number">6.1.</span> <span class="nav-text">push（）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pop"><span class="nav-number">6.2.</span> <span class="nav-text">pop()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pushReplacementNamed-和popAndPushNamed"><span class="nav-number">6.3.</span> <span class="nav-text">pushReplacementNamed()和popAndPushNamed()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pushNamedAndRemoveUntil"><span class="nav-number">6.4.</span> <span class="nav-text">pushNamedAndRemoveUntil()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#popUntil"><span class="nav-number">6.5.</span> <span class="nav-text">popUntil()</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实战"><span class="nav-number">7.</span> <span class="nav-text">实战</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#SplashPage-gt-LoginPage-LoginPage-gt-HomePage"><span class="nav-number">7.0.1.</span> <span class="nav-text">SplashPage-&gt;LoginPage,LoginPage-&gt;HomePage</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HomePage-gt-DetailPage"><span class="nav-number">7.0.2.</span> <span class="nav-text">HomePage-&gt;DetailPage</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DetailPage-gt-LoginPage"><span class="nav-number">7.0.3.</span> <span class="nav-text">DetailPage-&gt;LoginPage</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZhangMiao</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      本站访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+  <div>
+    <script type="text/javascript">
+      var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");
+      document.write(unescape("%3Cspan id='cnzz_stat_icon_1277928793'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1277928793%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+  </div>
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://zhangmiao.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://zhangmiao.cc/posts/be45d28e.html';
+          this.page.identifier = 'posts/be45d28e.html';
+          this.page.title = 'Flutter中管理路由栈的方法和应用';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://zhangmiao.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("8iIYW0IGofqyvJiiuU5R9buW-gzGzoHsz", "ssmxRx0kELJir6mA02ziW3Ql");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/lib/zclip/clipboard.min.js"></script>
+<script type="text/javascript" src="/js/src/custom.js"></script>
+
+</body>
+</html>
