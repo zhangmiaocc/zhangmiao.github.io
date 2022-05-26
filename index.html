@@ -307,7 +307,7 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.cc/posts/7a75b9fc.html">
+    <link itemprop="mainEntityOfPage" href="https://zhangmiao.cc/posts/216218f9.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZhangMiao">
@@ -326,7 +326,7 @@ var _hmt = _hmt || [];
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/posts/7a75b9fc.html" itemprop="url">Flutter升级到指定版本</a></h1>
+                <a class="post-title-link" href="/posts/216218f9.html" itemprop="url">Flutter3.0 重磅发布</a></h1>
         
 
         <div class="post-meta">
@@ -338,7 +338,7 @@ var _hmt = _hmt || [];
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2022-05-26T09:53:31+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2022-05-26T10:12:56+08:00">
                 2022-05-26
               </time>
             
@@ -372,8 +372,8 @@ var _hmt = _hmt || [];
                 
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android/Flutter/" itemprop="url" rel="index">
-                    <span itemprop="name">Flutter</span>
+                  <a href="/categories/Android/Flutter-Tips/" itemprop="url" rel="index">
+                    <span itemprop="name">Flutter Tips</span>
                   </a>
                 </span>
 
@@ -390,8 +390,8 @@ var _hmt = _hmt || [];
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/posts/7a75b9fc.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="posts/7a75b9fc.html" itemprop="commentCount"></span>
+                <a href="/posts/216218f9.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="posts/216218f9.html" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -399,7 +399,7 @@ var _hmt = _hmt || [];
 
           
           
-             <span id="/posts/7a75b9fc.html" class="leancloud_visitors" data-flag-title="Flutter升级到指定版本">
+             <span id="/posts/216218f9.html" class="leancloud_visitors" data-flag-title="Flutter3.0 重磅发布">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -431,14 +431,22 @@ var _hmt = _hmt || [];
 
       
         
-          <h2 id="一、通过命令："><a href="#一、通过命令：" class="headerlink" title="一、通过命令："></a>一、通过命令：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">查看版本： flutter --version</span><br><span class="line">检查环境：flutter doctor</span><br><span class="line">查看渠道：flutter channel</span><br><span class="line">切换渠道（stable, beta, dev, master）：flutter channel stable</span><br><span class="line">升级到最新版本：flutter upgrade </span><br><span class="line">升级到指定版本：flutter upgrade v2.5.0</span><br><span class="line">回退到指定版本：flutter downgrade v2.5.0</span><br></pre></td></tr></table></figure>
-
-<h2 id="二、通过git回退版本："><a href="#二、通过git回退版本：" class="headerlink" title="二、通过git回退版本："></a>二、通过git回退版本：</h2><h3 id="1、进入flutter-github找到要回退的版本"><a href="#1、进入flutter-github找到要回退的版本" class="headerlink" title="1、进入flutter github找到要回退的版本"></a>1、进入<a href="https://github.com/flutter/flutter/tags" target="_blank" rel="noopener">flutter github</a>找到要回退的版本</h3><p><img src="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20220526100104.png" alt><br><img src="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20220526100204.png" alt></p>
-<h3 id="2、cd进入到存放flutter-sdk目录，运行回退指令-git-reset-–hard-commit-id"><a href="#2、cd进入到存放flutter-sdk目录，运行回退指令-git-reset-–hard-commit-id" class="headerlink" title="2、cd进入到存放flutter sdk目录，运行回退指令 git reset –hard [commit_id]"></a>2、cd进入到存放flutter sdk目录，运行回退指令 git reset –hard [commit_id]</h3><p> 例如-&gt; git reset –hard 4cc385b4b84ac2f816d939a49ea1f328c4e0b48e</p>
-<h3 id="3、查看flutter版本"><a href="#3、查看flutter版本" class="headerlink" title="3、查看flutter版本"></a>3、查看flutter版本</h3><p> 查看版本-&gt; flutter doctor  或者 flutter –version</p>
+          <p><strong>颠覆开发者开发方式的Flutter</strong></p>
+<p>Flutter的诞生是为了彻底改变应用程序开发方式：将Web的迭代开发模式与硬件加速图形渲染和像素级控制相结合，这些以前可是游戏的专利，而现在它被来进行应用开发。自从Flutter 1.0测试版发布以来，谷歌对其不断地进行优化，让Flutter的功能日趋完善，比如添加了新的框架功能和小部件、与底层平台进行更加深入的集成、提供了丰富的软件包库，并且在性能和工具上也做了许多的改进。</p>
+<p><img src="https://nimg.ws.126.net/?url=http%3A%2F%2Fdingyue.ws.126.net%2F2022%2F0512%2F7911e6d3j00rbreiu001xd200u0006bg00it003y.jpg&thumbnail=660x2147483647&quality=80&type=jpg" alt="img"></p>
+<p>从1.0到3.0版本，Flutter被越来越多的开发者使用来构建应用程序。据谷歌最新用户研究报告显示：</p>
+<ul>
+<li>91%的开发人员认为Flutter能缩短构建和发布应用程序所需要的时间；</li>
+<li>85%的开发人员认为Flutter使他们的应用程序更美观；</li>
+<li>85%的人认可Flutter能使他们在更多的平台上发布他们的应用程序。</li>
+</ul>
+<p><strong>实现“大一统”，一个Flutter，横跨iOS、Android、Web、Windows、macOS、Linux六大平台</strong></p>
+<p>Flutter 3.0为开发者提供了一种使用Dart编程语言为六大面向消费者的主流平台（iOS、Android、Web、Windows、macOS、Linux）目标编写应用程序的方法。基于Flutter 3，开发者能拥有从单个代码库为六个平台构建应用程序的体验，这将使其生产力大大提高。</p>
+<p>不同于之前的版本，Flutter 3新增了对macOS和Linux应用程序的稳定支持。添加新平台的支持并不像我们想象中那么简单，其需要的不仅仅是渲染像素，还需要做很多其他的工作，比如新的输入和交互模型、编译和生成支持、可访问性和国际化以及特定于平台的集成等。Flutter不仅让用户能灵活地充分利用底层操作系统，同时能够根据需要共享尽可能多的UI。</p>
+<p>具体来看，在macOS上，Flutter3可以通过通用二进制构建方式支持英特尔和Apple Silicon，允许应用打包在这两种架构上本机运行的可执行文件。同时，由于Dart对Apple Silicon的支持，编译速度也将更快。在Linux上，Canonical和谷歌合作提供了一个高度集成且在同类中最佳的开发选项。</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/posts/7a75b9fc.html#more" rel="contents">
+            <a class="btn" href="/posts/216218f9.html#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
