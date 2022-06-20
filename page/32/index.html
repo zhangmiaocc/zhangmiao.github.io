@@ -307,6 +307,184 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhangmiao.cc/posts/29c9b34b.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZhangMiao">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zm.blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/posts/29c9b34b.html" itemprop="url">Android：时间工具类 -- 时间戳转换成日期，日期转换成时间戳</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-13T21:28:21+08:00">
+                2018-09-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/代码片段/" itemprop="url" rel="index">
+                    <span itemprop="name">代码片段</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/posts/29c9b34b.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="posts/29c9b34b.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/posts/29c9b34b.html" class="leancloud_visitors" data-flag-title="Android：时间工具类 -- 时间戳转换成日期，日期转换成时间戳">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br><span class="line">362</span><br><span class="line">363</span><br><span class="line">364</span><br><span class="line">365</span><br><span class="line">366</span><br><span class="line">367</span><br><span class="line">368</span><br><span class="line">369</span><br><span class="line">370</span><br><span class="line">371</span><br><span class="line">372</span><br><span class="line">373</span><br><span class="line">374</span><br><span class="line">375</span><br><span class="line">376</span><br><span class="line">377</span><br><span class="line">378</span><br><span class="line">379</span><br><span class="line">380</span><br><span class="line">381</span><br><span class="line">382</span><br><span class="line">383</span><br><span class="line">384</span><br><span class="line">385</span><br><span class="line">386</span><br><span class="line">387</span><br><span class="line">388</span><br><span class="line">389</span><br><span class="line">390</span><br><span class="line">391</span><br><span class="line">392</span><br><span class="line">393</span><br><span class="line">394</span><br><span class="line">395</span><br><span class="line">396</span><br><span class="line">397</span><br><span class="line">398</span><br><span class="line">399</span><br><span class="line">400</span><br><span class="line">401</span><br><span class="line">402</span><br><span class="line">403</span><br><span class="line">404</span><br><span class="line">405</span><br><span class="line">406</span><br><span class="line">407</span><br><span class="line">408</span><br><span class="line">409</span><br><span class="line">410</span><br><span class="line">411</span><br><span class="line">412</span><br><span class="line">413</span><br><span class="line">414</span><br><span class="line">415</span><br><span class="line">416</span><br><span class="line">417</span><br><span class="line">418</span><br><span class="line">419</span><br><span class="line">420</span><br><span class="line">421</span><br><span class="line">422</span><br><span class="line">423</span><br><span class="line">424</span><br><span class="line">425</span><br><span class="line">426</span><br><span class="line">427</span><br><span class="line">428</span><br><span class="line">429</span><br><span class="line">430</span><br><span class="line">431</span><br><span class="line">432</span><br><span class="line">433</span><br><span class="line">434</span><br><span class="line">435</span><br><span class="line">436</span><br><span class="line">437</span><br><span class="line">438</span><br><span class="line">439</span><br><span class="line">440</span><br><span class="line">441</span><br><span class="line">442</span><br><span class="line">443</span><br><span class="line">444</span><br><span class="line">445</span><br><span class="line">446</span><br><span class="line">447</span><br><span class="line">448</span><br><span class="line">449</span><br><span class="line">450</span><br><span class="line">451</span><br><span class="line">452</span><br><span class="line">453</span><br><span class="line">454</span><br><span class="line">455</span><br><span class="line">456</span><br><span class="line">457</span><br><span class="line">458</span><br><span class="line">459</span><br><span class="line">460</span><br><span class="line">461</span><br><span class="line">462</span><br><span class="line">463</span><br><span class="line">464</span><br><span class="line">465</span><br><span class="line">466</span><br><span class="line">467</span><br><span class="line">468</span><br><span class="line">469</span><br><span class="line">470</span><br><span class="line">471</span><br><span class="line">472</span><br><span class="line">473</span><br><span class="line">474</span><br><span class="line">475</span><br><span class="line">476</span><br><span class="line">477</span><br><span class="line">478</span><br><span class="line">479</span><br><span class="line">480</span><br><span class="line">481</span><br><span class="line">482</span><br><span class="line">483</span><br><span class="line">484</span><br><span class="line">485</span><br><span class="line">486</span><br></pre></td><td class="code"><pre><span class="line">  <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DateUtils</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getTodayDateTime</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            SimpleDateFormat format = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd HH:mm:ss"</span>,</span><br><span class="line">                    Locale.getDefault());</span><br><span class="line">            <span class="keyword">return</span> format.format(<span class="keyword">new</span> Date());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 掉此方法输入所要转换的时间输入例如（"2014年06月14日16时09分00秒"）返回时间戳</span></span><br><span class="line"><span class="comment">         *</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@param</span> time</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> String <span class="title">data</span><span class="params">(String time)</span> </span>&#123;</span><br><span class="line">            SimpleDateFormat sdr = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy年MM月dd日HH时mm分ss秒"</span>,</span><br><span class="line">                    Locale.CHINA);</span><br><span class="line">            Date date;</span><br><span class="line">            String times = <span class="keyword">null</span>;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                date = sdr.parse(time);</span><br><span class="line">                <span class="keyword">long</span> l = date.getTime();</span><br><span class="line">                String stf = String.valueOf(l);</span><br><span class="line">                times = stf.substring(<span class="number">0</span>, <span class="number">10</span>);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> times;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getTodayDateTimes</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            SimpleDateFormat format = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"MM月dd日"</span>,</span><br><span class="line">                    Locale.getDefault());</span><br><span class="line">            <span class="keyword">return</span> format.format(<span class="keyword">new</span> Date());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 获取当前时间</span></span><br><span class="line"><span class="comment">         *</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getCurrentTime_Today</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            SimpleDateFormat sdf = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd-HH-mm-ss"</span>);</span><br><span class="line">            <span class="keyword">return</span> sdf.format(<span class="keyword">new</span> java.util.Date());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 调此方法输入所要转换的时间输入例如（"2014-06-14-16-09-00"）返回时间戳</span></span><br><span class="line"><span class="comment">         *</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@param</span> time</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">dataOne</span><span class="params">(String time)</span> </span>&#123;</span><br><span class="line">            SimpleDateFormat sdr = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd-HH-mm-ss"</span>,</span><br><span class="line">                    Locale.CHINA);</span><br><span class="line">            Date date;</span><br><span class="line">            String times = <span class="keyword">null</span>;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                date = sdr.parse(time);</span><br><span class="line">                <span class="keyword">long</span> l = date.getTime();</span><br><span class="line">                String stf = String.valueOf(l);</span><br><span class="line">                times = stf.substring(<span class="number">0</span>, <span class="number">10</span>);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> times;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getTimestamp</span><span class="params">(String time, String type)</span> </span>&#123;</span><br><span class="line">            SimpleDateFormat sdr = <span class="keyword">new</span> SimpleDateFormat(type, Locale.CHINA);</span><br><span class="line">            Date date;</span><br><span class="line">            String times = <span class="keyword">null</span>;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                date = sdr.parse(time);</span><br><span class="line">                <span class="keyword">long</span> l = date.getTime();</span><br><span class="line">                String stf = String.valueOf(l);</span><br><span class="line">                times = stf.substring(<span class="number">0</span>, <span class="number">10</span>);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> times;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 调用此方法输入所要转换的时间戳输入例如（1402733340）输出（"2014年06月14日16时09分00秒"）</span></span><br><span class="line"><span class="comment">         *</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@param</span> time</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">times</span><span class="params">(String time)</span> </span>&#123;</span><br><span class="line">            SimpleDateFormat sdr = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy年MM月dd日HH时mm分ss秒"</span>);</span><br><span class="line">            <span class="meta">@SuppressWarnings</span>(<span class="string">"unused"</span>)</span><br><span class="line">            <span class="keyword">long</span> lcc = Long.valueOf(time);</span><br><span class="line">            <span class="keyword">int</span> i = Integer.parseInt(time);</span><br><span class="line">            String times = sdr.format(<span class="keyword">new</span> Date(i * <span class="number">1000L</span>));</span><br><span class="line">            <span class="keyword">return</span> times;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 调用此方法输入所要转换的时间戳输入例如（1402733340）输出（"2014-06-14  16:09:00"）</span></span><br><span class="line"><span class="comment">         *</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@param</span> time</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">timedate</span><span class="params">(String time)</span> </span>&#123;</span><br><span class="line">            SimpleDateFormat sdr = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd HH:mm:ss"</span>);</span><br><span class="line">            <span class="meta">@SuppressWarnings</span>(<span class="string">"unused"</span>)</span><br><span class="line">            <span class="keyword">long</span> lcc = Long.valueOf(time);</span><br><span class="line">            <span class="keyword">int</span> i = Integer.parseInt(time);</span><br><span class="line">            String times = sdr.format(<span class="keyword">new</span> Date(i * <span class="number">1000L</span>));</span><br><span class="line">            <span class="keyword">return</span> times;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 调用此方法输入所要转换的时间戳输入例如（1402733340）输出（"2014年06月14日16:09"）</span></span><br><span class="line"><span class="comment">         *</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@param</span> time</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">timet</span><span class="params">(String time)</span> </span>&#123;</span><br><span class="line">            SimpleDateFormat sdr = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy年MM月dd日  HH:mm"</span>);</span><br><span class="line">            <span class="meta">@SuppressWarnings</span>(<span class="string">"unused"</span>)</span><br><span class="line">            <span class="keyword">long</span> lcc = Long.valueOf(time);</span><br><span class="line">            <span class="keyword">int</span> i = Integer.parseInt(time);</span><br><span class="line">            String times = sdr.format(<span class="keyword">new</span> Date(i * <span class="number">1000L</span>));</span><br><span class="line">            <span class="keyword">return</span> times;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@param</span> time斜杠分开</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">timeslash</span><span class="params">(String time)</span> </span>&#123;</span><br><span class="line">            SimpleDateFormat sdr = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy/MM/dd,HH:mm"</span>);</span><br><span class="line">            <span class="meta">@SuppressWarnings</span>(<span class="string">"unused"</span>)</span><br><span class="line">            <span class="keyword">long</span> lcc = Long.valueOf(time);</span><br><span class="line">            <span class="keyword">int</span> i = Integer.parseInt(time);</span><br><span class="line">            String times = sdr.format(<span class="keyword">new</span> Date(i * <span class="number">1000L</span>));</span><br><span class="line">            <span class="keyword">return</span> times;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@param</span> time斜杠分开</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">timeslashData</span><span class="params">(String time)</span> </span>&#123;</span><br><span class="line">            SimpleDateFormat sdr = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy/MM/dd"</span>);</span><br><span class="line">            <span class="meta">@SuppressWarnings</span>(<span class="string">"unused"</span>)</span><br><span class="line">            <span class="keyword">long</span> lcc = Long.valueOf(time);</span><br><span class="line"><span class="comment">//  int i = Integer.parseInt(time);</span></span><br><span class="line">            String times = sdr.format(<span class="keyword">new</span> Date(lcc * <span class="number">1000L</span>));</span><br><span class="line">            <span class="keyword">return</span> times;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@param</span> time斜杠分开</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">timeMinute</span><span class="params">(String time)</span> </span>&#123;</span><br><span class="line">            SimpleDateFormat sdr = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"HH:mm"</span>);</span><br><span class="line">            <span class="meta">@SuppressWarnings</span>(<span class="string">"unused"</span>)</span><br><span class="line">            <span class="keyword">long</span> lcc = Long.valueOf(time);</span><br><span class="line">            <span class="keyword">int</span> i = Integer.parseInt(time);</span><br><span class="line">            String times = sdr.format(<span class="keyword">new</span> Date(i * <span class="number">1000L</span>));</span><br><span class="line">            <span class="keyword">return</span> times;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">tim</span><span class="params">(String time)</span> </span>&#123;</span><br><span class="line">            SimpleDateFormat sdr = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyyMMdd HH:mm"</span>);</span><br><span class="line">            <span class="meta">@SuppressWarnings</span>(<span class="string">"unused"</span>)</span><br><span class="line">            <span class="keyword">long</span> lcc = Long.valueOf(time);</span><br><span class="line">            <span class="keyword">int</span> i = Integer.parseInt(time);</span><br><span class="line">            String times = sdr.format(<span class="keyword">new</span> Date(i * <span class="number">1000L</span>));</span><br><span class="line">            <span class="keyword">return</span> times;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">time</span><span class="params">(String time)</span> </span>&#123;</span><br><span class="line">            SimpleDateFormat sdr = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd HH:mm"</span>);</span><br><span class="line">            <span class="meta">@SuppressWarnings</span>(<span class="string">"unused"</span>)</span><br><span class="line">            <span class="keyword">long</span> lcc = Long.valueOf(time);</span><br><span class="line">            <span class="keyword">int</span> i = Integer.parseInt(time);</span><br><span class="line">            String times = sdr.format(<span class="keyword">new</span> Date(i * <span class="number">1000L</span>));</span><br><span class="line">            <span class="keyword">return</span> times;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 调用此方法输入所要转换的时间戳例如（1402733340）输出（"2014年06月14日16时09分00秒"）</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">times</span><span class="params">(<span class="keyword">long</span> timeStamp)</span> </span>&#123;</span><br><span class="line">            SimpleDateFormat sdr = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"MM月dd日  #  HH:mm"</span>);</span><br><span class="line">            <span class="keyword">return</span> sdr.format(<span class="keyword">new</span> Date(timeStamp)).replaceAll(<span class="string">"#"</span>,</span><br><span class="line">                    getWeek(timeStamp));</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> String <span class="title">getWeek</span><span class="params">(<span class="keyword">long</span> timeStamp)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">int</span> mydate = <span class="number">0</span>;</span><br><span class="line">            String week = <span class="keyword">null</span>;</span><br><span class="line">            Calendar cd = Calendar.getInstance();</span><br><span class="line">            cd.setTime(<span class="keyword">new</span> Date(timeStamp));</span><br><span class="line">            mydate = cd.get(Calendar.DAY_OF_WEEK);</span><br><span class="line">            <span class="comment">// 获取指定日期转换成星期几</span></span><br><span class="line">            <span class="keyword">if</span> (mydate == <span class="number">1</span>) &#123;</span><br><span class="line">                week = <span class="string">"周日"</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mydate == <span class="number">2</span>) &#123;</span><br><span class="line">                week = <span class="string">"周一"</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mydate == <span class="number">3</span>) &#123;</span><br><span class="line">                week = <span class="string">"周二"</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mydate == <span class="number">4</span>) &#123;</span><br><span class="line">                week = <span class="string">"周三"</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mydate == <span class="number">5</span>) &#123;</span><br><span class="line">                week = <span class="string">"周四"</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mydate == <span class="number">6</span>) &#123;</span><br><span class="line">                week = <span class="string">"周五"</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mydate == <span class="number">7</span>) &#123;</span><br><span class="line">                week = <span class="string">"周六"</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> week;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 并用分割符把时间分成时间数组</span></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 调用此方法输入所要转换的时间戳输入例如（1402733340）输出（"2014-06-14-16-09-00"）</span></span><br><span class="line"><span class="comment">         *</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@param</span> time</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> String <span class="title">timesOne</span><span class="params">(String time)</span> </span>&#123;</span><br><span class="line">            SimpleDateFormat sdr = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd-HH-mm-ss"</span>);</span><br><span class="line">            <span class="meta">@SuppressWarnings</span>(<span class="string">"unused"</span>)</span><br><span class="line">            <span class="keyword">long</span> lcc = Long.valueOf(time);</span><br><span class="line">            <span class="keyword">int</span> i = Integer.parseInt(time);</span><br><span class="line">            String times = sdr.format(<span class="keyword">new</span> Date(i * <span class="number">1000L</span>));</span><br><span class="line">            <span class="keyword">return</span> times;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">timesTwo</span><span class="params">(String time)</span> </span>&#123;</span><br><span class="line">            SimpleDateFormat sdr = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd"</span>);</span><br><span class="line">            <span class="meta">@SuppressWarnings</span>(<span class="string">"unused"</span>)</span><br><span class="line">            <span class="keyword">long</span> lcc = Long.valueOf(time);</span><br><span class="line">            <span class="keyword">int</span> i = Integer.parseInt(time);</span><br><span class="line">            String times = sdr.format(<span class="keyword">new</span> Date(i * <span class="number">1000L</span>));</span><br><span class="line">            <span class="keyword">return</span> times;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 并用分割符把时间分成时间数组</span></span><br><span class="line"><span class="comment">         *</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@param</span> time</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">static</span> String[] timestamp(String time) &#123;</span><br><span class="line">            SimpleDateFormat sdr = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy年MM月dd日HH时mm分ss秒"</span>);</span><br><span class="line">            <span class="meta">@SuppressWarnings</span>(<span class="string">"unused"</span>)</span><br><span class="line">            <span class="keyword">long</span> lcc = Long.valueOf(time);</span><br><span class="line">            <span class="keyword">int</span> i = Integer.parseInt(time);</span><br><span class="line">            String times = sdr.format(<span class="keyword">new</span> Date(i * <span class="number">1000L</span>));</span><br><span class="line">            String[] fenge = times.split(<span class="string">"[年月日时分秒]"</span>);</span><br><span class="line">            <span class="keyword">return</span> fenge;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 根据传递的类型格式化时间</span></span><br><span class="line"><span class="comment">         *</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@param</span> str</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@param</span> type</span></span><br><span class="line"><span class="comment">         *            例如：yy-MM-dd</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getDateTimeByMillisecond</span><span class="params">(String str, String type)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">            Date date = <span class="keyword">new</span> Date(Long.valueOf(str));</span><br><span class="line"></span><br><span class="line">            SimpleDateFormat format = <span class="keyword">new</span> SimpleDateFormat(type);</span><br><span class="line"></span><br><span class="line">            String time = format.format(date);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> time;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 分割符把时间分成时间数组</span></span><br><span class="line"><span class="comment">         *</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@param</span> time</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="keyword">public</span> String[] division(String time) &#123;</span><br><span class="line"></span><br><span class="line">            String[] fenge = time.split(<span class="string">"[年月日时分秒]"</span>);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> fenge;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 输入时间戳变星期</span></span><br><span class="line"><span class="comment">         *</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@param</span> time</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">changeweek</span><span class="params">(String time)</span> </span>&#123;</span><br><span class="line">            SimpleDateFormat sdr = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy年MM月dd日HH时mm分ss秒"</span>);</span><br><span class="line">            <span class="keyword">long</span> lcc = Long.valueOf(time);</span><br><span class="line">            <span class="keyword">int</span> i = Integer.parseInt(time);</span><br><span class="line">            String times = sdr.format(<span class="keyword">new</span> Date(i * <span class="number">1000L</span>));</span><br><span class="line">            Date date = <span class="keyword">null</span>;</span><br><span class="line">            <span class="keyword">int</span> mydate = <span class="number">0</span>;</span><br><span class="line">            String week = <span class="keyword">null</span>;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                date = sdr.parse(times);</span><br><span class="line">                Calendar cd = Calendar.getInstance();</span><br><span class="line">                cd.setTime(date);</span><br><span class="line">                mydate = cd.get(Calendar.DAY_OF_WEEK);</span><br><span class="line">                <span class="comment">// 获取指定日期转换成星期几</span></span><br><span class="line">            &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                <span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (mydate == <span class="number">1</span>) &#123;</span><br><span class="line">                week = <span class="string">"星期日"</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mydate == <span class="number">2</span>) &#123;</span><br><span class="line">                week = <span class="string">"星期一"</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mydate == <span class="number">3</span>) &#123;</span><br><span class="line">                week = <span class="string">"星期二"</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mydate == <span class="number">4</span>) &#123;</span><br><span class="line">                week = <span class="string">"星期三"</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mydate == <span class="number">5</span>) &#123;</span><br><span class="line">                week = <span class="string">"星期四"</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mydate == <span class="number">6</span>) &#123;</span><br><span class="line">                week = <span class="string">"星期五"</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mydate == <span class="number">7</span>) &#123;</span><br><span class="line">                week = <span class="string">"星期六"</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> week;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 获取日期和星期　例如：２０１４－１１－１３　１１:００　星期一</span></span><br><span class="line"><span class="comment">         *</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@param</span> time</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@param</span> type</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getDateAndWeek</span><span class="params">(String time, String type)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> getDateTimeByMillisecond(time + <span class="string">"000"</span>, type) + <span class="string">"  "</span></span><br><span class="line">                    + changeweekOne(time);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 输入时间戳变星期</span></span><br><span class="line"><span class="comment">         *</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@param</span> time</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">changeweekOne</span><span class="params">(String time)</span> </span>&#123;</span><br><span class="line">            SimpleDateFormat sdr = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd-HH-mm-ss"</span>);</span><br><span class="line">            <span class="keyword">long</span> lcc = Long.valueOf(time);</span><br><span class="line">            <span class="keyword">int</span> i = Integer.parseInt(time);</span><br><span class="line">            String times = sdr.format(<span class="keyword">new</span> Date(i * <span class="number">1000L</span>));</span><br><span class="line">            Date date = <span class="keyword">null</span>;</span><br><span class="line">            <span class="keyword">int</span> mydate = <span class="number">0</span>;</span><br><span class="line">            String week = <span class="keyword">null</span>;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                date = sdr.parse(times);</span><br><span class="line">                Calendar cd = Calendar.getInstance();</span><br><span class="line">                cd.setTime(date);</span><br><span class="line">                mydate = cd.get(Calendar.DAY_OF_WEEK);</span><br><span class="line">                <span class="comment">// 获取指定日期转换成星期几</span></span><br><span class="line">            &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                <span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (mydate == <span class="number">1</span>) &#123;</span><br><span class="line">                week = <span class="string">"星期日"</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mydate == <span class="number">2</span>) &#123;</span><br><span class="line">                week = <span class="string">"星期一"</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mydate == <span class="number">3</span>) &#123;</span><br><span class="line">                week = <span class="string">"星期二"</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mydate == <span class="number">4</span>) &#123;</span><br><span class="line">                week = <span class="string">"星期三"</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mydate == <span class="number">5</span>) &#123;</span><br><span class="line">                week = <span class="string">"星期四"</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mydate == <span class="number">6</span>) &#123;</span><br><span class="line">                week = <span class="string">"星期五"</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mydate == <span class="number">7</span>) &#123;</span><br><span class="line">                week = <span class="string">"星期六"</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> week;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 获取当前时间</span></span><br><span class="line"><span class="comment">         *</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getCurrentTime</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            SimpleDateFormat sdf = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd HH:mm"</span>);</span><br><span class="line">            <span class="keyword">return</span> sdf.format(<span class="keyword">new</span> java.util.Date());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 输入日期如（2014年06月14日16时09分00秒）返回（星期数）</span></span><br><span class="line"><span class="comment">         *</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@param</span> time</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> String <span class="title">week</span><span class="params">(String time)</span> </span>&#123;</span><br><span class="line">            Date date = <span class="keyword">null</span>;</span><br><span class="line">            SimpleDateFormat sdr = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy年MM月dd日HH时mm分ss秒"</span>);</span><br><span class="line">            <span class="keyword">int</span> mydate = <span class="number">0</span>;</span><br><span class="line">            String week = <span class="keyword">null</span>;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                date = sdr.parse(time);</span><br><span class="line">                Calendar cd = Calendar.getInstance();</span><br><span class="line">                cd.setTime(date);</span><br><span class="line">                mydate = cd.get(Calendar.DAY_OF_WEEK);</span><br><span class="line">                <span class="comment">// 获取指定日期转换成星期几</span></span><br><span class="line">            &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                <span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (mydate == <span class="number">1</span>) &#123;</span><br><span class="line">                week = <span class="string">"星期日"</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mydate == <span class="number">2</span>) &#123;</span><br><span class="line">                week = <span class="string">"星期一"</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mydate == <span class="number">3</span>) &#123;</span><br><span class="line">                week = <span class="string">"星期二"</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mydate == <span class="number">4</span>) &#123;</span><br><span class="line">                week = <span class="string">"星期三"</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mydate == <span class="number">5</span>) &#123;</span><br><span class="line">                week = <span class="string">"星期四"</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mydate == <span class="number">6</span>) &#123;</span><br><span class="line">                week = <span class="string">"星期五"</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mydate == <span class="number">7</span>) &#123;</span><br><span class="line">                week = <span class="string">"星期六"</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> week;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 输入日期如（2014-06-14-16-09-00）返回（星期数）</span></span><br><span class="line"><span class="comment">         *</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@param</span> time</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> String <span class="title">weekOne</span><span class="params">(String time)</span> </span>&#123;</span><br><span class="line">            Date date = <span class="keyword">null</span>;</span><br><span class="line">            SimpleDateFormat sdr = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd-HH-mm-ss"</span>);</span><br><span class="line">            <span class="keyword">int</span> mydate = <span class="number">0</span>;</span><br><span class="line">            String week = <span class="keyword">null</span>;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                date = sdr.parse(time);</span><br><span class="line">                Calendar cd = Calendar.getInstance();</span><br><span class="line">                cd.setTime(date);</span><br><span class="line">                mydate = cd.get(Calendar.DAY_OF_WEEK);</span><br><span class="line">                <span class="comment">// 获取指定日期转换成星期几</span></span><br><span class="line">            &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                <span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (mydate == <span class="number">1</span>) &#123;</span><br><span class="line">                week = <span class="string">"星期日"</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mydate == <span class="number">2</span>) &#123;</span><br><span class="line">                week = <span class="string">"星期一"</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mydate == <span class="number">3</span>) &#123;</span><br><span class="line">                week = <span class="string">"星期二"</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mydate == <span class="number">4</span>) &#123;</span><br><span class="line">                week = <span class="string">"星期三"</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mydate == <span class="number">5</span>) &#123;</span><br><span class="line">                week = <span class="string">"星期四"</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mydate == <span class="number">6</span>) &#123;</span><br><span class="line">                week = <span class="string">"星期五"</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mydate == <span class="number">7</span>) &#123;</span><br><span class="line">                week = <span class="string">"星期六"</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> week;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/posts/29c9b34b.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://zhangmiao.cc/posts/45412865.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1931,191 +2109,6 @@ var _hmt = _hmt || [];
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.cc/posts/793c26e.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="ZhangMiao">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="zm.blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/posts/793c26e.html" itemprop="url">面向忙碌开发者的Android</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-21T14:32:57+08:00">
-                2018-08-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android/" itemprop="url" rel="index">
-                    <span itemprop="name">Android</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android/开源库/" itemprop="url" rel="index">
-                    <span itemprop="name">开源库</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/posts/793c26e.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="posts/793c26e.html" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/posts/793c26e.html" class="leancloud_visitors" data-flag-title="面向忙碌开发者的Android">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p><a href="https://link.jianshu.com?t=http://weekly.manong.io/bounce?url=https%3A%2F%2Ftutsplus.com%2Fcourse%2Fandroid-for-the-busy-developer%2F&aid=67&nid=5" target="_blank" rel="noopener">面向忙碌开发者的 Android 视频教程（Tuts+）</a></p>
-<p><a href="https://link.jianshu.com?t=http://weekly.manong.io/bounce?url=https%3A%2F%2Fgithub.com%2Ffig4ever%2Ffeeds%2Fblob%2Fmaster%2FThe%2520BIG%2520List%2520of%2520Android%2520Dev%2520Resources%2520%2520%2540sharif%27s%2520blog%2FThe%2520BIG%2520List%2520of%2520Android%2520Dev%2520Resources%2520%2520%2540sharif%27s%2520blog.md&aid=85&nid=6" target="_blank" rel="noopener">Android 开发资源列表（Sharif Ahmed）</a></p>
-<p><a href="https://link.jianshu.com?t=http://weekly.manong.io/bounce?url=http%3A%2F%2Fbigosaur.com%2Fblog%2F23days&aid=106&nid=7" target="_blank" rel="noopener">我如何在23天内开发了一款 Android 游戏？（Bigosaur）</a></p>
-<p><a href="https://link.jianshu.com?t=http://weekly.manong.io/bounce?url=http%3A%2F%2Fguides.thecodepath.com%2Fandroid&aid=134&nid=8" target="_blank" rel="noopener">Android 学习教程</a></p>
-<p><a href="https://link.jianshu.com?t=http://weekly.manong.io/bounce?url=https%3A%2F%2Fgithub.com%2FBearded-Hen%2FAndroid-Bootstrap&aid=170&nid=9" target="_blank" rel="noopener">Android Bootstrap</a></p>
-<p><a href="https://link.jianshu.com?t=http://weekly.manong.io/bounce?url=http%3A%2F%2Fvdisk.weibo.com%2Fs%2FG-kaugh6K5Wk&aid=181&nid=10" target="_blank" rel="noopener">[PDF] Android 性能小贴士（Romain Guy &amp; Chet Haase）</a></p>
-<p><a href="https://link.jianshu.com?t=http://weekly.manong.io/bounce?url=https%3A%2F%2Fspeakerdeck.com%2Fjakewharton%2Fandroid-apps-with-dagger&aid=206&nid=11" target="_blank" rel="noopener">[PDF] Android 应用中使用 Dagger（Jake Wharton）</a></p>
-<p><a href="https://link.jianshu.com?t=http://weekly.manong.io/bounce?url=http%3A%2F%2Fblog.venmo.com%2Fhf2t3h4x98p5e13z82pl8j66ngcmry%2Fperformance-tuning-on-android&aid=234&nid=12" target="_blank" rel="noopener">Android 应用性能优化</a></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/posts/793c26e.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2168,7 +2161,7 @@ var _hmt = _hmt || [];
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">373</span>
+                  <span class="site-state-item-count">374</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
