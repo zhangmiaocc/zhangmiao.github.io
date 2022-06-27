@@ -307,6 +307,188 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhangmiao.cc/posts/7ff52b5f.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZhangMiao">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zm.blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/posts/7ff52b5f.html" itemprop="url">Flutter状态管理Provider和Get分析</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2022-06-27T10:46:30+08:00">
+                2022-06-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/Flutter-Tips/" itemprop="url" rel="index">
+                    <span itemprop="name">Flutter Tips</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/posts/7ff52b5f.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="posts/7ff52b5f.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/posts/7ff52b5f.html" class="leancloud_visitors" data-flag-title="Flutter状态管理Provider和Get分析">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p><img src="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20220627104743.png" alt></p>
+<p><em>文/ Nayuta，CFUG 社区</em></p>
+<p>状态管理一直是 Flutter 开发中一个火热的话题。谈到状态管理框架，社区也有诸如有以 <a href="https://link.juejin.cn?target=https%3A%2F%2Fpub.flutter-io.cn%2Fpackages%2Fget" target="_blank" rel="noopener">Get</a>、<a href="https://link.juejin.cn?target=https%3A%2F%2Fpub.flutter-io.cn%2Fpackages%2Fprovider" target="_blank" rel="noopener">Provider</a> 为代表的多种方案，它们有各自的优缺点。 面对这么多的选择，你可能会想：「我需要使用状态管理么？哪种框架更适合我？」 本文将从作者的实际开发经验出发，分析状态管理解决的问题以及思路，希望能帮助你做出选择。</p>
+<h2 id="为什么需要状态管理？"><a href="#为什么需要状态管理？" class="headerlink" title="为什么需要状态管理？"></a>为什么需要状态管理？</h2><p>首先，为什么需要状态管理？ 根据笔者的经验，这是因为 Flutter 基于 <a href="https://link.juejin.cn?target=https%3A%2F%2Fflutter.cn%2Fdocs%2Fresources%2Farchitectural-overview%23reactive-user-interfaces" target="_blank" rel="noopener"><strong>声明式</strong></a> 构建 UI ， 使用状态管理的目的之一就是解决「声明式」开发带来的问题。</p>
+<p>「声明式」开发是一种区别于传原生的方式，所以我们没有在原生开发中听到过状态管理，那如何理解「声明式」开发呢？</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/posts/7ff52b5f.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://zhangmiao.cc/posts/b07d1684.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1892,189 +2074,6 @@ var _hmt = _hmt || [];
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.cc/posts/7916835e.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="ZhangMiao">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="zm.blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/posts/7916835e.html" itemprop="url">Flutter 2.8 发布 | 性能及工具链优化、Firebase 功能、WebView 3.0</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-12-13T11:16:13+08:00">
-                2021-12-13
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android/" itemprop="url" rel="index">
-                    <span itemprop="name">Android</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android/Flutter/" itemprop="url" rel="index">
-                    <span itemprop="name">Flutter</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/posts/7916835e.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="posts/7916835e.html" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/posts/7916835e.html" class="leancloud_visitors" data-flag-title="Flutter 2.8 发布 | 性能及工具链优化、Firebase 功能、WebView 3.0">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p><img src="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20211213111841.png" alt></p>
-<blockquote>
-<p>官方发布说明：<a href="https://link.juejin.cn?target=https%3A%2F%2Fmedium.com%2Fflutter%2Fwhats-new-in-flutter-2-8-d085b763d181" target="_blank" rel="noopener">medium.com/flutter/wha…</a></p>
-</blockquote>
-<p>北半球的冬意已至，黄叶与气温均随风而落，而年终的最后一个稳定版本已悄然来到你的面前。 让我们向 <strong>Flutter 2.8</strong> 打声招呼～ 本次更新包含了 <strong>207 位贡献者和 178 位审核者</strong> 的辛勤劳作， 所有人共同产出了 <strong>2424 个 PR</strong>，关闭了 <strong>2976 个 issue</strong>。 在此特别感谢本次发布中最突出的社区贡献者：来自 Very Good Ventures 的 Flutter 开发工程师 Bartosz Selwesiuk， 他专注于 Web 平台的 camera 插件并提交了 23 个 PR。</p>
-<p>以上的所有产出让 Flutter engine 和 DevTools 都有了非常显著的性能提升， 同时带来的还有 <strong>Google 移动端广告 SDK Flutter 版本的稳定版发布、 一系列针对 Firebase 的新功能和优化、Flutter WebView 3.0、 新的 Flutter Favorite package、向桌面端 Stable 迈出的一大步， 以及支持更多 package 的新版本 DartPad</strong>。 虽然这是今年最后一个稳定版本，但它并不是最不重要的。让我们一起来看看！</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/posts/7916835e.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2127,7 +2126,7 @@ var _hmt = _hmt || [];
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">374</span>
+                  <span class="site-state-item-count">375</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
