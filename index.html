@@ -432,8 +432,16 @@ var _hmt = _hmt || [];
       
         
           
-          
-          
+          优化重点项将以下资源本地化，打包到项目中
+
+canvaskit.js和canvaskit.wasm
+KFOmCnqEu92Fr1Me5WZLCzYlKw.ttf
+css2?family=Noto_Sans+SC
+
+ps：最初canvaskit资源上传到阿里云，采用国内镜像资源加载。这次为了保险起见，也放入到本地。好处：只要服务器正常能访问，这些资源文件就能够正常加载成功，最大程度上规避页面加载异常的风险！最终项目中添加一些配置文件，如下图：
+index.html文件中更改canvaskit加载方式为本地
+下载相关下载canvaskit.wasm和canvaskit.jshttps://unpk
+          ...
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/posts/eea7bb08.html#more" rel="contents">

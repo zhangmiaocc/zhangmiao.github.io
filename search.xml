@@ -3,7 +3,7 @@
   <entry>
     <title><![CDATA[Flutter Web加载慢问题优化和解决方案]]></title>
     <url>%2Fposts%2Feea7bb08.html</url>
-    <content type="text"></content>
+    <content type="text"><![CDATA[优化重点项将以下资源本地化，打包到项目中 canvaskit.js和canvaskit.wasm KFOmCnqEu92Fr1Me5WZLCzYlKw.ttf css2?family=Noto_Sans+SC ps：最初canvaskit资源上传到阿里云，采用国内镜像资源加载。这次为了保险起见，也放入到本地。好处：只要服务器正常能访问，这些资源文件就能够正常加载成功，最大程度上规避页面加载异常的风险！最终项目中添加一些配置文件，如下图： index.html文件中更改canvaskit加载方式为本地 下载相关下载canvaskit.wasm和canvaskit.jshttps://unpkg.com/canvaskit-wasm@0.35.0/bin/canvaskit.jshttps://unpkg.com/canvaskit-wasm@0.35.0/bin/canvaskit.wasm下载地址方式获取：F12 -&gt;Network 下载KFOmCnqEu92Fr1Me5WZLCzYlKw.ttfhttps://fonts.gstatic.com/s/roboto/v20/KFOmCnqEu92Fr1Me5WZLCzYlKw.ttf 下载字体CSShttps://fonts.googleapis.com/css2?family=Noto+Sans+SC下载的样式保存在本地，命名为 localfonts.css更改CSS中引用的woff2字体文件，更改为本地路径 字体文件批量下载1curl -O https://fonts.gstatic.com/s/notosanssc/v26/k3kXo84MPvpLmixcA63oeALhLIiP-Q-87KaAaH7rzeAODp22mF0qmF4CSjmPC6A0Rg5g1igg1w.[1-120].woff2 下载的文件装入到woff2文件夹放在 web/canvaskit 路径下]]></content>
       <categories>
         <category>Android</category>
         <category>Flutter</category>
@@ -3536,8 +3536,8 @@
         <category>其他</category>
       </categories>
       <tags>
-        <tag>博客</tag>
         <tag>Mac</tag>
+        <tag>博客</tag>
         <tag>终端</tag>
       </tags>
   </entry>
@@ -4218,8 +4218,8 @@
       </categories>
       <tags>
         <tag>Android</tag>
-        <tag>XBus</tag>
         <tag>EventBus</tag>
+        <tag>XBus</tag>
       </tags>
   </entry>
   <entry>
