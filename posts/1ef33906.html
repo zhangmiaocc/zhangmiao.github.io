@@ -85,7 +85,7 @@
 <meta name="keywords" content="Android,Java,设计模式,抽象工厂模式">
 <meta property="og:type" content="article">
 <meta property="og:title" content="设计模式五之抽象工厂模式">
-<meta property="og:url" content="https://zhangmiao.cc/posts/1ef33906.html">
+<meta property="og:url" content="http://yoursite.com/posts/1ef33906.html">
 <meta property="og:site_name" content="zm.blog">
 <meta property="og:description" content="通过理论,代码示例,Android源码来学习抽象工厂模式  介绍抽象工厂模式 (Abstract Factory Pattern) 也是创建型设计模式之一。上一篇讲解了 工厂方法模式 ,那么这个抽象工厂又是怎么一回事呢？大家联想一下像是生活中的工厂肯定都是具体的，也就是说每个工厂都会生产某一种具体的产品，那么抽象工厂意味着生产出来的产品是不确定的，那这岂不是很奇怪？抽象工厂模式起源于以前对不同操">
 <meta property="og:locale" content="zh-Hans">
@@ -124,7 +124,7 @@
 
 
 
-  <link rel="canonical" href="https://zhangmiao.cc/posts/1ef33906.html">
+  <link rel="canonical" href="http://yoursite.com/posts/1ef33906.html">
 
 
 
@@ -310,7 +310,7 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.cc/posts/1ef33906.html">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/1ef33906.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZhangMiao">
@@ -434,7 +434,7 @@ var _hmt = _hmt || [];
         <blockquote>
 <p>通过理论,代码示例,Android源码来学习抽象工厂模式</p>
 </blockquote>
-<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>抽象工厂模式 (Abstract Factory Pattern) 也是创建型设计模式之一。上一篇讲解了 <a href="https://zhangmiao.cc/posts/3319c3e.html">工厂方法模式</a> ,那么这个抽象工厂又是怎么一回事呢？大家联想一下像是生活中的工厂肯定都是具体的，也就是说每个工厂都会生产某一种具体的产品，那么抽象工厂意味着生产出来的产品是不确定的，那这岂不是很奇怪？抽象工厂模式起源于以前对不同操作系统的图形化解决方案，如不同操作系统中的按钮和文本框控件其实现不同，展示效果也不一样，对于每一个操作系统，其本身就构成一个产品类，而按钮与文本框控件也构成一个产品类，两种产品类两种变化，各自有自己的特性，如 Android 中的 Button 和 TextView 、IOS 中的 Button 、和 TextView 、 Window Phone 中的 Button 和 TextView  等。</p>
+<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>抽象工厂模式 (Abstract Factory Pattern) 也是创建型设计模式之一。上一篇讲解了 <a href="https://zhangmiao.cc/posts/3319c3e.html" target="_blank" rel="noopener">工厂方法模式</a> ,那么这个抽象工厂又是怎么一回事呢？大家联想一下像是生活中的工厂肯定都是具体的，也就是说每个工厂都会生产某一种具体的产品，那么抽象工厂意味着生产出来的产品是不确定的，那这岂不是很奇怪？抽象工厂模式起源于以前对不同操作系统的图形化解决方案，如不同操作系统中的按钮和文本框控件其实现不同，展示效果也不一样，对于每一个操作系统，其本身就构成一个产品类，而按钮与文本框控件也构成一个产品类，两种产品类两种变化，各自有自己的特性，如 Android 中的 Button 和 TextView 、IOS 中的 Button 、和 TextView 、 Window Phone 中的 Button 和 TextView  等。</p>
 <h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>为创建一组相关或者相互依赖的对象提供一个借口，而不需要制定它们的具体类。</p>
 <h2 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h2><p>一个对象如有相同的约束时可以使用抽象工厂模式。是不是听起来很抽象 ？ 举个例子，Android 、IOS 、Window Phone 下都有短信软件和拨号软件，两者都属于软件的范畴，但是，它们所在的操作系统平台不一样，即便是同一家公司出品的软件，其代码实现逻辑也是不同的，这时候就可以考虑使用抽象工厂方法模式来产生 Android 、IOS 、Window Phone 下短信软件和拨号软件。</p>
 <h2 id="类图"><a href="#类图" class="headerlink" title="类图"></a>类图</h2><p><img src="https://raw.githubusercontent.com/zhangmiaocc/blogImageResource/master/img/20190913145715.png" alt></p>
@@ -519,7 +519,7 @@ var _hmt = _hmt || [];
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://zhangmiao.cc/posts/1ef33906.html" title="设计模式五之抽象工厂模式">https://zhangmiao.cc/posts/1ef33906.html</a>
+    <a href="http://yoursite.com/posts/1ef33906.html" title="设计模式五之抽象工厂模式">http://yoursite.com/posts/1ef33906.html</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -818,7 +818,7 @@ var _hmt = _hmt || [];
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2023</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2024</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
@@ -997,7 +997,7 @@ var _hmt = _hmt || [];
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'https://zhangmiao.cc/posts/1ef33906.html';
+          this.page.url = 'http://yoursite.com/posts/1ef33906.html';
           this.page.identifier = 'posts/1ef33906.html';
           this.page.title = '设计模式五之抽象工厂模式';
         };
