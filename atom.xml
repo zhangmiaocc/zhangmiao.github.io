@@ -5,9 +5,9 @@
   <subtitle>select * from learn</subtitle>
   <link href="/atom.xml" rel="self"/>
   
-  <link href="http://yoursite.com/"/>
+  <link href="https://zhangmiao.github.io/"/>
   <updated>2023-08-09T08:43:57.382Z</updated>
-  <id>http://yoursite.com/</id>
+  <id>https://zhangmiao.github.io/</id>
   
   <author>
     <name>ZhangMiao</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>Flutter Web加载慢问题优化和解决方案</title>
-    <link href="http://yoursite.com/posts/eea7bb08.html"/>
-    <id>http://yoursite.com/posts/eea7bb08.html</id>
+    <link href="https://zhangmiao.github.io/posts/eea7bb08.html"/>
+    <id>https://zhangmiao.github.io/posts/eea7bb08.html</id>
     <published>2023-08-09T07:34:32.000Z</published>
     <updated>2023-08-09T08:43:57.382Z</updated>
     
@@ -37,21 +37,21 @@
     
     </summary>
     
-      <category term="Android" scheme="http://yoursite.com/categories/Android/"/>
+      <category term="Android" scheme="https://zhangmiao.github.io/categories/Android/"/>
     
-      <category term="Flutter" scheme="http://yoursite.com/categories/Android/Flutter/"/>
+      <category term="Flutter" scheme="https://zhangmiao.github.io/categories/Android/Flutter/"/>
     
     
-      <category term="Android" scheme="http://yoursite.com/tags/Android/"/>
+      <category term="Android" scheme="https://zhangmiao.github.io/tags/Android/"/>
     
-      <category term="Flutter" scheme="http://yoursite.com/tags/Flutter/"/>
+      <category term="Flutter" scheme="https://zhangmiao.github.io/tags/Flutter/"/>
     
   </entry>
   
   <entry>
     <title>Flutter状态管理Provider和Get分析</title>
-    <link href="http://yoursite.com/posts/7ff52b5f.html"/>
-    <id>http://yoursite.com/posts/7ff52b5f.html</id>
+    <link href="https://zhangmiao.github.io/posts/7ff52b5f.html"/>
+    <id>https://zhangmiao.github.io/posts/7ff52b5f.html</id>
     <published>2022-06-27T02:46:30.000Z</published>
     <updated>2022-06-27T02:54:51.119Z</updated>
     
@@ -67,21 +67,21 @@
     
     </summary>
     
-      <category term="Android" scheme="http://yoursite.com/categories/Android/"/>
+      <category term="Android" scheme="https://zhangmiao.github.io/categories/Android/"/>
     
-      <category term="Flutter Tips" scheme="http://yoursite.com/categories/Android/Flutter-Tips/"/>
+      <category term="Flutter Tips" scheme="https://zhangmiao.github.io/categories/Android/Flutter-Tips/"/>
     
     
-      <category term="Android" scheme="http://yoursite.com/tags/Android/"/>
+      <category term="Android" scheme="https://zhangmiao.github.io/tags/Android/"/>
     
-      <category term="Flutter Tips" scheme="http://yoursite.com/tags/Flutter-Tips/"/>
+      <category term="Flutter Tips" scheme="https://zhangmiao.github.io/tags/Flutter-Tips/"/>
     
   </entry>
   
   <entry>
     <title>FlutterAPP生命周期监听</title>
-    <link href="http://yoursite.com/posts/b07d1684.html"/>
-    <id>http://yoursite.com/posts/b07d1684.html</id>
+    <link href="https://zhangmiao.github.io/posts/b07d1684.html"/>
+    <id>https://zhangmiao.github.io/posts/b07d1684.html</id>
     <published>2022-06-20T05:56:43.000Z</published>
     <updated>2022-06-20T06:03:03.870Z</updated>
     
@@ -98,21 +98,21 @@
     
     </summary>
     
-      <category term="Android" scheme="http://yoursite.com/categories/Android/"/>
+      <category term="Android" scheme="https://zhangmiao.github.io/categories/Android/"/>
     
-      <category term="Flutter Tips" scheme="http://yoursite.com/categories/Android/Flutter-Tips/"/>
+      <category term="Flutter Tips" scheme="https://zhangmiao.github.io/categories/Android/Flutter-Tips/"/>
     
     
-      <category term="Android" scheme="http://yoursite.com/tags/Android/"/>
+      <category term="Android" scheme="https://zhangmiao.github.io/tags/Android/"/>
     
-      <category term="Flutter Tips" scheme="http://yoursite.com/tags/Flutter-Tips/"/>
+      <category term="Flutter Tips" scheme="https://zhangmiao.github.io/tags/Flutter-Tips/"/>
     
   </entry>
   
   <entry>
     <title>Flutter升级到指定版本</title>
-    <link href="http://yoursite.com/posts/7a75b9fc.html"/>
-    <id>http://yoursite.com/posts/7a75b9fc.html</id>
+    <link href="https://zhangmiao.github.io/posts/7a75b9fc.html"/>
+    <id>https://zhangmiao.github.io/posts/7a75b9fc.html</id>
     <published>2022-05-26T02:26:06.000Z</published>
     <updated>2022-05-26T02:27:19.307Z</updated>
     
@@ -128,21 +128,21 @@
     
     </summary>
     
-      <category term="Android" scheme="http://yoursite.com/categories/Android/"/>
+      <category term="Android" scheme="https://zhangmiao.github.io/categories/Android/"/>
     
-      <category term="Flutter Tips" scheme="http://yoursite.com/categories/Android/Flutter-Tips/"/>
+      <category term="Flutter Tips" scheme="https://zhangmiao.github.io/categories/Android/Flutter-Tips/"/>
     
     
-      <category term="Android" scheme="http://yoursite.com/tags/Android/"/>
+      <category term="Android" scheme="https://zhangmiao.github.io/tags/Android/"/>
     
-      <category term="Flutter Tips" scheme="http://yoursite.com/tags/Flutter-Tips/"/>
+      <category term="Flutter Tips" scheme="https://zhangmiao.github.io/tags/Flutter-Tips/"/>
     
   </entry>
   
   <entry>
     <title>Flutter3.0 重磅发布</title>
-    <link href="http://yoursite.com/posts/216218f9.html"/>
-    <id>http://yoursite.com/posts/216218f9.html</id>
+    <link href="https://zhangmiao.github.io/posts/216218f9.html"/>
+    <id>https://zhangmiao.github.io/posts/216218f9.html</id>
     <published>2022-05-26T02:12:56.000Z</published>
     <updated>2022-05-26T02:21:25.081Z</updated>
     
@@ -166,21 +166,21 @@
     
     </summary>
     
-      <category term="Android" scheme="http://yoursite.com/categories/Android/"/>
+      <category term="Android" scheme="https://zhangmiao.github.io/categories/Android/"/>
     
-      <category term="Flutter Tips" scheme="http://yoursite.com/categories/Android/Flutter-Tips/"/>
+      <category term="Flutter Tips" scheme="https://zhangmiao.github.io/categories/Android/Flutter-Tips/"/>
     
     
-      <category term="Android" scheme="http://yoursite.com/tags/Android/"/>
+      <category term="Android" scheme="https://zhangmiao.github.io/tags/Android/"/>
     
-      <category term="Flutter Tips" scheme="http://yoursite.com/tags/Flutter-Tips/"/>
+      <category term="Flutter Tips" scheme="https://zhangmiao.github.io/tags/Flutter-Tips/"/>
     
   </entry>
   
   <entry>
     <title>Flutter混合开发组件化架构</title>
-    <link href="http://yoursite.com/posts/187f2070.html"/>
-    <id>http://yoursite.com/posts/187f2070.html</id>
+    <link href="https://zhangmiao.github.io/posts/187f2070.html"/>
+    <id>https://zhangmiao.github.io/posts/187f2070.html</id>
     <published>2022-01-24T07:39:53.000Z</published>
     <updated>2022-01-24T08:05:41.069Z</updated>
     
@@ -205,21 +205,21 @@
     
     </summary>
     
-      <category term="Android" scheme="http://yoursite.com/categories/Android/"/>
+      <category term="Android" scheme="https://zhangmiao.github.io/categories/Android/"/>
     
-      <category term="Flutter" scheme="http://yoursite.com/categories/Android/Flutter/"/>
+      <category term="Flutter" scheme="https://zhangmiao.github.io/categories/Android/Flutter/"/>
     
     
-      <category term="Android" scheme="http://yoursite.com/tags/Android/"/>
+      <category term="Android" scheme="https://zhangmiao.github.io/tags/Android/"/>
     
-      <category term="Flutter" scheme="http://yoursite.com/tags/Flutter/"/>
+      <category term="Flutter" scheme="https://zhangmiao.github.io/tags/Flutter/"/>
     
   </entry>
   
   <entry>
     <title>【新技术】又双叒叕来了系列三</title>
-    <link href="http://yoursite.com/posts/477750ac.html"/>
-    <id>http://yoursite.com/posts/477750ac.html</id>
+    <link href="https://zhangmiao.github.io/posts/477750ac.html"/>
+    <id>https://zhangmiao.github.io/posts/477750ac.html</id>
     <published>2022-01-12T05:36:43.000Z</published>
     <updated>2022-01-12T06:07:59.155Z</updated>
     
@@ -238,19 +238,19 @@
     
     </summary>
     
-      <category term="新技术" scheme="http://yoursite.com/categories/%E6%96%B0%E6%8A%80%E6%9C%AF/"/>
+      <category term="新技术" scheme="https://zhangmiao.github.io/categories/%E6%96%B0%E6%8A%80%E6%9C%AF/"/>
     
     
-      <category term="新技术" scheme="http://yoursite.com/tags/%E6%96%B0%E6%8A%80%E6%9C%AF/"/>
+      <category term="新技术" scheme="https://zhangmiao.github.io/tags/%E6%96%B0%E6%8A%80%E6%9C%AF/"/>
     
-      <category term="大厂对外分享" scheme="http://yoursite.com/tags/%E5%A4%A7%E5%8E%82%E5%AF%B9%E5%A4%96%E5%88%86%E4%BA%AB/"/>
+      <category term="大厂对外分享" scheme="https://zhangmiao.github.io/tags/%E5%A4%A7%E5%8E%82%E5%AF%B9%E5%A4%96%E5%88%86%E4%BA%AB/"/>
     
   </entry>
   
   <entry>
     <title>【新技术】又双叒叕来了系列二</title>
-    <link href="http://yoursite.com/posts/2e3f2830.html"/>
-    <id>http://yoursite.com/posts/2e3f2830.html</id>
+    <link href="https://zhangmiao.github.io/posts/2e3f2830.html"/>
+    <id>https://zhangmiao.github.io/posts/2e3f2830.html</id>
     <published>2022-01-11T02:09:05.000Z</published>
     <updated>2022-01-12T05:49:35.809Z</updated>
     
@@ -265,19 +265,19 @@
     
     </summary>
     
-      <category term="新技术" scheme="http://yoursite.com/categories/%E6%96%B0%E6%8A%80%E6%9C%AF/"/>
+      <category term="新技术" scheme="https://zhangmiao.github.io/categories/%E6%96%B0%E6%8A%80%E6%9C%AF/"/>
     
     
-      <category term="新技术" scheme="http://yoursite.com/tags/%E6%96%B0%E6%8A%80%E6%9C%AF/"/>
+      <category term="新技术" scheme="https://zhangmiao.github.io/tags/%E6%96%B0%E6%8A%80%E6%9C%AF/"/>
     
-      <category term="大厂对外分享" scheme="http://yoursite.com/tags/%E5%A4%A7%E5%8E%82%E5%AF%B9%E5%A4%96%E5%88%86%E4%BA%AB/"/>
+      <category term="大厂对外分享" scheme="https://zhangmiao.github.io/tags/%E5%A4%A7%E5%8E%82%E5%AF%B9%E5%A4%96%E5%88%86%E4%BA%AB/"/>
     
   </entry>
   
   <entry>
     <title>【新技术】又双叒叕来了系列一</title>
-    <link href="http://yoursite.com/posts/3eabe808.html"/>
-    <id>http://yoursite.com/posts/3eabe808.html</id>
+    <link href="https://zhangmiao.github.io/posts/3eabe808.html"/>
+    <id>https://zhangmiao.github.io/posts/3eabe808.html</id>
     <published>2022-01-10T03:22:32.000Z</published>
     <updated>2022-01-10T03:45:56.890Z</updated>
     
@@ -295,19 +295,19 @@
     
     </summary>
     
-      <category term="新技术" scheme="http://yoursite.com/categories/%E6%96%B0%E6%8A%80%E6%9C%AF/"/>
+      <category term="新技术" scheme="https://zhangmiao.github.io/categories/%E6%96%B0%E6%8A%80%E6%9C%AF/"/>
     
     
-      <category term="新技术" scheme="http://yoursite.com/tags/%E6%96%B0%E6%8A%80%E6%9C%AF/"/>
+      <category term="新技术" scheme="https://zhangmiao.github.io/tags/%E6%96%B0%E6%8A%80%E6%9C%AF/"/>
     
-      <category term="大厂对外分享" scheme="http://yoursite.com/tags/%E5%A4%A7%E5%8E%82%E5%AF%B9%E5%A4%96%E5%88%86%E4%BA%AB/"/>
+      <category term="大厂对外分享" scheme="https://zhangmiao.github.io/tags/%E5%A4%A7%E5%8E%82%E5%AF%B9%E5%A4%96%E5%88%86%E4%BA%AB/"/>
     
   </entry>
   
   <entry>
     <title>《老大不小》观后感</title>
-    <link href="http://yoursite.com/posts/e984f211.html"/>
-    <id>http://yoursite.com/posts/e984f211.html</id>
+    <link href="https://zhangmiao.github.io/posts/e984f211.html"/>
+    <id>https://zhangmiao.github.io/posts/e984f211.html</id>
     <published>2022-01-01T04:01:28.000Z</published>
     <updated>2022-01-01T04:23:59.462Z</updated>
     
@@ -320,17 +320,17 @@
     
     </summary>
     
-      <category term="随笔记" scheme="http://yoursite.com/categories/%E9%9A%8F%E7%AC%94%E8%AE%B0/"/>
+      <category term="随笔记" scheme="https://zhangmiao.github.io/categories/%E9%9A%8F%E7%AC%94%E8%AE%B0/"/>
     
     
-      <category term="随笔记" scheme="http://yoursite.com/tags/%E9%9A%8F%E7%AC%94%E8%AE%B0/"/>
+      <category term="随笔记" scheme="https://zhangmiao.github.io/tags/%E9%9A%8F%E7%AC%94%E8%AE%B0/"/>
     
   </entry>
   
   <entry>
     <title>十个思维方式如何改变我的人生</title>
-    <link href="http://yoursite.com/posts/bdeaaf0.html"/>
-    <id>http://yoursite.com/posts/bdeaaf0.html</id>
+    <link href="https://zhangmiao.github.io/posts/bdeaaf0.html"/>
+    <id>https://zhangmiao.github.io/posts/bdeaaf0.html</id>
     <published>2021-12-22T09:50:39.000Z</published>
     <updated>2021-12-24T02:05:30.003Z</updated>
     
@@ -342,17 +342,17 @@
     
     </summary>
     
-      <category term="随笔记" scheme="http://yoursite.com/categories/%E9%9A%8F%E7%AC%94%E8%AE%B0/"/>
+      <category term="随笔记" scheme="https://zhangmiao.github.io/categories/%E9%9A%8F%E7%AC%94%E8%AE%B0/"/>
     
     
-      <category term="随笔记" scheme="http://yoursite.com/tags/%E9%9A%8F%E7%AC%94%E8%AE%B0/"/>
+      <category term="随笔记" scheme="https://zhangmiao.github.io/tags/%E9%9A%8F%E7%AC%94%E8%AE%B0/"/>
     
   </entry>
   
   <entry>
     <title>Flutter 2.8 发布 | 性能及工具链优化、Firebase 功能、WebView 3.0</title>
-    <link href="http://yoursite.com/posts/7916835e.html"/>
-    <id>http://yoursite.com/posts/7916835e.html</id>
+    <link href="https://zhangmiao.github.io/posts/7916835e.html"/>
+    <id>https://zhangmiao.github.io/posts/7916835e.html</id>
     <published>2021-12-13T03:16:13.000Z</published>
     <updated>2021-12-24T02:05:30.003Z</updated>
     
@@ -369,21 +369,21 @@
     
     </summary>
     
-      <category term="Android" scheme="http://yoursite.com/categories/Android/"/>
+      <category term="Android" scheme="https://zhangmiao.github.io/categories/Android/"/>
     
-      <category term="Flutter" scheme="http://yoursite.com/categories/Android/Flutter/"/>
+      <category term="Flutter" scheme="https://zhangmiao.github.io/categories/Android/Flutter/"/>
     
     
-      <category term="Android" scheme="http://yoursite.com/tags/Android/"/>
+      <category term="Android" scheme="https://zhangmiao.github.io/tags/Android/"/>
     
-      <category term="Flutter" scheme="http://yoursite.com/tags/Flutter/"/>
+      <category term="Flutter" scheme="https://zhangmiao.github.io/tags/Flutter/"/>
     
   </entry>
   
   <entry>
     <title>Jetpack Compose 入门学习</title>
-    <link href="http://yoursite.com/posts/7b2baf2a.html"/>
-    <id>http://yoursite.com/posts/7b2baf2a.html</id>
+    <link href="https://zhangmiao.github.io/posts/7b2baf2a.html"/>
+    <id>https://zhangmiao.github.io/posts/7b2baf2a.html</id>
     <published>2021-11-15T03:40:42.000Z</published>
     <updated>2021-12-24T02:05:30.003Z</updated>
     
@@ -425,21 +425,21 @@
     
     </summary>
     
-      <category term="Android" scheme="http://yoursite.com/categories/Android/"/>
+      <category term="Android" scheme="https://zhangmiao.github.io/categories/Android/"/>
     
-      <category term="Jetpack" scheme="http://yoursite.com/categories/Android/Jetpack/"/>
+      <category term="Jetpack" scheme="https://zhangmiao.github.io/categories/Android/Jetpack/"/>
     
     
-      <category term="Kotlin" scheme="http://yoursite.com/tags/Kotlin/"/>
+      <category term="Kotlin" scheme="https://zhangmiao.github.io/tags/Kotlin/"/>
     
-      <category term="Jetpack" scheme="http://yoursite.com/tags/Jetpack/"/>
+      <category term="Jetpack" scheme="https://zhangmiao.github.io/tags/Jetpack/"/>
     
   </entry>
   
   <entry>
     <title>Alfred进阶教程，自定义Workflows</title>
-    <link href="http://yoursite.com/posts/fa126efb.html"/>
-    <id>http://yoursite.com/posts/fa126efb.html</id>
+    <link href="https://zhangmiao.github.io/posts/fa126efb.html"/>
+    <id>https://zhangmiao.github.io/posts/fa126efb.html</id>
     <published>2021-11-08T08:25:42.000Z</published>
     <updated>2021-12-24T02:05:30.002Z</updated>
     
@@ -454,21 +454,21 @@
     
     </summary>
     
-      <category term="Mac" scheme="http://yoursite.com/categories/Mac/"/>
+      <category term="Mac" scheme="https://zhangmiao.github.io/categories/Mac/"/>
     
-      <category term="Alfred" scheme="http://yoursite.com/categories/Mac/Alfred/"/>
+      <category term="Alfred" scheme="https://zhangmiao.github.io/categories/Mac/Alfred/"/>
     
     
-      <category term="Mac" scheme="http://yoursite.com/tags/Mac/"/>
+      <category term="Mac" scheme="https://zhangmiao.github.io/tags/Mac/"/>
     
-      <category term="Alfred" scheme="http://yoursite.com/tags/Alfred/"/>
+      <category term="Alfred" scheme="https://zhangmiao.github.io/tags/Alfred/"/>
     
   </entry>
   
   <entry>
     <title>Mac装机必备Alfred</title>
-    <link href="http://yoursite.com/posts/d083e6c8.html"/>
-    <id>http://yoursite.com/posts/d083e6c8.html</id>
+    <link href="https://zhangmiao.github.io/posts/d083e6c8.html"/>
+    <id>https://zhangmiao.github.io/posts/d083e6c8.html</id>
     <published>2021-11-08T08:04:43.000Z</published>
     <updated>2024-08-19T08:15:42.832Z</updated>
     
@@ -480,21 +480,21 @@
     
     </summary>
     
-      <category term="Mac" scheme="http://yoursite.com/categories/Mac/"/>
+      <category term="Mac" scheme="https://zhangmiao.github.io/categories/Mac/"/>
     
-      <category term="Alfred" scheme="http://yoursite.com/categories/Mac/Alfred/"/>
+      <category term="Alfred" scheme="https://zhangmiao.github.io/categories/Mac/Alfred/"/>
     
     
-      <category term="Mac" scheme="http://yoursite.com/tags/Mac/"/>
+      <category term="Mac" scheme="https://zhangmiao.github.io/tags/Mac/"/>
     
-      <category term="Alfred" scheme="http://yoursite.com/tags/Alfred/"/>
+      <category term="Alfred" scheme="https://zhangmiao.github.io/tags/Alfred/"/>
     
   </entry>
   
   <entry>
     <title>Flutter完整学习路线解读</title>
-    <link href="http://yoursite.com/posts/829f290.html"/>
-    <id>http://yoursite.com/posts/829f290.html</id>
+    <link href="https://zhangmiao.github.io/posts/829f290.html"/>
+    <id>https://zhangmiao.github.io/posts/829f290.html</id>
     <published>2021-10-27T07:01:31.000Z</published>
     <updated>2021-12-24T02:05:30.002Z</updated>
     
@@ -508,21 +508,21 @@
     
     </summary>
     
-      <category term="Android" scheme="http://yoursite.com/categories/Android/"/>
+      <category term="Android" scheme="https://zhangmiao.github.io/categories/Android/"/>
     
-      <category term="Flutter" scheme="http://yoursite.com/categories/Android/Flutter/"/>
+      <category term="Flutter" scheme="https://zhangmiao.github.io/categories/Android/Flutter/"/>
     
     
-      <category term="Android" scheme="http://yoursite.com/tags/Android/"/>
+      <category term="Android" scheme="https://zhangmiao.github.io/tags/Android/"/>
     
-      <category term="Flutter" scheme="http://yoursite.com/tags/Flutter/"/>
+      <category term="Flutter" scheme="https://zhangmiao.github.io/tags/Flutter/"/>
     
   </entry>
   
   <entry>
     <title>Flutter如何开发web端</title>
-    <link href="http://yoursite.com/posts/b683bca5.html"/>
-    <id>http://yoursite.com/posts/b683bca5.html</id>
+    <link href="https://zhangmiao.github.io/posts/b683bca5.html"/>
+    <id>https://zhangmiao.github.io/posts/b683bca5.html</id>
     <published>2021-10-16T02:46:21.000Z</published>
     <updated>2021-12-24T02:05:30.002Z</updated>
     
@@ -540,21 +540,21 @@
     
     </summary>
     
-      <category term="Android" scheme="http://yoursite.com/categories/Android/"/>
+      <category term="Android" scheme="https://zhangmiao.github.io/categories/Android/"/>
     
-      <category term="Flutter" scheme="http://yoursite.com/categories/Android/Flutter/"/>
+      <category term="Flutter" scheme="https://zhangmiao.github.io/categories/Android/Flutter/"/>
     
     
-      <category term="Android" scheme="http://yoursite.com/tags/Android/"/>
+      <category term="Android" scheme="https://zhangmiao.github.io/tags/Android/"/>
     
-      <category term="Flutter" scheme="http://yoursite.com/tags/Flutter/"/>
+      <category term="Flutter" scheme="https://zhangmiao.github.io/tags/Flutter/"/>
     
   </entry>
   
   <entry>
     <title>Flutter cached_network_image 图片加载流程分析</title>
-    <link href="http://yoursite.com/posts/a931c363.html"/>
-    <id>http://yoursite.com/posts/a931c363.html</id>
+    <link href="https://zhangmiao.github.io/posts/a931c363.html"/>
+    <id>https://zhangmiao.github.io/posts/a931c363.html</id>
     <published>2021-09-28T09:14:46.000Z</published>
     <updated>2021-12-24T02:05:30.002Z</updated>
     
@@ -578,21 +578,21 @@
     
     </summary>
     
-      <category term="Android" scheme="http://yoursite.com/categories/Android/"/>
+      <category term="Android" scheme="https://zhangmiao.github.io/categories/Android/"/>
     
-      <category term="Flutter" scheme="http://yoursite.com/categories/Android/Flutter/"/>
+      <category term="Flutter" scheme="https://zhangmiao.github.io/categories/Android/Flutter/"/>
     
     
-      <category term="Android" scheme="http://yoursite.com/tags/Android/"/>
+      <category term="Android" scheme="https://zhangmiao.github.io/tags/Android/"/>
     
-      <category term="Flutter" scheme="http://yoursite.com/tags/Flutter/"/>
+      <category term="Flutter" scheme="https://zhangmiao.github.io/tags/Flutter/"/>
     
   </entry>
   
   <entry>
     <title>北京环球影城游玩攻略</title>
-    <link href="http://yoursite.com/posts/cf2918cf.html"/>
-    <id>http://yoursite.com/posts/cf2918cf.html</id>
+    <link href="https://zhangmiao.github.io/posts/cf2918cf.html"/>
+    <id>https://zhangmiao.github.io/posts/cf2918cf.html</id>
     <published>2021-09-23T02:13:35.000Z</published>
     <updated>2022-07-26T08:05:58.376Z</updated>
     
@@ -604,17 +604,17 @@
     
     </summary>
     
-      <category term="随笔记" scheme="http://yoursite.com/categories/%E9%9A%8F%E7%AC%94%E8%AE%B0/"/>
+      <category term="随笔记" scheme="https://zhangmiao.github.io/categories/%E9%9A%8F%E7%AC%94%E8%AE%B0/"/>
     
     
-      <category term="随笔记" scheme="http://yoursite.com/tags/%E9%9A%8F%E7%AC%94%E8%AE%B0/"/>
+      <category term="随笔记" scheme="https://zhangmiao.github.io/tags/%E9%9A%8F%E7%AC%94%E8%AE%B0/"/>
     
   </entry>
   
   <entry>
     <title>《批判性思维》随笔记</title>
-    <link href="http://yoursite.com/posts/7bd80167.html"/>
-    <id>http://yoursite.com/posts/7bd80167.html</id>
+    <link href="https://zhangmiao.github.io/posts/7bd80167.html"/>
+    <id>https://zhangmiao.github.io/posts/7bd80167.html</id>
     <published>2021-09-11T02:48:07.000Z</published>
     <updated>2021-12-24T02:05:30.001Z</updated>
     
@@ -629,10 +629,10 @@
     
     </summary>
     
-      <category term="随笔记" scheme="http://yoursite.com/categories/%E9%9A%8F%E7%AC%94%E8%AE%B0/"/>
+      <category term="随笔记" scheme="https://zhangmiao.github.io/categories/%E9%9A%8F%E7%AC%94%E8%AE%B0/"/>
     
     
-      <category term="随笔记" scheme="http://yoursite.com/tags/%E9%9A%8F%E7%AC%94%E8%AE%B0/"/>
+      <category term="随笔记" scheme="https://zhangmiao.github.io/tags/%E9%9A%8F%E7%AC%94%E8%AE%B0/"/>
     
   </entry>
   

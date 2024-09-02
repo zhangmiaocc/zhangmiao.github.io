@@ -3099,9 +3099,9 @@
       <tags>
         <tag>Android</tag>
         <tag>Android Tips</tag>
-        <tag>.so文件</tag>
         <tag>ABI</tag>
         <tag>CPU</tag>
+        <tag>.so文件</tag>
       </tags>
   </entry>
   <entry>
@@ -4218,8 +4218,8 @@
       </categories>
       <tags>
         <tag>Android</tag>
-        <tag>XBus</tag>
         <tag>EventBus</tag>
+        <tag>XBus</tag>
       </tags>
   </entry>
   <entry>
@@ -4794,8 +4794,8 @@
       </categories>
       <tags>
         <tag>Android</tag>
-        <tag>代码片段</tag>
         <tag>Java</tag>
+        <tag>代码片段</tag>
       </tags>
   </entry>
   <entry>
