@@ -307,6 +307,192 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhangmiao.space/posts/97bcffb.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZhangMiao">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zm.blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/posts/97bcffb.html" itemprop="url">Flutter - 监视页面的切换(RouteObserver & RouteAware)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-08-10T10:49:37+08:00">
+                2020-08-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/Flutter-Tips/" itemprop="url" rel="index">
+                    <span itemprop="name">Flutter Tips</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/posts/97bcffb.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="posts/97bcffb.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/posts/97bcffb.html" class="leancloud_visitors" data-flag-title="Flutter - 监视页面的切换(RouteObserver & RouteAware)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>经常性的，我们需要监视页面的切换，用以在合适的时候对控件进行动画暂停或者资源释放。</p>
+<p>举个栗子：<br>相机拍照是我们需要经常用到的功能，但是当我们在切换到相机配置页面时，需要暂停当前相机预览，这种情况下我们就需要监视页面的路由变化情况，又或者用户回到应用桌面，此时也需要对相机进行暂停，返回又恢复相机。</p>
+<p>在这里主要关系到下面两个方面的：</p>
+<ol>
+<li>AppStateLifeRecycle - 今天我们不说这个；</li>
+<li>RouteAware</li>
+</ol>
+<p>先看看RouteAware是如何定义的？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">/// An interface for objects that are aware of their current [Route].</span><br><span class="line">///</span><br><span class="line">/// This is used with [RouteObserver] to make a widget aware of changes to the</span><br><span class="line">/// [Navigator]&apos;s session history.</span><br><span class="line">abstract class RouteAware &#123;</span><br><span class="line">  /// Called when the top route has been popped off, and the current route</span><br><span class="line">  /// shows up.</span><br><span class="line">  void didPopNext() &#123; &#125;</span><br><span class="line"> </span><br><span class="line">  /// Called when the current route has been pushed.</span><br><span class="line">  void didPush() &#123; &#125;</span><br><span class="line"> </span><br><span class="line">  /// Called when the current route has been popped off.</span><br><span class="line">  void didPop() &#123; &#125;</span><br><span class="line"> </span><br><span class="line">  /// Called when a new route has been pushed, and the current route is no</span><br><span class="line">  /// longer visible.</span><br><span class="line">  void didPushNext() &#123; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/posts/97bcffb.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://zhangmiao.space/posts/dd9d0434.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1972,186 +2158,6 @@ var _hmt = _hmt || [];
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.space/posts/251aa72f.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="ZhangMiao">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="zm.blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/posts/251aa72f.html" itemprop="url">Flutter自定义TabBar</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-14T11:07:37+08:00">
-                2020-03-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android/" itemprop="url" rel="index">
-                    <span itemprop="name">Android</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android/Flutter-Tips/" itemprop="url" rel="index">
-                    <span itemprop="name">Flutter Tips</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/posts/251aa72f.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="posts/251aa72f.html" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/posts/251aa72f.html" class="leancloud_visitors" data-flag-title="Flutter自定义TabBar">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h3 id="custom-tabbar-dart"><a href="#custom-tabbar-dart" class="headerlink" title="custom_tabbar.dart"></a>custom_tabbar.dart</h3><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'package:ajbaby/res/colors.dart'</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// ignore: must_be_immutable</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CustomTabBar</span> <span class="keyword">extends</span> <span class="title">StatefulWidget</span> <span class="keyword">implements</span> <span class="title">PreferredSizeWidget</span> </span>&#123;</span><br><span class="line">  Color containerBgColor;</span><br><span class="line">  Color labelColor;</span><br><span class="line">  Color unselectedLabelColor;</span><br><span class="line">  Color indicatorColor;</span><br><span class="line">  TabController tabController;</span><br><span class="line">  <span class="built_in">List</span>&lt;Widget&gt; tabsList = <span class="keyword">new</span> <span class="built_in">List</span>&lt;Widget&gt;();</span><br><span class="line">  <span class="built_in">List</span>&lt;Widget&gt; tabBarViewsList = <span class="keyword">new</span> <span class="built_in">List</span>&lt;Widget&gt;();</span><br><span class="line"></span><br><span class="line">  <span class="comment">// @required声明必传参数</span></span><br><span class="line">  CustomTabBar(&#123;</span><br><span class="line">    Key key,</span><br><span class="line">    <span class="meta">@required</span> <span class="keyword">this</span>.tabsList,</span><br><span class="line">    <span class="meta">@required</span> <span class="keyword">this</span>.tabBarViewsList,</span><br><span class="line">    <span class="meta">@required</span> <span class="keyword">this</span>.tabController,</span><br><span class="line">    <span class="keyword">this</span>.containerBgColor = YColors.color_FFFFFF,</span><br><span class="line">    <span class="keyword">this</span>.labelColor = YColors.color_FF5F6D,</span><br><span class="line">    <span class="keyword">this</span>.unselectedLabelColor = YColors.color_858585,</span><br><span class="line">    <span class="keyword">this</span>.indicatorColor = YColors.color_FF5F6D,</span><br><span class="line">  &#125;) : <span class="keyword">super</span>(key: key);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  _CustomTabBarState createState() &#123;</span><br><span class="line">    <span class="keyword">return</span> _CustomTabBarState();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  <span class="comment">// <span class="doctag">TODO:</span> implement preferredSize</span></span><br><span class="line">  Size <span class="keyword">get</span> preferredSize =&gt; <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">_CustomTabBarState</span> <span class="keyword">extends</span> <span class="title">State</span>&lt;<span class="title">CustomTabBar</span>&gt; <span class="title">with</span> <span class="title">AutomaticKeepAliveClientMixin</span> </span>&#123;</span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  <span class="keyword">void</span> initState() &#123;</span><br><span class="line">    <span class="keyword">super</span>.initState();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  <span class="keyword">void</span> dispose() &#123;</span><br><span class="line">    <span class="keyword">super</span>.dispose();</span><br><span class="line"><span class="comment">//    widget.tabController.dispose();</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  Widget build(BuildContext context) &#123;</span><br><span class="line">    <span class="keyword">super</span>.build(context);</span><br><span class="line">    <span class="keyword">return</span> Scaffold(</span><br><span class="line">      appBar: PreferredSize(</span><br><span class="line">          child: Container(</span><br><span class="line">            color: widget.containerBgColor,</span><br><span class="line">            child: TabBar(</span><br><span class="line">              isScrollable: <span class="keyword">true</span>,</span><br><span class="line">              controller: widget.tabController,</span><br><span class="line">              tabs: widget.tabsList,</span><br><span class="line">              labelColor: widget.labelColor,</span><br><span class="line">              unselectedLabelColor: widget.unselectedLabelColor,</span><br><span class="line">              indicatorColor: widget.indicatorColor,</span><br><span class="line">            ),</span><br><span class="line">          ),</span><br><span class="line">          preferredSize: Size.fromHeight(kToolbarHeight)),</span><br><span class="line">      body: TabBarView(</span><br><span class="line">        controller: widget.tabController,</span><br><span class="line">        children: widget.tabBarViewsList,</span><br><span class="line">      ),</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  <span class="comment">// <span class="doctag">TODO:</span> implement wantKeepAlive</span></span><br><span class="line">  <span class="built_in">bool</span> <span class="keyword">get</span> wantKeepAlive =&gt; <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">body: CustomTabBar(</span><br><span class="line">  tabsList: _tabsList,</span><br><span class="line">  tabBarViewsList: _tabBarViewsList,</span><br><span class="line">  tabController: _tabController,</span><br><span class="line">),</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/posts/251aa72f.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2204,7 +2210,7 @@ var _hmt = _hmt || [];
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">378</span>
+                  <span class="site-state-item-count">379</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

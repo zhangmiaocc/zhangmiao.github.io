@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[小程序快应用配置发版]]></title>
+    <url>%2Fposts%2F685b431a.html</url>
+    <content type="text"><![CDATA[H5相关sdk: 3.13.6尝试将flutter sdk升级为3.16.9，很多低端机型都不兼容，暂时不要升级sdk相关issue: https://github.com/flutter/r/flutter/r/issues/134317 修改h5内版本号（注：无特殊情况一般不修改，与app某一个版本一致即可）：在TokenManager的versionName写死壳工程修改app.js/ux中的 webVersionCode 设置正式测试本地环境在mini_app_utils文件中修改isProduction变量在mini_app_utils中修改isLocal变量 设置h5地址后缀在index.html文件中修改href（如版本号为1.0.0） 抖音小程序：/tt_1.0.0 或 /tt_html_1.0.0微信小程序：/wx_1.0.0 或 /wx_html_1.0.0快应用：/quick_html_1.0.0每一个小程序平台访问的路径都不一样，每一个版本的都路径也都不一样，每次都需要重新配置新的版本路径和上传到机器的文件名要对上。 打包html版本：（注：html需添加–no-tree-shake-icons，否则h5中的webview无法访问） flutter build web –web-rendererhtml–dartdefine=BROWSER IMAGE DECODING ENABLED=false –release –no-tree-shake-icons canvaskit版本:flutter build web –web-renderer canvaskit –dart-define=BROWSER IMAGE DECODING ENABLED=false –release 部署相关机器配置修改打出来的包的文件名：（注：文件名为我之前在配置文件中配置的，可以按这个格式来）novel-程序类型-渲染类型-版本号（渲染类型为canvaskit则无需写此项）如版本号为1.0.0抖音小程序：novel-mini-tt-1.0.0 或 novel-mini-tt-html-1.0.0微信小程序：novel-mini-wx-1.0.0快应用：novel-quick-html-1.0.0测试环境在tt位置前加test：如 novel-mini-test-tt-1.0.0 或 novel-test-quick-html-1.0.0右键文件压缩为zip文件 小程序/快应用相关修改版本号：小程序： 在项目的app.js文件的globalData中修改versionCode 同时上传时填入 快应用：在项目的manifest.json中修改 设置正式测试环境：在项目的app.js/ux文件的globalData中修改 打包上传这个比较简单，在对应小程序/快应用的编译工具中点击打包或上传即可 微信/抖音小程序：点击上传后输入月app.js中versionCode一致的版本号即可 快应用：点击打包，打正式包，导出rpk文件即可]]></content>
+      <categories>
+        <category>Android</category>
+        <category>Flutter</category>
+      </categories>
+      <tags>
+        <tag>Android</tag>
+        <tag>Flutter</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[小程序快应用开发说明]]></title>
     <url>%2Fposts%2F2d76d64b.html</url>
     <content type="text"><![CDATA[需分别下载：抖音开发工具，微信开发工具，快应用开发工具 一般开发流程1. 电脑安装nginx配置nginx文件，将默认打包后的web包地址配置为对应小程序/快应用的路径，这样打包后reload即可直接访问终端直接执行nginx -s reload 2. 修改项目本地地址修改项目mini_app_utils文件中 localWebUrl地址前缀为自己电脑网络地址，设置isLocal为true 3. 修改壳工程项目本地地址在app.js/app.ux文件中的gloabalData的isLocal字段，以及对应的webUrl改为自己电脑本地地址，需与对应的h5同步 4. 小程序开发工具，编译或调试，即可运行项目关于调试各个小程序的调试界面都可以看到壳工程的日志，抖音小程序/快应用不支持查看h5内的日志，微信小程序可以支持，但是只能在模拟器上看，并且如果是报错的日志并不会打印出真实的栈帧，而是生成js文件后的具体行数，变量名也被混淆，基本无法找到具体问题。 如果想要开发查看日志，则必须电脑运行浏览器，并且将真实的链接参数赋值给浏览器，一般比较大的需求开发都使用此种模式，尤其是不涉及到壳代码，纯flutter的需求的时候，因为浏览器的环境与小程序的agent不同，在代码的环境判断的时候可能与小程序/快应用有差异，这点需要注意，浏览器的枚举type为none。 运行项目从浏览器复制到具体的本地url地址 修改main.dart的replace地址，写上刚才复制的地址 运行对应的小程序/快应用，从小程序开发工具的调试日志中拿到具体的url拼接参数，复制?后面的内容粘贴到刚刚运行的浏览器中 重新运行即可正常调试 关键特性说明小程序：因为交互功能被限制。交互主要采用hash传参，在url后面通过#拼接参数来实现url刷新，但是url必须是一个固定的地址，后面不能拼接参数，也不能有路由名。所以小程序内的h5首次进来后需要把url后面拼过来的参数先保存到本地，然后重新reload，变成一个没有参数拼接的纯净的url。同时也不能存在路由栈，跳转新页面时url后面不会跟具体的pageName，所以物理返回键会直接退出小程序。 快应用：因为快应用允许交互，所以可以正常交互，可以有路由。 两个utils封装了小程序和快应用相关内容。]]></content>
@@ -1139,8 +1152,8 @@
       </categories>
       <tags>
         <tag>Android</tag>
-        <tag>Java</tag>
         <tag>设计模式</tag>
+        <tag>Java</tag>
         <tag>桥接模式</tag>
       </tags>
   </entry>
@@ -1154,8 +1167,8 @@
       </categories>
       <tags>
         <tag>Android</tag>
-        <tag>Java</tag>
         <tag>设计模式</tag>
+        <tag>Java</tag>
         <tag>外观模式</tag>
       </tags>
   </entry>
@@ -1169,8 +1182,8 @@
       </categories>
       <tags>
         <tag>Android</tag>
-        <tag>Java</tag>
         <tag>设计模式</tag>
+        <tag>Java</tag>
         <tag>享元模式</tag>
       </tags>
   </entry>
@@ -1184,8 +1197,8 @@
       </categories>
       <tags>
         <tag>Android</tag>
-        <tag>Java</tag>
         <tag>设计模式</tag>
+        <tag>Java</tag>
         <tag>装饰模式</tag>
       </tags>
   </entry>
@@ -1199,8 +1212,8 @@
       </categories>
       <tags>
         <tag>Android</tag>
-        <tag>Java</tag>
         <tag>设计模式</tag>
+        <tag>Java</tag>
         <tag>适配器模式</tag>
       </tags>
   </entry>
@@ -1214,8 +1227,8 @@
       </categories>
       <tags>
         <tag>Android</tag>
-        <tag>Java</tag>
         <tag>设计模式</tag>
+        <tag>Java</tag>
         <tag>组合模式</tag>
       </tags>
   </entry>
@@ -1229,8 +1242,8 @@
       </categories>
       <tags>
         <tag>Android</tag>
-        <tag>Java</tag>
         <tag>设计模式</tag>
+        <tag>Java</tag>
         <tag>代理模式</tag>
       </tags>
   </entry>
@@ -1244,8 +1257,8 @@
       </categories>
       <tags>
         <tag>Android</tag>
-        <tag>Java</tag>
         <tag>设计模式</tag>
+        <tag>Java</tag>
         <tag>中介者模式</tag>
       </tags>
   </entry>
@@ -1259,8 +1272,8 @@
       </categories>
       <tags>
         <tag>Android</tag>
-        <tag>Java</tag>
         <tag>设计模式</tag>
+        <tag>Java</tag>
         <tag>访问者模式</tag>
       </tags>
   </entry>
@@ -1274,8 +1287,8 @@
       </categories>
       <tags>
         <tag>Android</tag>
-        <tag>Java</tag>
         <tag>设计模式</tag>
+        <tag>Java</tag>
         <tag>模板方法模式</tag>
       </tags>
   </entry>
@@ -1289,8 +1302,8 @@
       </categories>
       <tags>
         <tag>Android</tag>
-        <tag>Java</tag>
         <tag>设计模式</tag>
+        <tag>Java</tag>
         <tag>迭代器模式</tag>
       </tags>
   </entry>
@@ -1304,8 +1317,8 @@
       </categories>
       <tags>
         <tag>Android</tag>
-        <tag>Java</tag>
         <tag>设计模式</tag>
+        <tag>Java</tag>
         <tag>备忘录模式</tag>
       </tags>
   </entry>
@@ -1319,8 +1332,8 @@
       </categories>
       <tags>
         <tag>Android</tag>
-        <tag>Java</tag>
         <tag>设计模式</tag>
+        <tag>Java</tag>
         <tag>观察者模式</tag>
       </tags>
   </entry>
@@ -1334,8 +1347,8 @@
       </categories>
       <tags>
         <tag>Android</tag>
-        <tag>Java</tag>
         <tag>设计模式</tag>
+        <tag>Java</tag>
         <tag>责任链模式</tag>
       </tags>
   </entry>
@@ -1349,8 +1362,8 @@
       </categories>
       <tags>
         <tag>Android</tag>
-        <tag>Java</tag>
         <tag>设计模式</tag>
+        <tag>Java</tag>
         <tag>状态模式</tag>
       </tags>
   </entry>
@@ -1364,8 +1377,8 @@
       </categories>
       <tags>
         <tag>Android</tag>
-        <tag>Java</tag>
         <tag>设计模式</tag>
+        <tag>Java</tag>
         <tag>策略模式</tag>
       </tags>
   </entry>
@@ -1379,8 +1392,8 @@
       </categories>
       <tags>
         <tag>Android</tag>
-        <tag>Java</tag>
         <tag>设计模式</tag>
+        <tag>Java</tag>
         <tag>抽象工厂模式</tag>
       </tags>
   </entry>
@@ -1394,8 +1407,8 @@
       </categories>
       <tags>
         <tag>Android</tag>
-        <tag>Java</tag>
         <tag>设计模式</tag>
+        <tag>Java</tag>
         <tag>工厂方法模式</tag>
       </tags>
   </entry>
@@ -1409,8 +1422,8 @@
       </categories>
       <tags>
         <tag>Android</tag>
-        <tag>Java</tag>
         <tag>设计模式</tag>
+        <tag>Java</tag>
         <tag>原型模式</tag>
       </tags>
   </entry>
@@ -1424,8 +1437,8 @@
       </categories>
       <tags>
         <tag>Android</tag>
-        <tag>Java</tag>
         <tag>设计模式</tag>
+        <tag>Java</tag>
         <tag>建造者模式</tag>
       </tags>
   </entry>
@@ -1439,8 +1452,8 @@
       </categories>
       <tags>
         <tag>Android</tag>
-        <tag>Java</tag>
         <tag>设计模式</tag>
+        <tag>Java</tag>
         <tag>单列模式</tag>
       </tags>
   </entry>
@@ -1454,8 +1467,8 @@
       </categories>
       <tags>
         <tag>Android</tag>
-        <tag>Java</tag>
         <tag>设计模式</tag>
+        <tag>Java</tag>
         <tag>六大原则</tag>
       </tags>
   </entry>
@@ -1586,8 +1599,8 @@
       </categories>
       <tags>
         <tag>Hexo</tag>
-        <tag>建站</tag>
         <tag>博客</tag>
+        <tag>建站</tag>
       </tags>
   </entry>
   <entry>
@@ -3432,8 +3445,8 @@
       </categories>
       <tags>
         <tag>Android</tag>
-        <tag>Java</tag>
         <tag>设计模式</tag>
+        <tag>Java</tag>
       </tags>
   </entry>
   <entry>
@@ -3473,8 +3486,8 @@
       </categories>
       <tags>
         <tag>Mac</tag>
-        <tag>工具</tag>
         <tag>iTerm2</tag>
+        <tag>工具</tag>
       </tags>
   </entry>
   <entry>
@@ -3536,8 +3549,8 @@
       </categories>
       <tags>
         <tag>Hexo</tag>
-        <tag>建站</tag>
         <tag>博客</tag>
+        <tag>建站</tag>
       </tags>
   </entry>
   <entry>
@@ -3873,8 +3886,8 @@
         <category>设计模式</category>
       </categories>
       <tags>
-        <tag>Java</tag>
         <tag>设计模式</tag>
+        <tag>Java</tag>
       </tags>
   </entry>
   <entry>
@@ -3886,8 +3899,8 @@
         <category>设计模式</category>
       </categories>
       <tags>
-        <tag>Java</tag>
         <tag>设计模式</tag>
+        <tag>Java</tag>
       </tags>
   </entry>
   <entry>
@@ -3899,8 +3912,8 @@
         <category>设计模式</category>
       </categories>
       <tags>
-        <tag>Java</tag>
         <tag>设计模式</tag>
+        <tag>Java</tag>
       </tags>
   </entry>
   <entry>
@@ -4244,8 +4257,8 @@
       </categories>
       <tags>
         <tag>Android</tag>
-        <tag>EventBus</tag>
         <tag>XBus</tag>
+        <tag>EventBus</tag>
       </tags>
   </entry>
   <entry>
@@ -4820,8 +4833,8 @@
       </categories>
       <tags>
         <tag>Android</tag>
-        <tag>Java</tag>
         <tag>代码片段</tag>
+        <tag>Java</tag>
       </tags>
   </entry>
   <entry>
@@ -4883,8 +4896,8 @@
       </categories>
       <tags>
         <tag>Hexo</tag>
-        <tag>建站</tag>
         <tag>博客</tag>
+        <tag>建站</tag>
       </tags>
   </entry>
   <entry>
