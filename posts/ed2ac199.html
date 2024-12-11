@@ -85,7 +85,7 @@
 <meta name="keywords" content="Android,Java,设计模式,单列模式">
 <meta property="og:type" content="article">
 <meta property="og:title" content="设计模式一之单列模式">
-<meta property="og:url" content="https://zhangmiao.space/posts/ed2ac199.html">
+<meta property="og:url" content="https://zhangmiao.cc/posts/ed2ac199.html">
 <meta property="og:site_name" content="zm.blog">
 <meta property="og:description" content="通过理论,代码示例,Android源码来学习单列模式  介绍单例模式是应用最为广泛的模式之一，也可能是很多入门或初级工程师唯一会使用的设计模式之吧，在应用这个模式时，单例对象的类必须保证只有一个实例存在。许多时候整个系统只需要拥有一个实例类。有利于我们的调用，避免一个相同的类重复创建实例，比如一个网络请求，图片请求/下载，数据库操作等，如果频繁创建同一个相同对象的话，很消耗资源，因此，没有理由让">
 <meta property="og:locale" content="zh-Hans">
@@ -124,7 +124,7 @@
 
 
 
-  <link rel="canonical" href="https://zhangmiao.space/posts/ed2ac199.html">
+  <link rel="canonical" href="https://zhangmiao.cc/posts/ed2ac199.html">
 
 
 
@@ -310,7 +310,7 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.space/posts/ed2ac199.html">
+    <link itemprop="mainEntityOfPage" href="https://zhangmiao.cc/posts/ed2ac199.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZhangMiao">
@@ -507,7 +507,7 @@ var _hmt = _hmt || [];
 
 <p>在程序的初始，可以将单例类型注入到统一管理类中，在使用的时候根据 key 获取对应单例对象，并且在使用时可以通过统一的接口进行获取操作，降低了用户的使用成本，也对用户隐藏了具体实现，降低了耦合度。</p>
 <h2 id="Android-源码中单例模式"><a href="#Android-源码中单例模式" class="headerlink" title="Android 源码中单例模式"></a>Android 源码中单例模式</h2><p>Android 源码中涉及了大量的单例模式，这里就拿较为熟悉的 context.getSystemService(String name); 容器单例模式，以 Context.LAYOUT_INFLATER_SERVICE 举例。</p>
-<p><a href="https://zhangmiao.cc/posts/61266016.html" target="_blank" rel="noopener">从 setContentView 入口，全方位分析 LayoutInflater</a></p>
+<p><a href="https://zhangmiao.cc/posts/61266016.html">从 setContentView 入口，全方位分析 LayoutInflater</a></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>单例模式在应用中时属于使用频率最高的一种设计模式了，但是由于客户端通常没有高并发的情况，因此，选择哪种实现方式并不会有太大的影响。当然，考虑效率和并发的场景还是推荐大家使用 DCL 或 静态内部类单例模式。</p>
 <p>注意：如果单例对象必须持有参数的话，那么最好建议使用弱引用来接收参数，如果是 Context 级别的类型，建议使用 context.getApplication() 否则容易造成内存泄漏;</p>
 <p>感谢你的阅读，谢谢！</p>
@@ -560,7 +560,7 @@ var _hmt = _hmt || [];
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://zhangmiao.space/posts/ed2ac199.html" title="设计模式一之单列模式">https://zhangmiao.space/posts/ed2ac199.html</a>
+    <a href="https://zhangmiao.cc/posts/ed2ac199.html" title="设计模式一之单列模式">https://zhangmiao.cc/posts/ed2ac199.html</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -1038,7 +1038,7 @@ var _hmt = _hmt || [];
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'https://zhangmiao.space/posts/ed2ac199.html';
+          this.page.url = 'https://zhangmiao.cc/posts/ed2ac199.html';
           this.page.identifier = 'posts/ed2ac199.html';
           this.page.title = '设计模式一之单列模式';
         };
