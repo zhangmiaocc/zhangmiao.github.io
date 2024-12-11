@@ -84,7 +84,7 @@
 <meta name="description" content="Android/Flutter Developer">
 <meta property="og:type" content="website">
 <meta property="og:title" content="zm.blog">
-<meta property="og:url" content="https://zhangmiao.github.io/page/22/index.html">
+<meta property="og:url" content="http://yoursite.com/page/22/index.html">
 <meta property="og:site_name" content="zm.blog">
 <meta property="og:description" content="Android/Flutter Developer">
 <meta property="og:locale" content="zh-Hans">
@@ -120,7 +120,7 @@
 
 
 
-  <link rel="canonical" href="https://zhangmiao.github.io/page/22/">
+  <link rel="canonical" href="http://yoursite.com/page/22/">
 
 
 
@@ -307,7 +307,185 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.github.io/posts/c46aabc2.html">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/b4fbe497.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZhangMiao">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zm.blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/posts/b4fbe497.html" itemprop="url">UUID通用唯一识别码</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-09T18:05:35+08:00">
+                2019-01-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/基础/" itemprop="url" rel="index">
+                    <span itemprop="name">基础</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/posts/b4fbe497.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="posts/b4fbe497.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/posts/b4fbe497.html" class="leancloud_visitors" data-flag-title="UUID通用唯一识别码">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.UUID;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UploadUtils</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 传入文件的名称，返回的唯一的名称</span></span><br><span class="line"><span class="comment">	 * 例如：gril.jpg	返回sdjsljfsjdl.jpg</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> filename</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getUUIDName</span><span class="params">(String filename)</span></span>&#123;</span><br><span class="line">		<span class="comment">// 先查找</span></span><br><span class="line">		<span class="keyword">int</span> index = filename.lastIndexOf(<span class="string">"."</span>);</span><br><span class="line">		<span class="comment">// 截取</span></span><br><span class="line">		String lastname = filename.substring(index, filename.length());</span><br><span class="line">		<span class="comment">// 唯一 字符串  fsd-sfsdf-sfsd-sdfsd</span></span><br><span class="line">		String uuid = UUID.randomUUID().toString().replace(<span class="string">"-"</span>, <span class="string">""</span>);</span><br><span class="line">		<span class="keyword">return</span> uuid+lastname;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		String filename = <span class="string">"girl.jpg"</span>;</span><br><span class="line">		String uuid = getUUIDName(filename);</span><br><span class="line">		System.out.println(uuid);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/posts/b4fbe497.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/c46aabc2.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZhangMiao">
@@ -489,7 +667,7 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.github.io/posts/d3a7443d.html">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/d3a7443d.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZhangMiao">
@@ -667,7 +845,7 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.github.io/posts/60e96c42.html">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/60e96c42.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZhangMiao">
@@ -838,7 +1016,7 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.github.io/posts/36589e41.html">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/36589e41.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZhangMiao">
@@ -1016,7 +1194,7 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.github.io/posts/91718fcd.html">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/91718fcd.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZhangMiao">
@@ -1196,7 +1374,7 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.github.io/posts/104e2eeb.html">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/104e2eeb.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZhangMiao">
@@ -1378,7 +1556,7 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.github.io/posts/bcdbaf4f.html">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/bcdbaf4f.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZhangMiao">
@@ -1562,7 +1740,7 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.github.io/posts/ae0ce15d.html">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/ae0ce15d.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZhangMiao">
@@ -1731,7 +1909,7 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.github.io/posts/ced0f833.html">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/ced0f833.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZhangMiao">
@@ -1901,190 +2079,6 @@ var _hmt = _hmt || [];
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.github.io/posts/dd1673d3.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="ZhangMiao">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="zm.blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/posts/dd1673d3.html" itemprop="url">View获取width和height的四种方法</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-21T16:55:12+08:00">
-                2018-12-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android/" itemprop="url" rel="index">
-                    <span itemprop="name">Android</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android/Android-Tips/" itemprop="url" rel="index">
-                    <span itemprop="name">Android Tips</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/posts/dd1673d3.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="posts/dd1673d3.html" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/posts/dd1673d3.html" class="leancloud_visitors" data-flag-title="View获取width和height的四种方法">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <blockquote>
-<p>很经常当我们动态创建某些View时，需要通过获取他们的width和height来确定别的view的布局，但是在onCreate()获取view的width和height会得到0.view.getWidth()和view.getHeight()为0的根本原因是控件还没有完成绘制，你必须等待系统将绘制完View时，才能获得。这种情况当你需要使用动态布局（使用wrap_content或match_parent）就会出现。一般来讲在Activity.onCreate(…)、onResume()方法中都没有办法获取到View的实际宽高。所以，我们必须用一种变通的方法，等到View绘制完成后去获取width和Height。下面有一些可行的解决方案。</p>
-</blockquote>
-<h2 id="1、监听Draw-Layout事件：ViewTreeObserver"><a href="#1、监听Draw-Layout事件：ViewTreeObserver" class="headerlink" title="1、监听Draw/Layout事件：ViewTreeObserver"></a>1、监听Draw/Layout事件：ViewTreeObserver</h2><p>ViewTreeObserver监听很多不同的界面绘制事件。一般来说<a href="http://developer.android.com/reference/android/view/ViewTreeObserver.OnGlobalLayoutListener.html" target="_blank" rel="noopener">OnGlobalLayoutListener</a>就是可以让我们获得到view的width和height的地方.下面onGlobalLayout内的代码会在View完成Layout过程后调用。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">view.getViewTreeObserver().addOnGlobalLayoutListener(<span class="keyword">new</span> ViewTreeObserver.OnGlobalLayoutListener() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onGlobalLayout</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            mScrollView.post(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                    view.getHeight(); <span class="comment">//height is ready</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<p>但是要注意这个方法在每次有些view的Layout发生变化的时候被调用（比如某个View被设置为Invisible）,所以在得到你想要的宽高后，记得移除onGlobleLayoutListener：</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/posts/dd1673d3.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2137,7 +2131,7 @@ var _hmt = _hmt || [];
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">376</span>
+                  <span class="site-state-item-count">377</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

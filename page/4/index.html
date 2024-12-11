@@ -84,7 +84,7 @@
 <meta name="description" content="Android/Flutter Developer">
 <meta property="og:type" content="website">
 <meta property="og:title" content="zm.blog">
-<meta property="og:url" content="https://zhangmiao.github.io/page/4/index.html">
+<meta property="og:url" content="http://yoursite.com/page/4/index.html">
 <meta property="og:site_name" content="zm.blog">
 <meta property="og:description" content="Android/Flutter Developer">
 <meta property="og:locale" content="zh-Hans">
@@ -120,7 +120,7 @@
 
 
 
-  <link rel="canonical" href="https://zhangmiao.github.io/page/4/">
+  <link rel="canonical" href="http://yoursite.com/page/4/">
 
 
 
@@ -307,7 +307,202 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.github.io/posts/a7864737.html">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/44748309.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZhangMiao">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zm.blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/posts/44748309.html" itemprop="url">Kotlin5种单列模式</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-09-25T11:15:57+08:00">
+                2020-09-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/Kotlin/" itemprop="url" rel="index">
+                    <span itemprop="name">Kotlin</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/posts/44748309.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="posts/44748309.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/posts/44748309.html" class="leancloud_visitors" data-flag-title="Kotlin5种单列模式">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>最近在学习Kotlin这门语言，在项目开发中，运用到了单例模式。因为其表达方式与Java是不同的。所以对不同单例模式的实现进行了分别探讨。主要单例模式实现如下：</p>
+<ul>
+<li>饿汉式</li>
+<li>懒汉式</li>
+<li>线程安全的懒汉式</li>
+<li>双重校验锁式</li>
+<li>静态内部类式</li>
+</ul>
+<p><strong>PS:该篇文章不讨论单例模式的运用场景与各种模式下的单例模式的优缺点。只讨论在Java下不同单例模式下的对应Kotlin实现。</strong></p>
+<h4 id="一、饿汉式实现"><a href="#一、饿汉式实现" class="headerlink" title="一、饿汉式实现"></a><strong>一、饿汉式实现</strong></h4><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Java实现</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SingletonDemo</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> static SingletonDemo instance=new SingletonDemo();</span><br><span class="line">    <span class="keyword">private</span> SingletonDemo()&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> static SingletonDemo getInstance()&#123;</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//Kotlin实现</span></span><br><span class="line"><span class="keyword">object</span> SingletonDemo</span><br></pre></td></tr></table></figure>
+
+<p>这里很多小伙伴，就吃了一惊。我靠一个object 关键字就完成相同的功能？一行代码？</p>
+<ul>
+<li><h5 id="Kotlin的对象声明"><a href="#Kotlin的对象声明" class="headerlink" title="Kotlin的对象声明"></a><strong>Kotlin的对象声明</strong></h5></li>
+</ul>
+<p>学习了Kotlin的小伙伴肯定知道,在Kotlin中类没有静态方法。如果你需要写一个可以无需用一个类的实例来调用，但需要访问类内部的函数（例如，工厂方法,单例等），你可以把该类声明为一个对象。</p>
+<p>该对象与其他语言的静态成员是类似的。如果你想了解Kotlin对象声明的更多内容。请点击- - - 传送门(<a href="https://www.kotlincn.net/docs/reference/object-declarations.html#%E4%BC%B4%E7%94%9F%E5%AF%B9%E8%B1%A1" target="_blank" rel="noopener">https://www.kotlincn.net/docs/reference/object-declarations.html#%E4%BC%B4%E7%94%9F%E5%AF%B9%E8%B1%A1</a>)</p>
+<p>到这里，如果还是有很多小伙伴不是很相信一行代码就能解决这个功能，我们可以通过一下方式查看Kotlin的字节码。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/posts/44748309.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/a7864737.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZhangMiao">
@@ -504,7 +699,7 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.github.io/posts/a056c2ad.html">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/a056c2ad.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZhangMiao">
@@ -698,7 +893,7 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.github.io/posts/cfa629be.html">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/cfa629be.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZhangMiao">
@@ -889,7 +1084,7 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.github.io/posts/6f6a6f9c.html">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/6f6a6f9c.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZhangMiao">
@@ -1083,7 +1278,7 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.github.io/posts/2fd9bfca.html">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/2fd9bfca.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZhangMiao">
@@ -1286,7 +1481,7 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.github.io/posts/36cafa9f.html">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/36cafa9f.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZhangMiao">
@@ -1488,7 +1683,7 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.github.io/posts/404317d3.html">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/404317d3.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZhangMiao">
@@ -1675,7 +1870,7 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.github.io/posts/8ca7e9b.html">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/8ca7e9b.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZhangMiao">
@@ -1868,7 +2063,7 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.github.io/posts/e6f2df3b.html">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/e6f2df3b.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZhangMiao">
@@ -2057,196 +2252,6 @@ var _hmt = _hmt || [];
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.github.io/posts/e596bfcf.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="ZhangMiao">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="zm.blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/posts/e596bfcf.html" itemprop="url">Kotlin循环控制</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-09-16T14:17:46+08:00">
-                2020-09-16
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android/" itemprop="url" rel="index">
-                    <span itemprop="name">Android</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android/Kotlin/" itemprop="url" rel="index">
-                    <span itemprop="name">Kotlin</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/posts/e596bfcf.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="posts/e596bfcf.html" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/posts/e596bfcf.html" class="leancloud_visitors" data-flag-title="Kotlin循环控制">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="For-循环"><a href="#For-循环" class="headerlink" title="For 循环"></a>For 循环</h2><p>for 循环可以对任何提供迭代器（iterator）的对象进行遍历，语法如下:</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (item <span class="keyword">in</span> collection) print(item)</span><br></pre></td></tr></table></figure>
-
-<p>循环体可以是一个代码块:</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (item: <span class="built_in">Int</span> <span class="keyword">in</span> ints) &#123;</span><br><span class="line">    <span class="comment">// ……</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>如上所述，for 可以循环遍历任何提供了迭代器的对象。</p>
-<p>如果你想要通过索引遍历一个数组或者一个 list，你可以这么做：</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (i <span class="keyword">in</span> array.indices) &#123;</span><br><span class="line">    print(array[i])</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>注意这种”在区间上遍历”会编译成优化的实现而不会创建额外对象。</p>
-<p>或者你可以用库函数 withIndex：</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> ((index, value) <span class="keyword">in</span> array.withIndex()) &#123;</span><br><span class="line">    println(<span class="string">"the element at <span class="variable">$index</span> is <span class="variable">$value</span>"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/posts/e596bfcf.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2299,7 +2304,7 @@ var _hmt = _hmt || [];
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">376</span>
+                  <span class="site-state-item-count">377</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

@@ -84,7 +84,7 @@
 <meta name="description" content="Android/Flutter Developer">
 <meta property="og:type" content="website">
 <meta property="og:title" content="zm.blog">
-<meta property="og:url" content="https://zhangmiao.github.io/page/30/index.html">
+<meta property="og:url" content="http://yoursite.com/page/30/index.html">
 <meta property="og:site_name" content="zm.blog">
 <meta property="og:description" content="Android/Flutter Developer">
 <meta property="og:locale" content="zh-Hans">
@@ -120,7 +120,7 @@
 
 
 
-  <link rel="canonical" href="https://zhangmiao.github.io/page/30/">
+  <link rel="canonical" href="http://yoursite.com/page/30/">
 
 
 
@@ -307,7 +307,194 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.github.io/posts/57a68464.html">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/df690640.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZhangMiao">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zm.blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/posts/df690640.html" itemprop="url">Tangram的基础 vlayout for android</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-08T16:20:21+08:00">
+                2018-11-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/Tangram/" itemprop="url" rel="index">
+                    <span itemprop="name">Tangram</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/posts/df690640.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="posts/df690640.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/posts/df690640.html" class="leancloud_visitors" data-flag-title="Tangram的基础 vlayout for android">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>vlayout 是手机天猫 Android 版内广泛使用的一个基础 UI 框架项目 提供了一个用于RecyclerView的自定义的LayoutManger，可以实现不同布局格式的混排，目标是支撑客户端native页面的快速开发。它也是 <a href="http://pingguohe.net/2016/12/20/Tangram-design-and-practice.html" target="_blank" rel="noopener">Tangram 框架</a>的基础模块，现已开源，欢迎移步到 <a href="https://github.com/alibaba/vlayout" target="_blank" rel="noopener">github</a> 上指教。</p>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>Android中UI性能消耗主要来自于两个方面：</p>
+<ol>
+<li>布局层次嵌套导致多重measure/layout</li>
+<li>View控件的创建和销毁</li>
+</ol>
+<p>除了从在实践中注意消除嵌套布局，Android官方也提供了ListView/GirdView/RecyclerView等基础空间来处理View的回收与复用。</p>
+<p>但很多时候我们都会碰到视觉需要在一个长列表下做多种类型的布局来分配各种元素, 特别是电商业务各类首页，频道等页面，元素结构复杂多样。</p>
+<p>这种时候实现的选择有不用复用，直接用各个组件进行拼接，但这样会损失性能；选择一个主要的复用容器, 如ListView或者RecyclerView+LinearLayoutManager等，然后在其中使用嵌套等方式对其他的布局方式进行处理，这样一个是减少了复用的能力，另一个是如果需要嵌套无法兼容的布局的时候，需要处理嵌套滑动的情况。</p>
+<p>既然RecyclerView提供了基础的回收复用功能，也支持LayoutManager的扩展，那么能不能用一个LayoutManager就完成所有的布局类型呢？ 感觉的这是一个不错的方向，目前在 github 上也能找到类似的项目，但是这些之前也埋有不少bug, 大部分都是因为在一些特殊场景下和RecyclerView相关的其他的类一起使用时出现问题。 为了避免掉入bug大坑，我们决定基于LinearLayoutManager来做改造。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/posts/df690640.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/57a68464.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZhangMiao">
@@ -487,7 +674,7 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.github.io/posts/2ee0ad3d.html">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/2ee0ad3d.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZhangMiao">
@@ -666,7 +853,7 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.github.io/posts/a76b266e.html">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/a76b266e.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZhangMiao">
@@ -847,7 +1034,7 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.github.io/posts/c2ade9d5.html">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/c2ade9d5.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZhangMiao">
@@ -1029,7 +1216,7 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.github.io/posts/b5467332.html">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/b5467332.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZhangMiao">
@@ -1216,7 +1403,7 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.github.io/posts/8af7915a.html">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/8af7915a.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZhangMiao">
@@ -1401,7 +1588,7 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.github.io/posts/fbde7e42.html">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/fbde7e42.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZhangMiao">
@@ -1585,7 +1772,7 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.github.io/posts/321ed7e5.html">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/321ed7e5.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZhangMiao">
@@ -1765,7 +1952,7 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.github.io/posts/5bbd3c9c.html">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/5bbd3c9c.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZhangMiao">
@@ -1932,188 +2119,6 @@ var _hmt = _hmt || [];
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.github.io/posts/752c11de.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="ZhangMiao">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="zm.blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/posts/752c11de.html" itemprop="url">TextView文字加粗</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-01T15:20:08+08:00">
-                2018-11-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android/" itemprop="url" rel="index">
-                    <span itemprop="name">Android</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android/Android-Tips/" itemprop="url" rel="index">
-                    <span itemprop="name">Android Tips</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/posts/752c11de.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="posts/752c11de.html" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/posts/752c11de.html" class="leancloud_visitors" data-flag-title="TextView文字加粗">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h3 id="xml加粗"><a href="#xml加粗" class="headerlink" title="xml加粗"></a>xml加粗</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">android:textStyle=<span class="string">"bold"</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="代码加粗"><a href="#代码加粗" class="headerlink" title="代码加粗"></a>代码加粗</h3><h4 id="推荐方式"><a href="#推荐方式" class="headerlink" title="推荐方式"></a>推荐方式</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">textView.typeface = Typeface.defaultFromStyle(Typeface.BOLD)</span><br></pre></td></tr></table></figure>
-
-<h4 id="非推荐方式"><a href="#非推荐方式" class="headerlink" title="非推荐方式"></a>非推荐方式</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">textView.paint.isFakeBoldText = <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/posts/752c11de.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2166,7 +2171,7 @@ var _hmt = _hmt || [];
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">376</span>
+                  <span class="site-state-item-count">377</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

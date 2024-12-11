@@ -84,7 +84,7 @@
 <meta name="description" content="Android/Flutter Developer">
 <meta property="og:type" content="website">
 <meta property="og:title" content="zm.blog">
-<meta property="og:url" content="https://zhangmiao.github.io/page/25/index.html">
+<meta property="og:url" content="http://yoursite.com/page/25/index.html">
 <meta property="og:site_name" content="zm.blog">
 <meta property="og:description" content="Android/Flutter Developer">
 <meta property="og:locale" content="zh-Hans">
@@ -120,7 +120,7 @@
 
 
 
-  <link rel="canonical" href="https://zhangmiao.github.io/page/25/">
+  <link rel="canonical" href="http://yoursite.com/page/25/">
 
 
 
@@ -307,7 +307,192 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.github.io/posts/91b033d9.html">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/99d586fa.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZhangMiao">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zm.blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/posts/99d586fa.html" itemprop="url">Android下setTextSize的正确使用姿势</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-11T15:05:53+08:00">
+                2018-12-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/Android-Tips/" itemprop="url" rel="index">
+                    <span itemprop="name">Android Tips</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/posts/99d586fa.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="posts/99d586fa.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/posts/99d586fa.html" class="leancloud_visitors" data-flag-title="Android下setTextSize的正确使用姿势">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h3 id="问几个问题先"><a href="#问几个问题先" class="headerlink" title="问几个问题先"></a>问几个问题先</h3><p>在app/src/main/res/values/dimens.xml中定义尺寸如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;dimen name=<span class="string">"font1"</span>&gt;<span class="number">18</span>sp&lt;<span class="regexp">/dimen&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在代码中引用此尺寸如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mText.setTextSize(<span class="number">18</span>);  <span class="comment">// 方法1</span></span><br><span class="line">mText.setTextSize(getResources().getDimension(R.dimen.font1));  <span class="comment">// 方法2</span></span><br><span class="line">mText.setTextSize(TypedValue.COMPLEX_UNIT_PX,getResources().getDimension(R.dimen.font1));  <span class="comment">// 方法3</span></span><br><span class="line">mText.setTextSize(TypedValue.COMPLEX_UNIT_SP,<span class="number">18</span>);  <span class="comment">// 方法4</span></span><br></pre></td></tr></table></figure>
+
+<p>问题1: 方法1和方法2设置的文字尺寸大小相同么？<br>问题2:方法3和方法4设置的文字尺寸大小相同么？<br>问题3:方法1和方法4设置的文字尺寸大小相同么？</p>
+<p>如果你能很清楚的给出上面问题的答案，那就没必要再向下看了；<br>如果你对以上问题感到模棱两可的话，请继续往下看:</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/posts/99d586fa.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/91b033d9.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZhangMiao">
@@ -488,7 +673,7 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.github.io/posts/e3c0f347.html">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/e3c0f347.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZhangMiao">
@@ -671,7 +856,7 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.github.io/posts/4ef397b8.html">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/4ef397b8.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZhangMiao">
@@ -854,7 +1039,7 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.github.io/posts/7a69db10.html">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/7a69db10.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZhangMiao">
@@ -1037,7 +1222,7 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.github.io/posts/51192665.html">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/51192665.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZhangMiao">
@@ -1289,7 +1474,7 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.github.io/posts/2114cdef.html">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/2114cdef.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZhangMiao">
@@ -1471,7 +1656,7 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.github.io/posts/be2502a3.html">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/be2502a3.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZhangMiao">
@@ -1655,7 +1840,7 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.github.io/posts/a8aa4c4c.html">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/a8aa4c4c.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZhangMiao">
@@ -1833,7 +2018,7 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.github.io/posts/38627c74.html">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/38627c74.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZhangMiao">
@@ -2005,196 +2190,6 @@ var _hmt = _hmt || [];
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.github.io/posts/600a4740.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="ZhangMiao">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="zm.blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/posts/600a4740.html" itemprop="url">公司Android项目架构演进</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-06T15:35:06+08:00">
-                2018-12-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android/" itemprop="url" rel="index">
-                    <span itemprop="name">Android</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android/组件化/" itemprop="url" rel="index">
-                    <span itemprop="name">组件化</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/posts/600a4740.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="posts/600a4740.html" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/posts/600a4740.html" class="leancloud_visitors" data-flag-title="公司Android项目架构演进">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <blockquote>
-<p>入职ZTC接近两年，因为业务繁重，从入职开始一直在做业务上的需求，项目还是MVC模式开发，由此可见工程的耦合度极高，也是众多反锁的业务互相关联导致最初开发的时候没有很好的设计架构。经过大半年的边重构项目边合并老项目新需求的开发，见证了开发团队一路走来的努力，Android团队也在自己预期的想法中向前迈进。</p>
-</blockquote>
-<h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>在公司的发展方向上，由单一的求职平台，到人脉社交，问答社区的扩展，让我察觉到组件化必然是正确的演进方向。在项目gradle升级到3.x后，依赖隔离的新特性更是帮助我对组件化的推进工作。</p>
-<h4 id="组件化优点"><a href="#组件化优点" class="headerlink" title="组件化优点"></a>组件化优点</h4><p>在现在的大环境下组件化的优点相信大家都比较熟悉。</p>
-<ul>
-<li>高内聚，低耦合，代码边界清晰，每一个组件都可以拆分出来独立运行</li>
-<li>功能集中，每一个组件负责属于自己组件的工作，不受其他组件影响也不影响其他组件功能</li>
-<li>提高开发效率，每个组件可单独调试，保证代码质量</li>
-<li>减少重复造轮子和维护工作量</li>
-<li>加快编译速度，最理想的情况是，App工程仅仅是一个空壳，用于加载各个组件</li>
-</ul>
-<h4 id="组件化方案"><a href="#组件化方案" class="headerlink" title="组件化方案"></a>组件化方案</h4><p>现在GitHub上面流行着各大家公司开源的路由库，他们基本采用组件化的方案是</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/posts/600a4740.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2247,7 +2242,7 @@ var _hmt = _hmt || [];
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">376</span>
+                  <span class="site-state-item-count">377</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

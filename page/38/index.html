@@ -84,7 +84,7 @@
 <meta name="description" content="Android/Flutter Developer">
 <meta property="og:type" content="website">
 <meta property="og:title" content="zm.blog">
-<meta property="og:url" content="https://zhangmiao.github.io/page/38/index.html">
+<meta property="og:url" content="http://yoursite.com/page/38/index.html">
 <meta property="og:site_name" content="zm.blog">
 <meta property="og:description" content="Android/Flutter Developer">
 <meta property="og:locale" content="zh-Hans">
@@ -120,7 +120,7 @@
 
 
 
-  <link rel="canonical" href="https://zhangmiao.github.io/page/38/">
+  <link rel="canonical" href="http://yoursite.com/page/38/">
 
 
 
@@ -307,7 +307,193 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.github.io/posts/c16bcf6c.html">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/54d6d461.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZhangMiao">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zm.blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/posts/54d6d461.html" itemprop="url">Android颜色透明度设置</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-18T15:18:02+08:00">
+                2018-07-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/View/" itemprop="url" rel="index">
+                    <span itemprop="name">View</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/posts/54d6d461.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="posts/54d6d461.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/posts/54d6d461.html" class="leancloud_visitors" data-flag-title="Android颜色透明度设置">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h3 id="颜色简介"><a href="#颜色简介" class="headerlink" title="颜色简介"></a>颜色简介</h3><h5 id="Android中的颜色值通常遵循RGB-ARGB标准，使用时通常以“-”字符开头，以16进制表示。"><a href="#Android中的颜色值通常遵循RGB-ARGB标准，使用时通常以“-”字符开头，以16进制表示。" class="headerlink" title="Android中的颜色值通常遵循RGB/ARGB标准，使用时通常以“#”字符开头，以16进制表示。"></a>Android中的颜色值通常遵循RGB/ARGB标准，使用时通常以“#”字符开头，以16进制表示。</h5><pre><code>常用的颜色值格式为：
+#RGB
+#ARGB
+#RRGGBB
+#AARRGGBB</code></pre><h5 id="其中，ARGB-依次代表透明度（alpha）、红色-red-、绿色-green-、蓝色-blue-。"><a href="#其中，ARGB-依次代表透明度（alpha）、红色-red-、绿色-green-、蓝色-blue-。" class="headerlink" title="其中，ARGB 依次代表透明度（alpha）、红色(red)、绿色(green)、蓝色(blue)。"></a>其中，ARGB 依次代表透明度（alpha）、红色(red)、绿色(green)、蓝色(blue)。</h5><h5 id="以颜色值-FF99CC00-为例，FF-是透明度，99-是红色值，-CC-是绿色值，-00-是蓝色值。"><a href="#以颜色值-FF99CC00-为例，FF-是透明度，99-是红色值，-CC-是绿色值，-00-是蓝色值。" class="headerlink" title="以颜色值 #FF99CC00 为例，FF 是透明度，99 是红色值， CC 是绿色值， 00 是蓝色值。"></a>以颜色值 #FF99CC00 为例，FF 是透明度，99 是红色值， CC 是绿色值， 00 是蓝色值。</h5><h3 id="透明度"><a href="#透明度" class="headerlink" title="透明度"></a>透明度</h3><ol>
+<li>透明度分为256阶（0-255），计算机上用16进制表示为（00-ff）。透明就是0阶，不透明就是255阶,如果50%透明就是127阶（256的一半当然是128，但因为是从0开始，所以实际上是127）。</li>
+<li>透明度 和 不透明度 是两个概念， 它们加起来是1，或者100%.</li>
+<li>ARGB 中的透明度alpha，表示的是不透明度。</li>
+</ol>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/posts/54d6d461.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/c16bcf6c.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZhangMiao">
@@ -476,7 +662,7 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.github.io/posts/81828d81.html">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/81828d81.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZhangMiao">
@@ -742,7 +928,7 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.github.io/posts/c7dcd830.html">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/c7dcd830.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZhangMiao">
@@ -1004,7 +1190,7 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.github.io/posts/88baa841.html">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/88baa841.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZhangMiao">
@@ -1172,7 +1358,7 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.github.io/posts/eb656981.html">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/eb656981.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZhangMiao">
@@ -1353,7 +1539,7 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.github.io/posts/4a17b156.html">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/4a17b156.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZhangMiao">
@@ -1571,7 +1757,7 @@ var _hmt = _hmt || [];
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">376</span>
+                  <span class="site-state-item-count">377</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

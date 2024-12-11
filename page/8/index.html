@@ -84,7 +84,7 @@
 <meta name="description" content="Android/Flutter Developer">
 <meta property="og:type" content="website">
 <meta property="og:title" content="zm.blog">
-<meta property="og:url" content="https://zhangmiao.github.io/page/8/index.html">
+<meta property="og:url" content="http://yoursite.com/page/8/index.html">
 <meta property="og:site_name" content="zm.blog">
 <meta property="og:description" content="Android/Flutter Developer">
 <meta property="og:locale" content="zh-Hans">
@@ -120,7 +120,7 @@
 
 
 
-  <link rel="canonical" href="https://zhangmiao.github.io/page/8/">
+  <link rel="canonical" href="http://yoursite.com/page/8/">
 
 
 
@@ -307,7 +307,188 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.github.io/posts/181c4c4a.html">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/caa299cc.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZhangMiao">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zm.blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/posts/caa299cc.html" itemprop="url">Android中常用的加密方式</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-27T11:02:21+08:00">
+                2019-11-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/Android-Tips/" itemprop="url" rel="index">
+                    <span itemprop="name">Android Tips</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/posts/caa299cc.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="posts/caa299cc.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/posts/caa299cc.html" class="leancloud_visitors" data-flag-title="Android中常用的加密方式">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="一、Rsa加密"><a href="#一、Rsa加密" class="headerlink" title="一、Rsa加密"></a>一、Rsa加密</h2><h3 id="1、RSA是第一种既可以用于数据加密，也可以用于数字签名的算法；"><a href="#1、RSA是第一种既可以用于数据加密，也可以用于数字签名的算法；" class="headerlink" title="1、RSA是第一种既可以用于数据加密，也可以用于数字签名的算法；"></a>1、RSA是第一种既可以用于数据加密，也可以用于数字签名的算法；</h3><h3 id="2、算法原理："><a href="#2、算法原理：" class="headerlink" title="2、算法原理："></a>2、算法原理：</h3><p>1）、随机产生两个大的质数m、n且m！=n，计算K1=mn；<br> 2)、选择一个大于1小于k1的自然数k2，k2必须与(m-1)(n-1)互为素数；<br> 3)、计算得到d—&gt;d x k2=1(mod(m-1)(n-1));<br> 4)、销毁mn；<br> 最终产生的k1和k2为“公钥”，d为“私钥”，发送方使用k1进行加密，接收方使用d进行解密。</p>
+<h3 id="3、注意："><a href="#3、注意：" class="headerlink" title="3、注意："></a>3、注意：</h3><p>1、RSA的安全性依赖于大数分解，小于1024位的k1被认为是不安全的；<br> 2、RSA的计算速度慢。</p>
+<h3 id="4、使用"><a href="#4、使用" class="headerlink" title="4、使用"></a>4、使用</h3><p>1、生成密钥对</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 随机生成RSA密钥对</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * @param keyLength 密钥长度，范围：512～2048</span></span><br><span class="line"><span class="comment"> *                  一般1024</span></span><br><span class="line"><span class="comment"> * @return</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">public <span class="keyword">static</span> KeyPair generateRSAKeyPair(<span class="built_in">int</span> keyLength) &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        KeyPairGenerator kpg = KeyPairGenerator.getInstance(RSA);</span><br><span class="line">        kpg.initialize(keyLength);</span><br><span class="line">        <span class="keyword">return</span> kpg.genKeyPair();</span><br><span class="line">    &#125; <span class="keyword">catch</span> (NoSuchAlgorithmException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/posts/caa299cc.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/181c4c4a.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZhangMiao">
@@ -485,7 +666,7 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.github.io/posts/60f13ddc.html">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/60f13ddc.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZhangMiao">
@@ -663,7 +844,7 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.github.io/posts/8266392b.html">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/8266392b.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZhangMiao">
@@ -833,7 +1014,7 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.github.io/posts/28ca84cb.html">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/28ca84cb.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZhangMiao">
@@ -1011,7 +1192,7 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.github.io/posts/8e25ebb8.html">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/8e25ebb8.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZhangMiao">
@@ -1194,7 +1375,7 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.github.io/posts/2851801a.html">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/2851801a.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZhangMiao">
@@ -1373,7 +1554,7 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.github.io/posts/a54cde26.html">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/a54cde26.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZhangMiao">
@@ -1567,7 +1748,7 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.github.io/posts/f66419fe.html">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/f66419fe.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZhangMiao">
@@ -1734,7 +1915,7 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.github.io/posts/635b293f.html">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/635b293f.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZhangMiao">
@@ -1914,190 +2095,6 @@ var _hmt = _hmt || [];
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.github.io/posts/9bf9542d.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="ZhangMiao">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="zm.blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/posts/9bf9542d.html" itemprop="url">Android Activity标签属性</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-17T11:40:27+08:00">
-                2019-10-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android/" itemprop="url" rel="index">
-                    <span itemprop="name">Android</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android/Android-Tips/" itemprop="url" rel="index">
-                    <span itemprop="name">Android Tips</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/posts/9bf9542d.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="posts/9bf9542d.html" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/posts/9bf9542d.html" class="leancloud_visitors" data-flag-title="Android Activity标签属性">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>Activity 是 Android 系统四大应用组件之一，用户可与 Activity 提供的屏幕进行交互，以执行拨打电话、拍摄照片、发送电子邮件等操作</p>
-<p>开发者必须在清单文件中声明要使用的 Activity，这样系统才能访问它。声明方式是在 <strong>&lt; application &gt;</strong> 元素中添加 <strong>&lt; activity &gt;</strong> 子元素</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">application</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:allowBackup</span>=<span class="string">"true"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:icon</span>=<span class="string">"@mipmap/ic_launcher"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:label</span>=<span class="string">"@string/app_name"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:supportsRtl</span>=<span class="string">"true"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:theme</span>=<span class="string">"@style/AppTheme"</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="tag">&lt;<span class="name">activity</span> <span class="attr">android:name</span>=<span class="string">".Example"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">activity</span>&gt;</span></span><br><span class="line">    </span><br><span class="line"><span class="tag">&lt;/<span class="name">application</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>可以为<strong>&lt; activity &gt;</strong>元素设置多个属性值以定义 UI 风格或者运行属性。 <strong>android:name</strong> 属性是唯一必需的属性，用于指定 Activity 的类名</p>
-<p>&lt; activity &gt;包含的属性如下所示</p>
-<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">&lt;activity android:allowEmbedded=[<span class="string">"true"</span> | <span class="string">"false"</span>]</span><br><span class="line">          android:allowTaskReparenting=[<span class="string">"true"</span> | <span class="string">"false"</span>]</span><br><span class="line">          android:alwaysRetainTaskState=[<span class="string">"true"</span> | <span class="string">"false"</span>]</span><br><span class="line">          android:autoRemoveFromRecents=[<span class="string">"true"</span> | <span class="string">"false"</span>]</span><br><span class="line">          android:banner=<span class="string">"drawable resource"</span></span><br><span class="line">          android:clearTaskOnLaunch=[<span class="string">"true"</span> | <span class="string">"false"</span>]</span><br><span class="line">          android:configChanges=[<span class="string">"mcc"</span>, <span class="string">"mnc"</span>, <span class="string">"locale"</span>,</span><br><span class="line">                                 <span class="string">"touchscreen"</span>, <span class="string">"keyboard"</span>, <span class="string">"keyboardHidden"</span>,</span><br><span class="line">                                 <span class="string">"navigation"</span>, <span class="string">"screenLayout"</span>, <span class="string">"fontScale"</span>,</span><br><span class="line">                                 <span class="string">"uiMode"</span>, <span class="string">"orientation"</span>, <span class="string">"screenSize"</span>,</span><br><span class="line">                                 <span class="string">"smallestScreenSize"</span>]</span><br><span class="line">          android:documentLaunchMode=[<span class="string">"intoExisting"</span> | <span class="string">"always"</span> |</span><br><span class="line">                                  <span class="string">"none"</span> | <span class="string">"never"</span>]</span><br><span class="line">          android:enabled=[<span class="string">"true"</span> | <span class="string">"false"</span>]</span><br><span class="line">          android:excludeFromRecents=[<span class="string">"true"</span> | <span class="string">"false"</span>]</span><br><span class="line">          android:exported=[<span class="string">"true"</span> | <span class="string">"false"</span>]</span><br><span class="line">          android:finishOnTaskLaunch=[<span class="string">"true"</span> | <span class="string">"false"</span>]</span><br><span class="line">          android:hardwareAccelerated=[<span class="string">"true"</span> | <span class="string">"false"</span>]</span><br><span class="line">          android:icon=<span class="string">"drawable resource"</span></span><br><span class="line">          android:label=<span class="string">"string resource"</span></span><br><span class="line">          android:launchMode=[<span class="string">"standard"</span> | <span class="string">"singleTop"</span> |</span><br><span class="line">                              <span class="string">"singleTask"</span> | <span class="string">"singleInstance"</span>]</span><br><span class="line">          android:maxRecents=<span class="string">"integer"</span></span><br><span class="line">          android:multiprocess=[<span class="string">"true"</span> | <span class="string">"false"</span>]</span><br><span class="line">          android:name=<span class="string">"string"</span></span><br><span class="line">          android:noHistory=[<span class="string">"true"</span> | <span class="string">"false"</span>]  </span><br><span class="line">          android:parentActivityName=<span class="string">"string"</span> </span><br><span class="line">          android:permission=<span class="string">"string"</span></span><br><span class="line">          android:process=<span class="string">"string"</span></span><br><span class="line">          android:relinquishTaskIdentity=[<span class="string">"true"</span> | <span class="string">"false"</span>]</span><br><span class="line">          android:resizeableActivity=[<span class="string">"true"</span> | <span class="string">"false"</span>]</span><br><span class="line">          android:screenOrientation=[<span class="string">"unspecified"</span> | <span class="string">"behind"</span> |</span><br><span class="line">                                     <span class="string">"landscape"</span> | <span class="string">"portrait"</span> |</span><br><span class="line">                                     <span class="string">"reverseLandscape"</span> | <span class="string">"reversePortrait"</span> |</span><br><span class="line">                                     <span class="string">"sensorLandscape"</span> | <span class="string">"sensorPortrait"</span> |</span><br><span class="line">                                     <span class="string">"userLandscape"</span> | <span class="string">"userPortrait"</span> |</span><br><span class="line">                                     <span class="string">"sensor"</span> | <span class="string">"fullSensor"</span> | <span class="string">"nosensor"</span> |</span><br><span class="line">                                     <span class="string">"user"</span> | <span class="string">"fullUser"</span> | <span class="string">"locked"</span>]</span><br><span class="line">          android:stateNotNeeded=[<span class="string">"true"</span> | <span class="string">"false"</span>]</span><br><span class="line">          android:supportsPictureInPicture=[<span class="string">"true"</span> | <span class="string">"false"</span>]</span><br><span class="line">          android:taskAffinity=<span class="string">"string"</span></span><br><span class="line">          android:theme=<span class="string">"resource or theme"</span></span><br><span class="line">          android:uiOptions=[<span class="string">"none"</span> | <span class="string">"splitActionBarWhenNarrow"</span>]</span><br><span class="line">          android:windowSoftInputMode=[<span class="string">"stateUnspecified"</span>,</span><br><span class="line">                                       <span class="string">"stateUnchanged"</span>, <span class="string">"stateHidden"</span>,</span><br><span class="line">                                       <span class="string">"stateAlwaysHidden"</span>, <span class="string">"stateVisible"</span>,</span><br><span class="line">                                       <span class="string">"stateAlwaysVisible"</span>, <span class="string">"adjustUnspecified"</span>,</span><br><span class="line">                                       <span class="string">"adjustResize"</span>, <span class="string">"adjustPan"</span>] &gt;                        </span><br><span class="line">&lt;<span class="regexp">/activity&gt;</span></span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/posts/9bf9542d.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2150,7 +2147,7 @@ var _hmt = _hmt || [];
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">376</span>
+                  <span class="site-state-item-count">377</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
