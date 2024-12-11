@@ -307,6 +307,191 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhangmiao.space/posts/38627c74.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZhangMiao">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zm.blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/posts/38627c74.html" itemprop="url">移动App网络优化概述</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-06T16:50:09+08:00">
+                2018-12-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/优化/" itemprop="url" rel="index">
+                    <span itemprop="name">优化</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/posts/38627c74.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="posts/38627c74.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/posts/38627c74.html" class="leancloud_visitors" data-flag-title="移动App网络优化概述">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>一般开发一个 APP，会直接调用系统提供的网络请求接口去服务端请求数据，再针对返回的数据进行一些处理，或者使用AFNetworking/OKHttp这样的网络库，管理好请求线程和队列，再自动做一些数据解析，就结束了。</p>
+<p>但对于一些大型 APP，还会想针对网络的一些问题进行进一步优化，包括：</p>
+<ol>
+<li><strong>速度</strong>：网络请求的速度怎样能进一步提升？</li>
+<li><strong>弱网</strong>：移动端网络环境随时变化，经常出现网络连接很不稳定可用性差的情况，怎样在这种情况下最大限度最快地成功请求？</li>
+<li><strong>安全</strong>：怎样防止被第三方窃听/篡改或冒充，防止运营商劫持，同时又不影响性能？</li>
+</ol>
+<p>对基于浏览器的前端开发来说，网络这块能做的事情很少，但对于客户端 APP 来说，整个网络请求过程是自由控制的，可以做很多事情，很多大型 APP 都针对这三个问题做了很多网络层的优化，一些新的网络层协议像 HTTP2 / QUIC 也是在这些方面进行了不少优化，在这里边学习边整理，大致列举一下常见的做法。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/posts/38627c74.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://zhangmiao.space/posts/600a4740.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1939,245 +2124,6 @@ var _hmt = _hmt || [];
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.space/posts/14a2657.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="ZhangMiao">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="zm.blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/posts/14a2657.html" itemprop="url">Mac终端使用技巧，切换到其他路径和目录</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-29T11:04:35+08:00">
-                2018-11-29
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Mac/" itemprop="url" rel="index">
-                    <span itemprop="name">Mac</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Mac/其他/" itemprop="url" rel="index">
-                    <span itemprop="name">其他</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/posts/14a2657.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="posts/14a2657.html" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/posts/14a2657.html" class="leancloud_visitors" data-flag-title="Mac终端使用技巧，切换到其他路径和目录">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p><strong>如果你想将当前 command line 会话切换到其他目录，需要用到三个命令：pwd，ls和cd</strong></p>
-<ul>
-<li><strong>pwd</strong>的含义是“print working directory”，会显示当前目录的绝对路径。</li>
-<li><strong>ls</strong>的含义是“list directory contents”，它会列出当前目录的内容。这个命令还有其他参数可选。</li>
-<li><strong>cd</strong>的含义是“change directory”，它会改变当前目录到你指定的目录。如果你不指定，则会返回你的 home folder。</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>命令</th>
-<th>含义</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>pwd</td>
-<td>当前工作目录</td>
-</tr>
-<tr>
-<td>cd（不加参数）</td>
-<td>进root</td>
-</tr>
-<tr>
-<td>cd（folder）</td>
-<td>进入文件夹</td>
-</tr>
-<tr>
-<td>cd ..</td>
-<td>上级目录</td>
-</tr>
-<tr>
-<td>cd ~</td>
-<td>返回root</td>
-</tr>
-<tr>
-<td>cd -</td>
-<td>返回上一个访问的目录</td>
-</tr>
-<tr>
-<td>rm 文件名</td>
-<td>删除</td>
-</tr>
-<tr>
-<td>cat 文件名</td>
-<td>在终端下查看文件</td>
-</tr>
-<tr>
-<td>ls</td>
-<td>列出目录下所有文件</td>
-</tr>
-<tr>
-<td>cp 文件名 目标目录</td>
-<td>将文件拷贝到目标目录下</td>
-</tr>
-<tr>
-<td>~代表root</td>
-<td>如：~/Document/ZM/</td>
-</tr>
-<tr>
-<td>mkdiv</td>
-<td>新建文件夹</td>
-</tr>
-</tbody></table>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/posts/14a2657.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2230,7 +2176,7 @@ var _hmt = _hmt || [];
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">377</span>
+                  <span class="site-state-item-count">378</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

@@ -307,6 +307,198 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhangmiao.space/posts/14fca390.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZhangMiao">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zm.blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/posts/14fca390.html" itemprop="url">TextView字体大小自适应</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-28T16:05:49+08:00">
+                2019-11-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/Android-Tips/" itemprop="url" rel="index">
+                    <span itemprop="name">Android Tips</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/posts/14fca390.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="posts/14fca390.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/posts/14fca390.html" class="leancloud_visitors" data-flag-title="TextView字体大小自适应">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h2><p>在进行android 开发过程中，会遇到TextView 中文本显示不全的情况，这个时候想根据文本的长度自动改变字体大小，首先想到的时候自定义View ，但是呢在Android O 中已经提供了实现方式，并且拥有兼容库，最低支持到API 14,这瞬间就爽到我了，不多BB 了，直接看实现。</p>
+<h2 id="重点注意："><a href="#重点注意：" class="headerlink" title="重点注意："></a>重点注意：</h2><p>如果代码中设置了以下的代码，不生效。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">android:singleLine=<span class="string">"true"</span></span><br></pre></td></tr></table></figure>
+
+<p>必须设置的属性是：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">android:maxLines=<span class="string">"1"</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="效果图"><a href="#效果图" class="headerlink" title="效果图"></a>效果图</h2><p>没有效果图，如果你用过今日头条添加频道的话，这里就不会骂我了。</p>
+<h2 id="通过代码方式"><a href="#通过代码方式" class="headerlink" title="通过代码方式"></a>通过代码方式</h2><p>在代码中调用函数 setAutoSizeTextTypeWithDefaults(@AutoSizeTextType int autoSizeTextType) 并指定参数为 AUTO_SIZE_TEXT_TYPE_UNIFORM来设置默认值。如果你不想启用自动调整字体大小的功能，则可以设置参数为 AUTO_SIZE_TEXT_TYPE_NONE.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">textView.setAutoSizeTextTypeWithDefaults(TextView.AUTO_SIZE_TEXT_TYPE_UNIFORM);</span><br></pre></td></tr></table></figure>
+
+<p>或者设置粒度（设置最大只和最小值，并且指定每次调整的增量值）：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//autoSizeMinTextSize 最小值；autoSizeMaxTextSize：最大值；autoSizeStepGranularity：增量；unit：类型，此处指定的是sp</span></span><br><span class="line">textView.setAutoSizeTextTypeUniformWithConfiguration(<span class="number">10</span>,<span class="number">17</span>,<span class="number">1</span>,TypedValue.COMPLEX_UNIT_SP);</span><br></pre></td></tr></table></figure>
+
+<h2 id="通过xml-方式-推荐的方式"><a href="#通过xml-方式-推荐的方式" class="headerlink" title="通过xml 方式(推荐的方式)"></a>通过xml 方式(推荐的方式)</h2><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;TextView</span><br><span class="line">        android:<span class="keyword">id</span>=<span class="string">"@+id/title"</span></span><br><span class="line">        android:layout_width=<span class="string">"wrap_content"</span></span><br><span class="line">        android:layout_height=<span class="string">"wrap_content"</span></span><br><span class="line">        android:gravity=<span class="string">"center"</span></span><br><span class="line">        android:layout_gravity=<span class="string">"center"</span></span><br><span class="line">        app:autoSizeTextType=<span class="string">"uniform"</span></span><br><span class="line">        app:autoSizeMinTextSize=<span class="string">"3sp"</span></span><br><span class="line">        app:autoSizeMaxTextSize=<span class="string">"15sp"</span></span><br><span class="line">        app:autoSizeStepGranularity=<span class="string">"1sp"</span></span><br><span class="line">        android:maxLines=<span class="string">"1"</span>/&gt;</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/posts/14fca390.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://zhangmiao.space/posts/caa299cc.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1902,199 +2094,6 @@ var _hmt = _hmt || [];
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhangmiao.space/posts/635b293f.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="ZhangMiao">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/4081078?s=460&v=4">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="zm.blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/posts/635b293f.html" itemprop="url">Android混淆使用手册</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-18T10:21:04+08:00">
-                2019-10-18
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android/" itemprop="url" rel="index">
-                    <span itemprop="name">Android</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android/Android-Tips/" itemprop="url" rel="index">
-                    <span itemprop="name">Android Tips</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/posts/635b293f.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="posts/635b293f.html" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/posts/635b293f.html" class="leancloud_visitors" data-flag-title="Android混淆使用手册">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>首先，这里说的的混淆其实是包括了代码压缩、代码混淆以及资源压缩等的优化过程。依靠 ProGuard，混淆流程将主项目以及依赖库中未被使用的类、类成员、方法、属性移除，这有助于规避64K方法数的瓶颈；同时，将类、类成员、方法重命名为无意义的简短名称，增加了逆向工程的难度。而依靠 Gradle 的 Android 插件，我们将移除未被使用的资源，可以有效减小 apk 安装包大小。</p>
-<p>本文由两部分构成：</p>
-<ul>
-<li>第一部分给出混淆的最佳实践，力求让零基础的新手都可以直接使用混淆；</li>
-<li>第二部分会介绍一下混淆的整体、自定义混淆规则的语法与实践、自定义资源保持的规则等。</li>
-</ul>
-<h2 id="一、Android混淆最佳实践"><a href="#一、Android混淆最佳实践" class="headerlink" title="一、Android混淆最佳实践"></a>一、Android混淆最佳实践</h2><h3 id="1-混淆配置"><a href="#1-混淆配置" class="headerlink" title="1. 混淆配置"></a>1. 混淆配置</h3><p>一般情况下，app module 的 <code>build.gradle</code> 文件默认会有如下结构：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">android &#123;</span><br><span class="line">    buildTypes &#123;</span><br><span class="line">        release &#123;</span><br><span class="line">            minifyEnabled <span class="literal">false</span></span><br><span class="line">            proguardFiles getDefaultProguardFile(<span class="string">'proguard-android.txt'</span>), <span class="string">'proguard-rules.pro'</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>因为开启混淆会使编译时间变长，所以<code>debug</code>模式下不应该开启。我们需要做的是：</p>
-<ol>
-<li>将<code>release</code>下<code>minifyEnabled</code>的值改为<code>true</code>，打开混淆；</li>
-<li>加上<code>shrinkResources true</code>，打开资源压缩。</li>
-</ol>
-<p>修改后文件内容如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">android &#123;</span><br><span class="line">    buildTypes &#123;</span><br><span class="line">        release &#123;</span><br><span class="line">            minifyEnabled <span class="literal">true</span></span><br><span class="line">            shrinkResources <span class="literal">true</span></span><br><span class="line">            proguardFiles getDefaultProguardFile(<span class="string">'proguard-android.txt'</span>), <span class="string">'proguard-rules.pro'</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/posts/635b293f.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2147,7 +2146,7 @@ var _hmt = _hmt || [];
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">377</span>
+                  <span class="site-state-item-count">378</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

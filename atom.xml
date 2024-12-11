@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://zhangmiao.space/"/>
-  <updated>2024-12-11T09:30:34.964Z</updated>
+  <updated>2024-12-11T13:11:26.986Z</updated>
   <id>https://zhangmiao.space/</id>
   
   <author>
@@ -17,22 +17,63 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>小程序快应用开发说明</title>
+    <link href="https://zhangmiao.space/posts/2d76d64b.html"/>
+    <id>https://zhangmiao.space/posts/2d76d64b.html</id>
+    <published>2024-10-15T12:56:34.000Z</published>
+    <updated>2024-12-11T13:11:26.986Z</updated>
+    
+    <content type="html"><![CDATA[<p>需分别下载：抖音开发工具，微信开发工具，快应用开发工具</p><h2 id="一般开发流程"><a href="#一般开发流程" class="headerlink" title="一般开发流程"></a>一般开发流程</h2><h3 id="1-电脑安装nginx"><a href="#1-电脑安装nginx" class="headerlink" title="1. 电脑安装nginx"></a>1. 电脑安装nginx</h3><p>配置nginx文件，将默认打包后的web包地址配置为对应小程序/快应用的路径，这样打包后reload即可直接访问<br>终端直接执行nginx -s reload</p><h3 id="2-修改项目本地地址"><a href="#2-修改项目本地地址" class="headerlink" title="2. 修改项目本地地址"></a>2. 修改项目本地地址</h3><p>修改项目mini_app_utils文件中 localWebUrl地址前缀为自己电脑网络地址，设置isLocal为true</p><h3 id="3-修改壳工程项目本地地址"><a href="#3-修改壳工程项目本地地址" class="headerlink" title="3. 修改壳工程项目本地地址"></a>3. 修改壳工程项目本地地址</h3><p>在app.js/app.ux文件中的gloabalData的isLocal字段，以及对应的webUrl改为自己电脑本地地址，需与对应的h5同步</p><h3 id="4-小程序开发工具，编译或调试，即可运行项目"><a href="#4-小程序开发工具，编译或调试，即可运行项目" class="headerlink" title="4. 小程序开发工具，编译或调试，即可运行项目"></a>4. 小程序开发工具，编译或调试，即可运行项目</h3><h2 id="关于调试"><a href="#关于调试" class="headerlink" title="关于调试"></a>关于调试</h2><p>各个小程序的调试界面都可以看到壳工程的日志，抖音小程序/快应用不支持查看h5内的日志，微信小程序可以支持，但是只能在模拟器上看，并且如果是报错的日志并不会打印出真实的栈帧，而是生成js文件后的具体行数，变量名也被混淆，基本无法找到具体问题。</p><p>如果想要开发查看日志，则必须电脑运行浏览器，并且将真实的链接参数赋值给浏览器，一般比较大的需求开发都使用此种模式，尤其是不涉及到壳代码，纯flutter的需求的时候，因为浏览器的环境与小程序的agent不同，在代码的环境判断的时候可能与小程序/快应用有差异，这点需要注意，浏览器的枚举type为none。</p><ol><li>运行项目从浏览器复制到具体的本地url地址</li><li>修改main.dart的replace地址，写上刚才复制的地址</li><li>运行对应的小程序/快应用，从小程序开发工具的调试日志中拿到具体的url拼接参数，复制?后面的内容粘贴到刚刚运行的浏览器中</li><li>重新运行即可正常调试<a id="more"></a></li></ol><h2 id="关键特性说明"><a href="#关键特性说明" class="headerlink" title="关键特性说明"></a>关键特性说明</h2><p>小程序：<br>因为交互功能被限制。交互主要采用hash传参，在url后面通过#拼接参数来实现url刷新，但是url必须是一个固定的地址，后面不能拼接参数，也不能有路由名。<br>所以小程序内的h5首次进来后需要把url后面拼过来的参数先保存到本地，然后重新reload，变成一个没有参数拼接的纯净的url。<br>同时也不能存在路由栈，跳转新页面时url后面不会跟具体的pageName，所以物理返回键会直接退出小程序。</p><p>快应用：<br>因为快应用允许交互，所以可以正常交互，可以有路由。</p><p>两个utils封装了小程序和快应用相关内容。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;需分别下载：抖音开发工具，微信开发工具，快应用开发工具&lt;/p&gt;
+&lt;h2 id=&quot;一般开发流程&quot;&gt;&lt;a href=&quot;#一般开发流程&quot; class=&quot;headerlink&quot; title=&quot;一般开发流程&quot;&gt;&lt;/a&gt;一般开发流程&lt;/h2&gt;&lt;h3 id=&quot;1-电脑安装nginx&quot;&gt;&lt;a href=&quot;#1-电脑安装nginx&quot; class=&quot;headerlink&quot; title=&quot;1. 电脑安装nginx&quot;&gt;&lt;/a&gt;1. 电脑安装nginx&lt;/h3&gt;&lt;p&gt;配置nginx文件，将默认打包后的web包地址配置为对应小程序/快应用的路径，这样打包后reload即可直接访问&lt;br&gt;终端直接执行nginx -s reload&lt;/p&gt;
+&lt;h3 id=&quot;2-修改项目本地地址&quot;&gt;&lt;a href=&quot;#2-修改项目本地地址&quot; class=&quot;headerlink&quot; title=&quot;2. 修改项目本地地址&quot;&gt;&lt;/a&gt;2. 修改项目本地地址&lt;/h3&gt;&lt;p&gt;修改项目mini_app_utils文件中 localWebUrl地址前缀为自己电脑网络地址，设置isLocal为true&lt;/p&gt;
+&lt;h3 id=&quot;3-修改壳工程项目本地地址&quot;&gt;&lt;a href=&quot;#3-修改壳工程项目本地地址&quot; class=&quot;headerlink&quot; title=&quot;3. 修改壳工程项目本地地址&quot;&gt;&lt;/a&gt;3. 修改壳工程项目本地地址&lt;/h3&gt;&lt;p&gt;在app.js/app.ux文件中的gloabalData的isLocal字段，以及对应的webUrl改为自己电脑本地地址，需与对应的h5同步&lt;/p&gt;
+&lt;h3 id=&quot;4-小程序开发工具，编译或调试，即可运行项目&quot;&gt;&lt;a href=&quot;#4-小程序开发工具，编译或调试，即可运行项目&quot; class=&quot;headerlink&quot; title=&quot;4. 小程序开发工具，编译或调试，即可运行项目&quot;&gt;&lt;/a&gt;4. 小程序开发工具，编译或调试，即可运行项目&lt;/h3&gt;&lt;h2 id=&quot;关于调试&quot;&gt;&lt;a href=&quot;#关于调试&quot; class=&quot;headerlink&quot; title=&quot;关于调试&quot;&gt;&lt;/a&gt;关于调试&lt;/h2&gt;&lt;p&gt;各个小程序的调试界面都可以看到壳工程的日志，抖音小程序/快应用不支持查看h5内的日志，微信小程序可以支持，但是只能在模拟器上看，并且如果是报错的日志并不会打印出真实的栈帧，而是生成js文件后的具体行数，变量名也被混淆，基本无法找到具体问题。&lt;/p&gt;
+&lt;p&gt;如果想要开发查看日志，则必须电脑运行浏览器，并且将真实的链接参数赋值给浏览器，一般比较大的需求开发都使用此种模式，尤其是不涉及到壳代码，纯flutter的需求的时候，因为浏览器的环境与小程序的agent不同，在代码的环境判断的时候可能与小程序/快应用有差异，这点需要注意，浏览器的枚举type为none。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;运行项目从浏览器复制到具体的本地url地址&lt;/li&gt;
+&lt;li&gt;修改main.dart的replace地址，写上刚才复制的地址&lt;/li&gt;
+&lt;li&gt;运行对应的小程序/快应用，从小程序开发工具的调试日志中拿到具体的url拼接参数，复制?后面的内容粘贴到刚刚运行的浏览器中&lt;/li&gt;
+&lt;li&gt;重新运行即可正常调试
+    
+    </summary>
+    
+      <category term="Android" scheme="https://zhangmiao.space/categories/Android/"/>
+    
+      <category term="Flutter" scheme="https://zhangmiao.space/categories/Android/Flutter/"/>
+    
+    
+      <category term="Android" scheme="https://zhangmiao.space/tags/Android/"/>
+    
+      <category term="Flutter" scheme="https://zhangmiao.space/tags/Flutter/"/>
+    
+  </entry>
+  
+  <entry>
     <title>AI生成BGM音乐调研</title>
     <link href="https://zhangmiao.space/posts/f928d1c8.html"/>
     <id>https://zhangmiao.space/posts/f928d1c8.html</id>
     <published>2024-09-11T08:39:26.000Z</published>
-    <updated>2024-12-11T09:30:34.964Z</updated>
+    <updated>2024-12-11T13:04:18.670Z</updated>
     
-    <content type="html"><![CDATA[<p>AI生成BGM</p><p>BGM猫</p><p>• 可以通过BGM猫平台 <a href="http://bgmcat.com/home" target="_blank" rel="noopener">http://bgmcat.com/home</a> 生成AI音乐</p><p>• 使用描述 : 我走在田间的马路上,听着小歌曲,跳着走</p><p>• 提示 : 默认生成的bgm是没有商用版权的,可以通过购买专业创作者会员或单曲购买商业用途,目前感觉没必要购买</p><p>Mubert</p><p>• 可以通过mubert平台 <a href="https://mubert.com/render?authBy=google" target="_blank" rel="noopener">https://mubert.com/render?authBy=google</a> ⽣成AI⾳乐</p><p>• 使⽤描述 : I was walking on the road in the field, listening to little songs, dancing (规定只能使⽤英⽂)</p><p>BGM去除⼈声Spleeter</p><p>• 通过 <a href="https://makenweb.com/SpleeterGUI" target="_blank" rel="noopener">https://makenweb.com/SpleeterGUI</a> 可以下载免费的Windows版本(2022-10-12),MAC⽆对应软件。</p><p>• 通过 <a href="https://bbs.huaweicloud.com/forum/thread-117164-1-1.html" target="_blank" rel="noopener">https://bbs.huaweicloud.com/forum/thread-117164-1-1.html</a> 链接教程(2021-03-30有点过时), 调⽤的是Spleeter库,调⽤的流程和Windows版软件命令⼀致,⽆须搭建使⽤了.</p><p>Moises</p><p>可以通过 <a href="https://studio.moises.ai/library/" target="_blank" rel="noopener">https://studio.moises.ai/library/</a> 实现⾳轨分离,下载去除⼈声后的⽂件,预期效果没问题 (缺点:免费版5次/单⽉/单账号)</p><p>vocalremover</p><p>• 通过 <a href="https://vocalremover.org/zh/" target="_blank" rel="noopener">https://vocalremover.org/zh/</a> 可以分离人声和音乐,界面如下图</p><p>• 优点 :</p><ol><li>使用成本低,不需要本地安装各种python库,直接在线上传/下载音频文件</li><li><ol start="2"><li>免费次数无限制,没有必须开通包月包年或者单次付费的限制</li></ol></li></ol><p>uvr5</p><p>• 最新方式uvr5, github开源库 <a href="https://github.com/A/Anjok07/ultimatevocalremovergui" target="_blank" rel="noopener">https://github.com/A/Anjok07/ultimatevocalremovergui</a></p><p>• 如果vocalremover不可用时, 可用这种方案, 免费。</p><p>• 优点:</p><p>1 : 稳定性。不再受网页影响, 原去除人声方案vocalremover上午频繁出现与vpn冲突,短暂性无法使用,现已恢复</p><p>2 : 简捷性。使用uvr5转换,可以批量选择多个本地文件,无须在网页中大量上传原音频/下载新音频的传输过程了</p><p>3 : 高效性。使用本地软件执行转换, 依靠本地GPU, 执行效率更快</p><p>• 使用说明 :</p><p>1 为输入目录(可批量)</p><p>2为输出目录</p><p>3 为输出文件格式</p><p>4 为输出计算模型</p><p>5 为使用GPU只导出去除人声音频</p><p>6 为开始转换</p><p>7 为转换完成</p><p>结论</p><p>• 使用 bgm猫 <a href="http://bgmcat.com/home" target="_blank" rel="noopener">http://bgmcat.com/home</a> + vocalremover <a href="https://vocalremover.org/zh/" target="_blank" rel="noopener">https://vocalremover.org/zh/</a> 的方式,可以得到无人声水印的AI音频,免费且无次数限制。</p><p>• 以60s时长音频左右,走完一套流程4、5分钟,即可得到无水印AI音频</p><p>• 生成AI音频的方式包括但不限于bgm猫, 去除水印方式vocalremover可以免费无限次使用。</p>]]></content>
+    <content type="html"><![CDATA[<p>AI生成BGM</p><p>BGM猫</p><p>• 可以通过BGM猫平台 <a href="http://bgmcat.com/home" target="_blank" rel="noopener">http://bgmcat.com/home</a> 生成AI音乐</p><p>• 使用描述 : 我走在田间的马路上,听着小歌曲,跳着走</p><p>• 提示 : 默认生成的bgm是没有商用版权的,可以通过购买专业创作者会员或单曲购买商业用途,目前感觉没必要购买</p><p>Mubert</p><p>• 可以通过mubert平台 <a href="https://mubert.com/render?authBy=google" target="_blank" rel="noopener">https://mubert.com/render?authBy=google</a> ⽣成AI⾳乐</p><p>• 使⽤描述 : I was walking on the road in the field, listening to little songs, dancing (规定只能使⽤英⽂)</p><p>BGM去除⼈声Spleeter</p><p>• 通过 <a href="https://makenweb.com/SpleeterGUI" target="_blank" rel="noopener">https://makenweb.com/SpleeterGUI</a> 可以下载免费的Windows版本(2022-10-12),MAC⽆对应软件。</p><p>• 通过 <a href="https://bbs.huaweicloud.com/forum/thread-117164-1-1.html" target="_blank" rel="noopener">https://bbs.huaweicloud.com/forum/thread-117164-1-1.html</a> 链接教程(2021-03-30有点过时), 调⽤的是Spleeter库,调⽤的流程和Windows版软件命令⼀致,⽆须搭建使⽤了.</p><a id="more"></a><p>Moises</p><p>可以通过 <a href="https://studio.moises.ai/library/" target="_blank" rel="noopener">https://studio.moises.ai/library/</a> 实现⾳轨分离,下载去除⼈声后的⽂件,预期效果没问题 (缺点:免费版5次/单⽉/单账号)</p><p>vocalremover</p><p>• 通过 <a href="https://vocalremover.org/zh/" target="_blank" rel="noopener">https://vocalremover.org/zh/</a> 可以分离人声和音乐,界面如下图</p><p>• 优点 :</p><ol><li>使用成本低,不需要本地安装各种python库,直接在线上传/下载音频文件</li><li><ol start="2"><li>免费次数无限制,没有必须开通包月包年或者单次付费的限制</li></ol></li></ol><p>uvr5</p><p>• 最新方式uvr5, github开源库 <a href="https://github.com/A/Anjok07/ultimatevocalremovergui" target="_blank" rel="noopener">https://github.com/A/Anjok07/ultimatevocalremovergui</a></p><p>• 如果vocalremover不可用时, 可用这种方案, 免费。</p><p>• 优点:</p><p>1 : 稳定性。不再受网页影响, 原去除人声方案vocalremover上午频繁出现与vpn冲突,短暂性无法使用,现已恢复</p><p>2 : 简捷性。使用uvr5转换,可以批量选择多个本地文件,无须在网页中大量上传原音频/下载新音频的传输过程了</p><p>3 : 高效性。使用本地软件执行转换, 依靠本地GPU, 执行效率更快</p><p>• 使用说明 :</p><p>1 为输入目录(可批量)</p><p>2为输出目录</p><p>3 为输出文件格式</p><p>4 为输出计算模型</p><p>5 为使用GPU只导出去除人声音频</p><p>6 为开始转换</p><p>7 为转换完成</p><p>结论</p><p>• 使用 bgm猫 <a href="http://bgmcat.com/home" target="_blank" rel="noopener">http://bgmcat.com/home</a> + vocalremover <a href="https://vocalremover.org/zh/" target="_blank" rel="noopener">https://vocalremover.org/zh/</a> 的方式,可以得到无人声水印的AI音频,免费且无次数限制。</p><p>• 以60s时长音频左右,走完一套流程4、5分钟,即可得到无水印AI音频</p><p>• 生成AI音频的方式包括但不限于bgm猫, 去除水印方式vocalremover可以免费无限次使用。</p>]]></content>
     
     <summary type="html">
     
-      
-      
-        &lt;p&gt;AI生成BGM&lt;/p&gt;
+      &lt;p&gt;AI生成BGM&lt;/p&gt;
 &lt;p&gt;BGM猫&lt;/p&gt;
-&lt;p&gt;• 可以通过BGM猫平台 &lt;a href=&quot;http://bgmcat.com/home&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;http://bgmcat.com/home&lt;/a&gt; 生成AI音乐
-      
+&lt;p&gt;• 可以通过BGM猫平台 &lt;a href=&quot;http://bgmcat.com/home&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;http://bgmcat.com/home&lt;/a&gt; 生成AI音乐&lt;/p&gt;
+&lt;p&gt;• 使用描述 : 我走在田间的马路上,听着小歌曲,跳着走&lt;/p&gt;
+&lt;p&gt;• 提示 : 默认生成的bgm是没有商用版权的,可以通过购买专业创作者会员或单曲购买商业用途,目前感觉没必要购买&lt;/p&gt;
+&lt;p&gt;Mubert&lt;/p&gt;
+&lt;p&gt;• 可以通过mubert平台 &lt;a href=&quot;https://mubert.com/render?authBy=google&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://mubert.com/render?authBy=google&lt;/a&gt; ⽣成AI⾳乐&lt;/p&gt;
+&lt;p&gt;• 使⽤描述 : I was walking on the road in the field, listening to little songs, dancing (规定只能使⽤英⽂)&lt;/p&gt;
+&lt;p&gt;BGM去除⼈声Spleeter&lt;/p&gt;
+&lt;p&gt;• 通过 &lt;a href=&quot;https://makenweb.com/SpleeterGUI&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://makenweb.com/SpleeterGUI&lt;/a&gt; 可以下载免费的Windows版本(2022-10-12),MAC⽆对应软件。&lt;/p&gt;
+&lt;p&gt;• 通过 &lt;a href=&quot;https://bbs.huaweicloud.com/forum/thread-117164-1-1.html&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://bbs.huaweicloud.com/forum/thread-117164-1-1.html&lt;/a&gt; 链接教程(2021-03-30有点过时), 调⽤的是Spleeter库,调⽤的流程和Windows版软件命令⼀致,⽆须搭建使⽤了.&lt;/p&gt;
     
     </summary>
     
@@ -617,32 +658,6 @@
       <category term="Android" scheme="https://zhangmiao.space/tags/Android/"/>
     
       <category term="Flutter" scheme="https://zhangmiao.space/tags/Flutter/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>北京环球影城游玩攻略</title>
-    <link href="https://zhangmiao.space/posts/cf2918cf.html"/>
-    <id>https://zhangmiao.space/posts/cf2918cf.html</id>
-    <published>2021-09-23T02:13:35.000Z</published>
-    <updated>2024-12-11T09:47:47.722Z</updated>
-    
-    <content type="html"><![CDATA[<p><img src="https://s3.bmp.ovh/imgs/2021/09/0ebc0f368298bf55.jpeg" alt></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;&lt;img src=&quot;https://s3.bmp.ovh/imgs/2021/09/0ebc0f368298bf55.jpeg&quot; alt&gt;&lt;/p&gt;
-
-      
-    
-    </summary>
-    
-      <category term="随笔记" scheme="https://zhangmiao.space/categories/%E9%9A%8F%E7%AC%94%E8%AE%B0/"/>
-    
-    
-      <category term="随笔记" scheme="https://zhangmiao.space/tags/%E9%9A%8F%E7%AC%94%E8%AE%B0/"/>
     
   </entry>
   
