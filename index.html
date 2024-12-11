@@ -431,12 +431,11 @@ var _hmt = _hmt || [];
 
       
         
-          
-          H5相关sdk: 3.13.6尝试将flutter sdk升级为3.16.9，很多低端机型都不兼容，暂时不要升级sdk相关issue: https://github.com/flutter/r/flutter/r/issues/134317
-修改h5内版本号（注：无特殊情况一般不修改，与app某一个版本一致即可）：在TokenManager的versionName写死壳工程修改app.js/ux中的 webVersionCode
-设置正式测试本地环境在mini_app_utils文件中修改isProduction变量在mini_app_utils中修改isLocal变量
-设置h5地址后缀在in
-          ...
+          <h2 id="H5相关"><a href="#H5相关" class="headerlink" title="H5相关"></a>H5相关</h2><p>sdk: 3.13.6<br>尝试将flutter sdk升级为3.16.9，很多低端机型都不兼容，暂时不要升级sdk<br>相关issue: <a href="https://github.com/flutter/r/flutter/r/issues/134317" target="_blank" rel="noopener">https://github.com/flutter/r/flutter/r/issues/134317</a></p>
+<h3 id="修改h5内版本号"><a href="#修改h5内版本号" class="headerlink" title="修改h5内版本号"></a>修改h5内版本号</h3><p>（注：无特殊情况一般不修改，与app某一个版本一致即可）：<br>在TokenManager的versionName写死<br>壳工程修改app.js/ux中的 webVersionCode</p>
+<h3 id="设置正式测试本地环境"><a href="#设置正式测试本地环境" class="headerlink" title="设置正式测试本地环境"></a>设置正式测试本地环境</h3><p>在mini_app_utils文件中修改isProduction变量<br>在mini_app_utils中修改isLocal变量</p>
+<h3 id="设置h5地址后缀"><a href="#设置h5地址后缀" class="headerlink" title="设置h5地址后缀"></a>设置h5地址后缀</h3><p>在index.html文件中修改href（如版本号为1.0.0）</p>
+<p>抖音小程序：/tt_1.0.0 或 /tt_html_1.0.0<br>微信小程序：/wx_1.0.0 或 /wx_html_1.0.0<br>快应用：/quick_html_1.0.0<br>每一个小程序平台访问的路径都不一样，每一个版本的都路径也都不一样，每次都需要重新配置新的版本路径和上传到机器的文件名要对上。</p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/posts/685b431a.html#more" rel="contents">
